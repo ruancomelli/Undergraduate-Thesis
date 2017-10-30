@@ -1,0 +1,16 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+    "settings" : {
+        "TEXroot": "main.tex",
+        "tex_file_exts": [".tex"],
+        "builder_settings": {
+            "program": "pdflatex",
+            "options": "--shell-escape"
+        }
+    }
+}
