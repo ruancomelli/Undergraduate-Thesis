@@ -1,0 +1,62 @@
+\chapter[Introdução]{Introdução}
+
+\section{Motivação}
+
+A compreensão acerca do comportamento de sistemas de partículas e de materiais granulados cresceu enormemente nas últimas décadas devido aos esforços da ciência e da engenharia. Tais sistemas são amplamente encontrados em processos industriais e nas ciências naturais \citeay{bib:computational_granular_dynamics}, tais como matemática aplicada, física de matéria condensada, geomecânica, agricultura, engenharia química, engenharia civil e engenharia mecânica \citeay{bib:rolling}.
+
+Esses conhecimentos são aplicados na previsão do comportamento mecânico de geomateriais, como rochas, e da propagação de trincas e fraturas em sólidos, na simulação da produção de fármacos, alimentos, detergentes e cosméticos, no desenvolvimento de novos materiais e na modelagem da fragmentação, sedimentação, granulação, escavação, transporte e armazenamento de grãos e do escoamento em máquinas extrusoras (\citeaynp{bib:donze}; \citeaynp{bib:poschel}; \citeaynp{bib:applications}).
+
+\alert{Imagens de aplicações aqui}
+
+Sendo assim, surge a necessidade de se compreender a mecânica das partículas.
+
+A análise de sistemas de partículas, contudo, costuma ser bastante complexa. Partículas podem interagir umas com as outras e com o meio em que estão imersas. As interações podem ser forças de contato, forças de corpo, trocas de calor, trocas de carga elétrica, entre outras. Ainda, a quantidade de partículas presentes no sistema de interesse pode facilmente alcançar a ordem dos milhões \citeay{bib:computational_granular_dynamics}. Além dessas dificuldades, os problemas estudados geralmente assumem geometrias distintas, tais quais a mistura de substâncias para a produção de fármacos ou o transporte de carga a granel.
+
+Com o propósito de executar tais análises, existem três abordagens principais: a experimental, a analítica e a numérica. 
+
+No método experimental, procura-se caracterizar os fenômenos físicos através da sua reprodução em ambientes controlados. A grande vantagem desse método é o fato de lidar com a configuração real do sistema estudado. A experimentação, no entanto, resulta em altíssimo custo e muitas vezes é limitada por questões de segurança ou pela dificuldade de reprodução do sistema real. A experimentação é utilizada para validar modelos físicos e matemáticos \citeay{bib:maliska}.
+
+A abordagem analítica, por sua vez, busca a obtenção de soluções analíticas para o problema. A vantagem de se obterem soluções em forma fechada é seu baixíssimo custo de computação quando comparado aos outros métodos. O método analítico, porém, frequentemente depende de hipóteses simplificativas e de geometrias e condições de contorno simples, o que acaba por reduzir a aplicabilidade dessas soluções. Geralmente, utilizam-se soluções analíticas para validar soluções numéricas e auxiliar na busca de métodos mais robustos \citeay{bib:maliska}.
+
+A fim de conciliar exatidão e eficiência, os métodos numéricos despontam como uma poderosa ferramenta capaz de resolver problemas complexos, com geometrias complicadas e grande número de partículas, alcançando, apesar disso, uma elevada rapidez e baixíssimo custo \citeay{bib:maliska}.
+
+Sendo assim, o estudo de sistemas de partículas conta principalmente com a simulação numérica como método de análise.
+
+\section{Revisão Bibliográfica}
+ 
+\subsection{Sistemas de Partículas}
+
+A definição de partícula não é um consenso entre autores, cada um adotando o conceito mais adequado à aplicação. De forma geral, compreende-se por \textit{partícula} um objeto ao qual são atribuídas propriedades físicas, mas cuja estrutura interna é desconsiderada.
+
+\subsection{O Método dos Elementos Discretos}
+\alert{Falar que DEM=Método de Elementos Discretos e que é possível acoplá-lo com outras famílias de métodos, como CFD, originando o XDEM.}
+
+\subsection{Simuladores Existentes}
+
+Para suprir essa necessidade, existem diversos \textit{softwares} comerciais e de código aberto, cada qual com seus objetivos, vantagens e desvantagens. Os principais simuladores existentes
+
+\alert{Citar Rocky, LIGGGHTS e EDEM. Além disso, existem Yade, PFC (Particle Flow Code)}
+
+\section{Objetivos e Contribuições}
+
+\alert{Falar do interesse do SINMEC, do acoplamento, e que era necessário, primeiramente, compreender o problema e, em segundo lugar, possuir um programa que se acoplasse facilmente com trabalhos posteriores. Apresentar objetivos e objetivos específicos.}
+
+Os objetivos deste trabalho são:
+\begin{enumerate}
+\item Desenvolver uma biblioteca computacional para a simulação da dinâmica de partículas através do DEM. Essa biblioteca deve possuir as seguintes características:
+	\alert{Revisar essas características}
+ 	\begin{enumerate}
+		\item Métodos para a importação e exportação de dados; 
+		\item Suporte para diferentes modelos de colisão, inclusive para modelos estudados e implementados por um usuário posterior;
+		\item Suporte para um número arbitrário de partículas, as quais podem assumir diferentes formas geométricas e possuir várias propriedades físicas;
+        \item Suporte para a inserção de diferentes tipos de interação entre as partículas. Por exemplo, deve ser possível, com o mínimo de esforço, desenvolver simuladores que, com base na biblioteca, simulem problemas de diversas naturezas físicas, como a movimentação de planetas, a deposição de átomos sobre estruturas, a transferência de calor entre partículas, interações eletrodinâmicas, entre outras.
+		\item Suporte para variadas funções de busca de partículas vizinhas;
+	\end{enumerate}  
+\item Implementar um simulador \alert{descrever esse simulador. Quais são seus objetivos?}
+\end{enumerate}
+
+\section{Organização do Trabalho}
+
+\section{Notação Empregada}
+
+Para facilitar a leitura, algumas convenções são empregadas para a representação de termos matemáticos. \alert{Quais? Falar dos vetores e das derivadas temporais}
