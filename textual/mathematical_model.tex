@@ -11,25 +11,23 @@ Na dinâmica de partículas, os elementos estudados são considerados corpos rí
 Seja \particle{} uma partícula de massa \(m\) cuja posição é descrita, em função do tempo, pela função \(\vec{r}\).  \alert{Como abordar a questão dos ângulos de Euler?}
 
 A Segunda Lei de Newton afirma que
-
 \begin{equation} \label{eq:second_law_of_motion}
-	\vec{F}_R = m\cdot\dv[2]{\vec{r}}{t} 
+	\vec{F}_R = m\cdot\deriv{2}{\vec{r}} 
 \end{equation}
 
 \section{Modelos de Força de Colisão}
 \citeonline{bib:sampaio}
 
 \section{Extrapolação de Funções}
+\label{sec:extrapolation}
 
 Nos métodos numéricos, a extrapolação de funções possui um papel fundamental por permitir a estimativa dos valores das funções além do conjunto previamente conhecido.
 
 Para simplificação da notação, dada uma função \(y: X\to Y\), define-se
-\[\drvec{n}{y} = \pqty{y, y', y'', \dots, y^{\pqty{n}}}\]
-
+\[\drvec{n}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{n}{y}}\]
 nos pontos em que todas as coordenadas estiverem definidas.
 
 Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolação lineares para uma função e suas derivadas podem ser escritos na forma
-
 \[
 \begin{pmatrix}
 	\predicted{y} \\
@@ -54,21 +52,22 @@ Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolaç
 	\deriv{n}{y}
 \end{pmatrix}
 \]
-
 ou, de forma mais simples,
-
 \begin{equation}
-	\predicted{\drvec{n}{y}} = A \cdot \drvec{n}{y},
+	\predicted{\drvec{n}{y}} = A \cdot \drvec{n}{y}.
 \end{equation}
+em que a matriz \(A\) é determinada pelo método escolhido e \(\predicted{\drvec{n}{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
 
-em que a matriz \(A\) é determinada pelo método escolhido.
+Dentre os métodos extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \citeay{bib:gear_book}.
 
-\alert{Falar que existem diversos métodos de extrapolação e dizer por que escolhemos o de Taylor}
+\alert{dizer por que escolhemos o de Taylor}
+
+O método de extrapolação por expansão de Taylor é fundamentado pelo \nameref{theo:taylor}.
 
 \begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
-	Seja \(y\) uma função com derivadas \(y',\dots,y^{\pqty{k+1}}\) todas definidas em um conjunto que contenha \(\bqty{t, t+\Delta t}\), e seja \(R_{k, t, y}\) definida por
+	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{k+1}}\) todas definidas em um conjunto que contenha \(\bqty{t, t+\Delta t}\), e seja \(R_{k, t, y}\) definida por
     \begin{equation*}
-    	y(t + \Delta t) = y(t) + y'(t)\cdot\Delta t + \dots + \dfrac{y^{(k)}(t)}{k!}\cdot\Delta t^k + R_{k, t, y}(\Delta t).
+    	y(t + \Delta t) = y(t) + \deriv{1}{y}(t)\cdot\Delta t + \dots + \dfrac{\deriv{k}{y}(t)}{k!}\cdot\Delta t^k + R_{k, t, y}(\Delta t).
     \end{equation*}
     Então
     \begin{equation} \label{eq:remainder_limit}
@@ -81,32 +80,30 @@ Uma versão mais completa desse teorema é apresentada e demonstrada por \citeon
 A função \(R_{k, t, y}\) é o resto de ordem \(k\) para a função \(y\) no entorno de \(t\). A equação \eqref{eq:remainder_limit} indica que o resto é um termo da ordem de \(\Delta t^{k+1}\), e motiva a aproximação
 
 \begin{equation} \label{eq:taylor_trunc}
-    y(t + \Delta t) \cong y(t) + y'(t)\cdot\Delta t + \dots + \dfrac{y^{(k)}(t)}{k!}\cdot\Delta t^k.
+    y(t + \Delta t) \cong y(t) + \deriv{1}{y}(t)\cdot\Delta t + \dots + \dfrac{\deriv{k}{y}(t)}{k!}\cdot\Delta t^k.
 \end{equation}
 
 Considerando uma função \(\vec{F}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{F}(t) = \pqty{F_1(t),\dots,F_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{F}\) é a função \(F_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; e \(m=3\), para simulações em três dimensões.
 
-Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Delta t\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa será tanto melhor quanto menor for o valor de \(\Delta t\).
+Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Delta t\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Delta t\).
 
 Com isso, seja \(\vec{r}\) a função posição de uma partícula. Se a posição for conhecida em um instante de tempo \(t\), ela pode ser \textit{prevista} em um instante posterior \(t+\Delta t\) explicitamente:
-
+	
 \begin{equation} \label{eq:position_prediction}
 	\predicted{\vec{r}}\pqty{t+\Delta t} = \vec{r}\pqty{t} + \Delta t\cdot\dv{\vec{r}}{t}\pqty{t} + \dfrac{\Delta t^2}{2}\cdot \dv[2]{\vec{r}}{t}\pqty{t} + \dots + \dfrac{\Delta t^k}{k!}\cdot \dv[k]{\vec{r}}{t}\pqty{t}.
 \end{equation}
 
-Não somente a posição pode ser prevista, mas suas derivadas (como a velocidade e a aceleração) também:
+Não somente a posição pode ser prevista, mas suas derivadas (como a velocidade e a aceleração) também. Para a \(j\)-ésima derivada de \(\vec{r}\):
 
-\begin{align}
-	\predicted{\dv{\vec{r}}{t}}\pqty{t+\Delta t} & = \dv{\vec{r}}{t}\pqty{t} + \Delta t\cdot\dv[2]{\vec{r}}{t}\pqty{t} + \dots + \dfrac{\Delta t^{k-1}}{(k-1)!}\cdot \dv[k-1]{\vec{r}}{t}\pqty{t} 
-    \\
-	\predicted{\dv[2]{\vec{r}}{t}}\pqty{t+\Delta t} & = \dv[2]{\vec{r}}{t}\pqty{t} + \dots + \dfrac{\Delta t^{k-2}}{(k-2)!}\cdot \dv[k-2]{\vec{r}}{t}\pqty{t} 
-\end{align}
+\[
+	\predicted{\deriv{j}{\vec{r}}}\pqty{t + \Dt} = \deriv{j}{\vec{r}}\pqty{t} + \dots + \dfrac{\Dt^{k-j}}{\pqty{k-j}!}\cdot\deriv{k-j}{\vec{r}}\pqty{t}.
+\]
+
+Com isso, é possível escrever \alert{Mostrar a forma matricial}
 
 Esse método de extrapolação ainda pode ser aplicado à função de orientação da partícula e a outros graus de liberdade que o problema porventura exija.
 
-Outros métodos de extrapolação bastante utilizados são o método de Richardson e os métodos de Runge-Kutta possuem diferentes comportamentos em termos de exatidão e estabilidade \citeay{bib:gear_book}.
-
-Com isso, é possível predizer os valores das funções de interesse de maneira bastante razoável. No entanto essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Ainda assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
+No entanto essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Ainda assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
 
 A principal fonte de erros da equação \eqref{eq:position_prediction} é que não se considera, em nenhum momento, a ação de forças externas que porventura atuem sobre a partícula entre os instantes \(t\) e \(t + \Delta t\). É necessário, então, \textit{corrigir} a posição prevista. Essa correção pode ser feita através do algoritmo de Gear, apresentado na seção \ref{sec:gear_integration_scheme}.
 
@@ -114,25 +111,25 @@ A principal fonte de erros da equação \eqref{eq:position_prediction} é que n�
 
 \alert{Reescrever isso:}
 
-\citeonline{bib:gear_book} considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t_0), y'(t_0),\dots, y^{(p)}(t_0)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t_0 + \Delta t), y'(t_0 + \Delta t),\dots y^{(p)}(t_0 + \Delta t)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
+\citeonline{bib:gear_book} considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t_0), \deriv{1}{y}(t_0),\dots, y^{(p)}(t_0)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t_0 + \Delta t), \deriv{1}{y}(t_0 + \Delta t),\dots y^{(p)}(t_0 + \Delta t)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
 \begin{equation*}
-	y^{(p)} = f(y, y',\dots,y^{(p-1)}, t).
+	y^{(p)} = f(y, \deriv{1}{y},\dots,y^{(p-1)}, t).
 \end{equation*}
 
 Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \citeay{bib:computational_granular_dynamics}. O algoritmo consiste de duas etapas: a \textit{predição} e a \textit{correção}.
 
 \subsection{Predição}
 
-A etapa de predição é responsável por obter uma estimativa para \(y(t_0 + \Delta t), y'(t_0 + \Delta t),\dots, y^{(p)}(t_0 + \Delta t)\).
+A etapa de predição é responsável por obter uma estimativa para \(y(t_0 + \Delta t)\), \(\deriv{1}{y}(t_0 + \Delta t)\),\,\dots, \(y^{(p)}(t_0 + \Delta t)\).
 
-A predição é feita através de extrapolações, e é comum utilizarem-se extrapolações polinomiais. Dentre os principais métodos de extrapolação polinomial estão a extrapolação por expansão de Taylor, extrapolação de Richardson e interpolação de Aitken \citeay{bib:gear_book}.
+A predição é feita através de extrapolações conforme a seção \ref{sec:extrapolation}.
 
 \subsection{Correção}
 
 Primeiramente, define-se uma função de erro
 
 \begin{equation*}
-  F\pqty{\vec{a}} = \dfrac{\Delta t^p}{p!}\cdot f(a_0, \dfrac{a_1}{\Dt}, \dfrac{2a_2}{\Dt^2},\dots,\dfrac{\pqty{p-1}!\cdot a_{p-1}}{\Dt^{p-1}}, t) - a_p
+  F\pqty{\vec{a}} = \dfrac{\Delta t^p}{p!}\cdot f\pqty{a_0, \dfrac{a_1}{\Dt}, \dfrac{2a_2}{\Dt^2},\dots,\dfrac{\pqty{p-1}!\cdot a_{p-1}}{\Dt^{p-1}}, t} - a_p
 \end{equation*}
 
 \alert{Continuar}
