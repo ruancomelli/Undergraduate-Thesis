@@ -1,11 +1,14 @@
-\newcommand{\predicted}[1]{{#1}_{\text{pr}}}
+\newcommand{\predicted}[1]{#1_{\text{pr}}}
 % \newcommand{\predicted}[1]{#1^{\,\text{pr}}}
-\newcommand{\corrected}[1]{{#1}_{\text{corr}}}
+\newcommand{\corrected}[1]{#1_{\text{corr}}}
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
 \newcommand{\particle}{\(\mathcal{P}\)}
 
 \newcommand{\Dt}{\Delta t}
-\newcommand{\eqdef}{:=}
+% \newcommand{\eqdef}{:=}
+\newcommand*{\eqdef}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                     =}
 \renewcommand{\real}{\mathbb{R}}
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \newcommand{\drvec}[2]{#2^{\bqty{#1}}}
@@ -26,6 +29,7 @@
 \IfInteger{#1}
 {
     \ifcase#1 % 0
+        #2
     \or % 1
         \dot{#2}
     \or % 2
