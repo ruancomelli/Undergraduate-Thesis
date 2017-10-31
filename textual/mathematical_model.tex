@@ -157,15 +157,60 @@ A predição é feita através de extrapolações conforme a seção \ref{sec:ex
 
 \subsection{Correção}
 
-Na etapa de correção, um termo de correção é adicionado ao vetor previsto \(\drvec{k}{\predicted{y}}\) para se obter um vetor \(\drvec{k}{\corrected{y}}\).
+Na etapa de correção, um termo de correção é adicionado ao vetor previsto \(\drvec{k}{\predicted{y}}\) para se obter o vetor \(\drvec{k}{\corrected{y}}\).
 
-.
+O valor corrigido para \(\deriv{p}{y}\) pode ser obtido através da equação diferencial \eqref{eq:gear_diff} no instante \(t+\Dt\):
+\[
+	\corrected{\deriv{p}{y}}\pqty{t+\Dt} = f\pqty{\predicted{y}, \predicted{\deriv{1}{y}},\dots,\predicted{\deriv{p-1}{y}}, t+\Dt},
+\]
+e assim é conhecido o valor do erro \(\Delta \deriv{p}{y} \eqdef \corrected{\deriv{p}{y}} - \predicted{\deriv{p}{y}}\) no ponto \(t+\Dt\).
 
-Primeiramente, define-se uma função de erro
-
+Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) podem ser corrigidas em função de \(\Delta \deriv{p}{y}\) conforme a equação
+\begin{equation} \label{eq:correction}
+	\begin{pmatrix}
+		\corrected{\deriv{0}{y}} \\
+		\corrected{\deriv{1}{y}} \\
+		\corrected{\deriv{2}{y}} \\
+		\vdots \\
+		\corrected{\deriv{p}{y}} \\
+		\vdots \\
+		\corrected{\deriv{k-1}{y}} \\
+		\corrected{\deriv{k}{y}}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		\predicted{\deriv{0}{y}} \\
+		\predicted{\deriv{1}{y}} \\
+		\predicted{\deriv{2}{y}} \\
+		\vdots \\
+		\predicted{\deriv{p}{y}} \\
+		\vdots \\
+		\predicted{\deriv{k-1}{y}} \\
+		\predicted{\deriv{k}{y}}
+	\end{pmatrix}
+	+
+	\begin{pmatrix}
+		c_0 \\
+		c_1\frac{1}{\Dt} \\
+		c_2\frac{2}{\Dt^2} \\
+		\vdots \\
+		c_p\frac{p!}{\Dt^p}\\
+		\vdots \\
+		c_{k-1}\frac{\pqty{k-1}!}{\Dt^{k-1}}\\
+		c_k\frac{k!}{\Dt^k}
+	\end{pmatrix}
+	\cdot
+	\dfrac{\Dt^p}{p!}\Delta \deriv{p}{y},
+\end{equation}
+sendo que as constantes \(c_0\), \(c_1\), \dots, \(c_k\) são dependem da ordem \(k\) da maior derivada considerada e da ordem \(p\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela
+	
+\begin{table}[h]
 \begin{equation*}
-  F\pqty{\vec{a}} = \dfrac{\Dt^p}{p!}\cdot f\pqty{a_0, \dfrac{a_1}{\Dt}, \dfrac{2a_2}{\Dt^2},\dots,\dfrac{\pqty{p-1}!\cdot a_{p-1}}{\Dt^{p-1}}, t} - a_p
-\end{equation*}
+	\begin{array}{cccccccccc}
+	\hline
+	p & k & c_0 & c_1 & c_2 & c_3 & c_4 & c_5 & c_6 & c_7 \\
 
-\alert{Continuar}
- 
+	\hline	
+	\end{array}
+\end{equation*}
+\end{table}
