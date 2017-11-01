@@ -6,14 +6,21 @@ Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema fí
 
 \section{Equações de Movimento}
 
-Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos \citeay{bib:computational_granular_dynamics}, aos quais aplicam-se a Segunda Lei de Newton \eqref{eq:second_law_of_motion} e a equação de Euler \eqref{eq:euler_equation}.
+\alert{Reescrever tudo isso}
 
-Seja \particle{} uma partícula de massa \(m\) cuja posição é descrita, em função do tempo, pela função \(\vec{r}\).  \alert{Como abordar a questão dos ângulos de Euler?}
+Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais aplicam-se a Segunda Lei de Newton \eqref{eq:second_law_of_motion} e a equação de Euler \eqref{eq:euler_equation} \citeay{bib:computational_granular_dynamics}.
+
+Seja \particle{} uma partícula de massa \(\mass\) cuja posição é descrita, em função do tempo, pela função \(\position\).  \alert{Como abordar a questão dos ângulos de Euler?}
 
 A Segunda Lei de Newton afirma que
 \begin{equation} \label{eq:second_law_of_motion}
-	\vec{F}_R = m\cdot\deriv{2}{\vec{r}} 
+	\resultingForce = \mass\cdot\deriv{2}{\position},
 \end{equation}
+sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Uma forma mais geral da Segunda Lei de Newton é 
+\[
+	\resultingForce = \deriv{1}{\linearMomentum},
+\]
+em que \(\linearMomentum = \mass\cdot\deriv{1}{\position}\) é o \textit{momento linear} da partícula. A equação na forma \eqref{eq:second_law_of_motion} é mais adotada em virtude da sua simplicidade.
 
 \section{Modelos de Força de Colisão}
 \citeonline{bib:sampaio}
@@ -24,7 +31,7 @@ A Segunda Lei de Newton afirma que
 Nos métodos numéricos, a extrapolação de funções possui um papel fundamental por permitir a estimativa dos valores das funções além do conjunto previamente conhecido.
 
 Para simplificação da notação, dada uma função \(y: X\to Y\), define-se
-\[\drvec{k}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{k}{y}}\]
+\[\drvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{\taylorOrder}{y}}\]
 nos pontos em que todas as coordenadas estiverem definidas.
 
 Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolação lineares para uma função e suas derivadas podem ser escritos na forma
@@ -34,17 +41,17 @@ Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolaç
 	\predicted{\deriv{1}{y}} \\
 	\predicted{\deriv{2}{y}} \\
 	\vdots \\
-	\predicted{\deriv{k-1}{y}} \\
-	\predicted{\deriv{k}{y}}
+	\predicted{\deriv{\taylorOrder-1}{y}} \\
+	\predicted{\deriv{\taylorOrder}{y}}
 \end{pmatrix}
 =
 \begin{pmatrix}
-	a_{0,0} & a_{0,1} & a_{0,2} &  & a_{0,k-1} & a_{0,k} \\
-	a_{1,0} & a_{1,1} & a_{1,2} & \cdots & a_{1,k-1} & a_{1,k} \\
-	a_{2,0} & a_{2,1} & a_{2,2} &  & a_{2,k-1} & a_{2,k} \\
+	a_{0,0} & a_{0,1} & a_{0,2} &  & a_{0,\taylorOrder-1} & a_{0,\taylorOrder} \\
+	a_{1,0} & a_{1,1} & a_{1,2} & \cdots & a_{1,\taylorOrder-1} & a_{1,\taylorOrder} \\
+	a_{2,0} & a_{2,1} & a_{2,2} &  & a_{2,\taylorOrder-1} & a_{2,\taylorOrder} \\
      & \vdots & & \ddots & & \vdots \\
-    a_{k-1,0} & a_{k-1,1} & a_{k-1,2} &  & a_{k-1,k-1} & a_{k-1,k} \\
-    a_{k,0} & a_{k,1} & a_{k,2} & \cdots & a_{k,k-1} & a_{k,k}
+    a_{\taylorOrder-1,0} & a_{\taylorOrder-1,1} & a_{\taylorOrder-1,2} &  & a_{\taylorOrder-1,\taylorOrder-1} & a_{\taylorOrder-1,\taylorOrder} \\
+    a_{\taylorOrder,0} & a_{\taylorOrder,1} & a_{\taylorOrder,2} & \cdots & a_{\taylorOrder,\taylorOrder-1} & a_{\taylorOrder,\taylorOrder}
 \end{pmatrix}
 \cdot
 \begin{pmatrix}
@@ -52,15 +59,15 @@ Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolaç
 	\deriv{1}{y} \\
 	\deriv{2}{y} \\
 	\vdots \\
-	\deriv{k-1}{y} \\
-	\deriv{k}{y}
+	\deriv{\taylorOrder-1}{y} \\
+	\deriv{\taylorOrder}{y}
 \end{pmatrix}
 \]
 ou, de forma mais simples,
 \begin{equation}
-	\drvec{k}{\predicted{y}} = A \cdot \drvec{k}{y}.
+	\drvec{\taylorOrder}{\predicted{y}} = A \cdot \drvec{\taylorOrder}{y}.
 \end{equation}
-em que a matriz \(A\) é determinada pelo método escolhido e \(\drvec{k}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
+em que a matriz \(A\) é determinada pelo método escolhido e \(\drvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
 
 Dentre os métodos extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \citeay{bib:gear_book}.
 
@@ -69,64 +76,65 @@ Dentre os métodos extrapolação mais utilizados estão o método de expansão 
 O método de extrapolação por expansão de Taylor é fundamentado pelo \nameref{theo:taylor}.
 
 \begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
-	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{k+1}}\) todas definidas em um conjunto que contenha \(\bqty{t, t+\Dt}\), e seja \(R_{k, t, y}\) definida por
+	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{\taylorOrder+1}}\) todas definidas em um conjunto que contenha \(\bqty{t, t+\Dt}\), e seja \(R_{\taylorOrder, t, y}\) definida por
     \begin{equation*}
-    	y(t + \Dt) = y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{k}{y}(t)}{k!}\cdot\Dt^k + R_{k, t, y}(\Dt).
+    	y(t + \Dt) = y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder + R_{\taylorOrder, t, y}(\Dt).
     \end{equation*}
     Então
     \begin{equation} \label{eq:remainder_limit}
-    	\lim_{\Dt \rightarrow 0} \dfrac{R_{k, t, y}(\Dt)}{\Dt^k} = 0.
+    	\lim_{\Dt \rightarrow 0} \dfrac{R_{\taylorOrder, t, y}(\Dt)}{\Dt^\taylorOrder} = 0.
     \end{equation}
 \end{theorem}
 
 Uma versão mais completa desse teorema é apresentada e demonstrada por \citeonline{bib:spivak}.
 
-A função \(R_{k, t, y}\) é o resto de ordem \(k\) para a função \(y\) no entorno de \(t\). A equação \eqref{eq:remainder_limit} indica que o resto é um termo da ordem de \(\Dt^{k+1}\), e motiva a aproximação
+A função \(R_{\taylorOrder, t, y}\) é o resto de ordem \(\taylorOrder\) para a função \(y\) no entorno de \(t\). A equação \eqref{eq:remainder_limit} indica que o resto é um termo da ordem de \(\Dt^{\taylorOrder+1}\), e motiva a aproximação
 \begin{equation} \label{eq:taylor_trunc}
-    y(t + \Dt) \cong y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{k}{y}(t)}{k!}\cdot\Dt^k.
+    y(t + \Dt) \cong y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder.
 \end{equation}
 
 Considerando uma função \(\vec{F}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{F}(t) = \pqty{F_1(t),\dots,F_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{F}\) é a função \(F_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; e \(m=3\), para simulações em três dimensões.
 
 Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
 
-Com isso, seja \(\vec{r}\) a função posição de uma partícula. Se a posição for conhecida em um instante de tempo \(t\), ela pode ser \textit{prevista} em um instante posterior \(t+\Dt\) explicitamente:
+Com isso, seja \(\position\) a função posição de uma partícula. Se a posição for conhecida em um instante de tempo \(t\), ela pode ser \textit{prevista} em um instante posterior \(t+\Dt\) explicitamente:
 \begin{equation} \label{eq:position_prediction}
-	\predicted{\vec{r}}\pqty{t+\Dt} = \vec{r}\pqty{t} + \Dt\cdot\dv{\vec{r}}{t}\pqty{t} + \dfrac{\Dt^2}{2}\cdot \dv[2]{\vec{r}}{t}\pqty{t} + \dots + \dfrac{\Dt^k}{k!}\cdot \dv[k]{\vec{r}}{t}\pqty{t}.
+	\predicted{\position}\pqty{t+\Dt} = \position\pqty{t} + \Dt\cdot\dv{\position}{t}\pqty{t} + \dfrac{\Dt^2}{2}\cdot \dv[2]{\position}{t}\pqty{t} + \dots + \dfrac{\Dt^\taylorOrder}{\taylorOrder!}\cdot \dv[\taylorOrder]{\position}{t}\pqty{t}.
 \end{equation}
 
-Não somente a posição pode ser prevista, mas suas derivadas (como a velocidade e a aceleração) também. Para a \(j\)-ésima derivada de \(\vec{r}\):
+Não somente a posição pode ser prevista, mas suas derivadas (como a velocidade e a aceleração) também. Para a \(j\)-ésima derivada de \(\position\):
 \[
-	\predicted{\deriv{j}{\vec{r}}}\pqty{t + \Dt} = \deriv{j}{\vec{r}}\pqty{t} + \dots + \dfrac{\Dt^{k-j}}{\pqty{k-j}!}\cdot\deriv{k-j}{\vec{r}}\pqty{t}.
+	\predicted{\deriv{j}{\position}}\pqty{t + \Dt} = \deriv{j}{\position}\pqty{t} + \dots + \dfrac{\Dt^{\taylorOrder-j}}{\pqty{\taylorOrder-j}!}\cdot\deriv{\taylorOrder-j}{\position}\pqty{t}.
 \]
 
 Com isso, é possível escrever
 \[
+	\def\arraystretch{1.2}
 \begin{pmatrix}
-	\predicted{y} \\
-	\predicted{\deriv{1}{y}} \\
-	\predicted{\deriv{2}{y}} \\
+	\predicted{\position} \\
+	\predicted{\deriv{1}{\position}} \\
+	\predicted{\deriv{2}{\position}} \\
 	\vdots \\
-	\predicted{\deriv{k-1}{y}} \\
-	\predicted{\deriv{k}{y}}
+	\predicted{\deriv{\taylorOrder-1}{\position}} \\
+	\predicted{\deriv{\taylorOrder}{\position}}
 \end{pmatrix}
 =
 \begin{pmatrix}
-	1 & \Dt & \frac{\Dt^2}{2} &  & \frac{\Dt^{k-1}}{\pqty{k-1}!} & \frac{\Dt^k}{k!} \\
-	0 & 1 & \Dt & \cdots & \frac{\Dt^{k-2}}{\pqty{k-2}!} & \frac{\Dt^{k-1}}{\pqty{k-1}!} \\
-	0 & 0 & 1 &  & \frac{\Dt^{k-3}}{\pqty{k-3}!} & \frac{\Dt^{k-2}}{\pqty{k-2}!} \\
+	1 & \Dt & \frac{\Dt^2}{2} &  & \frac{\Dt^{\taylorOrder-1}}{\pqty{\taylorOrder-1}!} & \frac{\Dt^\taylorOrder}{\taylorOrder!} \\
+	0 & 1 & \Dt & \cdots & \frac{\Dt^{\taylorOrder-2}}{\pqty{\taylorOrder-2}!} & \frac{\Dt^{\taylorOrder-1}}{\pqty{\taylorOrder-1}!} \\
+	0 & 0 & 1 &  & \frac{\Dt^{\taylorOrder-3}}{\pqty{\taylorOrder-3}!} & \frac{\Dt^{\taylorOrder-2}}{\pqty{\taylorOrder-2}!} \\
      & \vdots & & \ddots & & \vdots \\
     0 & 0 & 0 &  & 1 & \Dt \\
     0 & 0 & 0 & \cdots & 0 & 1
 \end{pmatrix}
 \cdot
 \begin{pmatrix}
-	y \\
-	\deriv{1}{y} \\
-	\deriv{2}{y} \\
+	\position \\
+	\deriv{1}{\position} \\
+	\deriv{2}{\position} \\
 	\vdots \\
-	\deriv{k-1}{y} \\
-	\deriv{k}{y}
+	\deriv{\taylorOrder-1}{\position} \\
+	\deriv{\taylorOrder}{\position}
 \end{pmatrix}.
 \]
 
@@ -138,44 +146,43 @@ A principal fonte de erros da equação \eqref{eq:position_prediction} é que n�
 
 \section{O Algoritmo de Gear} \label{sec:gear_integration_scheme}
 
-\alert{Reescrever isso:}
-
-\citeonline{bib:gear_book} considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t), \deriv{1}{y}(t),\dots, \deriv{k}{y}(t)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t + \Dt), \deriv{1}{y}(t + \Dt),\dots, \deriv{k}{y}(t + \Dt)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
+\citeonline{bib:gear_book} considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t), \deriv{1}{y}(t),\dots, \deriv{\taylorOrder}{y}(t)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t + \Dt), \deriv{1}{y}(t + \Dt),\dots, \deriv{\taylorOrder}{y}(t + \Dt)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
 \begin{equation} \label{eq:gear_diff}
-	\deriv{p}{y} = f\pqty{y, \deriv{1}{y},\dots,\deriv{p-1}{y}, t}
+	\deriv{\eqOrder}{y} = f\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-1}{y}, t}
 \end{equation}
-com \(p \leq k\).
+com \(\eqOrder \leq \taylorOrder\).
 
 Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \citeay{bib:computational_granular_dynamics}. O algoritmo consiste de duas etapas: a \textit{predição} e a \textit{correção}.
 
 \subsection{Predição}
 
-A etapa de predição é responsável por obter uma estimativa para \(y(t + \Dt)\), \(\deriv{1}{y}(t + \Dt)\),\,\dots, \(\deriv{k}{y}(t + \Dt)\).
+A etapa de predição é responsável por obter uma estimativa para \(y(t + \Dt)\), \(\deriv{1}{y}(t + \Dt)\),\,\dots, \(\deriv{\taylorOrder}{y}(t + \Dt)\).
 
-A predição é feita através de extrapolações conforme a seção \ref{sec:extrapolation}, obtendo-se uma previsão \(\drvec{k}{\predicted{y}}\) dada por
-\[\drvec{k}{\predicted{y}}\pqty{t+\Dt} = A\cdot\drvec{k}{y}\pqty{t}\]
+A predição é feita através de extrapolações conforme a seção \ref{sec:extrapolation}, obtendo-se uma previsão \(\drvec{\taylorOrder}{\predicted{y}}\) dada por
+\[\drvec{\taylorOrder}{\predicted{y}}\pqty{t+\Dt} = A\cdot\drvec{\taylorOrder}{y}\pqty{t}\]
 
 \subsection{Correção}
 
-Na etapa de correção, um termo de correção é adicionado ao vetor previsto \(\drvec{k}{\predicted{y}}\) para se obter o vetor \(\drvec{k}{\corrected{y}}\).
+Na etapa de correção, um termo é adicionado ao vetor previsto \(\drvec{\taylorOrder}{\predicted{y}}\) para se obter o vetor \(\drvec{\taylorOrder}{\corrected{y}}\), corrigido em função da equação diferencial.
 
-O valor corrigido para \(\deriv{p}{y}\) pode ser obtido através da equação diferencial \eqref{eq:gear_diff} no instante \(t+\Dt\):
+O valor corrigido para \(\deriv{\eqOrder}{y}\) pode ser obtido através da equação diferencial \eqref{eq:gear_diff} no instante \(t+\Dt\):
 \[
-	\corrected{\deriv{p}{y}}\pqty{t+\Dt} = f\pqty{\predicted{y}, \predicted{\deriv{1}{y}},\dots,\predicted{\deriv{p-1}{y}}, t+\Dt},
+	\corrected{\deriv{\eqOrder}{y}}\pqty{t+\Dt} = f\pqty{\predicted{y}, \predicted{\deriv{1}{y}},\dots,\predicted{\deriv{\eqOrder-1}{y}}, t+\Dt},
 \]
-e assim é conhecido o valor do erro \(\Delta \deriv{p}{y} \eqdef \corrected{\deriv{p}{y}} - \predicted{\deriv{p}{y}}\) no ponto \(t+\Dt\).
+e assim é conhecido o valor do erro \(\Delta \deriv{\eqOrder}{y} \eqdef \corrected{\deriv{\eqOrder}{y}} - \predicted{\deriv{\eqOrder}{y}}\) no ponto \(t+\Dt\).
 
-Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) podem ser corrigidas em função de \(\Delta \deriv{p}{y}\) conforme a equação
+Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) podem ser corrigidas em função de \(\Delta \deriv{\eqOrder}{y}\) conforme a equação
 \begin{equation} \label{eq:correction}
+	\def\arraystretch{1.2}
 	\begin{pmatrix}
 		\corrected{\deriv{0}{y}} \\
 		\corrected{\deriv{1}{y}} \\
 		\corrected{\deriv{2}{y}} \\
 		\vdots \\
-		\corrected{\deriv{p}{y}} \\
+		\corrected{\deriv{\eqOrder}{y}} \\
 		\vdots \\
-		\corrected{\deriv{k-1}{y}} \\
-		\corrected{\deriv{k}{y}}
+		\corrected{\deriv{\taylorOrder-1}{y}} \\
+		\corrected{\deriv{\taylorOrder}{y}}
 	\end{pmatrix}
 	=
 	\begin{pmatrix}
@@ -183,10 +190,10 @@ Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) po
 		\predicted{\deriv{1}{y}} \\
 		\predicted{\deriv{2}{y}} \\
 		\vdots \\
-		\predicted{\deriv{p}{y}} \\
+		\predicted{\deriv{\eqOrder}{y}} \\
 		\vdots \\
-		\predicted{\deriv{k-1}{y}} \\
-		\predicted{\deriv{k}{y}}
+		\predicted{\deriv{\taylorOrder-1}{y}} \\
+		\predicted{\deriv{\taylorOrder}{y}}
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
@@ -194,23 +201,65 @@ Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) po
 		c_1\frac{1}{\Dt} \\
 		c_2\frac{2}{\Dt^2} \\
 		\vdots \\
-		c_p\frac{p!}{\Dt^p}\\
+		c_p\frac{\eqOrder!}{\Dt^\eqOrder}\\
 		\vdots \\
-		c_{k-1}\frac{\pqty{k-1}!}{\Dt^{k-1}}\\
-		c_k\frac{k!}{\Dt^k}
+		c_{\taylorOrder-1}\frac{\pqty{\taylorOrder-1}!}{\Dt^{\taylorOrder-1}}\\
+		c_{\taylorOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}
 	\end{pmatrix}
 	\cdot
-	\dfrac{\Dt^p}{p!}\Delta \deriv{p}{y},
+	\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y},
 \end{equation}
-sendo que as constantes \(c_0\), \(c_1\), \dots, \(c_k\) são dependem da ordem \(k\) da maior derivada considerada e da ordem \(p\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela
+sendo que as constantes corretoras \(c_0\), \(c_1\), \dots, \(c_{\taylorOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela \ref{table:corrector_constants}.
 	
 \begin{table}[h]
-\begin{equation*}
-	\begin{array}{cccccccccc}
-	\hline
-	p & k & c_0 & c_1 & c_2 & c_3 & c_4 & c_5 & c_6 & c_7 \\
+	\caption{Constantes corretoras para o algoritmo de Gear em função da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial}
+	\label{table:corrector_constants}
 
+	\begin{equation*}
+		% \arraycolsep=1.4pt
+		\def\arraystretch{1.5}
+		\begin{array}{cccccccccc}
+	\hline
+	\hline
+		\eqOrder & \taylorOrder & c_0 & c_1 & c_2 & c_3 & c_4 & c_5 & c_6 & c_7 \\
+	\hline
+		\multirow{6}{*}{1} 
+		& 2 & \frac{5}{12} & 1 & \frac{1}{2} & .. & .. & .. & .. & .. \\
+		& 3 & \frac{3}{8} & 1 & \frac{3}{4} & \frac{1}{6} & .. & .. & .. & .. \\
+		& 4 & \frac{251}{720} & 1 & \frac{11}{12} & \frac{1}{3} & \frac{1}{24} & .. & .. & .. \\
+		& 5 & \frac{95}{288} & 1 & \frac{25}{24} & \frac{35}{72} & \frac{5}{48} & \frac{1}{120} & .. & .. \\
+		& 6 & \frac{19087}{60480} & 1 & \frac{137}{120} & \frac{5}{8} & \frac{17}{96} & \frac{1}{40} & \frac{1}{720} & .. \\
+		& 7 & \frac{5257}{17280} & 1 & \frac{49}{40} & \frac{203}{270} & \frac{49}{192} & \frac{7}{144} & \frac{7}{1440} & \frac{1}{5040} \\
+	\hline
+		\multirow{5}{*}{2} 
+		& 3 & \frac{1}{6} & \frac{5}{6} & 1 & \frac{1}{3} & .. & .. & .. & .. \\
+		& 4 & \frac{19}{120} & \frac{3}{4} & 1 & \frac{1}{2} & \frac{1}{12} & .. & .. & .. \\
+		& 5 & \frac{3}{20} & \frac{251}{360} & 1 & \frac{11}{18} & \frac{1}{6} & \frac{1}{60} & .. & .. \\
+		& 6 & \frac{863}{6048} & \frac{665}{1008} & 1 & \frac{25}{36} & \frac{35}{144} & \frac{1}{24} & \frac{1}{360} & .. \\
+		& 7 & \frac{1925}{14112} & \frac{19087}{30240} & 1 & \frac{137}{180} & \frac{5}{16} & \frac{17}{240} & \frac{1}{120} & \frac{1}{2520} \\
+	\hline
+		\multirow{4}{*}{3} 
+		& 4 & \frac{1}{4} & \frac{1}{2} & \frac{5}{4} & 1 & \frac{1}{4} & .. & .. & .. \\
+		& 5 & \frac{3}{80} & \frac{19}{40} & \frac{9}{8} & 1 & \frac{3}{8} & \frac{1}{20} & .. & .. \\
+		& 6 & \frac{221}{5040} & \frac{9}{20} & \frac{251}{240} & 1 & \frac{11}{24} & \frac{1}{10} & \frac{1}{120} & .. \\
+		& 7 & \frac{2185}{46368} & \frac{863}{2016} & \frac{95}{96} & 1 & \frac{25}{48} & \frac{49}{336} & \frac{1}{48} & \frac{1}{840} \\
+	\hline
+		\multirow{3}{*}{4} 
+		& 5 & \frac{1}{30} & \frac{1}{10} & 1 & \frac{5}{3} & 1 & \frac{1}{5} & .. & .. \\
+		& 6 & \frac{16}{630} & \frac{3}{20} & \frac{19}{20} & \frac{3}{2} & 1 & \frac{3}{10} & \frac{1}{30} & .. \\
+		& 7 & \frac{11}{630} & \frac{221}{1260} & \frac{9}{10} & \frac{251}{180} & 1 & \frac{11}{30} & \frac{1}{15} & \frac{1}{210} \\
+	\hline
 	\hline	
-	\end{array}
-\end{equation*}
+		\end{array}
+	\end{equation*}
+	\legend{Fonte: \citeonline{bib:gear_book}}
 \end{table}
+
+\alert{O \(k\) que estou usando é diferente do de Gear. Para Gear, a maior derivada considerada é \(k-1\). A minha tabela está corrigida e, em todos os casos, \(k_{\text{Ruan}} = k_{\text{Gear}}-1 \). Será que devo mudar o símbolo?}
+
+O erro global do algoritmo de Gear é da ordem de \(\Dt^{\taylorOrder+1+\maxDerivOrder-\eqOrder}\), em que \(\maxDerivOrder\) é o maior inteiro tal que a equação diferencial \eqref{eq:gear_diff} pode ser escrita como
+\[
+	\deriv{\eqOrder}{y} = f\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
+\]
+
+Para o caso de uma partícula, \alert{continuar}
