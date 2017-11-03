@@ -9,8 +9,11 @@
 \newcommand*{\eqdef}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
                      \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
                      =}
+\newcommand{\approximately}{\cong}
 \renewcommand{\real}{\mathbb{R}}
-\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\mtx}[1]{#1}
+\newcommand{\quaternion}[1]{\bm{#1}}
 \newcommand{\drvec}[2]{#2^{\bqty{#1}}}
 
 % Indices
@@ -18,10 +21,20 @@
 \newcommand{\maxDerivOrder}{q}
 \newcommand{\taylorOrder}{k}
 
+% Physical quantities
 \newcommand{\position}{\vec{r}}
+\newcommand{\velocity}{\deriv{1}{\vec{r}}}
+\newcommand{\acceleration}{\deriv{2}{\vec{r}}}
 \newcommand{\mass}{m}
-\newcommand{\resultingForce}{\vec{F}_{\text{R}}}
+\newcommand{\force}{\vec{F}}
+\newcommand{\resultingForce}{\force_{\text{R}}}
 \newcommand{\linearMomentum}{\vec{p}}
+
+\newcommand{\angularVelocity}{\vec{\omega}}
+\newcommand{\momentOfInertia}{\mtx{I}}
+\newcommand{\torque}{\vec{M}}
+\newcommand{\resultingTorque}{\torque_{\text{R}}}
+\newcommand{\angularMomentum}{\vec{L}}
 
 \newcommand*{\IsInteger}[3]{%
     \IfStrEq{#1}{ }{%
