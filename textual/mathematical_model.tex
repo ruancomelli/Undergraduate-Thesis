@@ -6,21 +6,50 @@ Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema fí
 
 \section{Equações de Movimento}
 
-\alert{Reescrever tudo isso}
+Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais aplicam-se as leis de Euler para o movimento \citeay{bib:sampaio}.
 
-Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais aplicam-se a Segunda Lei de Newton \eqref{eq:second_law_of_motion} e a equação de Euler \eqref{eq:euler_equation} \citeay{bib:computational_granular_dynamics}.
+Em um sistema inercial fixo, considera-se \particle{} uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita, em função do tempo, pela função vetorial \(\position\). Além disso, considera-se que a partícula possua um tensor momento de inércia \(\momentOfInertia\) e uma velocidade angular \(\angularVelocity\) definidos com relação à origem do sistema.
 
-Seja \particle{} uma partícula de massa \(\mass\) cuja posição é descrita, em função do tempo, pela função \(\position\).  \alert{Como abordar a questão dos ângulos de Euler?}
+Definem-se o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), como
+\begin{gather*}
+	\linearMomentum \eqdef \mass\cdot\velocity, \\
+	\angularMomentum \eqdef \position\cross\linearMomentum.
+\end{gather*}
 
-A Segunda Lei de Newton afirma que
-\begin{equation} \label{eq:second_law_of_motion}
-	\resultingForce = \mass\cdot\deriv{2}{\position},
-\end{equation}
-sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Uma forma mais geral da Segunda Lei de Newton é 
-\[
+Ainda, da definição do tensor momento de inércia segue a igualdade
+\begin{equation*}
+	\angularMomentum = \momentOfInertia\cdot\angularVelocity.
+\end{equation*}
+
+\subsection{Primeira Lei de Euler}
+
+A primeira lei de Euler trata do movimento translacional. Ela se expressa através da equação
+\begin{equation} \label{eq:euler_first}
 	\resultingForce = \deriv{1}{\linearMomentum},
-\]
-em que \(\linearMomentum = \mass\cdot\deriv{1}{\position}\) é o \textit{momento linear} da partícula. A equação na forma \eqref{eq:second_law_of_motion} é mais adotada em virtude da sua simplicidade.
+\end{equation}
+sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Para o caso em que a massa do corpo é constante, a primeira lei de Euler torna-se equivalente à segunda lei de Newton:
+\begin{equation} \label{eq:motion_first}
+	\resultingForce = \mass\cdot\acceleration.
+\end{equation}
+
+De maneira geral, sistemas de partículas são regidos pela equação \eqref{eq:motion_first}. A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante.
+
+\subsection{Segunda Lei de Euler}
+
+A segunda lei de Euler, por sua vez, é o análogo rotacional da primeira:
+\begin{equation*} % \label{eq:euler_second}
+	\resultingTorque = \deriv{1}{\angularMomentum},
+\end{equation*}
+em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação à origem do sistema. Para partículas com massa constante, é possível obter
+\begin{equation} \label{eq:motion_second}
+	\resultingTorque = \deriv{1}{\angularMomentum} = \momentOfInertia\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\momentOfInertia\angularVelocity}.
+\end{equation}
+
+Novamente, a hipótese de que a massa da partícula é constante é geralmente levada em conta. 
+
+Entretanto, mesmo diante de situações em que \(m\) é constante, a equação \eqref{eq:motion_second} é problemática
+\alert{Falar dos vários sistemas existentes}
+\alert{Como abordar a questão dos ângulos de Euler?}
 
 \section{Modelos de Força de Colisão}
 \citeonline{bib:sampaio}
@@ -90,10 +119,10 @@ Uma versão mais completa desse teorema é apresentada e demonstrada por \citeon
 
 A função \(R_{\taylorOrder, t, y}\) é o resto de ordem \(\taylorOrder\) para a função \(y\) no entorno de \(t\). A equação \eqref{eq:remainder_limit} indica que o resto é um termo da ordem de \(\Dt^{\taylorOrder+1}\), e motiva a aproximação
 \begin{equation} \label{eq:taylor_trunc}
-    y(t + \Dt) \cong y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder.
+    y(t + \Dt) \approximately y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder.
 \end{equation}
 
-Considerando uma função \(\vec{F}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{F}(t) = \pqty{F_1(t),\dots,F_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{F}\) é a função \(F_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; e \(m=3\), para simulações em três dimensões.
+Considerando uma função \(\vec{F}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{F}(t) = \pqty{F_1(t),\dots,F_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{F}\) é a função \(F_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; \alert{e \(m=4\) para quaternions}.
 
 Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
 
