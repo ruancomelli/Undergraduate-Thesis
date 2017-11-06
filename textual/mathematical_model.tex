@@ -1,14 +1,18 @@
 \chapter{Modelo Matemático}
 
-Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema físico requer sua prévia modelagem matemática. Um modelo matemático é uma representação de um sistema real através de equações. Essas equações são obtidas ao se fazerem hipóteses sobre o comportamento do sistema estudado, e a representatividade do modelo depende das simplificações feitas nesse processo.
+Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema físico requer a sua prévia modelagem matemática. Um modelo matemático é uma representação de um sistema real através de equações. Essas equações são obtidas ao se fazerem hipóteses sobre o comportamento do sistema estudado, e a representatividade do modelo depende das simplificações feitas nesse processo.
 
 \alert{Falar de métodos explícitos e comentar que o passo de tempo é representado por \(\Dt\)}
 
+\section{Sistemas de Partículas}
+
+\alert{Descrever aqui todos os elementos que participam do sistema. Será que isso não deveria ir para o capítulo de DEM?}
+
 \section{Equações de Movimento}
 
-Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais aplicam-se as leis de Euler para o movimento \citeay{bib:sampaio}.
+Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais se aplicam as leis de Euler para o movimento \cite{bib:sampaio}.
 
-Em um sistema inercial fixo, considera-se \particle{} uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita, em função do tempo, pela função vetorial \(\position\). Além disso, considera-se que a partícula possua um tensor momento de inércia \(\momentOfInertia\) e uma velocidade angular \(\angularVelocity\) definidos com relação à origem do sistema.
+Em um sistema inercial fixo, considera-se \(\particle\) uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua um tensor momento de inércia \(\momentOfInertia\) e uma velocidade angular \(\angularVelocity\) definidos com relação à origem do sistema.
 
 Definem-se o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), como
 \begin{gather*}
@@ -23,7 +27,7 @@ Ainda, da definição do tensor momento de inércia segue a igualdade
 
 \subsection{Primeira Lei de Euler}
 
-A primeira lei de Euler trata do movimento translacional. Ela se expressa através da equação
+A primeira lei de Euler trata do movimento de translação. Ela se expressa através da equação
 \begin{equation} \label{eq:euler_first}
 	\resultingForce = \deriv{1}{\linearMomentum},
 \end{equation}
@@ -32,7 +36,9 @@ sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Para o c
 	\resultingForce = \mass\cdot\acceleration.
 \end{equation}
 
-De maneira geral, sistemas de partículas são regidos pela equação \eqref{eq:motion_first}. A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante.
+A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. Essas situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
+
+De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores.
 
 \subsection{Segunda Lei de Euler}
 
@@ -45,19 +51,34 @@ em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado 
 	\resultingTorque = \deriv{1}{\angularMomentum} = \momentOfInertia\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\momentOfInertia\angularVelocity}.
 \end{equation}
 
-Novamente, a hipótese de que a massa da partícula é constante é geralmente levada em conta. 
+Novamente, a hipótese de que a massa da partícula é constante é geralmente considerada. 
 
-Entretanto, mesmo diante de situações em que \(m\) é constante, a equação \eqref{eq:motion_second} é problemática
+Entretanto, mesmo diante de situações em que \(m\) é constante, a equação \eqref{eq:motion_second} é problemática. 
 \alert{Falar dos vários sistemas existentes}
 \alert{Como abordar a questão dos ângulos de Euler?}
 
+\subsection{Solução das Equações de Movimento}
+
+Para a determinação do comportamento do sistema, é necessária a obtenção das soluções para as equações \eqref{eq:motion_first} e \eqref{eq:motion_second}.
+
+\alert{E daí?}
+
 \section{Modelos de Força de Colisão}
+
+Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o contato entre elementos diferentes. Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}.
+
+\alert{Explicar melhor isso, principalmente considerando \citeonline{bib:sampaio}}
+
+Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana.
+
 \citeonline{bib:sampaio}
+
+\alert{Terminar}
 
 \section{Extrapolação de Funções}
 \label{sec:extrapolation}
 
-Nos métodos numéricos, a extrapolação de funções possui um papel fundamental por permitir a estimativa dos valores das funções além do conjunto previamente conhecido.
+Nos métodos numéricos, a extrapolação de funções possui um papel fundamental por permitir a estimativa de valores além do conjunto previamente conhecido.
 
 Para simplificação da notação, dada uma função \(y: X\to Y\), define-se
 \[\drvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{\taylorOrder}{y}}\]
@@ -98,7 +119,7 @@ ou, de forma mais simples,
 \end{equation}
 em que a matriz \(A\) é determinada pelo método escolhido e \(\drvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
 
-Dentre os métodos extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \citeay{bib:gear_book}.
+Dentre os métodos de extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \cite{bib:gear_book}.
 
 \alert{dizer por que escolhemos o de Taylor}
 
@@ -169,7 +190,7 @@ Com isso, é possível escrever
 
 Esse método de extrapolação ainda pode ser aplicado à função de orientação da partícula e a outros graus de liberdade que o problema porventura exija.
 
-No entanto essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Ainda assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
+Todavia essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Ainda assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
 
 A principal fonte de erros da equação \eqref{eq:position_prediction} é que não se considera, em nenhum momento, a ação de forças externas que porventura atuem sobre a partícula entre os instantes \(t\) e \(t + \Dt\). É necessário, então, \textit{corrigir} a posição prevista. Essa correção pode ser feita através do algoritmo de Gear, apresentado na seção \ref{sec:gear_integration_scheme}.
 
@@ -181,7 +202,7 @@ A principal fonte de erros da equação \eqref{eq:position_prediction} é que n�
 \end{equation}
 com \(\eqOrder \leq \taylorOrder\).
 
-Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \citeay{bib:computational_granular_dynamics}. O algoritmo consiste de duas etapas: a \textit{predição} e a \textit{correção}.
+Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \cite{bib:computational_granular_dynamics}. O algoritmo consiste de duas etapas: a \textit{predição} e a \textit{correção}.
 
 \subsection{Predição}
 
