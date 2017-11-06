@@ -2,7 +2,9 @@
 % \newcommand{\predicted}[1]{#1^{\,\text{pr}}}
 \newcommand{\corrected}[1]{#1_{\text{corr}}}
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
-\newcommand{\particle}{\(\mathcal{P}\)}
+\newcommand{\particle}{\mathcal{P}}
+
+\newcommand{\DEM}{DEM}
 
 \newcommand{\Dt}{\Delta t}
 % \newcommand{\eqdef}{:=}
@@ -23,18 +25,21 @@
 
 % Physical quantities
 \newcommand{\position}{\vec{r}}
-\newcommand{\velocity}{\deriv{1}{\vec{r}}}
-\newcommand{\acceleration}{\deriv{2}{\vec{r}}}
+\newcommand{\velocity}{\deriv{1}{\position}}
+\newcommand{\acceleration}{\deriv{2}{\position}}
 \newcommand{\mass}{m}
 \newcommand{\force}{\vec{F}}
 \newcommand{\resultingForce}{\force_{\text{R}}}
 \newcommand{\linearMomentum}{\vec{p}}
 
+\newcommand{\orientation}{\vec{\varphi}}
 \newcommand{\angularVelocity}{\vec{\omega}}
 \newcommand{\momentOfInertia}{\mtx{I}}
 \newcommand{\torque}{\vec{M}}
 \newcommand{\resultingTorque}{\torque_{\text{R}}}
 \newcommand{\angularMomentum}{\vec{L}}
+
+\newcommand{\applied}[3]{\underaccent{#2\to#3}{#1}}
 
 \newcommand*{\IsInteger}[3]{%
     \IfStrEq{#1}{ }{%
