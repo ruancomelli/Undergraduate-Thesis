@@ -137,7 +137,7 @@ Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorith
 	% \vspace{-1cm}
 \end{figure}
 
-Também é possível acoplar o DEM a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:dem_chapter} apresentam alguns exemplos das diversas extensões que podem ser feitas ao DEM. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:heat_dem} e \citeonline{bib:conductivity} demonstram a aplicação de modelos de troca de calor.
+Também é possível acoplar o DEM a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:dem_chapter} apresentam alguns exemplos das diversas extensões que podem ser feitas ao DEM. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:heat_dem} e \citeonline{bib:conductivity} demonstram a aplicação de modelos de troca de calor. O acoplamento entre DEM e outras famílias é conhecido como EDEM, ou XDEM, o Método de Elementos Discretos Estendido.
 
 \section{Revisão Bibliográfica}
 
@@ -149,16 +149,17 @@ O método foi ainda extendido com os trabalhos de \citeonline{bib:haff1986}, \ap
 
 Dentre as principais referências sobre o DEM, destacam-se \citeonline{bib:liquids}, \citeonline{bib:computational_granular_dynamics} e \citeonline{bib:dem_chapter}.
 
-Além das publicações acadêmicas, existem diversos \textit{softwares} comerciais e de código aberto projetados para simulação com o DEM, cada qual com seus objetivos, vantagens e desvantagens. Os principais simuladores existentes
-
-Os principais simuladores comerciais são o Rocky, o EDEM e o PFD (\textit{Particle Flow Code})
-
-\alert{Citar Rocky, LIGGGHTS e EDEM. Além disso, existem Yade, PFC (Particle Flow Code). E KRATOS}
+Além das publicações acadêmicas, existem diversos \textit{softwares} comerciais e de código aberto projetados para simulação com o DEM, cada qual com seus objetivos, vantagens e desvantagens. Dentre os simuladores comerciais, destacam-se o Rocky DEM, o EDEM e o PFD (\textit{Particle Flow Code}). Dentre os principais programas de código aberto estão o Yade, o LIGGGHTS e o KRATOS. Algumas das características desses simuladores são o processamento em paralelo, a capacidade de customização, pós-processamento, geração de scripts, acoplamento entre diferentes físicas, uso de geometrias CAD e acoplamento com outros simuladores.
 
 \section{Objetivos e Contribuições}
 
-\alert{Falar do interesse do SINMEC, do acoplamento, e que era necessário, primeiramente, compreender o problema e, em segundo lugar, possuir um programa que se acoplasse facilmente com trabalhos posteriores. Apresentar objetivos e objetivos específicos.}
+O SINMEC - Laboratório de Simulação Numérica em Mecânica dos Fluidos e Transferência de Calor, do Departamento de Engenharia Mecânica da Universidade Federal de Santa Catarina, tem como principal linha de pesquisa a aplicação do método de volumes finitos baseado em elementos (EbFVM) com malhas não estruturadas para a solução de problemas de mecânica de fluidos e transferência de calor.
 
+Devido à importância do tema e à possibilidade de se estudar o acoplamento entre a dinâmica de partículas e os fenômenos de transporte, surgiu o interesse do laboratório em iniciar uma área de pesquisa acerca do Método de Elementos Discretos Estendido utilizando o EbFVM para a solução de escoamentos. Para tanto, porém, é necessária, primeiramente, uma compreensão acerca do DEM.
+
+Sendo assim, este trabalho objetiva iniciar essa linha de pesquisa no SINMEC, desenvolvendo um simulador que seja de fácil extensão, permitindo que novos modelos de interação, tipos de partículas e algoritmos de solução sejam introduzidos à medida que novos estudos sejam feitos. Para que isso se tornasse possível, este trabalho foi subdividido em três partes: primeiramente, uma biblioteca deveria ser implementada, contendo a lógica do funcionamento dos algoritmos DEM, de forma generalizada, sem particularizar suas características; na segunda parte, seria gerado um simulador que, tomando a biblioteca como base, especificasse os tipos de partícula, as interações e os métodos de solução; e, por fim, executar simulações no simulador para validar a implementação. 
+
+\alert{continuar aqui}
 Os objetivos deste trabalho são:
 \begin{enumerate}
 \item Desenvolver uma biblioteca computacional para a simulação da dinâmica de partículas através do DEM. Essa biblioteca deve possuir as seguintes características:
