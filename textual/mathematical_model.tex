@@ -2,7 +2,17 @@
 
 Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema físico requer a sua prévia modelagem matemática. Um modelo matemático é uma representação de um sistema real através de equações. Essas equações são obtidas ao se fazerem hipóteses sobre o comportamento do sistema estudado, e a representatividade do modelo depende das simplificações feitas nesse processo.
 
-\alert{Falar de métodos explícitos e comentar que o passo de tempo é representado por \(\Dt\)}
+Uma distinção que pode ser feita entre métodos computacionais é a que distingue métodos implícitos de explícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma
+\[
+	y\pqty{t+\Dt} = f\pqty{y\pqty{t}},
+\]
+enquanto métodos implícitos buscam resolver
+\[
+	g\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
+\]
+É evidente que os métodos implícitos, em geral, incorrem em maiores custos computacionais.
+
+O Método de Elementos Discretos é um método explícito. Para um \textit{passo de tempo} \(\Dt>0\), procura-se determinar o estado do sistema de partículas no instante \(t+\Dt\) a partir do estado no instante \(t\) que é, por hipótese, conhecido.
 
 \section{Sistemas de Partículas}
 
