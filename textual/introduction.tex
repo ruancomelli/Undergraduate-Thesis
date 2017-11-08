@@ -59,7 +59,7 @@ A fim de conciliar exatidão e eficiência, os métodos numéricos despontam com
 	\vspace{-1cm}
 \end{figure}
 
-As figuras \ref{fig:pellet_flow} e \ref{fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas a menos de sua cor, que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam exatamente a posição das partículas, elas representam com grande fidelidade o sistema estudado.
+As figuras \ref{fig:pellet_flow} e \ref{fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas a menos de sua cor, que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam \textit{exatamente} a posição das partículas, elas representam com grande fidelidade o sistema estudado.
 
 Sendo assim, o estudo de sistemas de partículas conta principalmente com a simulação numérica como método de análise.
  
@@ -157,21 +157,37 @@ O SINMEC - Laboratório de Simulação Numérica em Mecânica dos Fluidos e Tran
 
 Devido à importância do tema e à possibilidade de se estudar o acoplamento entre a dinâmica de partículas e os fenômenos de transporte, surgiu o interesse do laboratório em iniciar uma área de pesquisa acerca do Método de Elementos Discretos Estendido utilizando o EbFVM para a solução de escoamentos. Para tanto, porém, é necessária, primeiramente, uma compreensão acerca do DEM.
 
-Sendo assim, este trabalho objetiva iniciar essa linha de pesquisa no SINMEC, desenvolvendo um simulador que seja de fácil extensão, permitindo que novos modelos de interação, tipos de partículas e algoritmos de solução sejam introduzidos à medida que novos estudos sejam feitos. Para que isso se tornasse possível, este trabalho foi subdividido em três partes: primeiramente, uma biblioteca deveria ser implementada, contendo a lógica do funcionamento dos algoritmos DEM, de forma generalizada, sem particularizar suas características; na segunda parte, seria gerado um simulador que, tomando a biblioteca como base, especificasse os tipos de partícula, as interações e os métodos de solução; e, por fim, executar simulações no simulador para validar a implementação. 
-
-\alert{continuar aqui}
-Os objetivos deste trabalho são:
+Sendo assim, este trabalho objetiva iniciar essa linha de pesquisa no SINMEC, desenvolvendo um simulador que seja de fácil extensão, permitindo que novos modelos de interação, tipos de partículas e algoritmos de solução sejam introduzidos à medida que novos estudos sejam feitos. Para que isso se tornasse possível, este trabalho foi subdividido em três partes: primeiramente, uma biblioteca deveria ser implementada, contendo a lógica do funcionamento dos algoritmos DEM, de forma generalizada, sem particularizar suas características; na segunda parte, seria gerado um simulador que, tomando a biblioteca como base, especificasse os tipos de partícula, as interações e os métodos de solução; e, por fim, executar simulações no simulador e validar a implementação através da análise dos resultados e da comparação com soluções analíticas. 
+ 
+Com o propósito de melhor guiar as atividades, são propostos os seguintes objetivos específicos:
 \begin{enumerate}
-\item Desenvolver uma biblioteca computacional para a simulação da dinâmica de partículas através do DEM. Essa biblioteca deve possuir as seguintes características:
-	\alert{Revisar essas características}
+\item Desenvolver uma biblioteca computacional para a simulação da dinâmica de partículas através do DEM. Essa biblioteca deve possuir as seguintes características: \label{item:library}
  	\begin{enumerate}
-		\item Métodos para a importação e exportação de dados; 
 		\item Suporte para diferentes modelos de colisão, inclusive para modelos estudados e implementados por um usuário posterior;
-		\item Suporte para um número arbitrário de partículas, as quais podem assumir diferentes formas geométricas e possuir várias propriedades físicas;
-        \item Suporte para a inserção de diferentes tipos de interação entre as partículas. Por exemplo, deve ser possível, com o mínimo de esforço, desenvolver simuladores que, com base na biblioteca, simulem problemas de diversas naturezas físicas, como a movimentação de planetas, a deposição de átomos sobre estruturas, a transferência de calor entre partículas, interações eletrodinâmicas, entre outras.
+		\item Capacidade para um número arbitrário de partículas, as quais podem assumir diferentes formas geométricas e possuir várias propriedades físicas;
+        \item Permitir a inserção de diferentes tipos de interação entre as partículas. Essas interações podem ter naturezas distintas, como a transferência de calor e a troca de cargas elétricas;
 		\item Suporte para variadas funções de busca de partículas vizinhas;
+		\item Disponibilidade de utilização de diversos tipos de condição de contorno;
+		\item Suporte para diferentes algoritmos de predição e correção;
 	\end{enumerate}  
-\item Implementar um simulador \alert{descrever esse simulador. Quais são seus objetivos?}
+\item Implementar um simulador que, com base na biblioteca desenvolvida, seja capaz de executar simulações que aceitem, no mínimo:
+	\begin{enumerate}
+		\item Partículas esféricas;
+		\item Paredes fixas planas;
+		\item Os principais modelos de força de colisão, conforme explicado na seção \ref{sec:collision_force_models};
+		\item O algoritmo de Gear, empregando a extrapolação de Taylor, de acordo com o capítulo \ref{ch:mathematical_model};
+		\item Simulações em duas dimensões;
+	\end{enumerate}
+\item Validar a implementação por meio da comparação de resultados de simulações com soluções analíticas para o problema ou através da análise dos resultados.
 \end{enumerate}
 
 \section{Organização do Trabalho}
+
+Para melhor cobrir todos os assuntos relativos ao cumprimento dos objetivos, além do capítulo de introdução, este trabalho é dividido nos seguintes capítulos:
+\begin{description}
+	\item[\autoref{ch:mathematical_model} - \nameref{ch:mathematical_model}:] Nesse capítulo, são abordados os aspectos teóricos e matemáticos concernentes ao DEM. Nele, são descritas as equações de movimento que devem ser solucionadas, alguns dos principais modelos para as forças de colisão e o algoritmo de Gear;
+	\item[\autoref{ch:discrete_element_method} - \nameref{ch:discrete_element_method}:] Nesse capítulo, é descrito o DEM, demonstrando como os conceitos apresentados no capítulo \ref{ch:mathematical_model} são aplicados e transformados em algoritmos.
+	\item[\autoref{ch:computational_implementation} - \nameref{ch:computational_implementation}:] Esse capítulo evidencia a implementação da biblioteca e do simulador em linguagem C++ ao apresentar códigos, pseudocódigos e fluxogramas com o intuito de fornecer uma visão geral do código e explicar o seu funcionamento.
+	\item[\autoref{ch:results} - \nameref{ch:results}:] Esse capítulo é destinado à apresentação de resultados de simulação, à sua confrontação com soluções analíticas e à análise de tais resultados. Com isso, a implementação é validada.
+	\item[\autoref{ch:conclusion} - \nameref{ch:conclusion}:] O último capítulo é dedicado a sumarizar o trabalho, reafirmando os principais pontos explorados ao longo do texto e atestando que os objetivos propostos foram alcançados. Também são apresentadas algumas sugestões para trabalhos futuros.
+\end{description}
