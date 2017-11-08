@@ -1,8 +1,17 @@
+\usepackage{nomencl}
+
+\newcommand{\emptyTableEntry}{..}
+
 \newcommand{\predicted}[1]{#1_{\text{pr}}}
 % \newcommand{\predicted}[1]{#1^{\,\text{pr}}}
 \newcommand{\corrected}[1]{#1_{\text{corr}}}
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
-\newcommand{\particle}{\mathcal{P}}
+\newcommand{\particleSet}{
+    \mathcal{P}
+}
+\newcommand{\particle}{
+    \mathcal{P}
+}
 
 \newcommand{\DEM}{DEM}
 
@@ -15,8 +24,17 @@
 \renewcommand{\real}{\mathbb{R}}
 \renewcommand{\vec}[1]{\bm{#1}}
 \newcommand{\mtx}[1]{#1}
+\newcommand{\tensor}[1]{\bm{#1}}
 \newcommand{\quaternion}[1]{\bm{#1}}
 \newcommand{\drvec}[2]{#2^{\bqty{#1}}}
+
+\newcommand{\planeAxis}[1]{#1}
+\newcommand{\xAxis}{\planeAxis{X}}
+\newcommand{\yAxis}{\planeAxis{Y}}
+\newcommand{\zAxis}{\planeAxis{Z}}
+\newcommand{\xUnit}{\mathbf{i}}
+\newcommand{\yUnit}{\mathbf{j}}
+\newcommand{\zUnit}{\mathbf{k}}
 
 % Indices
 \newcommand{\eqOrder}{p}
@@ -32,9 +50,12 @@
 \newcommand{\resultingForce}{\force_{\text{R}}}
 \newcommand{\linearMomentum}{\vec{p}}
 
-\newcommand{\orientation}{\vec{\varphi}}
-\newcommand{\angularVelocity}{\vec{\omega}}
-\newcommand{\momentOfInertia}{\mtx{I}}
+\newcommand{\orientationScalar}{\varphi}
+\newcommand{\orientation}{\vec{\orientationScalar}}
+\newcommand{\angularVelocityScalar}{\omega}
+\newcommand{\angularVelocity}{\vec{\angularVelocityScalar}}
+\newcommand{\tensorOfInertia}{\tensor{I}} % Tensorial moment of inertia
+\newcommand{\momentOfInertia}{I} % Scalar moment of inertia
 \newcommand{\torque}{\vec{M}}
 \newcommand{\resultingTorque}{\torque_{\text{R}}}
 \newcommand{\angularMomentum}{\vec{L}}

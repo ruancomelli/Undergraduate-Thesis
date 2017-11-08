@@ -10,9 +10,12 @@ enquanto métodos implícitos buscam resolver
 \[
 	g\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
 \]
+
 É evidente que os métodos implícitos, em geral, incorrem em maiores custos computacionais.
 
 O Método de Elementos Discretos é um método explícito. Para um \textit{passo de tempo} \(\Dt>0\), procura-se determinar o estado do sistema de partículas no instante \(t+\Dt\) a partir do estado no instante \(t\) que é, por hipótese, conhecido.
+
+Este capítulo aborda os aspectos matemáticos pertinentes ao método. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. E, por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
 
 \section{Sistemas de Partículas}
 
@@ -22,7 +25,9 @@ O Método de Elementos Discretos é um método explícito. Para um \textit{passo
 
 Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais se aplicam as leis de Euler para o movimento \cite{bib:sampaio}.
 
-Em um sistema inercial fixo, considera-se \(\particle\) uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua um tensor momento de inércia \(\momentOfInertia\) e uma velocidade angular \(\angularVelocity\) definidos com relação à origem do sistema.
+Em um sistema inercial fixo, considera-se uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua um tensor momento de inércia \(\tensorOfInertia\) e uma velocidade angular \(\angularVelocity\) definidos com relação à origem do sistema.
+
+\alert{Fazer apêndice explicando rotações em três dimensões}
 
 Definem-se o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), como
 \begin{gather*}
@@ -32,7 +37,7 @@ Definem-se o \textit{momento linear} e o \textit{momento angular} da partícula,
 
 Ainda, da definição do tensor momento de inércia segue a igualdade
 \begin{equation*}
-	\angularMomentum = \momentOfInertia\cdot\angularVelocity.
+	\angularMomentum = \tensorOfInertia\cdot\angularVelocity.
 \end{equation*}
 
 \subsection{Primeira Lei de Euler}
@@ -46,9 +51,11 @@ sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Para o c
 	\resultingForce = \mass\cdot\acceleration.
 \end{equation}
 
-A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. Essas situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
+A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. \citeonline{bib:computational_granular_dynamics} apresenta métodos que descrevem o fenômeno de fragmentação. Tais situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
 
 De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores.
+
+Para a translação, os movimentos ocorrem separadamente em cada eixo coordenado de modo que os algoritmos de solução da equação \eqref{eq:motion_first} são facilmente generalizados de duas para três dimensões. Ainda, cabe observar que a primeira lei de Euler independe da posição do eixo de referência.
 
 \subsection{Segunda Lei de Euler}
 
@@ -58,14 +65,18 @@ A segunda lei de Euler, por sua vez, é o análogo rotacional da primeira:
 \end{equation*}
 em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação à origem do sistema. Para partículas com massa constante, é possível obter
 \begin{equation} \label{eq:motion_second}
-	\resultingTorque = \deriv{1}{\angularMomentum} = \momentOfInertia\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\momentOfInertia\angularVelocity}.
+	\resultingTorque = \deriv{1}{\angularMomentum} = \tensorOfInertia\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\tensorOfInertia\angularVelocity}.
 \end{equation}
 
 Novamente, a hipótese de que a massa da partícula é constante é geralmente considerada. 
 
-Entretanto, mesmo diante de situações em que \(m\) é constante, a equação \eqref{eq:motion_second} é problemática. 
-\alert{Falar dos vários sistemas existentes}
-\alert{Como abordar a questão dos ângulos de Euler?}
+Entretanto, mesmo diante de situações em que \(m\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação, e geralmente não ocorre que a velocidade angular seja a derivada desses parâmetros. Mais detalhes sobre rotações em três dimensões são apresentados no \autoref{app:three_dimensional_rotation}.
+
+Por simplicidade, considera-se aqui o caso de simulações bidimensionais. Convencionando que os movimentos se dão apenas no plano \(\xAxis\yAxis\), a orientação de uma partícula pode ser representada por uma rotação de \(\orientationScalar\) em torno do eixo \(\zAxis\). Denotando por \(\xUnit\), \(\yUnit\) e \(\zUnit\) a base canônica para o espaço \(\real^3\), segue, nesse caso, que
+\[
+	\angularVelocity = \angularVelocityScalar\zUnit = \deriv{1}{\orientationScalar}\zUnit
+\]
+\alert{Será?? Só simulações bidimensionais?}
 
 \subsection{Solução das Equações de Movimento}
 
@@ -286,29 +297,29 @@ sendo que as constantes corretoras \(c_0\), \(c_1\), \dots, \(c_{\taylorOrder}\)
 		\eqOrder & \taylorOrder & c_0 & c_1 & c_2 & c_3 & c_4 & c_5 & c_6 & c_7 \\
 	\hline
 		\multirow{6}{*}{1} 
-		& 2 & \frac{5}{12} & 1 & \frac{1}{2} & .. & .. & .. & .. & .. \\
-		& 3 & \frac{3}{8} & 1 & \frac{3}{4} & \frac{1}{6} & .. & .. & .. & .. \\
-		& 4 & \frac{251}{720} & 1 & \frac{11}{12} & \frac{1}{3} & \frac{1}{24} & .. & .. & .. \\
-		& 5 & \frac{95}{288} & 1 & \frac{25}{24} & \frac{35}{72} & \frac{5}{48} & \frac{1}{120} & .. & .. \\
-		& 6 & \frac{19087}{60480} & 1 & \frac{137}{120} & \frac{5}{8} & \frac{17}{96} & \frac{1}{40} & \frac{1}{720} & .. \\
+		& 2 & \frac{5}{12} & 1 & \frac{1}{2} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
+		& 3 & \frac{3}{8} & 1 & \frac{3}{4} & \frac{1}{6} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
+		& 4 & \frac{251}{720} & 1 & \frac{11}{12} & \frac{1}{3} & \frac{1}{24} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
+		& 5 & \frac{95}{288} & 1 & \frac{25}{24} & \frac{35}{72} & \frac{5}{48} & \frac{1}{120} & \emptyTableEntry & \emptyTableEntry \\
+		& 6 & \frac{19087}{60480} & 1 & \frac{137}{120} & \frac{5}{8} & \frac{17}{96} & \frac{1}{40} & \frac{1}{720} & \emptyTableEntry \\
 		& 7 & \frac{5257}{17280} & 1 & \frac{49}{40} & \frac{203}{270} & \frac{49}{192} & \frac{7}{144} & \frac{7}{1440} & \frac{1}{5040} \\
 	\hline
 		\multirow{5}{*}{2} 
-		& 3 & \frac{1}{6} & \frac{5}{6} & 1 & \frac{1}{3} & .. & .. & .. & .. \\
-		& 4 & \frac{19}{120} & \frac{3}{4} & 1 & \frac{1}{2} & \frac{1}{12} & .. & .. & .. \\
-		& 5 & \frac{3}{20} & \frac{251}{360} & 1 & \frac{11}{18} & \frac{1}{6} & \frac{1}{60} & .. & .. \\
-		& 6 & \frac{863}{6048} & \frac{665}{1008} & 1 & \frac{25}{36} & \frac{35}{144} & \frac{1}{24} & \frac{1}{360} & .. \\
+		& 3 & \frac{1}{6} & \frac{5}{6} & 1 & \frac{1}{3} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
+		& 4 & \frac{19}{120} & \frac{3}{4} & 1 & \frac{1}{2} & \frac{1}{12} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
+		& 5 & \frac{3}{20} & \frac{251}{360} & 1 & \frac{11}{18} & \frac{1}{6} & \frac{1}{60} & \emptyTableEntry & \emptyTableEntry \\
+		& 6 & \frac{863}{6048} & \frac{665}{1008} & 1 & \frac{25}{36} & \frac{35}{144} & \frac{1}{24} & \frac{1}{360} & \emptyTableEntry \\
 		& 7 & \frac{1925}{14112} & \frac{19087}{30240} & 1 & \frac{137}{180} & \frac{5}{16} & \frac{17}{240} & \frac{1}{120} & \frac{1}{2520} \\
 	\hline
 		\multirow{4}{*}{3} 
-		& 4 & \frac{1}{4} & \frac{1}{2} & \frac{5}{4} & 1 & \frac{1}{4} & .. & .. & .. \\
-		& 5 & \frac{3}{80} & \frac{19}{40} & \frac{9}{8} & 1 & \frac{3}{8} & \frac{1}{20} & .. & .. \\
-		& 6 & \frac{221}{5040} & \frac{9}{20} & \frac{251}{240} & 1 & \frac{11}{24} & \frac{1}{10} & \frac{1}{120} & .. \\
+		& 4 & \frac{1}{4} & \frac{1}{2} & \frac{5}{4} & 1 & \frac{1}{4} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
+		& 5 & \frac{3}{80} & \frac{19}{40} & \frac{9}{8} & 1 & \frac{3}{8} & \frac{1}{20} & \emptyTableEntry & \emptyTableEntry \\
+		& 6 & \frac{221}{5040} & \frac{9}{20} & \frac{251}{240} & 1 & \frac{11}{24} & \frac{1}{10} & \frac{1}{120} & \emptyTableEntry \\
 		& 7 & \frac{2185}{46368} & \frac{863}{2016} & \frac{95}{96} & 1 & \frac{25}{48} & \frac{49}{336} & \frac{1}{48} & \frac{1}{840} \\
 	\hline
 		\multirow{3}{*}{4} 
-		& 5 & \frac{1}{30} & \frac{1}{10} & 1 & \frac{5}{3} & 1 & \frac{1}{5} & .. & .. \\
-		& 6 & \frac{16}{630} & \frac{3}{20} & \frac{19}{20} & \frac{3}{2} & 1 & \frac{3}{10} & \frac{1}{30} & .. \\
+		& 5 & \frac{1}{30} & \frac{1}{10} & 1 & \frac{5}{3} & 1 & \frac{1}{5} & \emptyTableEntry & \emptyTableEntry \\
+		& 6 & \frac{16}{630} & \frac{3}{20} & \frac{19}{20} & \frac{3}{2} & 1 & \frac{3}{10} & \frac{1}{30} & \emptyTableEntry \\
 		& 7 & \frac{11}{630} & \frac{221}{1260} & \frac{9}{10} & \frac{251}{180} & 1 & \frac{11}{30} & \frac{1}{15} & \frac{1}{210} \\
 	\hline
 	\hline	
