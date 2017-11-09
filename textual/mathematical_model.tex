@@ -2,43 +2,31 @@
 
 Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema físico requer a sua prévia modelagem matemática. Um modelo matemático é uma representação de um sistema real através de equações. Essas equações são obtidas ao se fazerem hipóteses sobre o comportamento do sistema estudado, e a representatividade do modelo depende das simplificações feitas nesse processo.
 
-Uma distinção que pode ser feita entre métodos computacionais é a que distingue métodos implícitos de explícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma
-\[
-	y\pqty{t+\Dt} = f\pqty{y\pqty{t}},
-\]
-enquanto métodos implícitos buscam resolver
-\[
-	g\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
-\]
-
-É evidente que os métodos implícitos, em geral, incorrem em maiores custos computacionais.
-
-O Método de Elementos Discretos é um método explícito. Para um \textit{passo de tempo} \(\Dt>0\), procura-se determinar o estado do sistema de partículas no instante \(t+\Dt\) a partir do estado no instante \(t\) que é, por hipótese, conhecido.
-
-Este capítulo aborda os aspectos matemáticos pertinentes ao método. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. E, por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
+Este capítulo aborda os aspectos matemáticos pertinentes ao Método dos Elementos Discretos. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. Por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
 
 \section{Sistemas de Partículas}
 
-\alert{Descrever aqui todos os elementos que participam do sistema. Será que isso não deveria ir para o capítulo de DEM?}
+As partículas são os elementos fundamentais do Método de Elementos Discretos. De acordo com a definição apresentada por \citeonline{bib:sampaio}, partículas são consideradas corpos rígidos. Por serem indeformáveis, fica implícita a hipótese de que não ocorrem deformações plásticas nesses elementos, e então eles preservam a sua geometria mesmo após colisões.
 
-\section{Equações de Movimento}
+A princípio, o DEM suporta geometrias arbitrárias para seus elementos. Entretanto, devido a limitações de modelos físicos e de avaliação das colisões, em geral consideram-se formatos básicos como esferas, superelipsoides e poliedros. Geometrias mais complexas podem ser geradas pela associação de geometrias mais simples em partículas compostas \cite{bib:sampaio,bib:computational_granular_dynamics}.
 
-Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais se aplicam as leis de Euler para o movimento \cite{bib:sampaio}.
+Um sistema de partículas é, por sua vez, um conjunto de partículas que interagem entre si. Considera-se que o sistema possua um referencial global fixo, a partir do qual as demais grandezas vetoriais são definidas.
 
-Em um sistema inercial fixo, considera-se uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua um tensor momento de inércia \(\tensorOfInertia\) e uma velocidade angular \(\angularVelocity\) definidos com relação à origem do sistema.
+A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos local com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
-\alert{Fazer apêndice explicando rotações em três dimensões}
+As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, essas interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o DEM considera, a princípio, apenas as colisões.
 
-Definem-se o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), como
+\section{Equações de Movimento} \label{sec:equations_of_motion}
+
+Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais se aplicam as leis de Euler para o movimento \cite{bib:sampaio, bib:dynamics_of_multibody_systems}.
+
+Em um sistema inercial fixo, considera-se uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua uma velocidade angular \(\angularVelocity\) e um tensor momento de inércia \(\tensorOfInertia\) definido com relação ao seu centro de massa.
+
+Conforme demonstrado por \citeonline{bib:dynamics_of_multibody_systems}, o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), são então dados por
 \begin{gather*}
-	\linearMomentum \eqdef \mass\cdot\velocity, \\
-	\angularMomentum \eqdef \position\cross\linearMomentum.
+	\linearMomentum = \mass\cdot\velocity, \\
+	\angularMomentum = \position\cross\linearMomentum + \tensorOfInertia\cdot\angularVelocity.
 \end{gather*}
-
-Ainda, da definição do tensor momento de inércia segue a igualdade
-\begin{equation*}
-	\angularMomentum = \tensorOfInertia\cdot\angularVelocity.
-\end{equation*}
 
 \subsection{Primeira Lei de Euler}
 
@@ -63,7 +51,7 @@ A segunda lei de Euler, por sua vez, é o análogo rotacional da primeira:
 \begin{equation*} % \label{eq:euler_second}
 	\resultingTorque = \deriv{1}{\angularMomentum},
 \end{equation*}
-em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação à origem do sistema. Para partículas com massa constante, é possível obter
+em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação ao seu centro de massa. Para partículas com massa constante, é possível obter
 \begin{equation} \label{eq:motion_second}
 	\resultingTorque = \deriv{1}{\angularMomentum} = \tensorOfInertia\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\tensorOfInertia\angularVelocity}.
 \end{equation}
@@ -71,6 +59,8 @@ em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado 
 Novamente, a hipótese de que a massa da partícula é constante é geralmente considerada. 
 
 Entretanto, mesmo diante de situações em que \(m\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação, e geralmente não ocorre que a velocidade angular seja a derivada desses parâmetros. Mais detalhes sobre rotações em três dimensões são apresentados no \autoref{app:three_dimensional_rotation}.
+
+\alert{É isso mesmo?}
 
 Por simplicidade, considera-se aqui o caso de simulações bidimensionais. Convencionando que os movimentos se dão apenas no plano \(\xAxis\yAxis\), a orientação de uma partícula pode ser representada por uma rotação de \(\orientationScalar\) em torno do eixo \(\zAxis\). Denotando por \(\xUnit\), \(\yUnit\) e \(\zUnit\) a base canônica para o espaço \(\real^3\), segue, nesse caso, que
 \[

@@ -4,4 +4,19 @@ O Método de Elementos Discretos, ou DEM\footnote{Do inglês, \textit{Discrete E
 
 \section{}
 
+Uma distinção que pode ser feita entre métodos computacionais é a que distingue métodos implícitos de explícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma
+\[
+	y\pqty{t+\Dt} = f\pqty{y\pqty{t}},
+\]
+enquanto métodos implícitos buscam resolver
+\[
+	g\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
+\]
+
+É evidente que os métodos implícitos, em geral, incorrem em maiores custos computacionais. 
+
+O Método de Elementos Discretos é um método explícito. Para um \textit{passo de tempo} \(\Dt>0\), procura-se determinar o estado do sistema de partículas no instante \(t+\Dt\) a partir do estado no instante \(t\) que é, por hipótese, conhecido.
+
+\alert{Será que essas considerações cabem aqui?}
+
 \section{Acoplamento com outros métodos}

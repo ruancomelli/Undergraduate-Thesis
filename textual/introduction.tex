@@ -71,10 +71,10 @@ Por sua vez, um \textit{sistema de partículas} é um conjunto de partículas qu
 
 O aspecto dinâmico dos sistemas de partículas é determinado pelas leis de Euler para o movimento:
 \begin{gather}
-	{\resultingForce}_{,\particle} = \mass_{\particle}\cdot\acceleration_{\particle}, \label{eq:intro_motion_first}\\
-	{\resultingTorque}_{,\particle} = \momentOfInertia_{\particle}\deriv{1}{\angularVelocity}_{\particle} + \angularVelocity_{\particle}\cross\pqty{\momentOfInertia_{\particle}\angularVelocity_{\particle}}, \label{eq:intro_motion_second}
+	{\resultingForce} = \mass\cdot\acceleration, \label{eq:intro_motion_first}\\
+	{\resultingTorque} = \tensorOfInertia\cdot\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\tensorOfInertia\cdot\angularVelocity}, \label{eq:intro_motion_second}
 \end{gather}
-em que \(\position_{\particle}\), \(\angularVelocity_{\particle}\), \(\mass_{\particle}\) e \(\momentOfInertia_{\particle}\) são, respectivamente, a função posição, a função velocidade angular, a massa e o momento de inércia da partícula \(\particle\), enquanto \({\resultingForce}_{,\particle}\) e \({\resultingTorque}_{,\particle}\) são o vetor força resultante e o vetor torque resultante sobre a mesma.
+em que \(\position\), \(\angularVelocity\), \(\mass\) e \(\tensorOfInertia\) são, respectivamente, a função posição, a função velocidade angular, a massa e o tensor momento de inércia de uma partícula qualquer, enquanto \({\resultingForce}\) e \({\resultingTorque}\) são o vetor força resultante e o vetor torque resultante sobre a mesma.
 
 É na solução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second} que consiste a análise acerca dos sistemas de partículas. Essas equações, porém, são de difícil resolução já que a força e o torque resultantes sobre a partícula são oriundas de sua interação com os demais elementos do sistema e são, portanto, funções das propriedades físicas, posições, velocidades, orientações e velocidades angulares dos interagentes.
 
