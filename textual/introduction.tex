@@ -90,18 +90,18 @@ Geralmente, algoritmos de elementos discretos levam em conta a hipótese de part
 
 Cada elemento da simulação pertence a um \textit{tipo}. O tipo de um elemento é usado para determinar a sua geometria e o seu comportamento na simulação. É comum, por exemplo, definir-se um tipo de partícula \textit{fixa}. Partículas desse tipo representam elementos de fronteira, com posição constante e conhecida desde o início da simulação.  
 
-Por sua vez, a geometria das partículas determina quais os modelos de interação que podem ser aplicados. Em geral, o uso de geometrias simples permite a aplicação de modelos também simples, resultando em um custo computacional menor quando comparado às geometrias mais complexas. Certamente, a geometria de partícula necessária depende do sistema que se deseja estudar e do grau de representatividade requisitado. A geometria mais simples é a esférica. Para a obtenção de formas mais complexas, \citeonline{bib:computational_granular_dynamics} apresentam uma técnica de associação de partículas, resultando em \textit{clusters}, com aquele representado na figura \ref{fig:cluster_particle}. \citeonline{bib:computational_granular_dynamics} também tratam de partículas poligonais, enquanto \citeonline{bib:sampaio} demonstra a utilização de superelipsoides.
+Por sua vez, a geometria das partículas determina quais os modelos de interação que podem ser aplicados. Em geral, o uso de geometrias simples permite a aplicação de modelos também simples, resultando em um custo computacional menor quando comparado às geometrias mais complexas. Certamente, a geometria de partícula necessária depende do sistema que se deseja estudar e do grau de representatividade requisitado. A geometria mais simples é a esférica. Para a obtenção de formas mais complexas, \citeonline{bib:computational_granular_dynamics} apresentam uma técnica de associação de partículas, resultando em partículas compostas, como aquela representada na figura \ref{fig:composite_particle}. \citeonline{bib:computational_granular_dynamics} também tratam de partículas poligonais, enquanto \citeonline{bib:sampaio} demonstra a utilização de superelipsoides.
 
 \begin{figure}[h]
 	\caption{Exemplo de associação de partículas simples para a obtenção de geometrias mais complexas.}
 	% \vspace{-0.5cm}
 	\begin{center}
-		\alert{Colocar imagem de uma partícula cluster}
+		\alert{Colocar imagem de uma partícula composta}
 		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
 	\end{center}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
-	\label{fig:cluster_particle}
+	\label{fig:composite_particle}
 	\legend{Fonte: \alert{Citar fonte}}
 	% \vspace{-1cm}
 \end{figure}
