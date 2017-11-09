@@ -26,10 +26,13 @@
 \newcommand{\approximately}{\cong}
 \renewcommand{\real}{\mathbb{R}}
 \renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\explicitVector}[3]{\pqty{#1, #2, #3}}
+\newcommand{\explicitVectorCoordinates}[1]{\pqty{{#1}_{1}, {#1}_{2}, {#1}_{3}}}
 \newcommand{\mtx}[1]{#1}
 \newcommand{\tensor}[1]{\bm{#1}}
 \newcommand{\quaternion}[1]{\bm{#1}}
 \newcommand{\drvec}[2]{#2^{\bqty{#1}}}
+\newcommand{\versor}[1]{\hat{\vec{#1}}}
 
 \newcommand{\planeAxis}[1]{#1}
 \newcommand{\xAxis}{\planeAxis{X}}
@@ -56,10 +59,14 @@
 \newcommand{\orientationScalar}{\varphi}
 \newcommand{\orientation}{\vec{\orientationScalar}}
 \newcommand{\angularVelocityScalar}{\omega}
+\newcommand{\angularVelocityVersor}{\versor{\angularVelocityScalar}}
 \newcommand{\angularVelocity}{\vec{\angularVelocityScalar}}
-\newcommand{\tensorOfInertia}{\tensor{I}} % Tensorial moment of inertia
+\newcommand{\angularAcceleration}{\deriv{1}{\angularVelocity}}
 \newcommand{\momentOfInertia}{I} % Scalar moment of inertia
-\newcommand{\torque}{\vec{M}}
+\newcommand{\tensorOfInertia}{\tensor{\momentOfInertia}} % Tensorial moment of inertia
+\newcommand{\matrixOfInertia}{\mtx{\momentOfInertia}} % Tensorial moment of inertia
+\newcommand{\torqueScalar}{M}
+\newcommand{\torque}{\vec{\torqueScalar}}
 \newcommand{\resultingTorque}{\torque_{\text{R}}}
 \newcommand{\angularMomentum}{\vec{L}}
 
