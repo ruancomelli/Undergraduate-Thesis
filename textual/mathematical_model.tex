@@ -53,22 +53,88 @@ A segunda lei de Euler, por sua vez, é o análogo rotacional da primeira:
 \end{equation*}
 em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação ao seu centro de massa. Para partículas com massa constante, é possível obter
 \begin{equation} \label{eq:motion_second}
-	\resultingTorque = \deriv{1}{\angularMomentum} = \tensorOfInertia\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\tensorOfInertia\angularVelocity}.
+	\resultingTorque = \deriv{1}{\angularMomentum} = \tensorOfInertia\cdot\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\tensorOfInertia\cdot\angularVelocity}.
 \end{equation}
 
 Novamente, a hipótese de que a massa da partícula é constante é geralmente considerada. 
 
-Entretanto, mesmo diante de situações em que \(m\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação, e geralmente não ocorre que a velocidade angular seja a derivada desses parâmetros. Mais detalhes sobre rotações em três dimensões são apresentados no \autoref{app:three_dimensional_rotation}.
+Entretanto, mesmo diante de situações em que \(m\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação da partícula, e não ocorre que a velocidade angular seja a derivada desses parâmetros. Só é possível escrever \(\angularVelocity = \deriv{1}{\orientation}\) quando a direção da rotação é constante \cite[p. 32]{bib:dynamics_of_multibody_systems}.
 
-\alert{É isso mesmo?}
+A cada corpo estão associados \textit{eixos principais}, formados pelos autovetores da matriz de momento de inércia \(\matrixOfInertia\). Ao se utilizarem como sistema de referência os eixos principais, a matriz de inércia assume forma diagonal:
+\begin{equation*}
+	\matrixOfInertia =
+	\begin{pmatrix}
+		\momentOfInertia_1 & 0 & 0 \\
+		0 & \momentOfInertia_2 & 0 \\
+		0 & 0 & \momentOfInertia_3 \\
+	\end{pmatrix},
+\end{equation*}
+e, reescrevendo, nessas coordenadas, o torque resultante como \(\explicitVectorCoordinates{\torqueScalar}\), a velocidade angular como \(\explicitVectorCoordinates{\angularVelocityScalar}\) e a aceleração angular como \(\explicitVectorCoordinates{\deriv{1}{\angularVelocityScalar}}\), a equação \eqref{eq:motion_second} se transforma no sistema de equações
+\begin{equation} \label{eq:motion_second_system}
+	\left\lbrace
+	\begin{array}{l}
+		\momentOfInertia_1\deriv{1}{\angularVelocityScalar}_1 - \pqty{\momentOfInertia_2 - \momentOfInertia_3}\angularVelocityScalar_2\angularVelocityScalar_3 = \torqueScalar_1 \\
+		\momentOfInertia_2\deriv{1}{\angularVelocityScalar}_2 - \pqty{\momentOfInertia_3 - \momentOfInertia_1}\angularVelocityScalar_3\angularVelocityScalar_1 = \torqueScalar_2 \\
+		\momentOfInertia_3\deriv{1}{\angularVelocityScalar}_3 - \pqty{\momentOfInertia_1 - \momentOfInertia_2}\angularVelocityScalar_1\angularVelocityScalar_2 = \torqueScalar_3
+	\end{array}
+	\right.
+	.
+\end{equation}
 
-Por simplicidade, considera-se aqui o caso de simulações bidimensionais. Convencionando que os movimentos se dão apenas no plano \(\xAxis\yAxis\), a orientação de uma partícula pode ser representada por uma rotação de \(\orientationScalar\) em torno do eixo \(\zAxis\). Denotando por \(\xUnit\), \(\yUnit\) e \(\zUnit\) a base canônica para o espaço \(\real^3\), segue, nesse caso, que
+Esse sistema pode ser resolvido de forma análoga à primeira lei de Euler, conforme discutido na \autoref{eq:motion_equations_solution}. Os valores de \(\momentOfInertia_1\), \(\momentOfInertia_2\) e \(\momentOfInertia_3\) são dependentes da geometria da partícula e da distribuição de massa no seu interior. Em geral, essas características já são conhecidas no início das simulações.
+
+Entretanto o sistema \eqref{eq:motion_second_system} exige que se conheçam os eixos principais da partícula, isto é, sua orientação. Esses eixos, porém, movem-se e rotacionam junto com o corpo, e então são variantes no tempo. Para se resolver o problema no caso geral, são propostas parametrizações, tais quais os ângulos de Euler, os ângulos de Bryan, e os parâmetros de Euler-Rodrigues \cite{bib:dynamics_of_multibody_systems}. Mais detalhes sobre essas parametrizações são encontrados no \autoref{app:three_dimensional_rotation}.
+
+\alert{Verificar que os detalhes foram explicados no apêndice}
+
+Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a direção das rotações é sempre constante; ou que as partículas são esféricas. No primeiro caso, o sistema se torna equivalente a um problema bidimensional. Essa situação é tratada na \autoref{subsubsec:constant_rotation}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}.
+
+O caso geral de rotações em três dimensões é apresentado no \autoref{app:three_dimensional_rotation}.
+
+\subsubsection{Direção de Rotação Constante} \label{subsubsec:constant_rotation}
+
+Para rotações com direção constante, é possível definir um vetor \(\angularVelocityVersor\) constante e unitário tal que a velocidade angular da partícula se escreve como
 \[
-	\angularVelocity = \angularVelocityScalar\zUnit = \deriv{1}{\orientationScalar}\zUnit
+	\angularVelocity = \angularVelocityScalar\cdot\angularVelocityVersor,
 \]
-\alert{Será?? Só simulações bidimensionais?}
+sendo \(\angularVelocityScalar\) uma função escalar do tempo. Já que a velocidade angular é diferenciável, \(\angularVelocityScalar\) é contínua e, portanto, integrável, do que é possível escrever
+\begin{gather*}
+	\angularVelocityScalar = \deriv{1}{\orientationScalar}, \\
+	\angularVelocity = \deriv{1}{\orientationScalar}\cdot\angularVelocityVersor, \text{e} \\
+	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\angularVelocityVersor.
+\end{gather*}
 
-\subsection{Solução das Equações de Movimento}
+Nesse caso, \(\orientationScalar\) é uma função que representa o ângulo de rotação que a partícula faz com uma orientação de referência, como representado na figura \ref{fig:particle_scalar_orientation}.
+
+\begin{figure}[h]
+	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações com direção de rotação constante}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar imagem representando a orientação de uma partícula em rotações com direção constante}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:particle_scalar_orientation}
+	\legend{Fonte: \alert{Citar fonte}.}
+	% \vspace{-1cm}
+\end{figure}
+
+Com isso, a equação \eqref{eq:motion_second} fica
+\begin{equation*}
+	\resultingTorque = \deriv{2}{\orientationScalar}\cdot\pqty{\tensorOfInertia\cdot\angularVelocityVersor}
+		+ \deriv{1}{\orientationScalar}^2\cdot\pqty{\angularVelocityVersor\cross\tensorOfInertia\cdot\angularVelocityVersor}
+\end{equation*}
+
+\alert{Arrumar o caso anterior. Supor que as rotações são em torno do eixo \zAxis}
+
+\alert{Terminar}
+
+\subsubsection{Rotação de Partículas Esféricas} \label{subsubsec:rotation_of_spherical_particles}
+
+\alert{Escrever}
+
+\subsection{Solução das Equações de Movimento} \label{eq:motion_equations_solution}
 
 Para a determinação do comportamento do sistema, é necessária a obtenção das soluções para as equações \eqref{eq:motion_first} e \eqref{eq:motion_second}.
 
