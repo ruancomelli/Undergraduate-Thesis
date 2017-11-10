@@ -87,52 +87,64 @@ Entretanto o sistema \eqref{eq:motion_second_system} exige que se conheçam os e
 
 \alert{Verificar que os detalhes foram explicados no apêndice}
 
-Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a direção das rotações é sempre constante; ou que as partículas são esféricas. No primeiro caso, o sistema se torna equivalente a um problema bidimensional. Essa situação é tratada na \autoref{subsubsec:constant_rotation}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}.
+Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a simulação ocorre em apenas duas dimensões; ou que as partículas são esféricas. No primeiro caso, a direção de rotação é constante. Essa situação é tratada na \autoref{subsubsec:bidimensional}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}.
 
 O caso geral de rotações em três dimensões é apresentado no \autoref{app:three_dimensional_rotation}.
 
-\subsubsection{Direção de Rotação Constante} \label{subsubsec:constant_rotation}
+\subsubsection{Simulação Bidimensional} \label{subsubsec:bidimensional}
 
-Para rotações com direção constante, é possível definir um vetor \(\angularVelocityVersor\) constante e unitário tal que a velocidade angular da partícula se escreve como
+Em se supondo que a simulação ocorre em apenas duas dimensões, por convenção no plano \(\xAxis\yAxis\), a velocidade angular das partículas possui direção constante, a do eixo \(\zAxis\). Denotando por \(\pqty{\xUnit, \yUnit, \zUnit}\) a base canônica do espaço \(\real^3\), isso implica que existe uma função real \(\angularVelocityScalar\) tal que
 \[
-	\angularVelocity = \angularVelocityScalar\cdot\angularVelocityVersor,
+	\angularVelocity = \angularVelocityScalar\cdot\zUnit.
 \]
-sendo \(\angularVelocityScalar\) uma função escalar do tempo. Já que a velocidade angular é diferenciável, \(\angularVelocityScalar\) é contínua e, portanto, integrável, do que é possível escrever
+
+Já que, neste caso, a velocidade angular possui direção constante, é possível encontrar uma função \(\orientationScalar\) para a orientação da partícula, de forma que
 \begin{gather*}
 	\angularVelocityScalar = \deriv{1}{\orientationScalar}, \\
-	\angularVelocity = \deriv{1}{\orientationScalar}\cdot\angularVelocityVersor, \text{e} \\
-	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\angularVelocityVersor.
+	\angularVelocity = \deriv{1}{\orientationScalar}\cdot\zUnit, \text{e} \\
+	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\zUnit.
 \end{gather*}
 
-Nesse caso, \(\orientationScalar\) é uma função que representa o ângulo de rotação que a partícula faz com uma orientação de referência, como representado na figura \ref{fig:particle_scalar_orientation}.
+Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais da partícula e sua orientação de referência, como na figura \ref{fig:bidimensional_simulation}.
 
 \begin{figure}[h]
-	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações com direção de rotação constante}
+	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações bidimensionais}
 	% \vspace{-0.5cm}
 	\begin{center}
-		\alert{Colocar imagem representando a orientação de uma partícula em rotações com direção constante}
+		\alert{Colocar imagem representando a orientação de uma partícula em simulação bidimensionais}
 		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
 	\end{center}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
-	\label{fig:particle_scalar_orientation}
+	\label{fig:bidimensional_simulation}
 	\legend{Fonte: \alert{Citar fonte}.}
 	% \vspace{-1cm}
 \end{figure}
 
-Com isso, a equação \eqref{eq:motion_second} fica
+Com isso, a equação \eqref{eq:motion_second} fica simplesmente
 \begin{equation*}
-	\resultingTorque = \deriv{2}{\orientationScalar}\cdot\pqty{\tensorOfInertia\cdot\angularVelocityVersor}
-		+ \deriv{1}{\orientationScalar}^2\cdot\pqty{\angularVelocityVersor\cross\tensorOfInertia\cdot\angularVelocityVersor}
+	\torqueScalar_{z} = \momentOfInertia\cdot\deriv{2}{\orientationScalar},
 \end{equation*}
-
-\alert{Arrumar o caso anterior. Supor que as rotações são em torno do eixo \zAxis}
-
-\alert{Terminar}
+em que \(\torqueScalar_{z} = \resultingTorque\cdot\zUnit\) é a coordenada \(\zAxis\) do torque resultante e \(\momentOfInertia\) é o momento de inércia escalar da partícula. Essa última equação se torna, então, a equação de movimento rotacional para partículas em simulações em duas dimensões.
 
 \subsubsection{Rotação de Partículas Esféricas} \label{subsubsec:rotation_of_spherical_particles}
 
-\alert{Escrever}
+Segundo \citeonline{bib:dynamics_of_multibody_systems}, para partículas esféricas, \textit{qualquer} direção é uma direção principal. Sendo assim, o sistema de equações \eqref{eq:motion_second_system} é sempre válido. Mais ainda, em função da simetria da partícula, ocorre que \(\momentOfInertia_1 = \momentOfInertia_2 = \momentOfInertia_3\). Definindo \(\momentOfInertia \eqdef \momentOfInertia_1\), obtém-se
+\begin{equation*}
+	\left\lbrace
+	\begin{array}{l}
+		\momentOfInertia\deriv{1}{\angularVelocityScalar_1} = \torqueScalar_1 \\
+		\momentOfInertia\deriv{1}{\angularVelocityScalar_2} = \torqueScalar_2 \\
+		\momentOfInertia\deriv{1}{\angularVelocityScalar_3} = \torqueScalar_3
+	\end{array}
+	\right.
+	,
+\end{equation*}
+ou ainda
+\begin{equation*}
+	\resultingTorque = \momentOfInertia\cdot\angularAcceleration,
+\end{equation*}
+e, com isso, a equação diferencial para o movimento de rotação estpa pronta para o caso de partículas esféricas.
 
 \subsection{Solução das Equações de Movimento} \label{eq:motion_equations_solution}
 
