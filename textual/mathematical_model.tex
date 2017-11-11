@@ -81,7 +81,7 @@ e, reescrevendo, nessas coordenadas, o torque resultante como \(\explicitVectorP
 	.
 \end{equation}
 
-Esse sistema pode ser resolvido de forma análoga à primeira lei de Euler, conforme discutido na \autoref{eq:motion_equations_solution}. Os valores de \(\momentOfInertia_1\), \(\momentOfInertia_2\) e \(\momentOfInertia_3\) são dependentes da geometria da partícula e da distribuição de massa no seu interior. Em geral, essas características já são conhecidas no início das simulações.
+Esse sistema pode ser resolvido de forma análoga à primeira lei de Euler, conforme discutido na \autoref{subsec:motion_equations_solution}. Os valores de \(\momentOfInertia_1\), \(\momentOfInertia_2\) e \(\momentOfInertia_3\) são dependentes da geometria da partícula e da distribuição de massa no seu interior. Em geral, essas características já são conhecidas no início das simulações.
 
 Entretanto o sistema \eqref{eq:motion_second_system} exige que se conheçam os eixos principais da partícula, isto é, sua orientação. Esses eixos, porém, movem-se e rotacionam junto com o corpo, e então são variantes no tempo. Para se resolver o problema no caso geral, são propostas parametrizações, tais quais os ângulos de Euler, os ângulos de Bryan, e os parâmetros de Euler-Rodrigues \cite{bib:dynamics_of_multibody_systems}. Mais detalhes sobre essas parametrizações são encontrados no \autoref{app:three_dimensional_rotation}.
 
@@ -148,7 +148,7 @@ ou ainda
 \end{equation*}
 e, com isso, a equação diferencial para o movimento de rotação está pronta para o caso de partículas esféricas.
 
-\subsection{Solução das Equações de Movimento} \label{eq:motion_equations_solution}
+\subsection{Solução das Equações de Movimento} \label{subsec:motion_equations_solution}
 
 Para a determinação do comportamento do sistema, é necessária a obtenção das soluções para as equações \eqref{eq:motion_first} e \eqref{eq:motion_second}. Isso exige  o cálculo da força e do momento resultantes sobre cada partícula e a consequente resolução da equação. 
 
@@ -156,21 +156,25 @@ O cálculo das forças e dos torques geralmente leva em conta \textit{modelos de
  
 Com os vetores força e torque resultantes, as equações diferenciais do movimento ficam bem determinadas. Resta a escolha de procedimentos para a resolução dessas equações, algoritmos chamados de \textit{métodos de integração} que, dadas duas partículas no instante \(t\) e as equações de movimento, sejam capazes de calcular as coordenadas e as propriedades dessas partículas em um instante futuro \(t+\Dt\).  
  
-As principais características consideradas para a escolha de um método de solução das equações diferenciais são a exatidão, a estabilidade e o custo computacional. Neste trabalho, é utilizado o algoritmo de Gear, descrito na \autoref{sec:gear_integration_scheme}. Outros algoritmos de integração são o método baseado em pontos centrais \textit{leapfrog}, os métodos de Verlet e os de Runge-Kutta \cite{bib:sampaio}. Neste trabalho, apenas o método de Gear é detalhado. 
+As principais características consideradas para a escolha de um método de solução das equações diferenciais são a exatidão, a estabilidade e o custo computacional. Neste trabalho, é utilizado o algoritmo de Gear, descrito na \autoref{sec:gear_integration_scheme}. Outros algoritmos de integração são o método baseado em pontos centrais \textit{leapfrog}, os métodos de Verlet e os de Runge-Kutta \cite{bib:sampaio}.
  
-\alert{Falar do coeficiente de restituição} 
+De uma simulação, é possível extrair diversas informações. Alguns dos principais resultados que se buscam obter são a trajetória das partículas, o carregamento ou a pressão sobre determinada superfície, o coeficiente de restituição resultante das colisões, tempo para esvaziamento de um reservatório, entre outros.
 
 \section{Modelos de Força de Colisão} \label{sec:collision_force_models}
+
+\subsection{Parâmetros de Cálculo}
+
+\alert{Explicar a superposição (ou penetração), o cálculo da velocidade relativa, do ponto de contato e do coeficiente de restituição}
 
 Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. 
 
 \alert{Explicar melhor isso, principalmente considerando \citeonline{bib:sampaio}}
 
+A determinação do coeficiente de restituição tem a vantagem de poder simplificar e reduzir o tempo de simulação. Além disso, esse coeficiente pode ser usado para a validação de métodos numéricos. 
+
 Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana.
 
 \alert{Falar do coeficiente de restituição. Um bom exemplo é \citeonline{bib:linear_dashpot_revisited}}
-
-\citeonline{bib:sampaio}
 
 \alert{Terminar}
 
