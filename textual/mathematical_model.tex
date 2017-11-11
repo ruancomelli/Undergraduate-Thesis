@@ -69,7 +69,7 @@ A cada corpo estão associados \textit{eixos principais}, formados pelos autovet
 		0 & 0 & \momentOfInertia_3 \\
 	\end{pmatrix},
 \end{equation*}
-e, reescrevendo, nessas coordenadas, o torque resultante como \(\explicitVectorCoordinates{\torqueScalar}\), a velocidade angular como \(\explicitVectorCoordinates{\angularVelocityScalar}\) e a aceleração angular como \(\explicitVectorCoordinates{\deriv{1}{\angularVelocityScalar}}\), a equação \eqref{eq:motion_second} se transforma no sistema de equações
+e, reescrevendo, nessas coordenadas, o torque resultante como \(\explicitVectorPrincipalCoordinates{\torqueScalar}\), a velocidade angular como \(\explicitVectorPrincipalCoordinates{\angularVelocityScalar}\) e a aceleração angular como \(\explicitVectorPrincipalCoordinates{\deriv{1}{\angularVelocityScalar}}\), a equação \eqref{eq:motion_second} se transforma no sistema de equações
 \begin{equation} \label{eq:motion_second_system}
 	\left\lbrace
 	\begin{array}{l}
@@ -126,6 +126,8 @@ Com isso, a equação \eqref{eq:motion_second} fica simplesmente
 	\torqueScalar_{z} = \momentOfInertia\cdot\deriv{2}{\orientationScalar},
 \end{equation*}
 em que \(\torqueScalar_{z} = \resultingTorque\cdot\zUnit\) é a coordenada \(\zAxis\) do torque resultante e \(\momentOfInertia\) é o momento de inércia escalar da partícula. Essa última equação se torna, então, a equação de movimento rotacional para partículas em simulações em duas dimensões.
+
+\alert{Falar das rotações com direção constante também. Isso será útil na simulação de lançamento oblíquo}
 
 \subsubsection{Rotação de Partículas Esféricas} \label{subsubsec:rotation_of_spherical_particles}
 
