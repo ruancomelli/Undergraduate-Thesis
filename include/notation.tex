@@ -26,13 +26,12 @@
 \newcommand{\approximately}{\cong}
 \renewcommand{\real}{\mathbb{R}}
 \renewcommand{\vec}[1]{\bm{#1}}
-\newcommand{\explicitVector}[3]{\pqty{#1, #2, #3}}
-\newcommand{\explicitVectorCoordinates}[1]{\pqty{{#1}_{1}, {#1}_{2}, {#1}_{3}}}
 \newcommand{\mtx}[1]{#1}
 \newcommand{\tensor}[1]{\bm{#1}}
 \newcommand{\quaternion}[1]{\bm{#1}}
 \newcommand{\drvec}[2]{#2^{\bqty{#1}}}
 \newcommand{\versor}[1]{\hat{\vec{#1}}}
+\newcommand{\nullVector}{\vec{0}}
 
 \newcommand{\planeAxis}[1]{#1}
 \newcommand{\xAxis}{\planeAxis{X}}
@@ -41,15 +40,23 @@
 \newcommand{\xUnit}{\mathbf{i}}
 \newcommand{\yUnit}{\mathbf{j}}
 \newcommand{\zUnit}{\mathbf{k}}
-
+\newcommand{\xComponent}[1]{{#1}_{\text{x}}}
+\newcommand{\yComponent}[1]{{#1}_{\text{y}}}
+\newcommand{\zComponent}[1]{{#1}_{\text{z}}}
+\newcommand{\explicitVector}[3]{\pqty{#1, #2, #3}}
+\newcommand{\explicitVectorCoordinates}[1]{\pqty{\xComponent{#1}, \yComponent{#1}, \zComponent{#1}}}
+\newcommand{\explicitVectorPrincipalCoordinates}[1]{\pqty{{#1}_{1}, {#1}_{2}, {#1}_{3}}}
 % Indices
 \newcommand{\eqOrder}{p}
 \newcommand{\maxDerivOrder}{q}
 \newcommand{\taylorOrder}{k}
 
 % Physical quantities
-\newcommand{\position}{\vec{r}}
+\newcommand{\positionScalar}{r}
+\newcommand{\position}{\vec{\positionScalar}}
+\newcommand{\velocityScalar}{\deriv{1}{\positionScalar}}
 \newcommand{\velocity}{\deriv{1}{\position}}
+\newcommand{\accelerationScalar}{\deriv{2}{\positionScalar}}
 \newcommand{\acceleration}{\deriv{2}{\position}}
 \newcommand{\mass}{m}
 \newcommand{\force}{\vec{F}}
@@ -102,3 +109,9 @@
     {#2}^{\pqty{#1}}
 }
 }
+
+\newcommand{\gravityScalar}{g}
+\newcommand{\gravity}{\vec{\gravityScalar}}
+
+\newcommand{\initial}[1]{{#1}_{\text{i}}}
+\newcommand{\final}[1]{{#1}_{\text{f}}}
