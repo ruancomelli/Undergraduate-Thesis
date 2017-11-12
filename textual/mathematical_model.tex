@@ -74,16 +74,45 @@ Novamente, a hipótese de que a massa da partícula é constante é geralmente c
 
 Entretanto, mesmo diante de situações em que \(m\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação da partícula, e não ocorre que a velocidade angular seja a derivada desses parâmetros. Só é possível escrever \(\angularVelocity = \deriv{1}{\orientation}\) quando a direção da rotação é constante \cite[p. 32]{bib:dynamics_of_multibody_systems}.
 
-A cada corpo estão associados \textit{eixos principais}, formados pelos autovetores da matriz de momento de inércia \(\matrixOfInertia\). Ao se utilizarem como sistema de referência os eixos principais, a matriz de inércia assume forma diagonal:
+O tensor \(\tensorOfInertia\) identifica-se com a matriz de momento de inércia \(\matrixOfInertia\) dada por
 \begin{equation*}
 	\matrixOfInertia =
+	\begin{pmatrix}
+		\xxMomentOfInertia & \xyMomentOfInertia & \xzMomentOfInertia \\
+		\yxMomentOfInertia & \yyMomentOfInertia & \yzMomentOfInertia \\
+		\zxMomentOfInertia & \zyMomentOfInertia & \zzMomentOfInertia
+	\end{pmatrix}.
+\end{equation*}
+
+Para um ponto \(P\) qualquer, define-se o vetor radial \(\radialVector = \overrightarrow{CP}\). Denotando por \(\radialVectorMtx\) a matriz correspondente a \(\radialVector\), a matriz de momento de inércia do corpo \(\particle\) é dada por
+\begin{equation*}
+	\matrixOfInertia = \int_{\particle}\pqty{\transpose{\radialVectorMtx}\radialVectorMtx\cdot\identity - \radialVectorMtx\transpose{\radialVectorMtx}}\dd{m},
+\end{equation*}
+ou, escrevendo-se \(\radialVector = \explicitVectorCoordinates{\radialVectorScalar}\),
+\begin{equation*}
+	\matrixOfInertia =
+	\begin{pmatrix}
+		\int_{\particle} \pqty{\yComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m}
+		& - \int_{\particle} \pqty{\xComponent{\radialVectorScalar}\yComponent{\radialVectorScalar}} \dd{m}
+		& - \int_{\particle} \pqty{\xComponent{\radialVectorScalar}\zComponent{\radialVectorScalar}} \dd{m} \\
+		& \int_{\particle} \pqty{\xComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m} 
+		& - \int_{\particle} \pqty{\yComponent{\radialVectorScalar}\zComponent{\radialVectorScalar}} \dd{m} \\
+		\text{Simétrica} 
+		&  
+		& \int_{\particle} \pqty{\xComponent{\radialVectorScalar}^2 + \yComponent{\radialVectorScalar}^2} \dd{m}
+	\end{pmatrix}.
+\end{equation*}
+
+A cada corpo estão associados \textit{eixos principais}, formados pelos autovetores da matriz de momento de inércia. Ao se utilizarem como sistema de referência os eixos principais, a matriz de inércia assume forma diagonal:
+\begin{equation*}
+	\principal{\matrixOfInertia} =
 	\begin{pmatrix}
 		\momentOfInertia_1 & 0 & 0 \\
 		0 & \momentOfInertia_2 & 0 \\
 		0 & 0 & \momentOfInertia_3 \\
 	\end{pmatrix},
 \end{equation*}
-e, reescrevendo, nessas coordenadas, o torque resultante como \(\explicitVectorPrincipalCoordinates{\torqueScalar}\), a velocidade angular como \(\explicitVectorPrincipalCoordinates{\angularVelocityScalar}\) e a aceleração angular como \(\explicitVectorPrincipalCoordinates{\deriv{1}{\angularVelocityScalar}}\), a equação \eqref{eq:motion_second} se transforma no sistema de equações
+e, reescrevendo, nessas coordenadas, o torque resultante como \(\principal{\resultingTorque} = \explicitVectorPrincipalCoordinates{\torqueScalar}\), a velocidade angular como \(\principal{\angularVelocity} = \explicitVectorPrincipalCoordinates{\angularVelocityScalar}\) e a aceleração angular como \(\principal{\angularAcceleration} = \explicitVectorPrincipalCoordinates{\deriv{1}{\angularVelocityScalar}}\), a equação \eqref{eq:motion_second} se transforma no sistema de equações
 \begin{equation} \label{eq:motion_second_system}
 	\left\lbrace
 	\begin{array}{l}
