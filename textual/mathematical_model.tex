@@ -4,13 +4,13 @@ Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema fí
 
 Este capítulo aborda os aspectos matemáticos pertinentes ao Método dos Elementos Discretos. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. Por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
 
-\section{Sistemas de Partículas}
+\section{Sistemas de Partículas} \label{sec:particle_systems}
 
 As partículas são os elementos fundamentais do Método de Elementos Discretos. De acordo com a definição apresentada por \citeonline{bib:sampaio}, partículas são consideradas corpos rígidos. Por serem indeformáveis, fica implícita a hipótese de que não ocorrem deformações plásticas nesses elementos, e então eles preservam a sua geometria mesmo após colisões.
 
 A princípio, o DEM suporta geometrias arbitrárias para seus elementos. Entretanto, devido a limitações de modelos físicos e de avaliação das colisões, em geral consideram-se formatos básicos como esferas, superelipsoides e poliedros. Geometrias mais complexas podem ser geradas pela associação de geometrias mais simples em partículas compostas \cite{bib:sampaio,bib:computational_granular_dynamics}.
 
-Um sistema de partículas é, por sua vez, um conjunto de partículas que interagem entre si. Considera-se que o sistema possua um referencial global fixo, a partir do qual as demais grandezas vetoriais são definidas.
+Um sistema de partículas é, por sua vez, um conjunto de partículas que interagem entre si. Considera-se que o sistema possua um referencial global fixo centrado no ponto \(\originPoint\), a partir do qual as demais grandezas vetoriais são definidas.
 
 A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos local com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
@@ -18,17 +18,17 @@ As translações e rotações das partículas são determinadas através da solu
 
 Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
 \begin{equation*}
-	\particleSet = \left\lbrace\iparticle{i} \suchThat 1\leq i\leq\numberOfParticles\right\rbrace,
+	\particleSet = \left\lbrace\particlei \suchThat 1\leq i\leq\numberOfParticles\right\rbrace,
 \end{equation*}
-sendo \(\iparticle{i}\) a \(i\)-ésima partícula no sistema.
+sendo \(\particlei\) a \(i\)-ésima partícula no sistema.
 
-Cada partícula ainda possui uma \textit{vizinhança}, que é o conjunto de elementos que podem interagir com ela. Denota-se por \(\ineighborhood{i}\) ou \(\neighborhoodOf{\iparticle{i}}\) a vizinhança da partícula \(i\). A determinação da vizinhança de uma partícula é essencial para o cálculo das forças e dos torques que atuam sobre ela, e alguns dos métodos para se construir esse conjunto são apresentados na \autoref{sec:neighborhood}.
+Cada partícula ainda possui uma \textit{vizinhança}, que é o conjunto de elementos que podem interagir com ela. Denota-se por \(\ineighborhood{i}\) ou \(\neighborhoodOf{\particlei}\) a vizinhança da partícula \(i\). A determinação da vizinhança de uma partícula é essencial para o cálculo das forças e dos torques que atuam sobre ela, e alguns dos métodos para se construir esse conjunto são apresentados na \autoref{sec:neighborhood}.
 
-Ainda, escrevendo como \(\fromTo{\force}{j}{i}\) a força e \(\fromTo{\torque}{j}{i}\) o torque aplicados pela partícula \(\iparticle{j}\) sobre a partícula \(\iparticle{i}\), tem-se que a força resultante \(\iresultingForce{i}\) e o torque resultante \(\iresultingTorque{i}\) sobre \(\iparticle{i}\) são dados por
-\begin{gather*}
-	\iresultingForce{i} = \sum_{\particle{j}\in\ineighborhood{i}}\fromTo{\force}{j}{i}, \\
-	\iresultingTorque{i} = \sum_{\particle{j}\in\ineighborhood{i}}\fromTo{\torque}{j}{i}.
-\end{gather*}
+Ainda, escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela partícula \(\particlej\) sobre a partícula \(\particlei\), tem-se que a força resultante \(\resultingForcei\) e o torque resultante \(\resultingTorquei\) sobre \(\particlei\) são dados por
+\begin{gather}
+	\resultingForcei = \sum_{\particlej\in\ineighborhood{i}}\forceji, \label{eq:superposition_translation} \\
+	\resultingTorquei = \sum_{\particlej\in\ineighborhood{i}}\torqueji. \label{eq:superposition_rotation}
+\end{gather}
 
 \section{Equações de Movimento} \label{sec:equations_of_motion}
 
@@ -55,7 +55,7 @@ sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Para o c
 
 A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. \citeonline{bib:computational_granular_dynamics} apresenta métodos que descrevem o fenômeno de fragmentação. Tais situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
 
-De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores.
+De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela, conforme as equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_translation}. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores.
 
 Para a translação, os movimentos ocorrem separadamente em cada eixo coordenado de modo que os algoritmos de solução da equação \eqref{eq:motion_first} são facilmente generalizados de duas para três dimensões. Ainda, cabe observar que a primeira lei de Euler independe da posição do eixo de referência.
 
@@ -84,22 +84,22 @@ O tensor \(\tensorOfInertia\) identifica-se com a matriz de momento de inércia 
 	\end{pmatrix}.
 \end{equation*}
 
-Para um ponto \(P\) qualquer, define-se o vetor radial \(\radialVector = \overrightarrow{CP}\). Denotando por \(\radialVectorMtx\) a matriz correspondente a \(\radialVector\), a matriz de momento de inércia do corpo \(\particle\) é dada por
+Para um ponto \(P\) qualquer, define-se o vetor radial \(\radialVector = \vectorFromPoints{C}{P}\). Denotando por \(\radialVectorMtx\) a matriz correspondente a \(\radialVector\), a matriz de momento de inércia do corpo \(\particlei\) é dada por
 \begin{equation*}
-	\matrixOfInertia = \int_{\particle}\pqty{\transpose{\radialVectorMtx}\radialVectorMtx\cdot\identity - \radialVectorMtx\transpose{\radialVectorMtx}}\dd{m},
+	\matrixOfInertia = \int_{\particlei}\pqty{\transpose{\radialVectorMtx}\radialVectorMtx\cdot\identity - \radialVectorMtx\transpose{\radialVectorMtx}}\dd{m},
 \end{equation*}
 ou, escrevendo-se \(\radialVector = \explicitVectorCoordinates{\radialVectorScalar}\),
 \begin{equation*}
 	\matrixOfInertia =
 	\begin{pmatrix}
-		\int_{\particle} \pqty{\yComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m}
-		& - \int_{\particle} \pqty{\xComponent{\radialVectorScalar}\yComponent{\radialVectorScalar}} \dd{m}
-		& - \int_{\particle} \pqty{\xComponent{\radialVectorScalar}\zComponent{\radialVectorScalar}} \dd{m} \\
-		& \int_{\particle} \pqty{\xComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m} 
-		& - \int_{\particle} \pqty{\yComponent{\radialVectorScalar}\zComponent{\radialVectorScalar}} \dd{m} \\
+		\dint_{\particlei} \pqty{\yComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m}
+		& - \dint_{\particlei} \xComponent{\radialVectorScalar}\yComponent{\radialVectorScalar} \dd{m}
+		& - \dint_{\particlei} \xComponent{\radialVectorScalar}\zComponent{\radialVectorScalar} \dd{m} \\
+		& \dint_{\particlei} \pqty{\xComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m} 
+		& - \dint_{\particlei} \yComponent{\radialVectorScalar}\zComponent{\radialVectorScalar} \dd{m} \\
 		\text{Simétrica} 
 		&  
-		& \int_{\particle} \pqty{\xComponent{\radialVectorScalar}^2 + \yComponent{\radialVectorScalar}^2} \dd{m}
+		& \dint_{\particlei} \pqty{\xComponent{\radialVectorScalar}^2 + \yComponent{\radialVectorScalar}^2} \dd{m}
 	\end{pmatrix}.
 \end{equation*}
 
@@ -244,25 +244,251 @@ Além do procedimento de se calcularem as forças e torques e, posteriormente, r
 
 \section{Modelos de Força de Colisão} \label{sec:collision_force_models}
 
-Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os modelos de força, então, têm o papel de atribuir, para cada par de partículas, uma componente de força \(\force\) e uma componente de torque \(\torque = \radialVector\cross\force\), sendo \(\radialVector\).
+Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os modelos de força, então, têm o papel de atribuir, para cada par de partículas, uma componente de força \(\force\) e uma componente de torque \(\torque\).
 
-\alert{Explicar a orientação das forças. Possivelmente, diferenciar entre partículas i e j. Falar que a terceira lei de Newton diz que \(F_{ij} = - F_{ji}\)}
+Seguindo a notação apresentada na \autoref{sec:particle_systems}, denota-se por \(\forceji\) a componente de força aplicada pela partícula \(\particlej\) sobre a partícula \(\particlej\), e \(\torqueji\) a componente de torque correspondente definida no sistema de eixos da partícula \(\particlei\).
 
-\subsection{Parâmetros de Cálculo}
+Ainda, de acordo com a terceira lei de Newton, ocorre que
+\begin{equation*}
+	\forceji = - \forceij.
+\end{equation*}
 
-\alert{Explicar a superposição (ou penetração), o cálculo da velocidade relativa, do ponto de contato e do coeficiente de restituição}
+Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana. Nesta seção, são apresentados alguns dos parâmetros geralmente utilizados na determinação de forças e torques e alguns dos principais modelos considerados, segundo \citeonline{bib:computational_granular_dynamics}. 
 
-Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. 
+\subsection{Parâmetros de Cálculo} \label{subsec:collision_parameters}
 
-\alert{Explicar melhor isso, principalmente considerando \citeonline{bib:sampaio}}
+Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. Esses parâmetros, representados graficamente na figura \ref{fig:collision_parameters}, descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força.
 
-A determinação do coeficiente de restituição tem a vantagem de poder simplificar e reduzir o tempo de simulação. Além disso, esse coeficiente pode ser usado para a validação de métodos numéricos. 
+\begin{figure}[h]
+	\caption{Parâmetros de Cálculo na Colisão entre Elementos}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar figura aqui}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:collision_parameters}
+	\legend{Fonte: \alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
 
-Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana.
+\subsubsection*{Superposição} 
+
+No Método de Elementos Discretos, os elementos são consideradas corpos rígidos. Sendo assim, quando ocorre contato entre dois elementos, não ocorre deformação, mas, sim, uma superposição ou penetração.
+
+A medida da penetração pode variar dependendo dos tipos de elementos considerados. Para corpos com geometrias arbitrárias, pode ser necessária a medição do volume sobreposto. Entretanto, para um par de partículas esféricas ou um par formado por uma esfera e uma parede plana, é suficiente definir-se a superposição linearmente, como na figura \ref{fig:collision_parameters}.
+
+Sendo \(\particlei\) e \(\particlej\) duas partículas esféricas distintas, pode-se definir a distância entre seus centros como 
+\begin{equation*}
+	\distanceij = \norm{\positionj - \positioni}.
+\end{equation*}
+
+Denotando-se por \(\radiusi\) e \(\radiusj\) os raios das partículas \(\particlei\) e \(\particlej\), ocorre que há superposição se, e somente se, \(\radiusi + \radiusj > \distanceij\). Nesse caso, a superposição \(\overlapij\) entre os elementos é dada por \(\overlapij = \radiusi + \radiusj - \distanceij\) \cite{bib:computational_granular_dynamics}.
+
+Caso a distância entre os centros das partículas seja maior que a soma de seus raios, a superposição é nula. Com isso, pode-se definir a superposição entre as partículas \(\particlei\) e \(\particlej\) como
+\begin{equation} \label{eq:overlap}
+	\overlapij = \max\Bqty{\radiusi + \radiusj - \distanceij, 0}.
+\end{equation}
+
+A simples diferenciação da equação \eqref{eq:overlap} com relação ao tempo resulta na derivada da superposição:
+\begin{equation*}
+	\overlapDerivativeij =
+	\left\lbrace
+	\begin{array}{cl}
+		- \dfrac{\innerProduct{\positionj - \positioni}{\velocityj - \velocityi}}{\norm{\positionj - \positioni}},
+		& \text{se } \overlapij > 0 \\
+		0, & \text{se } \overlapij = 0
+	\end{array}
+	\right.
+	,
+\end{equation*}
+em que \(\innerProduct{\dummy}{\dummy}\) representa o produto interno entre vetores.
+
+Para o caso do contato entre esfera e parede plana, consideram-se \(\particlei\) uma partícula esférica e \(\elementj\) um elemento plano fixo no espaço. Sejam \(\planeOriginj\) um ponto nesse plano e \(\planeNormalVersorj\) um versor normal a ele. A distância do centro de \(\particlei\) ao plano é dada por
+\begin{equation*}
+	\distanceij = \abs{\innerProduct{\positioni - \planeOriginj}{\planeNormalVersorj}}.
+\end{equation*}
+
+Assim, a sobreposição entre \(\particlei\) e \(\elementj\) fica
+\begin{equation*}
+	\overlapij = \max\Bqty{\radiusi - \distanceij, 0},
+\end{equation*}
+e sua derivada,
+\begin{equation*}
+	\overlapDerivativeij =
+	\left\lbrace
+	\begin{array}{cl}
+		- \innerProduct{\velocityi}{\planeNormalVersorj}, & \text{se } \overlapij > 0 \text{ e } \innerProduct{\positioni - \planeOriginj}{\planeNormalVersorj} > 0\\
+		\innerProduct{\velocityi}{\planeNormalVersorj}, & \text{se } \overlapij > 0 \text{ e } \innerProduct{\positioni - \planeOriginj}{\planeNormalVersorj} < 0\\
+		0, & \text{se } \overlapij = 0
+	\end{array}
+	\right.
+	.
+\end{equation*}
+
+\subsubsection*{Versor Normal}
+
+Sendo \(\particlei\) e \(\particlej\) duas partículas esféricas, o versor normal que aponta de \(\particlei\) para \(\particlej\) é dado por
+\begin{equation*}
+	\normalVersorij = \normalized{\positionj - \positioni},
+\end{equation*}
+e é fácil ver que \(\normalVersorij = - \normalVersorji\).
+
+Já para o caso de um elemento plano fixo \(\elementj\), o versor normal \(\normalVersorji\) é idêntico ao versor normal ao plano, isto é,
+\begin{equation*}
+	\normalVersorji = \planeNormalVersorj,
+\end{equation*}
+e \(\normalVersorij = - \normalVersorji\).
+
+A partir do centro da partícula \(i\), é possível construir-se a reta normal \(\normalLineij\) da colisão entre \(i\) e \(j\) como o espaço gerado por \(\normalVersorij\):
+\begin{equation*}
+	\normalLineij = \set{\positioni + \alpha\normalVersorij\suchThat\alpha\in\real}
+\end{equation*}
+
+\subsubsection*{Ponto de Contato}
+
+Tanto na colisão entre partículas esféricas quanto na colisão entre partícula esférica e parede plana, existe um único plano, denominado de \textit{plano de contato} e denotado por \(\contactPlaneij\), que contém todos os pontos de interseção entre as superfícies dos colidentes, como mostra a figura \ref{fig:contact_point}.
+
+\begin{figure}[h]
+	\caption{Plano e ponto de contato entre dois elementos colidentes}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar figura aqui}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:contact_point}
+	\legend{Fonte: \alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+O ponto de contato \(\contactPointij\) entre os elementos \(i\) e \(j\) é dado pela interseção entre o plano de contato e a reta normal \(\normalLineij\). Vetorialmente, o contato é representado pela posição \(\vectorFromPoints{\originPoint}{\contactPointij}\).
+
+Esse ponto também pode ser representado pelo vetor radial \(\contactVectorij = \contactRadiusij\cdot\normalVersorij\) como
+\begin{equation} \label{eq:contact_point}
+	\vectorFromPoints{\originPoint}{\contactPointij} = \positioni + \contactVectorij.
+\end{equation}
+
+Para duas partículas esféricas, a geometria do contato é tal como mostrado na figura \ref{fig:contact_geometry}.
+
+\begin{figure}[h]
+	\caption{Geometria do Contato para Partículas Esféricas}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar figura aqui}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:contact_geometry}
+	\legend{Fonte: \alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+Definindo-se \(\contactCircleRadiusij\) como o raio do círculo formado no plano de contato, segue do teorema de Pitágoras que
+\begin{equation*}
+	\contactCircleRadiusij = \radiusi^2 - \contactRadiusij^2 = \radiusj^2 - \contactRadiusji^2	
+\end{equation*}
+
+Além disso,
+\begin{equation*}
+	\contactRadiusij + \contactRadiusji = \distanceij,
+\end{equation*}
+e então, ao se combinarem essas duas equações,
+\begin{equation} \label{eq:contact_radius}
+	\contactRadiusij = \dfrac{\radiusi^2 - \radiusj^2 + \distanceij^2}{2\cdot\distanceij}.
+\end{equation}
+
+Com as equações \eqref{eq:contact_point} e \eqref{eq:contact_radius}, o ponto de contato fica bem determinado.
+
+A situação se simplifica para a colisão entre uma partícula esférica e um elemento plano, já que ocorre que
+\begin{equation*}
+	\contactRadiusij = \distanceij.
+\end{equation*}
+
+\subsubsection*{Velocidade Relativa no Ponto de Contato}
+
+A velocidade relativa no ponto de contato é o principal parâmetro cinemático na determinação da força tangencial que ocorre entre dois elementos. A velocidade do elemento \(j\) relativa ao elemento \(i\) no ponto de contato é denotada por \(\relativeVelocityContactPointij\).
+
+O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, acabam por se encontrar. Isso é representado na figura \ref{fig:relative_velocity}
+
+\begin{figure}[h]
+	\caption{Velocidade relativa no ponto de contato}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar figura aqui}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:relative_velocity}
+	\legend{Fonte: \alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+Como esses dois pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo. A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois vetores:
+\begin{equation*}
+	\relativeVelocityContactPointij = \dv{t}(\vectorFromPoints{\originPoint}{\contactPointj} - \vectorFromPoints{\originPoint}{\contactPointi}).
+\end{equation*}
+
+De acordo com \citeonline[p. 25]{bib:dynamics_of_multibody_systems}, e usando o fato de que os pontos \(\contactPointi\) e \(\contactPointj\) são fixos nos elementos a que pertencem (ou seja, os pontos têm velocidade relativa nula com relação aos seus respectivos corpos), é possível escrever
+\begin{gather*}
+	\dv{t}\vectorFromPoints{\originPoint}{\contactPointi} = \velocityi + \angularVelocityi\cross\contactVectorij, \\
+	\dv{t}\vectorFromPoints{\originPoint}{\contactPointj} = \velocityj + \angularVelocityj\cross\contactVectorji.
+\end{gather*}
+
+Com isso, obtém-se
+\begin{equation*}
+	\relativeVelocityContactPointij = \pqty{\velocityj - \velocityi} + \pqty{\angularVelocityj\cross\contactVectorji - \angularVelocityi\cross\contactVectorij}.
+\end{equation*}
+
+Nota-se dessa equação que
+\begin{equation*}
+	\relativeVelocityContactPointji = - \relativeVelocityContactPointij
+\end{equation*}
+
+A velocidade tangencial de \(j\) relativa ao elemento \(i\) é simplesmente a correspondente velocidade relativa sem a componente na direção normal:
+\begin{equation*}
+	\relativeTangentialVelocityij = \relativeVelocityContactPointij - \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij
+\end{equation*}
+
+As simplificações que se fazem no caso em que o elemento \(j\) é uma parede plana são que 
+\begin{gather*}
+	\velocityj = \nullVector, \\
+	\angularVelocityj = \nullVector,
+\end{gather*}
+do que segue que
+\begin{equation*}
+	\relativeVelocityContactPointij = - \velocityi - \angularVelocityi\cross\contactVectorij.
+\end{equation*}
+
+\subsubsection*{Versor Tangencial}
+
+Com a velocidade tangencial determinada, é possível definir-se o versor tangencial \(\tangentialVersorij\) como
+\begin{equation*}
+	\tangentialVersorij = \normalized{\relativeTangentialVelocityij}.
+\end{equation*}
+
+Para o caso em que \(\relativeTangentialVelocityij = \nullVector\), não é necessário calcular-se o versor tangencial pois, nesse caso, as forças tangenciais são sempre nulas.
+
+\subsubsection*{Coeficiente de Restituição} 
+
+A determinação do coeficiente de restituição tem a vantagem de poder simplificar e reduzir o tempo de simulação em simulações orientadas a eventos, mas também pode ser usada para a validação de métodos numéricos baseados no cálculo das forças, que são o foco deste trabalho.
+
+
 
 \alert{Falar do coeficiente de restituição. Um bom exemplo é \citeonline{bib:linear_dashpot_revisited}}
 
 \alert{Terminar}
+
+\subsection{Forças normais}
+\subsubsection*{Modelo 1}
+\subsubsection*{Modelo 2}
+\subsection{Forças tangenciais}
+\subsubsection*{Modelo 1}
+\subsubsection*{Modelo 2}
 
 \section{Extrapolação de Funções}
 \label{sec:extrapolation}
