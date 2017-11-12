@@ -16,11 +16,25 @@ A cada partícula está associada uma função posição que determina, vetorial
 
 As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, essas interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o DEM considera, a princípio, apenas as colisões.
 
+Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
+\begin{equation*}
+	\particleSet = \left\lbrace\iparticle{i} \suchThat 1\leq i\leq\numberOfParticles\right\rbrace,
+\end{equation*}
+sendo \(\iparticle{i}\) a \(i\)-ésima partícula no sistema.
+
+Cada partícula ainda possui uma \textit{vizinhança}, que é o conjunto de elementos que podem interagir com ela. Denota-se por \(\ineighborhood{i}\) ou \(\neighborhoodOf{\iparticle{i}}\) a vizinhança da partícula \(i\). A determinação da vizinhança de uma partícula é essencial para o cálculo das forças e dos torques que atuam sobre ela, e alguns dos métodos para se construir esse conjunto são apresentados na \autoref{sec:neighborhood}.
+
+Ainda, escrevendo como \(\fromTo{\force}{j}{i}\) a força e \(\fromTo{\torque}{j}{i}\) o torque aplicados pela partícula \(\iparticle{j}\) sobre a partícula \(\iparticle{i}\), tem-se que a força resultante \(\iresultingForce{i}\) e o torque resultante \(\iresultingTorque{i}\) sobre \(\iparticle{i}\) são dados por
+\begin{gather*}
+	\iresultingForce{i} = \sum_{\particle{j}\in\ineighborhood{i}}\fromTo{\force}{j}{i}, \\
+	\iresultingTorque{i} = \sum_{\particle{j}\in\ineighborhood{i}}\fromTo{\torque}{j}{i}.
+\end{gather*}
+
 \section{Equações de Movimento} \label{sec:equations_of_motion}
 
 Na dinâmica de partículas, os elementos estudados são considerados corpos rígidos, aos quais se aplicam as leis de Euler para o movimento \cite{bib:sampaio, bib:dynamics_of_multibody_systems}.
 
-Em um sistema inercial fixo, considera-se uma partícula de massa \(\mass\) com um centro de massa cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua uma velocidade angular \(\angularVelocity\) e um tensor momento de inércia \(\tensorOfInertia\) definido com relação ao seu centro de massa.
+Em um sistema inercial fixo, considera-se uma partícula de massa \(\mass\) com um centro de massa \(C\) cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua uma velocidade angular \(\angularVelocity\) e um tensor momento de inércia \(\tensorOfInertia\) definido com relação ao seu centro de massa.
 
 Conforme demonstrado por \citeonline{bib:dynamics_of_multibody_systems}, o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), são então dados por
 \begin{gather*}
