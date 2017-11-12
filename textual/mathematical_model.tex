@@ -136,7 +136,7 @@ O caso geral de rotações em três dimensões é apresentado no \autoref{app:th
 
 \subsubsection{Simulação Bidimensional} \label{subsubsec:bidimensional}
 
-Em se supondo que a simulação ocorre em apenas duas dimensões, por convenção no plano \(\xAxis\yAxis\), a velocidade angular das partículas possui direção constante, a do eixo \(\zAxis\). Denotando por \(\pqty{\xUnit, \yUnit, \zUnit}\) a base canônica do espaço \(\real^3\), isso implica que existe uma função real \(\angularVelocityScalar\) tal que
+Em se supondo que a simulação ocorre em apenas duas dimensões, por convenção no plano \(\xAxis\yAxis\), a velocidade angular das partículas possui direção constante, a do eixo \(\zAxis\). Denotando por \(\basis = \pqty{\xUnit, \yUnit, \zUnit}\) a base canônica do espaço \(\real^3\), isso implica que existe uma função real \(\angularVelocityScalar\) tal que
 \[
 	\angularVelocity = \angularVelocityScalar\cdot\zUnit.
 \]
@@ -164,17 +164,54 @@ Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais d
 	% \vspace{-1cm}
 \end{figure}
 
+Além disso, da hipótese de que as rotações ocorrem apenas em torno do eixo \(\zAxis\) segue que o torque resultante possui apenas componentes nessa direção, isto é,
+\begin{equation*}
+	\resultingTorque = \torqueScalar\cdot \zUnit,
+\end{equation*}
+com \(\torqueScalar\in\real\).
+
 Com isso, a equação \eqref{eq:motion_second} fica simplesmente
 \begin{equation*}
-	\torqueScalar_{z} = \momentOfInertia\cdot\deriv{2}{\orientationScalar},
+	\torqueScalar = \zzMomentOfInertia\cdot\deriv{2}{\orientationScalar},
 \end{equation*}
-em que \(\torqueScalar_{z} = \resultingTorque\cdot\zUnit\) é a coordenada \(\zAxis\) do torque resultante e \(\momentOfInertia\) é o momento de inércia escalar da partícula. Essa última equação se torna, então, a equação de movimento rotacional para partículas em simulações em duas dimensões.
+em que \(\zzMomentOfInertia\) é o momento de inércia escalar da partícula com relação ao eixo \(\zAxis\). Essa última equação se torna, então, a equação de movimento rotacional para partículas em simulações em duas dimensões.
 
-\alert{Falar das rotações com direção constante também. Isso será útil na simulação de lançamento oblíquo}
+Uma situação um pouco mais geral é que a direção da velocidade angular seja apenas constante, não necessariamente a do eixo \(\zAxis\), mas sim a de um eixo qualquer \(\zAxis^\prime\). Nesse caso, existe uma nova base \(\basis^\prime = \explicitVector{\xUnit^\prime}{\yUnit^\prime}{\zUnit^\prime}\) contendo os versores dos eixos \(\xAxis^\prime\yAxis^\prime\zAxis^\prime\) que satisfaz
+\begin{equation*}
+	\angularVelocity = \angularVelocityScalar\cdot\zUnit^\prime,
+\end{equation*}
+e, analogamente ao caso anterior, uma função de orientação \(\orientationScalar\) tal que
+\begin{gather*}
+	\angularVelocity = \deriv{1}{\orientationScalar}\cdot\zUnit^\prime, \\
+	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\zUnit^\prime.
+\end{gather*}
+
+Novamente, a hipótese de direção de rotação constante implica que é possível escrever
+\begin{equation*}
+	\resultingTorque = \torqueScalar\cdot\zUnit^\prime,
+\end{equation*}
+e assim se obtém a equação
+\begin{equation*}
+	\torqueScalar = \zzMomentOfInertia^\prime\cdot\deriv{2}{\orientationScalar}.
+\end{equation*}
+
+Para a solução dessa equação, porém, ainda é necessária a determinação do valor de \(\zzMomentOfInertia^\prime\). Isso pode ser feito como sugere \citeonline{bib:dynamics_of_multibody_systems}, calculando-se a matriz de rotação \(\rotationMatrix\) que transforma as coordenadas de vetores definidos na base \(\basis\) em coordenadas definidas no sistema \(\xAxis^\prime\yAxis^\prime\zAxis^\prime\), na base \(\basis^\prime\), e obtendo
+\begin{equation*}
+	\matrixOfInertia^\prime =
+	\begin{pmatrix}
+		\xxMomentOfInertia^\prime & \xyMomentOfInertia^\prime & \xzMomentOfInertia^\prime \\
+		\yxMomentOfInertia^\prime & \yyMomentOfInertia^\prime & \yzMomentOfInertia^\prime \\
+		\zxMomentOfInertia^\prime & \zyMomentOfInertia^\prime & \zzMomentOfInertia^\prime
+	\end{pmatrix}
+	=
+	\rotationMatrix\cdot \matrixOfInertia.
+\end{equation*}
+
+Embora tenda-se a evitar multiplicações matriciais, esse cálculo pode ser feito apenas uma vez, no início da simulação, desde que se saiba a priori a direção da rotação.
 
 \subsubsection{Rotação de Partículas Esféricas} \label{subsubsec:rotation_of_spherical_particles}
 
-Segundo \citeonline{bib:dynamics_of_multibody_systems}, para partículas esféricas, \textit{qualquer} direção é uma direção principal. Sendo assim, o sistema de equações \eqref{eq:motion_second_system} é válido em qualquer sistema de eixos. Mais ainda, em função da simetria da partícula, ocorre que \(\momentOfInertia_1 = \momentOfInertia_2 = \momentOfInertia_3\). Definindo \(\momentOfInertia \eqdef \momentOfInertia_1\), obtém-se 
+Segundo \citeonline{bib:dynamics_of_multibody_systems}, para partículas esféricas, \textit{qualquer} direção é uma direção principal. Sendo assim, o sistema de equações \eqref{eq:motion_second_system} é válido em qualquer sistema de eixos. Mais ainda, em função da simetria da partícula, ocorre que \(\momentOfInertia_1 = \momentOfInertia_2 = \momentOfInertia_3\). Ao se definir \(\momentOfInertia \eqdef \momentOfInertia_1\), obtém-se 
 \begin{equation*}
 	\left\lbrace
 	\begin{array}{l}
@@ -189,13 +226,13 @@ ou ainda
 \begin{equation*}
 	\resultingTorque = \momentOfInertia\cdot\angularAcceleration,
 \end{equation*}
-e, com isso, a equação diferencial para o movimento de rotação está pronta para o caso de partículas esféricas.
+e, com isso, a equação diferencial para o movimento de rotação está pronta para simulações tridimensionais de partículas esféricas.
 
 \subsection{Solução das Equações de Movimento} \label{subsec:motion_equations_solution}
 
 Para a determinação do comportamento do sistema, é necessária a obtenção das soluções para as equações \eqref{eq:motion_first} e \eqref{eq:motion_second}. Isso exige  o cálculo da força e do momento resultantes sobre cada partícula e a consequente resolução da equação. 
 
-O cálculo das forças e dos torques geralmente leva em conta \textit{modelos de interação}. Cada modelo determina uma parcela do vetor força ou torque resultantes a partir de parâmetros de material, da posição, da velocidade, da orientação e da velocidade angular das partículas. Na \autoref{sec:collision_force_models}, são apresentados alguns desses modelos. 
+O cálculo das forças e dos torques geralmente leva em conta \textit{modelos de interação}. Cada modelo determina uma parcela do vetor força ou torque resultante a partir de parâmetros de material, da posição, da velocidade, da orientação e da velocidade angular das partículas. Na \autoref{sec:collision_force_models}, são apresentados alguns desses modelos. 
  
 Com os vetores força e torque resultantes, as equações diferenciais do movimento ficam bem determinadas. Resta a escolha de procedimentos para a resolução dessas equações, algoritmos chamados de \textit{métodos de integração} que, dadas duas partículas no instante \(t\) e as equações de movimento, sejam capazes de calcular as coordenadas e as propriedades dessas partículas em um instante futuro \(t+\Dt\).  
  
@@ -203,13 +240,19 @@ As principais características consideradas para a escolha de um método de solu
  
 De uma simulação, é possível extrair diversas informações. Alguns dos principais resultados que se buscam obter são a trajetória das partículas, o carregamento ou a pressão sobre determinada superfície, o coeficiente de restituição resultante das colisões, tempo para esvaziamento de um reservatório, entre outros.
 
+Além do procedimento de se calcularem as forças e torques e, posteriormente, resolverem-se as equações diferenciais, é possível executar \textit{simulações orientadas a eventos}. Nessas simulações, apenas o coeficiente de restituição é considerado na colisão entre as partículas. Esse técnica, porém, está fora do escopo desse trabalho, mas pode ser encontrada com mais detalhes em \citeonline{bib:computational_granular_dynamics}.
+
 \section{Modelos de Força de Colisão} \label{sec:collision_force_models}
+
+Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os modelos de força, então, têm o papel de atribuir, para cada par de partículas, uma componente de força \(\force\) e uma componente de torque \(\torque = \radialVector\cross\force\), sendo \(\radialVector\).
+
+\alert{Explicar a orientação das forças. Possivelmente, diferenciar entre partículas i e j. Falar que a terceira lei de Newton diz que \(F_{ij} = - F_{ji}\)}
 
 \subsection{Parâmetros de Cálculo}
 
 \alert{Explicar a superposição (ou penetração), o cálculo da velocidade relativa, do ponto de contato e do coeficiente de restituição}
 
-Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. 
+Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. 
 
 \alert{Explicar melhor isso, principalmente considerando \citeonline{bib:sampaio}}
 
