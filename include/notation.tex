@@ -6,15 +6,6 @@
 % \newcommand{\predicted}[1]{#1^{\,\text{pr}}}
 \newcommand{\corrected}[1]{#1_{\text{corr}}}
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
-\newcommand{\particleSet}{
-    \mathcal{P}
-}
-\newcommand{\particle}{
-    \mathcal{P}
-}
-\newcommand{\iparticle}[1]{
-    {\particle}_{i}
-}
 
 \newcommand{\DEM}{DEM}
 
@@ -26,8 +17,8 @@
 \newcommand{\approximately}{\cong}
 \renewcommand{\real}{\mathbb{R}}
 \renewcommand{\vec}[1]{\bm{#1}}
-\newcommand{\mtx}[1]{#1}
-\newcommand{\tensor}[1]{\bm{#1}}
+\newcommand{\mtx}[1]{\bm{#1}}
+\newcommand{\tensor}[1]{\hat{\mathbf{#1}}}
 \newcommand{\quaternion}[1]{\bm{#1}}
 \newcommand{\drvec}[2]{#2^{\bqty{#1}}}
 \newcommand{\versor}[1]{\hat{\vec{#1}}}
@@ -61,6 +52,7 @@
 \newcommand{\mass}{m}
 \newcommand{\force}{\vec{F}}
 \newcommand{\resultingForce}{\force_{\text{R}}}
+\newcommand{\iresultingForce}[1]{\force_{#1,\text{R}}}
 \newcommand{\linearMomentum}{\vec{p}}
 
 \newcommand{\orientationScalar}{\varphi}
@@ -69,12 +61,28 @@
 \newcommand{\angularVelocityVersor}{\versor{\angularVelocityScalar}}
 \newcommand{\angularVelocity}{\vec{\angularVelocityScalar}}
 \newcommand{\angularAcceleration}{\deriv{1}{\angularVelocity}}
-\newcommand{\momentOfInertia}{I} % Scalar moment of inertia
+
+\newcommand{\fromTo}[3]{{#1}_{#3 #2}}
+
+\newcommand{\momentOfInertia}{J} % Scalar moment of inertia
 \newcommand{\tensorOfInertia}{\tensor{\momentOfInertia}} % Tensorial moment of inertia
-\newcommand{\matrixOfInertia}{\mtx{\momentOfInertia}} % Tensorial moment of inertia
+\newcommand{\matrixOfInertia}{\mtx{\momentOfInertia}} % Matricial moment of inertia
+\newcommand{\xxMomentOfInertia}{\momentOfInertia_{\text{xx}}}
+\newcommand{\xyMomentOfInertia}{\momentOfInertia_{\text{xy}}}
+\newcommand{\xzMomentOfInertia}{\momentOfInertia_{\text{xz}}}
+\newcommand{\yxMomentOfInertia}{\momentOfInertia_{\text{yx}}}
+\newcommand{\yyMomentOfInertia}{\momentOfInertia_{\text{yy}}}
+\newcommand{\yzMomentOfInertia}{\momentOfInertia_{\text{yz}}}
+\newcommand{\zxMomentOfInertia}{\momentOfInertia_{\text{zx}}}
+\newcommand{\zyMomentOfInertia}{\momentOfInertia_{\text{zy}}}
+\newcommand{\zzMomentOfInertia}{\momentOfInertia_{\text{zz}}}
+
+\newcommand{\rotationMatrix}{\mtx{A}}
+
 \newcommand{\torqueScalar}{M}
 \newcommand{\torque}{\vec{\torqueScalar}}
 \newcommand{\resultingTorque}{\torque_{\text{R}}}
+\newcommand{\iresultingTorque}[1]{\torque_{#1,\text{R}}}
 \newcommand{\angularMomentum}{\vec{L}}
 
 \newcommand{\applied}[3]{\underaccent{#2\to#3}{#1}}
@@ -121,3 +129,29 @@
 \newcommand{\coefficientOfRestitution}{\varepsilon}
 \newcommand{\normalCoefficientOfRestitution}{\normal{\varepsilon}}
 \newcommand{\tangentialCoefficientOfRestitution}{\tangential{\varepsilon}}
+
+\newcommand{\radialVectorScalar}{\varrho}
+\newcommand{\radialVector}{\vec{\radialVectorScalar}}
+\newcommand{\radialVectorMtx}{\mtx{\radialVectorScalar}}
+
+\newcommand{\transpose}[1]{{#1}^T}
+\newcommand{\identity}{\mtx{I}}
+
+\newcommand{\basis}{\mathbf{e}}
+\newcommand{\principal}[1]{{#1}^\star}
+
+\newcommand{\particleSet}{
+    \mathcal{P}
+}
+\newcommand{\particle}{
+    \mathcal{P}
+}
+\newcommand{\iparticle}[1]{
+    {\particle}_{i}
+}
+\newcommand{\numberOfParticles}{N_{\particle}}
+
+\newcommand{\suchThat}{\,\middle|\,}
+\newcommand{\neighborhood}{\mathcal{N}}
+\newcommand{\neighborhoodOf}[1]{\neighborhood\pqty{#1}}
+\newcommand{\ineighborhood}[1]{\neighborhood_{#1}}
