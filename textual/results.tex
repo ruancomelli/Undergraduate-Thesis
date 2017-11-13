@@ -1,14 +1,14 @@
 \chapter{Resultados e Validação} \label{ch:results}
 
-\alert{Lembrar que é necessário validar as coisas}
+Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada. A apresentação e a análise de simulações são feitas neste capítulo. Com o fim de se fazer a validação numérica, os resultados são comparados com soluções analíticas ou qualitativamente avaliados.
 
-Este capítulo dedica-se à apresentação de resultados e validação numérica 
-
-\alert{Terminar de dizer por que este capítulo existe}
+\alert{Talvez explicar melhor o objetivo deste capítulo}
+\alert{Fazer um breve resumo das simulações executadas}
+\alert{As simulações foram executadas em um computador com épsilon de máquina igual a \(2,2204460492503131e-16\)}
 
 \section{Lançamento Oblíquo}
 
-O lançamento oblíquo é um dos problemas clássicos de física básica. Considera-se uma partícula de massa sujeita unicamente à ação de um campo gravitacional constante cuja aceleração da gravidade é \(\gravity\). Nessas condições, as equações de movimento para a partícula se tornam, simplesmente,
+O lançamento oblíquo é um dos problemas clássicos de física básica. Considera-se uma partícula de massa \(\mass\) sujeita unicamente à ação de um campo gravitacional constante cuja aceleração da gravidade é \(\gravity\). Nessas condições, as equações de movimento para a partícula se tornam, simplesmente,
 \begin{gather}
 	\acceleration = \gravity, \label{eq:free_fall_translation}\\
 	\angularAcceleration = \nullVector \label{eq:free_fall_rotation}.
@@ -22,7 +22,7 @@ O instante inicial da simulação é definido como \(\initial{t}=0\), e o instan
 	\angularVelocity\pqty{t} = \initial{\angularVelocity} + \int_{0}^{t} \nullVector \dd{\tau} = \initial{\angularVelocity}.
 \end{gather*}
 
-Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = \gravityScalar\cdot\yUnit\) com \(\gravityScalar<0\), e que a partícula não possua rotação, como representado na figura \ref{fig:free_fall}.
+Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\), e que a partícula não possua rotação, como representado na figura \ref{fig:free_fall}. Nessa situação, a posição em \(\yAxis\) da partícula também é chamada de altura.
 
 \begin{figure}[h]
 	\caption{O problema do lançamento oblíquo}
@@ -40,8 +40,6 @@ Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\y
 
 Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\), \(\velocity = \explicitVectorCoordinates{\velocityScalar}\) e \(\acceleration = \explicitVectorCoordinates{\accelerationScalar}\), é obtida a solução como apresentada na tabela \ref{table:free_fall_solution}.
 
-\alert{Consertar a seguinte tabela:}
-
 \begin{table}[h]
 	\caption{Solução do problema do lançamento oblíquo}
 	\label{table:free_fall_solution}
@@ -51,25 +49,76 @@ Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\)
 		\def\arraystretch{1.5}
 		\begin{array}{lccc}
 	\hline
-		& \text{Direção } \xAxis & \text{Direção } \yAxis & \text{Direção } \zAxis \\
-		\text{Posição} & \xComponent{\position} = \initial{\xComponent{\position}} + \alert{Continuar e corrigir notação anterior} & & \\
+		& \text{Direção } \xAxis 
+		& \text{Direção } \yAxis 
+		& \text{Direção } \zAxis
+		\\
+	\text{Posição} 
+		& \positionx = \initial{\positionx} + \initial{\velocityx}\cdot \Dt
+		& \positiony = \initial{\positiony} + \initial{\velocityy}\cdot \Dt - \dfrac{\gravityScalar\Dt^2}{2}
+		& \positionz = \initial{\positionz} \\
+	\text{Velocidade} 
+		& \velocityx = \initial{\velocityx}
+		& \velocityy = \initial{\velocityy} - \gravityScalar\cdot \Dt
+		& \velocityz = 0 \\
+	\text{Aceleração} 
+		& \accelerationx = 0
+		& \accelerationy = - \gravityScalar
+		& \accelerationz = 0 \\
 	\hline	
 		\end{array}
 	\end{equation*}
 	\legend{Fonte: do Autor}
 \end{table}
 
-Embora seja um problema conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite a validação numérica da implementação do algoritmo de Gear.
+Embora seja um problema conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite:
+\begin{itemize}
+\item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo.
+\item A análise da evolução do erro em função do passo de tempo.
+\item A obtenção da evolução do erro com o tempo de simulação.
+\end{itemize}
 
-\alert{Na verdade, valida apenas a parte de previsão e, parcialmente, o corretor. Isso porque o erro de aceleração é zero...}
+
 
 \alert{Mostrar o quanto o erro evolui com o aumento do tempo final de simulação}
 
-\alert{Seria interessante de se colocar uma enumeração ilustrando todos os aspectos do programa validados}
+\subsection{Estudo de Caso} \alert{Que título horrível!}
 
-\subsection{Exemplo de Solução} \alert{Que título horrível!}
+A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados os seguintes valores aos parâmetros do problema:
+\begin{description}
+	\item[Massa da partícula: ] \(\mass = 1\,\si\kilogram\);
+	\item[Raio da partícula: ] \(\radius = 3\,\si\centi\metre\);
+	\item[Posição inicial: ] \(\explicitVector{\initial{\positionx}}{\initial{\positiony}}{\initial{\positionz}} = \explicitVector{0}{0}{0}\si{\metre}\);
+	\item[Velocidade inicial: ] \(\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{10}{5}{0}\si[per-mode=symbol]{\metre\per\second}\);
+	\alert{Confusão entre 10,5 e 10, 5 ??}
+	\item[Aceleração inicial: ] \(\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitVector{0}{0}{0}\si[per-mode=symbol]{\metre\per\square\second}\);
+	\item[Instante final: ] \(\final{t} = 2\,\si\second\) 
+	\item[Ordem de extrapolação: ] \(\taylorOrder = 7\)
+	\item[Gravidade: ] \(\gravityScalar = 9,81\,\si[per-mode=symbol]{\metre\per\square\second}\)
+	\item[Passo de tempo: ] \(\Dt = 10^{-3}\,\si\second\)
+\end{description}
+\alert{Usar uma tabela?}
 
+Muito embora se trate de um problema bidimensional sem rotação, o simulador utiliza a formulação tridimensional e considera a evolução da velocidade angular da partícula.
 
+Com esses parâmetros, foi calculada a trajetória da partícula através do simulador e da solução analítica como expostos na figura 
+
+\begin{figure}[h]
+	\caption{Solução do problema de lançamento oblíquo}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{images/falling_sphere/y_position.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:falling_sphere}
+	\legend{Fonte: do Autor.}
+	% \vspace{-1cm}
+\end{figure}
+
+\alert{Definir erro máximo}
+
+\alert{Incluir arquivo .json em um apêndice para mostrar como a simulação é configurada?}
 
 \subsection{Influência da Ordem de Extrapolação}
 
