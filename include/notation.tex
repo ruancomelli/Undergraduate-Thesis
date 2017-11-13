@@ -68,7 +68,13 @@
 \newcommand{\accelerationScalar}{\deriv{2}{\positionScalar}}
 \newcommand{\acceleration}{\deriv{2}{\position}}
 \newcommand{\mass}{m}
-\newcommand{\force}{\vec{F}}
+\newcommand{\massi}{\ind{\mass}{i}}
+\newcommand{\massj}{\ind{\mass}{j}}
+\newcommand{\massij}{\betw{\mass}{i}{j}}
+\newcommand{\forceScalar}{F}
+\newcommand{\force}{\vec{\forceScalar}}
+\newcommand{\forceScalarij}{\fromTo{\forceScalar}{i}{j}}
+\newcommand{\forceScalarji}{\fromTo{\forceScalar}{j}{i}}
 \newcommand{\forceij}{\fromTo{\force}{i}{j}}
 \newcommand{\forceji}{\fromTo{\force}{j}{i}}
 \newcommand{\resultingForce}{\force_{\text{R}}}
@@ -149,8 +155,10 @@
 \newcommand{\normal}[1]{#1^{\text{n}}}
 \newcommand{\tangential}[1]{#1^{\text{t}}}
 \newcommand{\coefficientOfRestitution}{\varepsilon}
-\newcommand{\normalCoefficientOfRestitution}{\normal{\varepsilon}}
-\newcommand{\tangentialCoefficientOfRestitution}{\tangential{\varepsilon}}
+\newcommand{\normalCoefficientOfRestitution}{\normal{\coefficientOfRestitution}}
+\newcommand{\normalCoefficientOfRestitutionij}{\normal{\betw{\coefficientOfRestitution}{i}{j}}}
+\newcommand{\tangentialCoefficientOfRestitution}{\tangential{\coefficientOfRestitution}}
+\newcommand{\tangentialCoefficientOfRestitutionij}{\tangential{\betw{\coefficientOfRestitution}{i}{j}}}
 \newcommand{\normalVersor}{\normal{\versor{e}}}
 \newcommand{\normalVersorij}{\normal{\fromTo{\versor{e}}{i}{j}}}
 \newcommand{\normalVersorji}{\normal{\fromTo{\versor{e}}{j}{i}}}
@@ -172,6 +180,7 @@
 \newcommand{\particle}{\mathcal{P}}
 \newcommand{\particlei}{\ind{\particle}{i}}
 \newcommand{\particlej}{\ind{\particle}{j}}
+\newcommand{\particlek}{\ind{\particle}{k}}
 
 \newcommand{\element}{\mathcal{E}}
 \newcommand{\elementj}{\ind{\element}{j}}
@@ -221,9 +230,35 @@
 \newcommand{\relativeVelocityContactPoint}{\vec{v}}
 \newcommand{\relativeVelocityContactPointij}{\fromTo{\relativeVelocityContactPoint}{i}{j}}
 \newcommand{\relativeVelocityContactPointji}{\fromTo{\relativeVelocityContactPoint}{j}{i}}
+\newcommand{\relativeNormalVelocityij}{\normal{\fromTo{\relativeVelocityContactPoint}{i}{j}}}
+\newcommand{\relativeNormalVelocityji}{\normal{\fromTo{\relativeVelocityContactPoint}{j}{i}}}
 \newcommand{\relativeTangentialVelocityij}{\tangential{\fromTo{\relativeVelocityContactPoint}{i}{j}}}
 \newcommand{\relativeTangentialVelocityji}{\tangential{\fromTo{\relativeVelocityContactPoint}{j}{i}}}
 
+\newcommand{\beforeCollision}[1]{#1}
+\newcommand{\afterCollision}[1]{\pqty{#1}^{\prime}}
+
+\newcommand{\normalForceij}{\normal{\forceij}}
+\newcommand{\normalForceji}{\normal{\forceji}}
+\newcommand{\normalForceScalarij}{\normal{\forceScalarij}}
+\newcommand{\normalForceScalarji}{\normal{\forceScalarji}}
+\newcommand{\tangentialForceij}{\tangential{\forceij}}
+\newcommand{\tangentialForceji}{\tangential{\forceji}}
+\newcommand{\tangentialForceScalarij}{\tangential{\forceScalarij}}
+\newcommand{\tangentialForceScalarji}{\tangential{\forceScalarji}}
+
+\newcommand{\elasticModulus}{Y}
+\newcommand{\elasticModulusi}{\ind{\elasticModulus}{i}}
+\newcommand{\elasticModulusj}{\ind{\elasticModulus}{j}}
+\newcommand{\elasticModulusij}{\betw{\elasticModulus}{i}{j}}
+\newcommand{\elasticModulusji}{\betw{\elasticModulus}{j}{i}}
+
+\newcommand{\dissipativeConstant}{\gamma}
+\newcommand{\normalDissipativeConstant}{\normal{\gamma}}
+\newcommand{\normalDissipativeConstanti}{\normal{\ind{\dissipativeConstant}{i}}}
+\newcommand{\normalDissipativeConstantj}{\normal{\ind{\dissipativeConstant}{j}}}
+\newcommand{\normalDissipativeConstantij}{\normal{\betw{\dissipativeConstant}{i}{j}}}
+\newcommand{\normalDissipativeConstantji}{\normal{\betw{\dissipativeConstant}{j}{i}}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
