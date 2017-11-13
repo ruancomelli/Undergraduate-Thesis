@@ -10,6 +10,10 @@
 \usepackage{thmtools}
 \usepackage{xfrac} % Fractions
 
+\newcommand{\bigslant}[2]{
+    \left.\raisebox{.2em}{\(#1\)}\middle/\raisebox{-.2em}{\(#2\)}\right.
+}
+
 \newtheorem{theorem}{Teorema}[chapter]
 \newtheorem{lema}{Lema}[chapter]
 \newtheorem{definition}{Definição}[chapter]
