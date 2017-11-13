@@ -76,7 +76,7 @@ O aspecto dinâmico dos sistemas de partículas é determinado pelas leis de Eul
 \end{gather}
 em que \(\position\), \(\angularVelocity\), \(\mass\) e \(\tensorOfInertia\) são, respectivamente, a função posição, a função velocidade angular, a massa e o tensor momento de inércia de uma partícula qualquer, enquanto \({\resultingForce}\) e \({\resultingTorque}\) são o vetor força resultante e o vetor torque resultante sobre a mesma.
 
-É na solução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second} que consiste a análise acerca dos sistemas de partículas. Essas equações, porém, são de difícil resolução já que a força e o torque resultantes sobre a partícula são oriundas de sua interação com os demais elementos do sistema e são, portanto, funções das propriedades físicas, posições, velocidades, orientações e velocidades angulares dos interagentes.
+É na solução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second} que consiste a análise acerca dos sistemas de partículas. Essas equações, porém, são de difícil resolução já que a força e o torque resultantes sobre a partícula são oriundos de sua interação com os demais elementos do sistema e são, portanto, funções das propriedades físicas, posições, velocidades, orientações e velocidades angulares dos interagentes.
 
 Em vista disso, é necessário o uso de métodos para a resolução dessas equações, e nessa situação destaca-se o Método dos Elementos Discretos.
 
@@ -84,7 +84,7 @@ Em vista disso, é necessário o uso de métodos para a resolução dessas equa�
 
 Segundo \citeonline{bib:sampaio}, o Método dos Elementos Discretos, ou DEM (\textit{Discrete Element Method}), refere-se a uma família de métodos computacionais que consideram deslocamentos e rotações de corpos discretos e reconhecem contatos entre elementos automaticamente à medida em que os cálculos são executados. Devido a essa característica, o DEM representa um conjunto de técnicas apropriadas para a simulação do comportamento dinâmico de sistemas de partículas.
 
-Segundo \citeonline{bib:cundall1979}, os cálculos são executados explicitamente, alternando entre a aplicação das leis de Euler para a determinação da posição e da orientação das partículas e a aplicação de relações força-deslocamento para a computação das forças e torques atuantes.
+De acordo com \citeonline{bib:cundall1979}, os cálculos são executados explicitamente, alternando entre a aplicação das leis de Euler para a determinação da posição e da orientação das partículas e a aplicação de relações força-deslocamento para a computação das forças e torques atuantes.
 
 Geralmente, algoritmos de elementos discretos levam em conta a hipótese de partículas rígidas. Uma consequência disso é que, se uma partícula está em contato com outras duas, as interações ocorrem de maneira independente. Com isso, os contatos podem ser computados para cada par de partículas interagentes como se estivessem isoladas das demais.
 
@@ -176,7 +176,7 @@ Com o propósito de melhor guiar as atividades, são propostos os seguintes obje
 		\item Paredes fixas planas;
 		\item Os principais modelos de força de colisão, conforme explicado na seção \ref{sec:collision_force_models};
 		\item O algoritmo de Gear, empregando a extrapolação de Taylor, de acordo com o capítulo \ref{ch:mathematical_model};
-		\item Simulações em duas dimensões;
+		\item Três dimensões;
 	\end{enumerate}
 \item Validar a implementação por meio da comparação de resultados de simulações com soluções analíticas para o problema ou através da análise dos resultados.
 \end{enumerate}
