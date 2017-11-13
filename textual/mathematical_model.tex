@@ -294,7 +294,7 @@ Caso a distância entre os centros das partículas seja maior que a soma de seus
 \end{equation}
 
 A simples diferenciação da equação \eqref{eq:overlap} com relação ao tempo resulta na derivada da superposição:
-\begin{equation*}
+\begin{equation} \label{eq:spherical_particle_overlap_derivative}
 	\overlapDerivativeij =
 	\left\lbrace
 	\begin{array}{cl}
@@ -304,7 +304,7 @@ A simples diferenciação da equação \eqref{eq:overlap} com relação ao tempo
 	\end{array}
 	\right.
 	,
-\end{equation*}
+\end{equation}
 em que \(\innerProduct{\dummy}{\dummy}\) representa o produto interno entre vetores.
 
 Para o caso do contato entre esfera e parede plana, consideram-se \(\particlei\) uma partícula esférica e \(\elementj\) um elemento plano fixo no espaço. Sejam \(\planeOriginj\) um ponto nesse plano e \(\planeNormalVersorj\) um versor normal a ele. A distância do centro de \(\particlei\) ao plano é dada por
@@ -336,6 +336,19 @@ Sendo \(\particlei\) e \(\particlej\) duas partículas esféricas, o versor norm
 	\normalVersorij = \normalized{\positionj - \positioni},
 \end{equation*}
 e é fácil ver que \(\normalVersorij = - \normalVersorji\).
+
+Com isso, a derivada da superposição entre partículas esféricas pode ser calculada, equivalentemente à equação \eqref{eq:spherical_particle_overlap_derivative} como
+\begin{equation*}
+	\overlapDerivativeij =
+	\left\lbrace
+	\begin{array}{cl}
+		- \innerProduct{\velocityj-\velocityi}{\normalVersorij}, & \text{se } \overlapij > 0 \\
+		0, & \text{se } \overlapij = 0
+	\end{array}
+	\right.
+	.
+\end{equation*}
+
 
 Já para o caso de um elemento plano fixo \(\elementj\), o versor normal \(\normalVersorji\) é idêntico ao versor normal ao plano, isto é,
 \begin{equation*}
@@ -458,7 +471,10 @@ Nota-se dessa equação que
 
 A velocidade normal de \(j\) relativa ao elemento \(i\) é a projeção de \(\relativeVelocityContactPointji\) na direção de \(\normalVersorij\):
 \begin{equation*}
-	\relativeNormalVelocityij = \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij.
+	\begin{array}{rl}
+		\relativeNormalVelocityij & = \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij \\
+		& = \relativeNormalVelocityScalarij\cdot\normalVersorij.
+	\end{array}
 \end{equation*}
 
 Por sua vez, velocidade tangencial de \(j\) relativa ao elemento \(i\) é simplesmente a correspondente velocidade relativa sem a componente na direção normal:
@@ -480,19 +496,23 @@ do que segue que
 
 Com a velocidade tangencial determinada, é possível definir-se o versor tangencial \(\tangentialVersorij\) como
 \begin{equation*}
-	\tangentialVersorij = \normalized{\relativeTangentialVelocityij}.
+	\tangentialVersorij = \normalized{\relativeTangentialVelocityij},
+\end{equation*}
+e então é possível escrever
+\begin{equation*}
+	\relativeTangentialVelocityij = \relativeTangentialVelocityScalarij\cdot \tangentialVersorij
 \end{equation*}
 
-Para o caso em que \(\relativeTangentialVelocityij = \nullVector\), não é necessário calcular-se o versor tangencial pois, nesse caso, as forças tangenciais são sempre nulas.
+Para o caso em que \(\relativeTangentialVelocityij = \nullVector\), não é necessário calcular-se o versor tangencial pois, nessa situação, as forças tangenciais são sempre nulas, de acordo com os modelos de interação.
 
-\subsubsection*{Coeficiente de Restituição} 
+\subsubsection*{Coeficientes de Restituição} 
 
-A determinação do coeficiente de restituição tem a vantagem de poder simplificar e reduzir o tempo de simulação em simulações orientadas a eventos, mas também pode ser usada para a validação de métodos numéricos baseados no cálculo das forças, que são o foco deste trabalho.
+A determinação dos coeficientes de restituição tem a vantagem de poder simplificar e reduzir o tempo de simulação em simulações orientadas a eventos, mas também pode ser usada para a validação de métodos numéricos baseados no cálculo das forças, que são o foco deste trabalho.
 
-Para cada par de elementos, o coeficiente de restituição relaciona o estado posterior ao choque ao estado anterior. Escrevendo a velocidade do elemento \(j\) relativa ao \(i\) imediatamente antes da colisão como \(\beforeCollision{\relativeVelocityContactPointij}\), e \(\afterCollision{\relativeVelocityContactPointij}\) como a velocidade correspondente ao final da colisão, definem-se os coeficientes de restituição na direção normal \(\normalCoefficientOfRestitutionij\) e na direção tangencial \(\tangentialCoefficientOfRestitutionij\) através das equações
+Para cada par de elementos, os coeficientes de restituição relacionam o estado posterior ao choque ao estado anterior. Escrevendo a velocidade do elemento \(j\) relativa ao \(i\) imediatamente antes da colisão como \(\beforeCollision{\relativeVelocityContactPointij}\), e \(\afterCollision{\relativeVelocityContactPointij}\) como a velocidade correspondente ao final da colisão, definem-se os coeficientes de restituição na direção normal \(\normalCoefficientOfRestitutionij\) e na direção tangencial \(\tangentialCoefficientOfRestitutionij\) através das equações
 \begin{gather*}
-	\afterCollision{\relativeNormalVelocityij} = - \normalCoefficientOfRestitutionij\beforeCollision{\relativeNormalVelocityij}\text{, e} \\
-	\afterCollision{\relativeTangentialVelocityij} = - \tangentialCoefficientOfRestitutionij\beforeCollision{\relativeTangentialVelocityij}.
+	\afterCollision{\relativeNormalVelocityScalarij} = - \normalCoefficientOfRestitutionij\beforeCollision{\relativeNormalVelocityScalarij}\text{, e} \\
+	\afterCollision{\relativeTangentialVelocityScalarij} = - \tangentialCoefficientOfRestitutionij\beforeCollision{\relativeTangentialVelocityScalarij}.
 \end{gather*}
 
 De acordo com \citeonline{bib:computational_granular_dynamics}, os coeficientes de restituição satisfazem
@@ -505,7 +525,7 @@ Formas analíticas para os coeficientes de restituição podem ser obtidas atrav
 
 De forma geral, os valores desses coeficientes dependem de parâmetros de material e da velocidade relativa entre as partículas. Segundo \citeonline{bib:computational_granular_dynamics}, coeficientes de restituição constantes (independentes da velocidade relativa) estão em desacordo com resultados experimentais e com o importante modelo de partículas viscoelásticas. Entretanto coeficientes constantes formam a base para diversas teorias e podem ser bastante úteis para a validação de métodos numéricos.
 
-Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. As seções \ref{subsec:normal_force_models} e \ref{subsec:tangential_force_models} apresentam alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
+Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. Nas seções \ref{subsec:normal_force_models} e \ref{subsec:tangential_force_models} são apresentados alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
 
 \subsection{Modelos de Força Normal} \label{subsec:normal_force_models}
 
@@ -534,7 +554,7 @@ O modelo de amortecedor linear é um dos modelos mais simples que se pode adotar
 
 A equação para a força normal dada por esse modelo é
 \begin{equation} \label{eq:linear_dashpot_force}
-	\normalForceScalarji = \elasticModulusij\cdot\overlapij + \normalDissipativeConstantij\cdot\overlapDerivativeij,
+	\normalForceScalarji = \elasticModulusij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij,
 \end{equation}
 em que:
 \begin{itemize}
@@ -546,9 +566,9 @@ em que:
 
 	A constante elástica representa a rigidez das partículas, sendo que elementos com maior constante elástica resistem mais à penetração. Essa constante é uma propriedade de material de cada partícula.
 
-	\item \(\normalDissipativeConstantij\) é a constante de amortecimento efetiva para o par \(\pqty{i, j}\), calculada através da associação em série de amortecedores de constantes \(\normalDissipativeConstanti\) e \(\normalDissipativeConstantj\):
+	\item \(\normalDampingConstantij\) é a constante de amortecimento efetiva para o par \(\pqty{i, j}\), calculada através da associação em série de amortecedores de constantes \(\normalDampingConstanti\) e \(\normalDampingConstantj\):
 	\begin{equation*}
-		\normalDissipativeConstantij = \pqty{\dfrac{1}{\normalDissipativeConstanti} + \dfrac{1}{\normalDissipativeConstantj}}^{-1}.
+		\normalDampingConstantij = \pqty{\dfrac{1}{\normalDampingConstanti} + \dfrac{1}{\normalDampingConstantj}}^{-1}.
 	\end{equation*}
 
 	A constante de amortecimento corresponde à dissipação de energia na colisão. Maiores amortecimentos indicam maior perda de energia no choque. Essa constante é atribuída a cada partícula como se fosse uma propriedade de material. Isso, porém, muitas vezes não é o caso, e pode ser necessária a execução de experimentos para a determinação do valor dessa constante.
@@ -567,30 +587,97 @@ Com isso, o coeficiente de restituição normal do par de partículas fica, de a
 \begin{equation*}
 	\normalCoefficientOfRestitutionij = \exp\pqty{
 		\bigslant{
-			-\dfrac{\pi\normalDissipativeConstantij}{2\massij}
+			-\dfrac{\pi\normalDampingConstantij}{2\massij}
 		}{
-			\sqrt{\dfrac{\elasticModulusij}{\massij} - \pqty{\dfrac{\normalDissipativeConstantij}{2\massij}}^2}
+			\sqrt{\dfrac{\elasticModulusij}{\massij} - \pqty{\dfrac{\normalDampingConstantij}{2\massij}}^2}
 		}
 	}.
 \end{equation*}
 
 Percebe-se dessa expressão que o modelo de amortecedor linear implica um coeficiente de restituição normal independente da velocidade relativa entre as partículas, o que não representa bem o comportamento real de sistemas, como afirmado na seção \ref{subsec:collision_parameters}. Entretanto, justamente devido à simplicidade da expressão, esse modelo é utilizado na teoria de gases granulares, em simulações de Dinâmica Molecular e na validação de métodos numéricos.
 
-\subsubsection*{Modelo de Hertz para Esferas Viscoelásticas}
+\subsubsection*{Modelo de Esferas Viscoelásticas}
+
+Embora a equação \eqref{eq:linear_dashpot_force} represente de maneira simplificada a força entre duas partículas colidentes, ela captura os dois principais mecanismos de interação, que são o termo elástico, representado por \(\normalElasticForceji = \elasticModulusij\cdot\overlapij\), e o termo dissipativo, \(\normalDissipativeForceji = \normalDampingConstantij\cdot\overlapDerivativeij\).
+
+O modelo para esferas viscoelásticas tem a finalidade de expressar de forma mais fidedigna os termos elástico e dissipativo.
+
+\citeonline{bib:hertz1881} propôs primeiramente um modelo para a componente elástica da força, obtendo
+\begin{equation*}
+	\normalElasticForceji = \dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot\overlapij^{\sfrac{3}{2}},
+\end{equation*}
+sendo:
+\begin{itemize}
+	\item \(\effectiveNormalElasticij\) é a constante elástica normal efetiva do par. Essa constante é definida por
+		\begin{equation*}
+			\effectiveNormalElasticij = \pqty{\dfrac{1-\poissoni^2}{\elasticModulusi} + \dfrac{1-\poissonj^2}{\elasticModulusj}}^{-1},
+		\end{equation*}
+		em que \(\poissoni\) e \(\poissonj\) são os coeficientes de Poisson das partículas \(i\) e \(j\), respectivamente.
+
+	\item \(\effectiveRadiusij\) é o raio efetivo do par de partículas. Esse raio é definido como
+		\begin{equation*}
+			\effectiveRadiusij = \pqty{\radiusi^{-1} + \radiusj^{-1}}^{-1}.
+		\end{equation*}
+\end{itemize}
+
+Esse modelo foi posteriormente estendido por \citeonline{bib:brilliantov1996} com a adição do termo dissipativo:
+\begin{equation*}
+	\normalDissipativeForceji = \dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot \normalDissipativeConstantij\overlapDerivativeij\sqrt{\overlapij},
+\end{equation*}
+em que
+\begin{itemize}
+	\item \(\normalDissipativeConstantij\) é a constante dissipativa efetiva do par. Essa constante é definida como a média aritmética das constantes dissipativas de cada partícula, isto é,
+	\begin{equation*}
+		\normalDissipativeConstantij = \dfrac{\normalDissipativeConstanti + \normalDissipativeConstantj}{2}.
+	\end{equation*}
+
+	De acordo com \citeonline{bib:computational_granular_dynamics}, não é possível relacionar a constante dissipativa a propriedades de material. Essa constante, porém, pode ser calculada em função do coeficiente de atrito entre as partículas, e este, por sua vez, pode ser determinado experimentalmente.
+\end{itemize}
+
+Com isso, a expressão para a força normal, segundo o modelo de esferas viscoelásticas, fica
+\begin{equation*}
+	\normalForceScalarji = \dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot\pqty{
+		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\overlapDerivativeij\sqrt{\overlapij}
+	}.
+\end{equation*}
+
+O coeficiente de restituição normal, nesse caso, é uma função da velocidade normal relativa no início do choque. Esse valor se expressa na equação
+\begin{equation*}
+	\begin{array}{rl}
+	\normalCoefficientOfRestitutionij\pqty{\beforeCollision{\relativeNormalVelocityScalarij}} & = 
+	1
+	+ C_1 \normalDissipativeConstantij\rho^{\sfrac{2}{5}}\pqty{\relativeNormalVelocityScalarij}^{\sfrac{1}{5}}
+	+ C_2 \normalDissipativeConstantij^2 \rho^{\sfrac{4}{5}}\pqty{\relativeNormalVelocityScalarij}^{\sfrac{2}{5}}
+	+ C_3 \normalDissipativeConstantij^3 \rho^{\sfrac{6}{5}}\pqty{\relativeNormalVelocityScalarij}^{\sfrac{3}{5}}
+	+ \dots \\
+	& \displaystyle = 1 + \sum_{m=1}^{+\infty} C_m \normalDissipativeConstantij^m \rho^{\sfrac{2m}{5}}\pqty{\relativeNormalVelocityScalarij}^{\sfrac{m}{5}},
+	\end{array}
+\end{equation*}
+sendo que as constantes \(C_m\) são bem determinadas \cite[p. 143]{bib:computational_granular_dynamics} e
+\begin{equation*}
+	\rho \eqdef \dfrac{4\cdot\effectiveNormalElasticij}{3}\cdot\dfrac{\sqrt{\effectiveRadiusij}}{\pqty{\massi^{-1} + \massj^{-1}}^{-1}}.
+\end{equation*}
+
+O modelo de esferas viscoelásticas se aproxima melhor dos resultados experimentais que o modelo de amortecedor linear, sendo por isso mais utilizado em simulações de sistemas reais \cite[p. 143]{bib:computational_granular_dynamics}.
+
+\subsubsection*{Duração das Colisões}
 
 \alert{Continuar aqui}
 
-\subsection{Modelos de Força Normal} \label{subsec:tangential_force_models}
-\subsubsection*{Modelo 1}
-\subsubsection*{Modelo 2}
+\subsection{Modelos de Força Tangencial} \label{subsec:tangential_force_models}
+\alert{Escrever}
+\subsubsection*{Modelo 1}\alert{Escrever}
+\subsubsection*{Modelo 2}\alert{Escrever}
 
 \section{Extrapolação de Funções}
 \label{sec:extrapolation}
 
-Nos métodos numéricos, a extrapolação de funções possui um papel fundamental por permitir a estimativa de valores além do conjunto previamente conhecido.
+Com as equações diferenciais bem determinadas através do uso de modelos de interação, é possível buscar-se a sua solução. Nos métodos computacionais para a solução dessas equações, a extrapolação de funções possui um papel fundamental por permitir a estimativa de valores além do conjunto previamente conhecido.
 
-Para simplificação da notação, dada uma função \(y: X\to Y\), define-se
-\[\drvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{\taylorOrder}{y}}\]
+Para simplificação da notação, dada uma função \(y: X\to Y\), define-se o vetor das \(k\) primeiras derivadas de \(y\) como a função vetorial
+\begin{equation*}
+	\drvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{\taylorOrder}{y}}
+\end{equation*}
 nos pontos em que todas as coordenadas estiverem definidas.
 
 Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolação lineares para uma função e suas derivadas podem ser escritos na forma
@@ -624,15 +711,13 @@ Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolaç
 \]
 ou, de forma mais simples,
 \begin{equation}
-	\drvec{\taylorOrder}{\predicted{y}} = A \cdot \drvec{\taylorOrder}{y}.
+	\drvec{\taylorOrder}{\predicted{y}} = \mtx{A} \cdot \drvec{\taylorOrder}{y}.
 \end{equation}
 em que a matriz \(A\) é determinada pelo método escolhido e \(\drvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
 
 Dentre os métodos de extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \cite{bib:gear_book}.
 
-\alert{dizer por que escolhemos o de Taylor}
-
-O método de extrapolação por expansão de Taylor é fundamentado pelo \nameref{theo:taylor}.
+O método de extrapolação por expansão de Taylor combina simplicidade, exatidão e estabilidade, e por isso é o método adotado nas etapas posteriores deste trabalho. Esse método é fundamentado pelo \nameref{theo:taylor}.
 
 \begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
 	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{\taylorOrder+1}}\) todas definidas em um conjunto que contenha \(\bqty{t, t+\Dt}\), e seja \(R_{\taylorOrder, t, y}\) definida por
@@ -652,13 +737,15 @@ A função \(R_{\taylorOrder, t, y}\) é o resto de ordem \(\taylorOrder\) para 
     y(t + \Dt) \approximately y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder.
 \end{equation}
 
+A equação \eqref{eq:taylor_trunc} é o truncamento da expansão de Taylor na \(\taylorOrder\)-ésima derivada.
+
 Considerando uma função \(\vec{F}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{F}(t) = \pqty{F_1(t),\dots,F_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{F}\) é a função \(F_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; \alert{e \(m=4\) para quaternions}.
 
 Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
 
 Com isso, seja \(\position\) a função posição de uma partícula. Se a posição for conhecida em um instante de tempo \(t\), ela pode ser \textit{prevista} em um instante posterior \(t+\Dt\) explicitamente:
 \begin{equation} \label{eq:position_prediction}
-	\predicted{\position}\pqty{t+\Dt} = \position\pqty{t} + \Dt\cdot\dv{\position}{t}\pqty{t} + \dfrac{\Dt^2}{2}\cdot \dv[2]{\position}{t}\pqty{t} + \dots + \dfrac{\Dt^\taylorOrder}{\taylorOrder!}\cdot \dv[\taylorOrder]{\position}{t}\pqty{t}.
+	\predicted{\position}\pqty{t+\Dt} = \position\pqty{t} + \Dt\cdot\deriv{1}{\position}\pqty{t} + \dfrac{\Dt^2}{2}\cdot \deriv{2}{\position}\pqty{t} + \dots + \dfrac{\Dt^\taylorOrder}{\taylorOrder!}\cdot \deriv{\taylorOrder}{\position}\pqty{t}.
 \end{equation}
 
 Não somente a posição pode ser prevista, mas suas derivadas (como a velocidade e a aceleração) também. Para a \(j\)-ésima derivada de \(\position\):
@@ -667,7 +754,7 @@ Não somente a posição pode ser prevista, mas suas derivadas (como a velocidad
 \]
 
 Com isso, é possível escrever
-\[
+\begin{equation} \label{eq:position_prediction}
 	\def\arraystretch{1.2}
 \begin{pmatrix}
 	\predicted{\position} \\
@@ -695,9 +782,11 @@ Com isso, é possível escrever
 	\deriv{\taylorOrder-1}{\position} \\
 	\deriv{\taylorOrder}{\position}
 \end{pmatrix}.
-\]
+\end{equation}
 
-Esse método de extrapolação ainda pode ser aplicado à função de orientação da partícula e a outros graus de liberdade que o problema porventura exija.
+A matriz da equação \eqref{eq:position_prediction} é a matriz de extrapolação do método de expansão de Taylor, sendo a mesma para a extrapolação de ordem \(\taylorOrder\) para qualquer função.
+
+Esse método ainda pode ser aplicado à função de orientação da partícula e a outros graus de liberdade que o problema porventura exija.
 
 Todavia essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Ainda assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
 
@@ -718,7 +807,7 @@ Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \
 A etapa de predição é responsável por obter uma estimativa para \(y(t + \Dt)\), \(\deriv{1}{y}(t + \Dt)\),\,\dots, \(\deriv{\taylorOrder}{y}(t + \Dt)\).
 
 A predição é feita através de extrapolações conforme a seção \ref{sec:extrapolation}, obtendo-se uma previsão \(\drvec{\taylorOrder}{\predicted{y}}\) dada por
-\[\drvec{\taylorOrder}{\predicted{y}}\pqty{t+\Dt} = A\cdot\drvec{\taylorOrder}{y}\pqty{t}\]
+\[\drvec{\taylorOrder}{\predicted{y}}\pqty{t+\Dt} = \mtx{A}\cdot\drvec{\taylorOrder}{y}\pqty{t}\]
 
 \subsection{Correção}
 
