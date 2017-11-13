@@ -1,4 +1,5 @@
 \usepackage{nomencl}
+\usepackage{siunitx}
 
 \newcommand{\emptyTableEntry}{..}
 \newcommand{\dummy}{\cdot}
@@ -26,7 +27,7 @@
 \newcommand{\innerProduct}[2]{\left\langle #1, #2 \right\rangle}
 \newcommand{\tensor}[1]{\hat{\mathbf{#1}}}
 \newcommand{\quaternion}[1]{\bm{#1}}
-\newcommand{\drvec}[2]{#2^{\bqty{#1}}}
+\newcommand{\drvec}[2]{\vec{#2}^{\bqty{#1}}}
 \newcommand{\versor}[1]{\hat{\vec{#1}}}
 \newcommand{\nullVector}{\vec{0}}
 
@@ -58,14 +59,25 @@
 
 % Physical quantities
 \newcommand{\positionScalar}{r}
+\newcommand{\positionx}{\xComponent{\positionScalar}}
+\newcommand{\positiony}{\yComponent{\positionScalar}}
+\newcommand{\positionz}{\zComponent{\positionScalar}}
 \newcommand{\position}{\vec{\positionScalar}}
 \newcommand{\positioni}{\ind{\position}{i}}
 \newcommand{\positionj}{\ind{\position}{j}}
+
 \newcommand{\velocityScalar}{\deriv{1}{\positionScalar}}
+\newcommand{\velocityx}{\xComponent{\velocityScalar}}
+\newcommand{\velocityy}{\yComponent{\velocityScalar}}
+\newcommand{\velocityz}{\zComponent{\velocityScalar}}
 \newcommand{\velocity}{\deriv{1}{\position}}
 \newcommand{\velocityi}{\ind{\velocity}{i}}
 \newcommand{\velocityj}{\ind{\velocity}{j}}
+
 \newcommand{\accelerationScalar}{\deriv{2}{\positionScalar}}
+\newcommand{\accelerationx}{\xComponent{\accelerationScalar}}
+\newcommand{\accelerationy}{\yComponent{\accelerationScalar}}
+\newcommand{\accelerationz}{\zComponent{\accelerationScalar}}
 \newcommand{\acceleration}{\deriv{2}{\position}}
 \newcommand{\mass}{m}
 \newcommand{\massi}{\ind{\mass}{i}}
@@ -149,8 +161,8 @@
 \newcommand{\gravityScalar}{g}
 \newcommand{\gravity}{\vec{\gravityScalar}}
 
-\newcommand{\initial}[1]{{#1}_{\text{i}}}
-\newcommand{\final}[1]{{#1}_{\text{f}}}
+\newcommand{\initial}[1]{#1^{\text{i}}}
+\newcommand{\final}[1]{#1^{\text{f}}}
 
 \newcommand{\normal}[1]{#1^{\text{n}}}
 \newcommand{\tangential}[1]{#1^{\text{t}}}
@@ -227,12 +239,19 @@
 \newcommand{\contactVectorij}{\fromTo{\radialVector}{i}{j}}
 \newcommand{\contactVectorji}{\fromTo{\radialVector}{j}{i}}
 
-\newcommand{\relativeVelocityContactPoint}{\vec{v}}
+\newcommand{\relativeVelocityContactPointScalar}{v}
+\newcommand{\relativeVelocityContactPoint}{\vec{\relativeVelocityContactPointScalar}}
+\newcommand{\relativeVelocityContactPointScalarij}{\fromTo{\relativeVelocityContactPointScalar}{i}{j}}
 \newcommand{\relativeVelocityContactPointij}{\fromTo{\relativeVelocityContactPoint}{i}{j}}
+\newcommand{\relativeVelocityContactPointScalarji}{\fromTo{\relativeVelocityContactPointScalar}{j}{i}}
 \newcommand{\relativeVelocityContactPointji}{\fromTo{\relativeVelocityContactPoint}{j}{i}}
+\newcommand{\relativeNormalVelocityScalarij}{\normal{\fromTo{\relativeVelocityContactPointScalar}{i}{j}}}
 \newcommand{\relativeNormalVelocityij}{\normal{\fromTo{\relativeVelocityContactPoint}{i}{j}}}
+\newcommand{\relativeNormalVelocityScalarji}{\normal{\fromTo{\relativeVelocityContactPointScalar}{j}{i}}}
 \newcommand{\relativeNormalVelocityji}{\normal{\fromTo{\relativeVelocityContactPoint}{j}{i}}}
+\newcommand{\relativeTangentialVelocityScalarij}{\tangential{\fromTo{\relativeVelocityContactPointScalar}{i}{j}}}
 \newcommand{\relativeTangentialVelocityij}{\tangential{\fromTo{\relativeVelocityContactPoint}{i}{j}}}
+\newcommand{\relativeTangentialVelocityScalarji}{\tangential{\fromTo{\relativeVelocityContactPointScalar}{j}{i}}}
 \newcommand{\relativeTangentialVelocityji}{\tangential{\fromTo{\relativeVelocityContactPoint}{j}{i}}}
 
 \newcommand{\beforeCollision}[1]{#1}
@@ -242,6 +261,10 @@
 \newcommand{\normalForceji}{\normal{\forceji}}
 \newcommand{\normalForceScalarij}{\normal{\forceScalarij}}
 \newcommand{\normalForceScalarji}{\normal{\forceScalarji}}
+\newcommand{\normalElasticForceij}{\normal{\forceScalar_{ij,\text{el}}}}
+\newcommand{\normalElasticForceji}{\normal{\forceScalar_{ji,\text{el}}}}
+\newcommand{\normalDissipativeForceij}{\normal{\forceScalar_{ij,\text{diss}}}}
+\newcommand{\normalDissipativeForceji}{\normal{\forceScalar_{ji,\text{diss}}}}
 \newcommand{\tangentialForceij}{\tangential{\forceij}}
 \newcommand{\tangentialForceji}{\tangential{\forceji}}
 \newcommand{\tangentialForceScalarij}{\tangential{\forceScalarij}}
@@ -253,12 +276,24 @@
 \newcommand{\elasticModulusij}{\betw{\elasticModulus}{i}{j}}
 \newcommand{\elasticModulusji}{\betw{\elasticModulus}{j}{i}}
 
-\newcommand{\dissipativeConstant}{\gamma}
-\newcommand{\normalDissipativeConstant}{\normal{\gamma}}
-\newcommand{\normalDissipativeConstanti}{\normal{\ind{\dissipativeConstant}{i}}}
-\newcommand{\normalDissipativeConstantj}{\normal{\ind{\dissipativeConstant}{j}}}
-\newcommand{\normalDissipativeConstantij}{\normal{\betw{\dissipativeConstant}{i}{j}}}
-\newcommand{\normalDissipativeConstantji}{\normal{\betw{\dissipativeConstant}{j}{i}}}
+\newcommand{\dampingConstant}{\gamma}
+\newcommand{\normalDampingConstant}{\normal{\dampingConstant}}
+\newcommand{\normalDampingConstanti}{\normal{\ind{\dampingConstant}{i}}}
+\newcommand{\normalDampingConstantj}{\normal{\ind{\dampingConstant}{j}}}
+\newcommand{\normalDampingConstantij}{\normal{\betw{\dampingConstant}{i}{j}}}
+\newcommand{\normalDampingConstantji}{\normal{\betw{\dampingConstant}{j}{i}}}
+
+\newcommand{\normalDissipativeConstant}{A}
+\newcommand{\normalDissipativeConstanti}{\ind{\normalDissipativeConstant}{i}}
+\newcommand{\normalDissipativeConstantj}{\ind{\normalDissipativeConstant}{j}}
+\newcommand{\normalDissipativeConstantij}{\betw{\normalDissipativeConstant}{i}{j}}
+
+\newcommand{\effectiveNormalElasticij}{\normal{\betw{k}{i}{j}}}
+\newcommand{\effectiveRadiusij}{\betw{\radius}{i}{j}}
+
+\newcommand{\poisson}{\nu}
+\newcommand{\poissoni}{\ind{\poisson}{i}}
+\newcommand{\poissonj}{\ind{\poisson}{j}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
