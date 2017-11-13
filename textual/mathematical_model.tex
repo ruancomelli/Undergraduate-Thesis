@@ -2,7 +2,7 @@
 
 Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema físico requer a sua prévia modelagem matemática. Um modelo matemático é uma representação de um sistema real através de equações. Essas equações são obtidas ao se fazerem hipóteses sobre o comportamento do sistema estudado, e a representatividade do modelo depende das simplificações feitas nesse processo.
 
-Este capítulo aborda os aspectos matemáticos pertinentes ao Método dos Elementos Discretos. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. Por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
+Este capítulo aborda os aspectos matemáticos pertinentes ao Método dos Elementos Discretos. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. Os principais modelos de força de colisão são expostos. Por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
 
 \section{Sistemas de Partículas} \label{sec:particle_systems}
 
@@ -14,7 +14,7 @@ Um sistema de partículas é, por sua vez, um conjunto de partículas que intera
 
 A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos local com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
-As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, essas interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o DEM considera, a princípio, apenas as colisões.
+As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o DEM considera, a princípio, apenas as colisões.
 
 Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
 \begin{equation*}
@@ -24,11 +24,13 @@ sendo \(\particlei\) a \(i\)-ésima partícula no sistema.
 
 Cada partícula ainda possui uma \textit{vizinhança}, que é o conjunto de elementos que podem interagir com ela. Denota-se por \(\ineighborhood{i}\) ou \(\neighborhoodOf{\particlei}\) a vizinhança da partícula \(i\). A determinação da vizinhança de uma partícula é essencial para o cálculo das forças e dos torques que atuam sobre ela, e alguns dos métodos para se construir esse conjunto são apresentados na \autoref{sec:neighborhood}.
 
-Ainda, escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela partícula \(\particlej\) sobre a partícula \(\particlei\), tem-se que a força resultante \(\resultingForcei\) e o torque resultante \(\resultingTorquei\) sobre \(\particlei\) são dados por
+Escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela partícula \(\particlej\) sobre a partícula \(\particlei\), tem-se que a força resultante \(\resultingForcei\) e o torque resultante \(\resultingTorquei\) sobre \(\particlei\) são dados por
 \begin{gather}
 	\resultingForcei = \sum_{\particlej\in\ineighborhood{i}}\forceji, \label{eq:superposition_translation} \\
 	\resultingTorquei = \sum_{\particlej\in\ineighborhood{i}}\torqueji. \label{eq:superposition_rotation}
 \end{gather}
+
+Uma importante hipótese que se faz no Método de Elementos Discretos é que a interação entre duas partículas \(\particlei\) e \(\particlej\) não interfere na interação entre outras partículas ou entre \(\particlei\) e uma terceira partícula \(\particlek\). Com isso, cada par de partículas pode ser estudado isoladamente, e o estado final do sistema, após as interações, é uma simples combinação desses resultados.
 
 \section{Equações de Movimento} \label{sec:equations_of_motion}
 
@@ -53,9 +55,9 @@ sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Para o c
 	\resultingForce = \mass\cdot\acceleration.
 \end{equation}
 
-A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. \citeonline{bib:computational_granular_dynamics} apresenta métodos que descrevem o fenômeno de fragmentação. Tais situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
+A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. \citeonline{bib:computational_granular_dynamics} apresentam métodos que descrevem o fenômeno de fragmentação. Tais situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
 
-De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela, conforme as equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_translation}. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores.
+De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela, conforme a equação \eqref{eq:superposition_translation}. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores.
 
 Para a translação, os movimentos ocorrem separadamente em cada eixo coordenado de modo que os algoritmos de solução da equação \eqref{eq:motion_first} são facilmente generalizados de duas para três dimensões. Ainda, cabe observar que a primeira lei de Euler independe da posição do eixo de referência.
 
@@ -343,7 +345,7 @@ e \(\normalVersorij = - \normalVersorji\).
 
 A partir do centro da partícula \(i\), é possível construir-se a reta normal \(\normalLineij\) da colisão entre \(i\) e \(j\) como o espaço gerado por \(\normalVersorij\):
 \begin{equation*}
-	\normalLineij = \set{\positioni + \alpha\normalVersorij\suchThat\alpha\in\real}
+	\normalLineij = \set{\positioni + \alpha\normalVersorij\suchThat\alpha\in\real}.
 \end{equation*}
 
 \subsubsection*{Ponto de Contato}
@@ -389,7 +391,7 @@ Para duas partículas esféricas, a geometria do contato é tal como mostrado na
 
 Definindo-se \(\contactCircleRadiusij\) como o raio do círculo formado no plano de contato, segue do teorema de Pitágoras que
 \begin{equation*}
-	\contactCircleRadiusij = \radiusi^2 - \contactRadiusij^2 = \radiusj^2 - \contactRadiusji^2	
+	\contactCircleRadiusij = \radiusi^2 - \contactRadiusij^2 = \radiusj^2 - \contactRadiusji^2.
 \end{equation*}
 
 Além disso,
@@ -406,6 +408,11 @@ Com as equações \eqref{eq:contact_point} e \eqref{eq:contact_radius}, o ponto 
 A situação se simplifica para a colisão entre uma partícula esférica e um elemento plano, já que ocorre que
 \begin{equation*}
 	\contactRadiusij = \distanceij.
+\end{equation*}
+
+Em ambos os casos, com a definição do vetor radial \(\contactVectorij\), a componente de força \(\forceji\) está associada a uma componente de torque \(\torqueji\) dada por
+\begin{equation*}
+	\torqueji = \contactVectorij\cross\forceji
 \end{equation*}
 
 \subsubsection*{Velocidade Relativa no Ponto de Contato}
@@ -435,8 +442,8 @@ Como esses dois pontos movem-se no espaço, os vetores \(\vectorFromPoints{\orig
 
 De acordo com \citeonline[p. 25]{bib:dynamics_of_multibody_systems}, e usando o fato de que os pontos \(\contactPointi\) e \(\contactPointj\) são fixos nos elementos a que pertencem (ou seja, os pontos têm velocidade relativa nula com relação aos seus respectivos corpos), é possível escrever
 \begin{gather*}
-	\dv{t}\vectorFromPoints{\originPoint}{\contactPointi} = \velocityi + \angularVelocityi\cross\contactVectorij, \\
-	\dv{t}\vectorFromPoints{\originPoint}{\contactPointj} = \velocityj + \angularVelocityj\cross\contactVectorji.
+	\dv{t}(\vectorFromPoints{\originPoint}{\contactPointi}) = \velocityi + \angularVelocityi\cross\contactVectorij, \\
+	\dv{t}(\vectorFromPoints{\originPoint}{\contactPointj}) = \velocityj + \angularVelocityj\cross\contactVectorji.
 \end{gather*}
 
 Com isso, obtém-se
@@ -446,12 +453,17 @@ Com isso, obtém-se
 
 Nota-se dessa equação que
 \begin{equation*}
-	\relativeVelocityContactPointji = - \relativeVelocityContactPointij
+	\relativeVelocityContactPointji = - \relativeVelocityContactPointij.
 \end{equation*}
 
-A velocidade tangencial de \(j\) relativa ao elemento \(i\) é simplesmente a correspondente velocidade relativa sem a componente na direção normal:
+A velocidade normal de \(j\) relativa ao elemento \(i\) é a projeção de \(\relativeVelocityContactPointji\) na direção de \(\normalVersorij\):
 \begin{equation*}
-	\relativeTangentialVelocityij = \relativeVelocityContactPointij - \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij
+	\relativeNormalVelocityij = \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij.
+\end{equation*}
+
+Por sua vez, velocidade tangencial de \(j\) relativa ao elemento \(i\) é simplesmente a correspondente velocidade relativa sem a componente na direção normal:
+\begin{equation*}
+	\relativeTangentialVelocityij = \relativeVelocityContactPointij - \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij.
 \end{equation*}
 
 As simplificações que se fazem no caso em que o elemento \(j\) é uma parede plana são que 
@@ -477,16 +489,98 @@ Para o caso em que \(\relativeTangentialVelocityij = \nullVector\), não é nece
 
 A determinação do coeficiente de restituição tem a vantagem de poder simplificar e reduzir o tempo de simulação em simulações orientadas a eventos, mas também pode ser usada para a validação de métodos numéricos baseados no cálculo das forças, que são o foco deste trabalho.
 
+Para cada par de elementos, o coeficiente de restituição relaciona o estado posterior ao choque ao estado anterior. Escrevendo a velocidade do elemento \(j\) relativa ao \(i\) imediatamente antes da colisão como \(\beforeCollision{\relativeVelocityContactPointij}\), e \(\afterCollision{\relativeVelocityContactPointij}\) como a velocidade correspondente ao final da colisão, definem-se os coeficientes de restituição na direção normal \(\normalCoefficientOfRestitutionij\) e na direção tangencial \(\tangentialCoefficientOfRestitutionij\) através das equações
+\begin{gather*}
+	\afterCollision{\relativeNormalVelocityij} = - \normalCoefficientOfRestitutionij\beforeCollision{\relativeNormalVelocityij}\text{, e} \\
+	\afterCollision{\relativeTangentialVelocityij} = - \tangentialCoefficientOfRestitutionij\beforeCollision{\relativeTangentialVelocityij}.
+\end{gather*}
 
+De acordo com \citeonline{bib:computational_granular_dynamics}, os coeficientes de restituição satisfazem
+\begin{gather*}
+	0 \leq \normalCoefficientOfRestitutionij \leq 1, \\
+	-1 \leq \tangentialCoefficientOfRestitutionij \leq 1.
+\end{gather*}
 
-\alert{Falar do coeficiente de restituição. Um bom exemplo é \citeonline{bib:linear_dashpot_revisited}}
+Formas analíticas para os coeficientes de restituição podem ser obtidas através da integração das equações diferenciais, dependendo dos modelos de interação considerados. Em função da complexidade do modelo, pode ser muito difícil, ou mesmo impossível, de se obter uma forma fechada para os coeficientes. Outras maneiras de se determinarem seus valores são o uso de simulações numéricas e a experimentação, em que se buscam correlações entre os coeficientes e as demais grandezas do problema.
 
-\alert{Terminar}
+De forma geral, os valores desses coeficientes dependem de parâmetros de material e da velocidade relativa entre as partículas. Segundo \citeonline{bib:computational_granular_dynamics}, coeficientes de restituição constantes (independentes da velocidade relativa) estão em desacordo com resultados experimentais e com o importante modelo de partículas viscoelásticas. Entretanto coeficientes constantes formam a base para diversas teorias e podem ser bastante úteis para a validação de métodos numéricos.
 
-\subsection{Forças normais}
-\subsubsection*{Modelo 1}
-\subsubsection*{Modelo 2}
-\subsection{Forças tangenciais}
+Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. As seções \ref{subsec:normal_force_models} e \ref{subsec:tangential_force_models} apresentam alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
+
+\subsection{Modelos de Força Normal} \label{subsec:normal_force_models}
+
+Nesta seção, são apresentados os dois principais modelos de força normal utilizados nas simulações de elementos discretos. Ambos os modelos buscam determinar
+\begin{equation*}
+	\normalForceji = \normalForceScalarji\cdot\normalVersorji.
+\end{equation*}
+
+\subsubsection*{Modelo de Amortecedor Linear}
+
+O modelo de amortecedor linear é um dos modelos mais simples que se pode adotar para a colisão de partículas. Esse modelo pode ser representado esquematicamente como na figura \ref{fig:linear_dashpot_force}.
+
+\begin{figure}[h]
+	\caption{Representação do modelo de amortecimento linear}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar figura aqui}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:linear_dashpot_force}
+	\legend{Fonte: \alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+A equação para a força normal dada por esse modelo é
+\begin{equation} \label{eq:linear_dashpot_force}
+	\normalForceScalarji = \elasticModulusij\cdot\overlapij + \normalDissipativeConstantij\cdot\overlapDerivativeij,
+\end{equation}
+em que:
+\begin{itemize}
+	\item \(\elasticModulusij\) é a constante elástica efetiva para o par de partículas \(i\) e \(j\). Esse valor efetivo é calculado pela associação em série de molas elásticas, do que resulta que
+	\begin{equation*}
+		\elasticModulusij = \pqty{\dfrac{1}{\elasticModulusi} + \dfrac{1}{\elasticModulusj}}^{-1},
+	\end{equation*}
+	sendo \(\elasticModulusi\) e \(\elasticModulusj\) as constantes elásticas das partículas \(i\) e \(j\), respectivamente.
+
+	A constante elástica representa a rigidez das partículas, sendo que elementos com maior constante elástica resistem mais à penetração. Essa constante é uma propriedade de material de cada partícula.
+
+	\item \(\normalDissipativeConstantij\) é a constante de amortecimento efetiva para o par \(\pqty{i, j}\), calculada através da associação em série de amortecedores de constantes \(\normalDissipativeConstanti\) e \(\normalDissipativeConstantj\):
+	\begin{equation*}
+		\normalDissipativeConstantij = \pqty{\dfrac{1}{\normalDissipativeConstanti} + \dfrac{1}{\normalDissipativeConstantj}}^{-1}.
+	\end{equation*}
+
+	A constante de amortecimento corresponde à dissipação de energia na colisão. Maiores amortecimentos indicam maior perda de energia no choque. Essa constante é atribuída a cada partícula como se fosse uma propriedade de material. Isso, porém, muitas vezes não é o caso, e pode ser necessária a execução de experimentos para a determinação do valor dessa constante.
+\end{itemize}
+
+A partir da equação \eqref{eq:linear_dashpot_force} e da primeira equação de movimento \eqref{eq:motion_first}, é possível derivar-se uma expressão para o coeficiente de restituição na direção normal. Para um par de partículas esféricas, a massa efetiva é definida como
+\begin{equation*}
+	\massij = \pqty{\massi^{-1} + \massj^{-1}}^{-1},
+\end{equation*}
+e, para o caso em que a \(i\)-ésima partícula é esférica e a \(j\) representa uma parede plana,
+\begin{equation*}
+	\massij = \massi.
+\end{equation*}
+
+Com isso, o coeficiente de restituição normal do par de partículas fica, de acordo com \citeonline{bib:computational_granular_dynamics},
+\begin{equation*}
+	\normalCoefficientOfRestitutionij = \exp\pqty{
+		\bigslant{
+			-\dfrac{\pi\normalDissipativeConstantij}{2\massij}
+		}{
+			\sqrt{\dfrac{\elasticModulusij}{\massij} - \pqty{\dfrac{\normalDissipativeConstantij}{2\massij}}^2}
+		}
+	}.
+\end{equation*}
+
+Percebe-se dessa expressão que o modelo de amortecedor linear implica um coeficiente de restituição normal independente da velocidade relativa entre as partículas, o que não representa bem o comportamento real de sistemas, como afirmado na seção \ref{subsec:collision_parameters}. Entretanto, justamente devido à simplicidade da expressão, esse modelo é utilizado na teoria de gases granulares, em simulações de Dinâmica Molecular e na validação de métodos numéricos.
+
+\subsubsection*{Modelo de Hertz para Esferas Viscoelásticas}
+
+\alert{Continuar aqui}
+
+\subsection{Modelos de Força Normal} \label{subsec:tangential_force_models}
 \subsubsection*{Modelo 1}
 \subsubsection*{Modelo 2}
 
