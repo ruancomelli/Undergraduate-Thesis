@@ -1,0 +1,199 @@
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage[adobe-utopia]{mathdesign}
+\usepackage{graphicx}
+\usepackage[paginas=nao,ordem=alf,lista=separada,esquema=separado]{tabela-simbolos}
+\usepackage{supertabular}
+\usepackage{colonequals}
+%\usepackage{geometry}
+%\geometry{top=20mm, bottom=20mm, right=20mm, left=30mm}
+\renewcommand{\ABNTanapsize}{\Large}
+\renewcommand{\ABNTtravessao}{--}
+%\setlength{\textfloatsep}{2.7ex}
+%\setlength{\floatsep}{27ex}
+%\setlength{\intextsep}{3.6ex}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listagem}
+\renewcommand{\lstlistlistingname}{Lista de Listagens}
+\definecolor{dkgreen}{RGB}{73,87,66}
+\definecolor{dkyellow}{RGB}{204,150,41}
+\definecolor{dkgray}{RGB}{96,96,96}
+\definecolor{lgreen}{RGB}{140,160,129}
+\setcounter{tocdepth}{3} 
+\usepackage[mathcal]{eucal}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage[mathcal]{eucal}
+\usepackage{hyperref}
+%\usepackage{subcaption}
+\usepackage{morefloats} 
+\usepackage[round, comma, sort&compress]{natbib}
+\usepackage{dsfont}
+\usepackage[brazil]{babel}
+\usepackage{booktabs}
+\usepackage{textcomp}
+\usepackage[notintoc]{nomencl}   
+\usepackage{fancyhdr}
+\usepackage{siunitx}
+\usepackage{pdfpages}
+
+\lstset{
+	frame = tb,
+	framesep = 5pt,
+	columns = flexible,
+	numbers = left,
+	numberblanklines = true,
+	numberstyle = \tiny,
+	framexleftmargin = 3em,
+	xleftmargin  = 1.5cm,
+	xrightmargin = 1.5cm,
+	abovecaptionskip = 2ex,
+	belowcaptionskip = 2ex,
+	aboveskip = 4ex,
+	belowskip = 7ex,
+	tabsize = 4,
+}
+\lstdefinestyle{C++}{
+	language = [Visual]{C++},
+	basicstyle = \footnotesize\bfseries,
+	identifierstyle = \color{dkgreen},
+	morekeywords = {foreach, std},
+	keywordstyle = \color{dkyellow},
+	commentstyle = \color{lgreen},
+	emph = {IntArray, DoubleArray, StringArray, GridDimension, int, double, string, GridDataPtr, GridPtr, ScalarField, ScalarFieldPtr, VectorField, VectorFieldPtr, ofstreamPtr,
+fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, TopologyNodePtr, TopologyConnectionPtr, VertexPtr, FacePtr, CellPtr, BoundaryPtr, TopologyConnectionArray, Vector3DPtr, GridReaderPtr, GridWriterPtr, VectorArray, BoundaryConditionArray, CellBasedMethod, BoolArray, DoubleArray2D, Vector3D, GradientReconstructorPtr, AlgebraMatrix, QRDecompositor, AlgebraVector, SVDDecompositor, AlgebraMatrixArray, CellArray, FaceArray, Connection, SparseMatrixPtr, acmlib, VectorPtr, MultigridPtr, AssemblerPtr, ControllerPtr, EventPtr, Signal, IterationWriterEventPtr, UsingAddersAssemblerPtr, AccumulationAdderPtr, BoundaryConditionArrayPtr, SparseMatrixLoaderPtr, CellLocatorPtr, WellPropertiesPtr, ParserNodePtr, FlowModelCalculatorPtr, WellPropertiesArrayPtr, DoubleArrayPtr, ElementPtr, RegionPtr },
+	emphstyle = \bfseries,
+	moreemph = {[2]getTopologyNodes, getTopologyConnections, getVertices, getFaces, getCells, getBoundaries, getHandle, getNode0, getNode1, getArea, getAreaVector, getCentroid, getVolume, read, getDirectory, makeDirectory, write, AppendScalarField, AppendVectorField, reconstructGradient, greenGaussReconstruction, getGeometry, fill, getFaceHandle, interpolateFaceValues, updateFaceValues, isBoundaryVertex, setBoundaryValues, updateFaceValuesFromVertices, interpolateVertexValues, calcVertexWeights3Points, calcVertexWeights2Points, calcVertexWeightsNPoints, determineMatrixCWithNormalEquations, determineMatrixCWithQR, determineMatrixCWithSVD,  getQ, getR, extractColumns, extractLines, getDimension, traspose, inverse, getSingularValues, getV, getU, resize, getNumberOfNeighbors, matmult, getRegions, getInternalElements},
+	emphstyle = {[2]\color{dkgray}},
+	moreemph = {[3]ONE_STEP, TWO_STEPS, NORMAL_EQUATIONS, QR_FACTORIZATION, SVD_FACTORIZATION, TWO_DIMENSIONAL, THREE_DIMENSIONAL},
+	emphstyle = {[3]\color{lgreen}},
+	stringstyle = \color{lgreen},
+}
+\lstdefinestyle{txt}{
+	basicstyle = \footnotesize\bfseries\color{dkgray},
+}
+\lstdefinestyle{pseudocode}{
+	language ={myPseudo},
+	mathescape = true,
+	basicstyle = \small,
+	identifierstyle = \color{dkgreen}\bfseries,
+	morekeywords = {},
+	keywordstyle = \color{dkyellow}\bfseries,
+	commentstyle = \color{lgreen}\bfseries,
+	emph = {},
+	emphstyle = \itshape\bfseries,
+	moreemph = { grid, cell_indexes, cell_index, inner_face, boundary_face, Neumann_boundary, Dirichlet_boundary, subcélula, subface, ponto, célula, subface_de_contorno, face_interna, região_de_interação, element, region },
+	emphstyle = {[2]\color{dkgray}\bfseries},
+	moreemph = {[3]and},
+	emphstyle = {[3]\color{dkgreen}\bfseries},
+	stringstyle = \color{lgreen},
+}
+
+\lstdefinelanguage{myPseudo}
+{
+  % list of keywords
+  morekeywords={ SE, {SE NÃO}, FIM, ENQUANTO, REPETIR, ENTÃO, PARA, INTERROMPA, CHAMA },
+  sensitive=false, % keywords are not case-sensitive
+  morecomment=[l]{//}, % l is for line comment
+  morecomment=[s]{\{}{\}}, % s is for start and end delimiter
+  morestring=[b]" % defines that strings are enclosed in double quotes
+}
+
+\renewcommand{\lstlistlistingname}{Lista de Listagens}
+\renewcommand{\lstlistingname}{Listagem}
+\newcommand{\fig}[1]{figura \ref{#1}}
+\newcommand{\eq}[1]{equação \eqref{#1}}
+\newcommand{\eqs}{equações }
+\newcommand{\tab}[1]{tabela \ref{#1}}
+\newcommand{\lst}[1]{listagem \ref{#1}}
+\newcommand{\chap}[1]{capítulo \ref{#1}}
+
+
+\newlength{\capsep}
+\setlength{\capsep}{18pt}
+\usepackage[font=small]{caption}
+
+\makeatletter
+% Defining how is typeset the \chapter
+\def\@makechapterhead#1{%
+  {%
+  %\noindent\rule{\textwidth}{1.7pt}\\\par
+  \normalfont\ABNTchaptersize\ABNTchapterfont%
+  \espaco{umemeio}%
+  \vspace*{-18pt}%
+  \noindent%
+  \parbox[b]{\textwidth}{%
+    \parbox[t]{4ex}{\thechapter}%
+    \parbox[t]{\textwidth - 4ex - 1ex}%
+      {\interlinepenalty\@M\raggedright%
+        \ifthenelse{\boolean{ABNTcapchap}}%
+          {\MakeUppercase{#1}}%
+          {#1}
+      }%
+    \vspace*{0cm}
+    }%\\[3.0ex]%
+  \vspace{\capsep}%
+  }%
+}
+
+
+\def\@makeschapterhead#1{%
+  \vspace*{-36pt}\par
+  {\centering\normalfont\ABNTchaptersize\ABNTchapterfont%
+   \ifthenelse{\boolean{ABNTcapchap}}%
+     {\MakeUppercase{#1}}%
+     {#1}
+    \par
+    }%
+  \vspace{\capsep}%
+  \par%
+}
+
+
+\renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
+                           {-18pt}%
+                           {18pt}%
+                           {\espaco{umemeio}\normalfont%
+                            \ABNTsectionfont\Large}}
+\renewcommand\subsection{\ABNTstartsection{subsection}{2}{\z@}%
+                           {-18pt}%
+                           {18pt}%
+                           {\espaco{umemeio}\normalfont%
+                            \ABNTsectionfont\large}}
+\renewcommand\subsubsection{\ABNTstartsection{subsubsection}{3}{\z@}%
+                           {-18pt}%
+                           {18pt}%
+                           {\espaco{umemeio}\normalfont%
+                            \ABNTsectionfont\normalsize}}
+\renewcommand\paragraph{\ABNTstartsection{paragraph}{4}{\z@}%
+                           {3.25ex \@plus1ex \@minus.2ex}%
+                           {-1em}%
+                           {\espaco{umemeio}\normalfont%
+                            \ABNTsectionfont\normalsize}}
+\renewcommand\subparagraph{\ABNTstartsection{subparagraph}{5}{\parindent}%
+                           {3.25ex \@plus1ex \@minus .2ex}%
+                           {-1em}%
+                           {\espaco{simples}\normalfont%
+                            \ABNTsectionfont\normalsize}}
+\makeatother
+
+% NOMENCLATURE
+\renewcommand{\nomgroup}[1]{%
+\medskip
+\medskip
+\ifthenelse{\equal{#1}{A}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Símbolos Romanos}]}{%
+\ifthenelse{\equal{#1}{G}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Símbolos Gregos}]}{%
+\ifthenelse{\equal{#1}{C}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Abreviações}]}{%
+\ifthenelse{\equal{#1}{S}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Sobrescritos e Subscritos}]}{%
+\ifthenelse{\equal{#1}{Z}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Símbolos Matemáticos}]}
+{}
+}% matches mathematical symbols
+}% matches Subscripts
+}% matches Abbreviations
+}% matches Greek Symbols
+\hspace*{-\leftmargin}%
+\medskip
+}% matches Roman Symbols

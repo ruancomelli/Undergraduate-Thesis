@@ -1,0 +1,88 @@
+%A - ROMANOS
+\nomenclature[A]{$Re$}{Número de Reynolds}
+\nomenclature[A]{$\vec{V}^p$}{Velocidade da fase $p$ \nomunit{[\si[per-mode=symbol]{\metre\per\second}]}}
+\nomenclature[A]{$k^p_r$}{Permeabilidade relativa da fase $p$}
+\nomenclature[A]{$\mathds{K}$}{Tensor permeabilidade absoluta do meio\nomunit{[\si{\square\metre}]}}
+\nomenclature[A]{$P^p$}{Pressão da fase $p$ \nomunit{[\si{\pascal}]}}
+\nomenclature[A]{$\vec{g}$}{Vetor gravidade \nomunit{\si{[\metre\per\square\second]}}}
+\nomenclature[A]{$\bf{S}$}{Vetor área\nomunit{[\si{\square\metre}]}}
+\nomenclature[A]{$F^p$}{Taxa de geração ou extinção de massa fase $p$ por unidade de volume\nomunit{[\si[per-mode=symbol]{\kilo\gram\per\cubic\meter\per\second}]}}
+\nomenclature[A]{$f^p$}{Taxa de geração ou extinção de volume da fase $p$ por unidade de volume\nomunit{[\si[per-mode=symbol]{\per\second}]}}
+\nomenclature[A]{$S^p$}{Saturação da fase $p$}
+\nomenclature[A]{$\Delta S_{\text{min}}$}{Diferença mínima de saturação especificada no critério de passo de tempo variável}
+\nomenclature[A]{$\Delta S_{\text{max}}$}{Diferença máxima de saturação especificada no critério de passo de tempo variável}
+\nomenclature[A]{$\hat{S}$}{Saturação de água normalizada}
+\nomenclature[A]{$S^{w}_{min}$}{Saturação mínima de água}
+\nomenclature[A]{$S^{w}_{max}$}{Saturação máxima de água}
+\nomenclature[A]{$\mathscr{M}$}{Malha}
+\nomenclature[A]{$e_i$}{i-ésimo elemento de uma malha}
+\nomenclature[A]{$(x,y)$}{Coordenadas globais\nomunit{\si{[\metre]}}}
+\nomenclature[A]{$nv$}{Numero de vértices de um elemento}
+\nomenclature[A]{$\mathcal{N}_i$}{Função de forma associada ao i-ésimo vértice do elemento}
+\nomenclature[A]{$J$}{Matriz jacobiana}
+\nomenclature[A]{$J^{-1}D$}{Operador gradiente discreto}
+\nomenclature[A]{$F$}{Termo fonte}
+\nomenclature[A]{$\dot{m}_f$}{Fluxo de massa que atravessa uma face $f$ do volume de controle \nomunit{[\si[per-mode=symbol]{\kilo\gram\per\second}]}}
+\nomenclature[A]{$\Delta\mathbf{A}_f$}{Vetor área associado à face $f$\nomunit{[\si{\square\metre}]}}
+\nomenclature[A]{$\mathscr{E}^\mathcal{P}$}{Conjunto dos elementos que compartilham o nó $\mathcal{P}$}
+\nomenclature[A]{$\mathscr{N}^e$}{Conjunto dos nós associados ao elemento $e$}
+\nomenclature[A]{$\mathscr{S}^\mathcal{P}$}{Estêncil associado ao nó $\mathcal{P}$}
+\nomenclature[A]{$\Delta t$}{Passo de tempo\nomunit{\si{[\second]}}}
+\nomenclature[A]{$G$}{Função potencial gravitacional\nomunit{\si{[\square\metre\per\square\second]}}}
+\nomenclature[A]{$R^w$}{Resíduo associado à conservação da massa da fase água}
+\nomenclature[A]{$R^t$}{Resíduo associado à conservação da massa total}
+\nomenclature[A]{$F_f$}{Fluxo fracionário}
+\nomenclature[A]{$v^T$}{Velocidade total na direção $x$\nomunit{[\si[per-mode=symbol]{\metre\per\second}]}}
+\nomenclature[A]{$X$}{Coordenada axial $x$ normalizada\nomunit{\si{[\metre]}}}
+\nomenclature[A]{$\xi$}{Razão adimensional entre espaço e tempo}
+\nomenclature[A]{WI}{\emph{well index}\nomunit{[\si{\cubic\meter}]}}
+
+%G - GREGOS
+\nomenclature[G]{$\alpha_{\text{aum}}$}{Constante utilizada para aumentar o passo de tempo}
+\nomenclature[G]{$\alpha_{\text{red}}$}{Constante utilizada para reduzir o passo de tempo}
+\nomenclature[G]{$\mu_p$}{Viscosidade da fase $p$\nomunit{\si{[\pascal\;\second]}}}
+\nomenclature[G]{$\Phi^p$}{Potencial da fase $p$\nomunit{\si{[\pascal]}}}
+\nomenclature[G]{$\partial \Omega$}{Fronteira do volume de controle}
+\nomenclature[G]{$\phi$}{Porosidade do meio}
+\nomenclature[G]{$\lambda^p$}{Mobilidade da fase $p$\nomunit{[\si[per-mode=symbol]{\per\pascal\per\second}]}}
+\nomenclature[G]{$\Omega$}{Domínio fechado}
+\nomenclature[G]{$(\xi,\eta)$}{Coordenadas locais\nomunit{\si{[\metre]}}}
+\nomenclature[G]{$\psi$}{Função definida nos nós de uma malha}
+\nomenclature[G]{$\Psi_e$}{Vetor com os valores de $\psi$ nos nós do elemento}
+\nomenclature[G]{$\Gamma$}{Coeficiente difusivo}
+\nomenclature[G]{$\overline{\psi}_{\mathcal{P}}$}{Média do valor de $\psi$ em $\mathcal{P}$}
+\nomenclature[G]{$\mathbf{\theta}_f^p$}{Pseudofluxo da face $p$ na face $f$\nomunit{[\si[per-mode=symbol]{\cubic\metre\per\second}]}}
+\nomenclature[G]{$\alpha_{\text{ac}}^w$}{Termo de acumulação associado à equação do resíduo $R^w$\nomunit{[\si[per-mode=symbol]{\cubic\metre\per\second}]}}
+\nomenclature[G]{$\alpha_{\text{dif}}^w$}{Termo difusivo associado à equação do resíduo $R^w$\nomunit{[\si[per-mode=symbol]{\cubic\metre\per\second}]}}
+\nomenclature[G]{$\alpha_{\text{dif}}^t$}{Termo difusivo associado à equação do resíduo $R^t$\nomunit{[\si[per-mode=symbol]{\cubic\metre\per\second}]}}
+\nomenclature[G]{$\alpha_{\text{fon}}^w$}{Termo fonte associado à equação do resíduo $R^w$\nomunit{[\si[per-mode=symbol]{\cubic\metre\per\second}]}}
+\nomenclature[G]{$\alpha_{\text{fon}}^t$}{Termo fonte associado à equação do resíduo $R^t$\nomunit{[\si[per-mode=symbol]{\cubic\metre\per\second}]}}
+\nomenclature[G]{$\tau$}{Tempo adimensional}
+\nomenclature[G]{$\varepsilon$}{Tolerância especificada}
+
+%C - ABREVIACOES
+\nomenclature[C]{EbFVM}{\textit{Element-based Finite Volume Method}}
+\nomenclature[C]{VPI}{Volume poroso injetado}
+\nomenclature[C]{IMPES}{\textit{IMplicit Pressure, Explicit Saturation}}
+\nomenclature[C]{FIM}{\textit{Fully Implicit Method}}
+\nomenclature[C]{EOR}{\textit{Enhanced Oil Recovery}}
+\nomenclature[C]{BT}{\textit{Breakthrough}}
+
+%S - SOBRESCRITOS E SUBSCRITOS
+\nomenclature[S]{$\mathcal{P}$}{Nó da malha}
+\nomenclature[S]{$p$}{Fase $p$}	
+\nomenclature[S]{$r$}{Relativo}
+\nomenclature[S]{$o$}{Óleo}
+\nomenclature[S]{$w$}{Água}
+\nomenclature[S]{$t$}{Total}
+\nomenclature[S]{min}{Mínimo}
+\nomenclature[S]{max}{Máximo}
+\nomenclature[S]{$f$}{Face}
+\nomenclature[S]{$e$}{Elemento}	
+\nomenclature[S]{ac}{Acumulativo}
+\nomenclature[S]{dif}{Difusivo}
+\nomenclature[S]{fon}{Fonte}
+\nomenclature[S]{old}{Antigo}
+\nomenclature[S]{presc}{Prescrito}
+
+
