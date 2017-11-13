@@ -10,6 +10,9 @@
 \usepackage{thmtools}
 \usepackage{xfrac} % Fractions
 
+\usepackage[decimalsymbol=comma]{siunitx} % This allows numbers to be treated separately "This is a range $x_i \in [\num{-1,5},\num{1,5}]$."
+\usepackage{icomma} % This package adds comma as an smart separator, as in ``for $x_{i}\in[-1,5, 1,5]$.''
+
 \newcommand{\bigslant}[2]{
     \left.\raisebox{.2em}{\(#1\)}\middle/\raisebox{-.2em}{\(#2\)}\right.
 }
