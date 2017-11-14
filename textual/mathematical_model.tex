@@ -855,7 +855,7 @@ Dentre os métodos de extrapolação mais utilizados estão o método de expans�
 O método de extrapolação por expansão de Taylor combina simplicidade, exatidão e estabilidade, e por isso é o método adotado neste trabalho. Esse método é fundamentado pelo \nameref{theo:taylor}.
 
 \begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
-	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{\taylorOrder+1}}\) todas definidas em um conjunto que contenha \(\bqty{t, t+\Dt}\), e seja \(R_{\taylorOrder, t, y}\) definida por
+	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{\taylorOrder+1}}\) todas definidas em um intervalo aberto que contenha \(t\), e seja \(R_{\taylorOrder, t, y}\) definida por
     \begin{equation*}
     	y(t + \Dt) = y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder + R_{\taylorOrder, t, y}(\Dt).
     \end{equation*}
