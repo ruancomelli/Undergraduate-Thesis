@@ -874,7 +874,7 @@ A função \(R_{\taylorOrder, t, y}\) é o resto de ordem \(\taylorOrder\) para 
 
 A equação \eqref{eq:taylor_trunc} é o truncamento da expansão de Taylor na \(\taylorOrder\)-ésima derivada.
 
-Considerando uma função \(\vec{y}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{y}(t) = \pqty{y_1(t),\dots,y_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{y}\) é a função \(y_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; \alert{e \(m=4\) para quaternions}.
+Considerando uma função \(\vec{y}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{y}(t) = \pqty{y_1(t),\dots,y_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{y}\) é a função \(y_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; e \(m=4\) para algumas parametrizações para a orientação das partículas, como mostrado no \autoref{app:three_dimensional_rotation}.
 
 Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
 
@@ -942,7 +942,7 @@ Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \
 A etapa de predição é responsável por obter uma estimativa para \(y(t + \Dt)\), \(\deriv{1}{y}(t + \Dt)\),\,\dots, \(\deriv{\taylorOrder}{y}(t + \Dt)\).
 
 A predição é feita através de extrapolações conforme a seção \ref{sec:extrapolation}, obtendo-se uma previsão \(\drvec{\taylorOrder}{\predicted{y}}\) dada por
-\[\drvec{\taylorOrder}{\predicted{y}}\pqty{t+\Dt} = \mtx{A}\cdot\drvec{\taylorOrder}{y}\pqty{t}\]
+\[\drvec{\taylorOrder}{\predicted{y}}\pqty{t+\Dt} = \mtx{A}\cdot\drvec{\taylorOrder}{y}\pqty{t}.\]
 
 \subsection{Correção}
 
@@ -1035,7 +1035,7 @@ sendo que as constantes corretoras \(c_0\), \(c_1\), \dots, \(c_{\taylorOrder}\)
 	\hline	
 		\end{array}
 	\end{equation*}
-	\legend{Fonte: \citeonline{bib:gear_book}}
+	\legend{Fonte: \citeonline{bib:gear_book}.}
 \end{table}
 
 \alert{O \(k\) que estou usando é diferente do de Gear. Para Gear, a maior derivada considerada é \(k-1\). A minha tabela está corrigida e, em todos os casos, \(k_{\text{Ruan}} = k_{\text{Gear}}-1 \). Será que devo mudar o símbolo?}
