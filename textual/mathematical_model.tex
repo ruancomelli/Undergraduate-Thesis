@@ -666,7 +666,22 @@ Um problema que se encontra com a definição dos modelos de amortecedor linear 
 
 No início do choque, tanto a superposição quanto a sua derivada são positivas o que implica, de acordo com as expressões para a força, que ocorre repulsão entre as partículas. A penetração entre as partículas aumenta continuamente até que, em determinado instante, atinge um valor máximo. Devido à força normal repulsiva, inicia-se o fenômeno de descompressão, em que as partículas se afastam. Nessa etapa, a derivada da superposição é negativa. É possível, dependendo dos parâmetros da simulação, que essa diferença de sinais entre a superposição e a sua derivada resultem em uma força normal \textit{atrativa}. Essa atração ocorre quando \(\overlapDerivativeij\) atinge um valor crítico \(\principal{\overlapDerivativeij}\), em que a força calculada é nula.
 
+\begin{figure}[h]
+	\caption{Representação da colisão entre partículas. Na primeira linha, a avaliação das forças segundo os modelos não corrigidos. Na segunda linha, a colisão com forças limitadas à repulsão.}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{images/mathematical_model/particle_attraction.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:particle_attraction}
+	\legend{Fonte: \citeonline[p. 22]{bib:computational_granular_dynamics}.}
+	% \vspace{-1cm}
+\end{figure}
+
 No entanto a atração entre partículas geralmente não condiz com resultados experimentais. Uma das técnicas para eliminar esse fenômeno é limitarem-se inferiormente as forças calculadas. Esse artifício justifica-se pois, embora tenha sido feita a hipótese de que as partículas não se deformem, partículas reais são deformáveis, e essa deformação pode ser suficiente para encerrar a colisão em um tempo anterior do que aquele considerado pelo modelo que partículas rígidas.
+
+Isso é representado na figura \ref{fig:particle_attraction}.
 
 Para o amortecedor linear, isso significa que
 \begin{equation*}
