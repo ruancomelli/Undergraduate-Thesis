@@ -2,7 +2,7 @@
 
 \section{Motivação} \label{sec:motivation}
 
-A compreensão acerca do comportamento de sistemas de partículas e de materiais granulados cresceu enormemente nas últimas décadas devido aos esforços da ciência e da engenharia. Tais sistemas são amplamente encontrados em processos industriais e nas ciências naturais \cite{bib:computational_granular_dynamics}, tais como matemática aplicada, física de matéria condensada, geomecânica, agricultura, engenharia química, engenharia civil e engenharia mecânica \cite{bib:rolling}.
+A compreensão acerca do comportamento de sistemas de partículas e de materiais granulados cresceu enormemente nas últimas décadas devido aos esforços da ciência e da engenharia. Tais sistemas são amplamente encontrados em processos industriais e nas ciências naturais \cite{bib:computational_granular_dynamics} tais como matemática aplicada, física de matéria condensada, geomecânica, agricultura, engenharia química, engenharia civil e engenharia mecânica \cite{bib:rolling}.
 
 Esses conhecimentos são aplicados na previsão do comportamento mecânico de geomateriais, como rochas, e da propagação de trincas e fraturas em sólidos, na simulação da produção de fármacos, alimentos, detergentes e cosméticos, no desenvolvimento de novos materiais e na modelagem da fragmentação, sedimentação, granulação, escavação, transporte e armazenamento de grãos e do escoamento em máquinas extrusoras \cite{bib:donze,bib:poschel,bib:applications}.
 
@@ -27,11 +27,11 @@ A análise de sistemas de partículas, contudo, costuma ser bastante complexa. P
 
 Com o propósito de executar tais análises, existem três abordagens principais: a experimental, a analítica e a numérica. 
 
-No método experimental, procura-se caracterizar os fenômenos físicos através da sua reprodução em ambientes controlados. A grande vantagem desse método é o fato de lidar com a configuração real do sistema estudado, e dessa análise resultam hipóteses, equações e correlações para as diversas grandezas físicas envolvidas. A experimentação, no entanto, resulta em altíssimo custo e muitas vezes é limitada por questões de segurança ou pela dificuldade de reprodução do sistema real. A experimentação é utilizada para validar modelos físicos e matemáticos \cite{bib:maliska}.
+No método experimental, procura-se caracterizar os fenômenos físicos através da sua reprodução em ambientes controlados. A grande vantagem desse método é o fato de lidar com a configuração real do sistema estudado, e dessa análise resultam hipóteses, equações e correlações para as diversas grandezas físicas envolvidas. Essa abordagem, no entanto, resulta em altíssimo custo e muitas vezes é limitada por questões de segurança ou pela dificuldade de reprodução do sistema real. A experimentação é utilizada para validar modelos físicos e matemáticos \cite{bib:maliska}.
 
 A abordagem analítica, por sua vez, busca a obtenção de soluções analíticas para o problema. A vantagem de se obterem soluções em forma fechada é seu baixíssimo custo de computação quando comparado aos outros métodos. O método analítico, porém, frequentemente depende de hipóteses simplificativas e de geometrias e condições de contorno simples, o que acaba por reduzir a aplicabilidade de seus resultados. Geralmente, utilizam-se soluções analíticas para validar métodos numéricos e auxiliar na busca de métodos mais robustos \cite{bib:maliska}.
 
-A fim de conciliar exatidão e eficiência, os métodos numéricos despontam como uma poderosa ferramenta capaz de resolver problemas complexos, com geometrias complicadas e grande número de partículas, alcançando, apesar disso, uma elevada rapidez e baixíssimo custo \cite{bib:maliska}.
+A fim de conciliar exatidão e eficiência, os métodos numéricos despontam como uma poderosa ferramenta capaz de resolver problemas complexos, com geometrias complicadas e grande número de partículas, alcançando, apesar disso, uma elevada rapidez e um baixíssimo custo \cite{bib:maliska}.
 
 \begin{figure}[h]
 	\caption{Comparação entre experimento e simulação de pílulas no interior de um misturador.}
@@ -59,13 +59,13 @@ A fim de conciliar exatidão e eficiência, os métodos numéricos despontam com
 	\vspace{-1cm}
 \end{figure}
 
-As figuras \ref{fig:pellet_flow} e \ref{fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas a menos de sua cor, que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam \textit{exatamente} a posição das partículas, elas representam com grande fidelidade o sistema estudado.
+As figuras \ref{fig:pellet_flow} e \ref{fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas a menos de sua cor, o que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam \textit{exatamente} a posição das partículas, elas representam com grande fidelidade o sistema estudado.
 
 Sendo assim, o estudo de sistemas de partículas conta principalmente com a simulação numérica como método de análise.
  
 \section{Sistemas de Partículas}
 
-A definição de partícula não é um consenso entre autores, cada um adotando o conceito mais adequado à aplicação. Segundo \citeonline{bib:sampaio}, compreende-se por \textit{partícula} um objeto ao qual são atribuídas propriedades físicas, mas cuja estrutura interna é desconsiderada. Cada partícula possui também uma função posição, que descreve a posição de seu centro de massa em função do tempo, e uma função orientação, que determina a posição dos seus eixos principais, sendo que essas duas definições são tomadas com relação a um sistema de referência fixo no espaço.
+A definição de partícula não é um consenso entre autores, cada um adotando o conceito mais adequado à sua aplicação. Segundo \citeonline{bib:sampaio}, compreende-se por \textit{partícula} um objeto ao qual são atribuídas propriedades físicas, mas cuja estrutura interna é desconsiderada. Cada partícula possui também uma função posição, que descreve a posição de seu centro de massa em função do tempo, e uma função orientação, que determina a posição dos seus eixos principais, sendo que essas duas definições são tomadas com relação a um sistema de referência fixo no espaço.
 
 Por sua vez, um \textit{sistema de partículas} é um conjunto de partículas que interagem entre si. Conforme citado na \autoref{sec:motivation}, essas interações podem ser de diversas naturezas, das quais destacam-se as forças de colisão.
 
@@ -114,7 +114,7 @@ Segundo \citeonline{bib:computational_granular_dynamics}, algoritmos do DEM, de 
 	\item \textbf{Predição:} O cálculo de forças e torques atuantes sobre cada partícula depende da posição, da velocidade, da orientação e da velocidade angular dos elementos da simulação, que são desconhecidas no instante futuro. Sendo assim, é necessária uma estimativa, ou \textit{predição}, para os valores dessas variáveis. Essa estimativa é feita na etapa de predição. \label{item:prediction}
 	\item \textbf{Interação:} A etapa de interação se divide em duas subetapas:
 		\begin{enumerate}
-			\item Determinação dos pares de interação. Nem todas as partículas interagem em todos os instantes.
+			\item Determinação dos pares de interação. Nem todas as partículas interagem em todos os instantes. Para o caso das forças de colisão, é necessário identificar todos os pares que estão em contato. Essa etapa costuma ser a mais custosa do método, e várias técnicas são propostas para minimizar esse custo.
 			\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}.
 		\end{enumerate}
 	\item \textbf{Correção:} Nesta etapa, valores corrigidos para as coordenadas (e as respectivas derivadas) das partículas são obtidos através da resolução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second}.
@@ -141,7 +141,7 @@ Também é possível acoplar o DEM a outras famílias de métodos, como FEM (Mé
 
 \section{Revisão Bibliográfica}
 
-A base matemática para os Métodos de Elementos Discretos foi fundada por Isaac Newton, com a divulgação de suas leis de movimento. Entretanto, devido às dificuldades mencionadas na seção \ref{sec:motivation} tais quais a quantidade de partículas e a natureza das equações diferenciais, a análise de sistemas de partículas só se tornou factível com o advento dos computadores.
+A base matemática para os Métodos de Elementos Discretos foi fundada por Isaac Newton, com a divulgação de suas leis de movimento. Entretanto, devido às dificuldades mencionadas na seção \ref{sec:motivation}, como a quantidade de partículas e a natureza das equações diferenciais, a análise de sistemas de partículas só se tornou factível com o advento dos computadores.
 
 O Método dos Elementos Discretos foi primeiramente apresentado por Cundall. Uma descrição do método pode ser encontrada em \citeonline{bib:cundall1979}, em que se consideram atrito e amortecimento na colisão das partículas. A presença de atrito provoca rotações, que devem ser solucionadas juntamente com as posições. Nesse algoritmo, as velocidades eram preditas como constantes durante um passo de tempo.
 
@@ -157,7 +157,7 @@ O SINMEC - Laboratório de Simulação Numérica em Mecânica dos Fluidos e Tran
 
 Devido à importância do tema e à possibilidade de se estudar o acoplamento entre a dinâmica de partículas e os fenômenos de transporte, surgiu o interesse do laboratório em iniciar uma área de pesquisa acerca do Método de Elementos Discretos Estendido utilizando o EbFVM para a solução de escoamentos. Para tanto, porém, é necessária, primeiramente, uma compreensão acerca do DEM.
 
-Sendo assim, este trabalho objetiva iniciar essa linha de pesquisa no SINMEC, desenvolvendo um simulador que seja de fácil extensão, permitindo que novos modelos de interação, tipos de partículas e algoritmos de solução sejam introduzidos à medida que novos estudos sejam feitos. Para que isso se tornasse possível, este trabalho foi subdividido em três partes: primeiramente, uma biblioteca deveria ser implementada, contendo a lógica do funcionamento dos algoritmos DEM, de forma generalizada, sem particularizar suas características; na segunda parte, seria gerado um simulador que, tomando a biblioteca como base, especificasse os tipos de partícula, as interações e os métodos de solução; e, por fim, executar simulações no simulador e validar a implementação através da análise dos resultados e da comparação com soluções analíticas. 
+Sendo assim, este trabalho objetiva iniciar essa linha de pesquisa no SINMEC, desenvolvendo um simulador que seja de fácil extensão, permitindo que novos modelos de interação, tipos de partículas e algoritmos de solução sejam introduzidos à medida que novos estudos sejam feitos. Para que isso se tornasse possível, este trabalho foi subdividido em três partes: primeiramente, implementar uma biblioteca contendo toda a lógica do funcionamento dos algoritmos DEM de forma generalizada, sem particularizar suas características; na segunda parte, gerar um simulador que, tomando a biblioteca como base, especifique os tipos de partícula, as interações e os métodos de solução; e, por fim, executar simulações no simulador e validar a implementação através da análise dos resultados e da comparação com soluções analíticas. 
  
 Com o propósito de melhor guiar as atividades, são propostos os seguintes objetivos específicos:
 \begin{enumerate}
@@ -187,7 +187,7 @@ Para melhor cobrir todos os assuntos relativos ao cumprimento dos objetivos, al�
 \begin{description}
 	\item[\autoref{ch:mathematical_model} - \nameref{ch:mathematical_model}:] Nesse capítulo, são abordados os aspectos teóricos e matemáticos concernentes ao DEM. Nele, são descritas as equações de movimento que devem ser solucionadas, alguns dos principais modelos para as forças de colisão e o algoritmo de Gear;
 	\item[\autoref{ch:discrete_element_method} - \nameref{ch:discrete_element_method}:] Nesse capítulo, é descrito o DEM, demonstrando como os conceitos apresentados no capítulo \ref{ch:mathematical_model} são aplicados e transformados em algoritmos.
-	\item[\autoref{ch:computational_implementation} - \nameref{ch:computational_implementation}:] Esse capítulo evidencia a implementação da biblioteca e do simulador em linguagem C++ ao apresentar códigos, pseudocódigos e fluxogramas com o intuito de fornecer uma visão geral do código e explicar o seu funcionamento.
-	\item[\autoref{ch:results} - \nameref{ch:results}:] Esse capítulo é destinado à apresentação de resultados de simulação, à sua confrontação com soluções analíticas e à análise de tais resultados. Com isso, a implementação é validada.
+	\item[\autoref{ch:computational_implementation} - \nameref{ch:computational_implementation}:] Esse capítulo evidencia a implementação da biblioteca e do simulador em linguagem C++ ao apresentar códigos, pseudocódigos e fluxogramas com o intuito de fornecer uma visão geral do programa e explicar o seu funcionamento.
+	\item[\autoref{ch:results} - \nameref{ch:results}:] Esse capítulo é destinado à apresentação de resultados de simulação, à sua confrontação com soluções analíticas e à sua análise. Com isso, a implementação é validada.
 	\item[\autoref{ch:conclusion} - \nameref{ch:conclusion}:] O último capítulo é dedicado a sumarizar o trabalho, reafirmando os principais pontos explorados ao longo do texto e atestando que os objetivos propostos foram alcançados. Também são apresentadas algumas sugestões para trabalhos futuros.
 \end{description}

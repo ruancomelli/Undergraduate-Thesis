@@ -79,6 +79,8 @@
 \newcommand{\accelerationy}{\yComponent{\accelerationScalar}}
 \newcommand{\accelerationz}{\zComponent{\accelerationScalar}}
 \newcommand{\acceleration}{\deriv{2}{\position}}
+\newcommand{\accelerationi}{\ind{\acceleration}{i}}
+\newcommand{\accelerationj}{\ind{\acceleration}{j}}
 \newcommand{\mass}{m}
 \newcommand{\massi}{\ind{\mass}{i}}
 \newcommand{\massj}{\ind{\mass}{j}}
@@ -101,8 +103,10 @@
 \newcommand{\angularVelocityi}{\ind{\angularVelocity}{i}}
 \newcommand{\angularVelocityj}{\ind{\angularVelocity}{j}}
 \newcommand{\angularAcceleration}{\deriv{1}{\angularVelocity}}
+\newcommand{\angularAccelerationi}{\ind{\angularAcceleration}{i}}
 
 \newcommand{\momentOfInertia}{J} % Scalar moment of inertia
+\newcommand{\momentOfInertiai}{\ind{\momentOfInertia}{i}} % Scalar moment of inertia
 \newcommand{\tensorOfInertia}{\tensor{\momentOfInertia}} % Tensorial moment of inertia
 \newcommand{\matrixOfInertia}{\mtx{\momentOfInertia}} % Matricial moment of inertia
 \newcommand{\xxMomentOfInertia}{\momentOfInertia_{\text{xx}}}
@@ -186,7 +190,7 @@
 \newcommand{\identity}{\mtx{I}}
 
 \newcommand{\basis}{\mtx{e}}
-\newcommand{\principal}[1]{{#1}^\star}
+\newcommand{\principal}[1]{#1^\star}
 
 \newcommand{\particleSet}{\mathcal{P}}
 \newcommand{\particle}{\mathcal{P}}
@@ -202,6 +206,7 @@
 \newcommand{\suchThat}{\,\middle|\,}
 
 \newcommand{\neighborhood}{\mathcal{N}}
+\newcommand{\neighborhoodi}{\ind{\neighborhood}{i}}
 \newcommand{\neighborhoodOf}[1]{\neighborhood\pqty{#1}}
 \newcommand{\ineighborhood}[1]{\neighborhood_{#1}}
 
@@ -231,8 +236,6 @@
 \newcommand{\contactPointi}{\ind{\contactPoint}{i}}
 \newcommand{\contactPointj}{\ind{\contactPoint}{j}}
 \newcommand{\contactPointij}{\betw{\contactPoint}{i}{j}}
-\newcommand{\contactCircleRadius}{a}
-\newcommand{\contactCircleRadiusij}{\betw{\contactCircleRadius}{i}{j}}
 
 \newcommand{\contactRadiusij}{\fromTo{\radialVectorScalar}{i}{j}}
 \newcommand{\contactRadiusji}{\fromTo{\radialVectorScalar}{j}{i}}
@@ -319,6 +322,14 @@
 \newcommand{\tangentialElasticConstantij}{\betw{\kappa}{i}{j}^{\text{t}}}
 
 \newcommand{\collisionBeginningij}{\betw{t}{i}{j}}
+
+\newcommand{\betaij}{\betw{\beta}{i}{j}}
+\newcommand{\omegaij}{\betw{\omega}{i}{j}}
+\newcommand{\omegazij}{\principal{\omegaij}}
+\newcommand{\Omegaij}{\betw{\Omega}{i}{j}}
+
+\newcommand{\remainderFunction}[3]{R_{#1,#2,#3}}
+\newcommand{\rkty}[3]{\remainderFunction{\taylorOrder}{t}{y}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
