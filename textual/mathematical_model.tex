@@ -470,12 +470,12 @@ Nota-se dessa equação que
 \end{equation*}
 
 A velocidade normal de \(j\) relativa ao elemento \(i\) é a projeção de \(\relativeVelocityContactPointji\) na direção de \(\normalVersorij\):
-\begin{equation*}
+\begin{equation} \label{eq:relative_normal_velocity}
 	\begin{array}{rl}
 		\relativeNormalVelocityij & = \innerProduct{\relativeVelocityContactPointij}{\normalVersorij}\cdot\normalVersorij \\
 		& = \relativeNormalVelocityScalarij\cdot\normalVersorij.
 	\end{array}
-\end{equation*}
+\end{equation}
 
 Por sua vez, velocidade tangencial de \(j\) relativa ao elemento \(i\) é simplesmente a correspondente velocidade relativa sem a componente na direção normal:
 \begin{equation*}
@@ -655,19 +655,131 @@ O coeficiente de restituição normal, nesse caso, é uma função da velocidade
 \end{equation*}
 sendo que as constantes \(C_m\) são bem determinadas \cite[p. 143]{bib:computational_granular_dynamics} e
 \begin{equation*}
-	\rho \eqdef \dfrac{4\cdot\effectiveNormalElasticij}{3}\cdot\dfrac{\sqrt{\effectiveRadiusij}}{\pqty{\massi^{-1} + \massj^{-1}}^{-1}}.
+	\rho \eqdef \dfrac{4\cdot\effectiveNormalElasticij}{3}\cdot\dfrac{\sqrt{\effectiveRadiusij}}{\massij}.
 \end{equation*}
 
 O modelo de esferas viscoelásticas se aproxima melhor dos resultados experimentais que o modelo de amortecedor linear, sendo por isso mais utilizado em simulações de sistemas reais \cite[p. 143]{bib:computational_granular_dynamics}.
 
 \subsubsection*{Duração das Colisões}
 
-\alert{Continuar aqui}
+Um problema que se encontra com a definição dos modelos de amortecedor linear e de esferas viscoelásticas é a inversão de sinal da força.
+
+No início do choque, tanto a superposição quanto a sua derivada são positivas o que implica, de acordo com as expressões para a força, que ocorre repulsão entre as partículas. A penetração entre as partículas aumenta continuamente até que, em determinado instante, atinge um valor máximo. Devido à força normal repulsiva, inicia-se o fenômeno de descompressão, em que as partículas se afastam. Nessa etapa, a derivada da superposição é negativa. É possível, dependendo dos parâmetros da simulação, que essa diferença de sinais entre a superposição e a sua derivada resultem em uma força normal \textit{atrativa}. Essa atração ocorre quando \(\overlapDerivativeij\) atinge um valor crítico \(\principal{\overlapDerivativeij}\), em que a força calculada é nula.
+
+No entanto a atração entre partículas geralmente não condiz com resultados experimentais. Uma das técnicas para eliminar esse fenômeno é limitarem-se inferiormente as forças calculadas. Esse artifício justifica-se pois, embora tenha sido feita a hipótese de que as partículas não se deformem, partículas reais são deformáveis, e essa deformação pode ser suficiente para encerrar a colisão em um tempo anterior do que aquele considerado pelo modelo que partículas rígidas.
+
+Para o amortecedor linear, isso significa que
+\begin{equation*}
+	\normalForceScalarji = \max\Bqty{\elasticModulusij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij, \,\, 0},
+\end{equation*}
+enquanto, para o modelo de esferas viscoelásticas, essa correção resulta em
+\begin{equation*}
+	\normalForceScalarji = \max\Bqty{\dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot\pqty{
+		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\overlapDerivativeij\sqrt{\overlapij}
+	}, \,\, 0}.
+\end{equation*}
+
+Como consequência dessa mudança, o coeficiente de restituição normal tem seu valor alterado. \citeonline{bib:linear_dashpot_revisited} demonstram que, para o modelo de amortecedor linear, o coeficiente de restituição normal fica
+\begin{equation*}
+	\normalCoefficientOfRestitutionij = 
+	\left\lbrace
+		\def\arraystretch{1.5}
+		\begin{array}{ll}
+			\exp\bqty{-\dfrac{\beta}{\omega}\pqty{\pi - \arctan\dfrac{2\beta\omega}{\omega^2-\beta^2}}}, & \text{se } \beta < \dfrac{\omega_0}{\sqrt{2}} \\
+			\exp\bqty{-\dfrac{\beta}{\omega}\arctan\dfrac{2\beta\omega}{\omega^2-\beta^2}}, & \text{se } \beta \in \bqty{\dfrac{\omega_0}{\sqrt{2}}, \omega_0} \\
+			\exp\bqty{-\dfrac{\beta}{\Omega} \ln\dfrac{\beta + \Omega}{\beta - \Omega}}, & \text{se } \beta > \omega_0
+		\end{array}
+	\right.
+	,
+\end{equation*}
+em que
+\begin{gather*}
+	\omega_0 = \bigslant{\effectiveNormalElasticij}{\massij}, \\
+	\beta = \bigslant{\normalDampingConstantij}{\massij}, \\
+	\omega = \sqrt{\omega_0^2 - \beta^2}, \\
+	\Omega = \sqrt{\beta^2 - \omega_0^2}.
+\end{gather*}
 
 \subsection{Modelos de Força Tangencial} \label{subsec:tangential_force_models}
-\alert{Escrever}
-\subsubsection*{Modelo 1}\alert{Escrever}
-\subsubsection*{Modelo 2}\alert{Escrever}
+
+Modelos para forças tangenciais, diferentemente dos modelos para forças normais, têm caráter intrinsecamente dinâmico, resistindo sempre ao movimento relativo entre as partículas. Modelos de força tangencial são responsáveis por fornecer um valor de força tangencial
+\begin{equation*}
+	\tangentialForceji = \tangentialForceScalarji\tangentialVersorji.
+\end{equation*}
+
+O fato de que a força tangencial resiste ao movimento é representado pela desigualdade
+\begin{equation*}
+	\tangentialForceScalarji \leq 0.
+\end{equation*}
+
+Ainda, plea lei de Coulomb, a força tangencial não pode superar, em módulo, a força de atrito dinâmico 
+\begin{equation*}
+	\dynamicFrictionForceji = - \dynamicFrictionij\normalForceScalarji\cdot\tangentialVersorji,
+\end{equation*}
+em que \(\dynamicFrictionij\) é o coeficiente de atrito dinâmico entre o par de partículas \(\particlei\) e \(\particlej\). Disso segue a desigualdade
+\begin{equation} \label{eq:coulomb_law}
+	\tangentialForceScalarji \geq - \dynamicFrictionij\normalForceScalarji.
+\end{equation}
+
+Ao se determinar a força tangencial, a componente de torque \(\torqueji\) que a partícula \(j\) aplica sobre a \(i\) pode ser calculada como
+\begin{equation*}
+	\torqueji = \contactVectorij\cross\tangentialForceji
+\end{equation*}
+
+Nesta seção, são apresentados os dois principais modelos de força tangencial, de acordo com \citeonline{bib:computational_granular_dynamics}.
+
+\subsubsection*{Modelo de Haff e Werner}
+
+Segundo \citeonline{bib:computational_granular_dynamics}, o modelo de Haff e Werner já foi aplicado com sucesso em diversas simulações. Esse modelo é o análogo tangencial do modelo de amortecedor linear para a força normal.
+
+Para partículas esféricas, supondo que há contato, resulta das equações \eqref{eq:spherical_particle_overlap_derivative} e \eqref{eq:relative_normal_velocity} que
+\begin{equation*}
+	\overlapDerivativeij = \relativeNormalVelocityScalarij.
+\end{equation*}
+
+Além disso, devido ao caráter dinâmico da força tangencial, desconsideram-se componentes elásticas.
+
+Com essas considerações e com a restrição da lei de Coulomb \eqref{eq:coulomb_law}, o análogo tangencial da equação \eqref{eq:linear_dashpot_force} fica
+\begin{equation*}
+	\tangentialForceScalarji = - \min\set{\tangentialDampingConstantij\cdot\relativeTangentialVelocityScalarij,\,\, \dynamicFrictionij\cdot\normalForceScalarji},
+\end{equation*}
+em que
+\begin{itemize}
+	\item \(\tangentialDampingConstantij\) a constante de amortecimento efetiva do par \(i\) e \(j\). Essa constante pode ser obtida por uma associação em série de amortecedores de constantes \(\tangentialDampingConstanti\) e \(\tangentialDampingConstantj\), cada um associado a uma das partículas, como
+	\begin{equation*}
+		\tangentialDampingConstantij = \pqty{\dfrac{1}{\tangentialDampingConstanti} + \dfrac{1}{\tangentialDampingConstantj}}^{-1}
+	\end{equation*}
+
+	\item \(\dynamicFrictionij\) é o fator de atrito para o par \(\pqty{i,j}\). Embora esse fator seja definido para pares de partículas, é possível atribuirem-se fatores \(\dynamicFrictioni\) e \(\dynamicFrictionj\), um a cada partícula, de modo que
+	\begin{equation*}
+		\dynamicFrictionij = \min\Bqty{\dynamicFrictioni, \dynamicFrictionj}
+	\end{equation*}
+\end{itemize}
+
+Com isso, o modelo de Haff e Werner assemelha-se a um modelo de amortecedor linear, exceto pelo fato de haver a limitação da lei de Coulomb.
+
+A dificuldade apresentada por esse modelo é que não há propriedades de material mensuráveis a partir dos quais se possa extrair os valores de \(\tangentialDampingConstanti\) e \(\tangentialDampingConstantj\). Esses parâmetros só são conhecidos posteriormente, com a comparação entre os resultados das simulações e experimentos.
+
+\subsubsection*{Modelo de Cundall e Strack}
+
+Ao contrário do modelo de Haff e Werner, no modelo de Cundall e Strack supõe a existência de uma mola que resiste ao deslocamento relativo entre as partículas na direção tangencial. Esse modelo foi proposto por \citeonline[p. 52]{bib:cundall1979}. Considera-se que a mola esteja na posição de equilíbrio no instante de início da colisão \(\collisionBeginningij\), e a sua deformação ou elongação no instante \(t\) é dada por
+\begin{equation*}
+	\elongationij\pqty{t} = \int_{\collisionBeginningij}^{t} \relativeTangentialVelocityScalarij\pqty{\tau} \dd{\tau}.
+\end{equation*}
+
+Com isso, e considerando a restrição da lei de Coulomb, a força calculada pelo modelo de Cundall e Strack fica
+\begin{equation*}
+	\tangentialForceScalarji = - \min\Bqty{\tangentialElasticConstantij\elongationij\pqty{t},\,\, \dynamicFrictionij\cdot\normalForceScalarji},
+\end{equation*}
+sendo que
+\begin{itemize}
+	\item \(\tangentialElasticConstantij\) é a constante elástica da mola equivalente no choque. Essa mola equivalente pode ser tratada como a associação em série de molas de constantes \(\tangentialElasticConstanti\) e \(\tangentialElasticConstantj\):
+	\begin{equation*}
+		\tangentialElasticConstantij = \tangentialElasticConstanti + \tangentialElasticConstantj.
+	\end{equation*}
+
+	Porém essas constantes, assim como o amortecimento no modelo de Haff e Werner, só são obtidas na comparação posterior das simulações com resultados experimentais.
+\end{itemize}
 
 \section{Extrapolação de Funções}
 \label{sec:extrapolation}
@@ -910,4 +1022,6 @@ O erro global do algoritmo de Gear é da ordem de \(\Dt^{\taylorOrder+1+\maxDeri
 	\deriv{\eqOrder}{y} = f\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
 \]
 
-Para o caso de uma partícula, \alert{continuar}
+Para o caso de uma partícula, tem-se \(p=2\) e \(q=1\) para as equações de movimento, o que resulta em um erro da ordem de \(\Dt^{\taylorOrder}\).
+
+Com essas informações, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.

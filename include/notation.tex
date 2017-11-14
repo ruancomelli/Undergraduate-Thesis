@@ -282,6 +282,11 @@
 \newcommand{\normalDampingConstantj}{\normal{\ind{\dampingConstant}{j}}}
 \newcommand{\normalDampingConstantij}{\normal{\betw{\dampingConstant}{i}{j}}}
 \newcommand{\normalDampingConstantji}{\normal{\betw{\dampingConstant}{j}{i}}}
+\newcommand{\tangentialDampingConstant}{\tangential{\dampingConstant}}
+\newcommand{\tangentialDampingConstanti}{\tangential{\ind{\dampingConstant}{i}}}
+\newcommand{\tangentialDampingConstantj}{\tangential{\ind{\dampingConstant}{j}}}
+\newcommand{\tangentialDampingConstantij}{\tangential{\betw{\dampingConstant}{i}{j}}}
+\newcommand{\tangentialDampingConstantji}{\tangential{\betw{\dampingConstant}{j}{i}}}
 
 \newcommand{\normalDissipativeConstant}{A}
 \newcommand{\normalDissipativeConstanti}{\ind{\normalDissipativeConstant}{i}}
@@ -297,6 +302,23 @@
 
 \newcommand{\error}{\text{E}}
 \newcommand{\maximumError}{\error_{\text{max}}}
+
+\newcommand{\friction}{\mu}
+\newcommand{\dynamic}[1]{#1}
+\newcommand{\dynamicFrictioni}{\dynamic{\ind{\friction}{i}}}
+\newcommand{\dynamicFrictionj}{\dynamic{\ind{\friction}{j}}}
+\newcommand{\dynamicFrictionij}{\dynamic{\betw{\friction}{i}{j}}}
+\newcommand{\dynamicFrictionForceij}{\dynamic{\fromTo{\force}{i}{j}^{\text{f}}}}
+\newcommand{\dynamicFrictionForceji}{\dynamic{\fromTo{\force}{j}{i}^{\text{f}}}}
+
+\newcommand{\elongation}{\zeta}
+\newcommand{\elongationij}{\fromTo{\elongation}{i}{j}}
+\newcommand{\tangentialElasticConstant}{\kappa^{\text{t}}}
+\newcommand{\tangentialElasticConstanti}{\ind{\kappa}{i}^{\text{t}}}
+\newcommand{\tangentialElasticConstantj}{\ind{\kappa}{j}^{\text{t}}}
+\newcommand{\tangentialElasticConstantij}{\betw{\kappa}{i}{j}^{\text{t}}}
+
+\newcommand{\collisionBeginningij}{\betw{t}{i}{j}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
