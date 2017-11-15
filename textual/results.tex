@@ -2,9 +2,29 @@
 
 Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada. A apresentação e a análise de simulações são feitas neste capítulo. Com o fim de se fazer a validação numérica, os resultados são comparados com soluções analíticas ou qualitativamente avaliados.
 
+\alert{Reescrever isso}
+
+O procedimento adotado para validação numérica da implementação considera:
+\begin{itemize}
+	\item \alert{A primeira técnica é a comparação qualitativa com a solução analítica. }
+	\item \alert{Também define-se a função erro. Erros baixos implicam exatidão.}
+	\item \alert{A análise da evolução do erro ajuda a caracterizar o método}
+\end{itemize}
+
 \alert{Talvez explicar melhor o objetivo deste capítulo}
 \alert{Fazer um breve resumo das simulações executadas}
 \alert{As simulações foram executadas em um computador com épsilon de máquina igual a \(2,2204460492503131e-16\)}
+\alert{Definir o erro}
+
+O \textit{erro} de um resultado é uma medida fundamental para atestar-se a validade de um método. Quanto maior o erro, menos representativa se torna a simulação. Sendo \(y\) uma solução obtida numericamente e \(\analytical{y}\) a solução exata do problema, define-se o erro de \(y\) como
+\begin{equation*}
+	\errorOf{y} = \abs{y - \analytical{y}}.
+\end{equation*}
+
+O erro máximo, por sua vez, é o maior erro pontual entre \(y\) e \(\analytical{y}\), isto é, é o maior elemento do conjunto imagem da função erro:
+\begin{equation*}
+	\maximumErrorOf{y} = \max\pqty{\Im\pqty{\errorOf{y}}}.
+\end{equation*}
 
 \section{Lançamento Oblíquo}
 
@@ -45,7 +65,7 @@ Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\)
 	\label{table:free_fall_solution}
 
 	\begin{equation*}
-		% \arraycolsep=1.4pt
+		\arraycolsep=1.5\arraycolsep
 		\def\arraystretch{1.5}
 		\begin{array}{lccc}
 	\hline
@@ -71,11 +91,11 @@ Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\)
 	\legend{Fonte: do Autor}
 \end{table}
 
-Embora seja um problema conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite:
+Embora seja conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite:
 \begin{itemize}
-\item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo.
-\item A análise da evolução do erro em função do passo de tempo.
-\item A obtenção da evolução do erro com o tempo de simulação.
+\item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo. Em cada instante, as coordenadas da partícula são previstas e, em seguida, corrigidas a partir do valor da força peso. A proximidade da resposta numericamente calculada com a solução analítica evidencia o bom funcionamento do algoritmo e valida a implementação.
+\item A análise da evolução do erro em função do passo de tempo. Como indicado na \autoref{sec:gear_integration_scheme}, o algoritmo de Gear apresenta um erro global da ordem de \(\Dt^\taylorOrder\), sendo \(\taylorOrder\) a ordem da maior derivada considerada. \alert{e a verificação desse fato[...]}
+\item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo. \alert{Falar mais alguma coisa aqui}
 \end{itemize}
 
 
@@ -85,18 +105,19 @@ Embora seja um problema conceitualmente simples e de fácil resolução, o probl
 \subsection{Estudo de Caso} \alert{Que título horrível!}
 
 A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados os seguintes valores aos parâmetros do problema:
-\begin{description}
-	\item[Massa da partícula: ] \(\mass = 1\,\si\kilogram\);
-	\item[Raio da partícula: ] \(\radius = 3\,\si\centi\metre\);
-	\item[Posição inicial: ] \(\explicitVector{\initial{\positionx}}{\initial{\positiony}}{\initial{\positionz}} = \explicitVector{0}{0}{0}\si{\metre}\);
-	\item[Velocidade inicial: ] \(\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{10}{5}{0}\si[per-mode=symbol]{\metre\per\second}\);
+\begin{parametersdesc}
+	\item{Massa da partícula}{\mass = 1}{\si\kilogram}
+	\item{Raio da partícula}{\radius = 3}{\si\centi\metre}
+	\item{Posição inicial}{\explicitVector{\initial{\positionx}}{\initial{\positiony}}{\initial{\positionz}} = \explicitVector{0}{0}{0}}{\si{\metre}}
+	\item{Velocidade inicial}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{10}{5}{0}}{\si[per-mode=symbol]{\metre\per\second}}
 	\alert{Confusão entre 10,5 e 10, 5 ??}
-	\item[Aceleração inicial: ] \(\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitVector{0}{0}{0}\si[per-mode=symbol]{\metre\per\square\second}\);
-	\item[Instante final: ] \(\final{t} = 2\,\si\second\) 
-	\item[Ordem de extrapolação: ] \(\taylorOrder = 7\)
-	\item[Gravidade: ] \(\gravityScalar = 9,81\,\si[per-mode=symbol]{\metre\per\square\second}\)
-	\item[Passo de tempo: ] \(\Dt = 10^{-3}\,\si\second\)
-\end{description}
+	\item{Aceleração inicial}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Instante final}{\final{t} = 2\,}{\si\second} 
+	\item{Ordem de extrapolação}{\taylorOrder = 7}{}
+	\item{Gravidade}{\gravityScalar = 9,81\,}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Passo de tempo}{\Dt = 10^{-3}\,}{\si\second}
+\end{parametersdesc} 
+
 \alert{Usar uma tabela?}
 
 Muito embora se trate de um problema bidimensional sem rotação, o simulador utiliza a formulação tridimensional e considera a evolução da velocidade angular da partícula.
@@ -130,10 +151,15 @@ Com esses parâmetros, foi calculada a trajetória da partícula através do sim
 	% \vspace{-1cm}
 \end{figure}
 
-\alert{Definir erro máximo}
-
 \alert{Incluir arquivo .json em um apêndice para mostrar como a simulação é configurada?}
 
 \subsection{Influência da Ordem de Extrapolação}
 
 \subsection{Influência do Passo de Tempo}
+
+\section{Queda Livre com Arrasto}
+\section{Esfera Contra Parede}
+\section{Esfera Quicando}
+\section{Colisão com Rotação}
+\section{Escoamento em Funil}
+\section{Colisão de Esferas com Condutividade Infinita}

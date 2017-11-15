@@ -14,3 +14,15 @@
 
 % Allow table elements to spread over multiple rows
 \usepackage{multirow}
+
+\newenvironment{parametersdesc}
+	{
+		% \let\olditem\item
+		\let\olditem\item
+		\renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
+		\begin{description}
+	}
+	{
+		\end{description}
+		% \renewcommand{\item}{\olditem}
+	}
