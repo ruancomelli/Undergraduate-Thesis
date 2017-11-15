@@ -137,9 +137,7 @@ Entretanto o sistema \eqref{eq:motion_second_system} exige que se conheçam os e
 
 \alert{Verificar que os detalhes foram explicados no apêndice}
 
-Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a simulação ocorre em apenas duas dimensões; ou que as partículas são esféricas. No primeiro caso, a direção de rotação é constante. Essa situação é tratada na \autoref{subsubsec:bidimensional}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}.
-
-O caso geral de rotações em três dimensões é apresentado no \autoref{app:three_dimensional_rotation}.
+Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a simulação ocorre em apenas duas dimensões; ou que as partículas são esféricas. No primeiro caso, a direção de rotação é constante. Essa situação é tratada na \autoref{subsubsec:bidimensional}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}. Por fim, na \autoref{subsubsec:general_rotation}, apresenta-se o caso de rotação geral em três dimensões.
 
 \subsubsection{Simulação Bidimensional} \label{subsubsec:bidimensional}
 
@@ -234,6 +232,48 @@ ou ainda
 	\resultingTorque = \momentOfInertia\cdot\angularAcceleration,
 \end{equation}
 e, com isso, a equação diferencial para o movimento de rotação está pronta para simulações tridimensionais de partículas esféricas.
+
+\subsubsection{Rotação Geral em Três Dimensões} \label{subsubsec:general_rotation}
+
+Para simulações em três dimensões com partículas não esféricas, utiliza-se o sistema de equações \eqref{eq:motion_second_system}. A solução do sistema, porém, não é trivial já que as equações são dadas em termos das direções principais da partícula.
+
+As direções principais de uma partícula são dadas pela base ortonormal \(\principal{\basis} = \explicitVector{\principal{\xUnit}}{\principal{\yUnit}}{\principal{\zUnit}}\) cujos versores são autovetores da matriz de momento de inércia. A importância dessa base se dá pelo fato de que a matriz de momento de inércia se torna diagonal quando escrita em termos de seus vetores.
+
+Entretanto, em virtude do caráter dinâmico dos sistemas de partículas, as direções principais dos elementos são funções do tempo: \(\principal{\basis} \equiv \principal{\basis}\pqty{t}\). Uma \textit{parametrização} para a orientação é qualquer conjunto de coordenadas \(\orientation\) que defina, equivalentemente, as direções principais. Diversas parametrizações já foram propostas, como mostrado no \autoref{app:three_dimensional_rotation}.
+
+Com a parametrização \(\orientation\), sempre é possível obter os eixos principais através de uma transformação inversível:
+\begin{equation*}
+	\principal{\basis}\pqty{t} \leftrightarrow \orientation\pqty{t},
+\end{equation*}
+e sempre é possível obter uma matriz de rotação \(\orientationRotationMatrix\) que transforme vetores da base de eixos locais na base das direções principais da partícula.
+
+Ainda, com os eixos principais dados em função de \(\orientation\), é possível calcularem-se a velocidade angular e suas derivadas a partir da parametrização e suas derivadas:
+\begin{gather*}
+	\angularVelocity \equiv \angularVelocity\pqty{\orientation, \deriv{1}{\orientation}}, \\
+	\deriv{1}{\angularVelocity} \equiv \deriv{1}{\angularVelocity}\pqty{\orientation, \deriv{1}{\orientation}, \deriv{2}{\orientation}}, \\
+	\vdots \\
+	\deriv{\taylorOrder}{\angularVelocity} \equiv \deriv{\taylorOrder}{\angularVelocity}\pqty{\orientation, \deriv{1}{\orientation}, \dots, \deriv{\taylorOrder+1}{\orientation}}.
+\end{gather*}
+
+Essas relações são inversíveis, e então é possível obter
+\begin{gather*}
+	\deriv{1}{\orientation} \equiv \deriv{1}{\orientation}\pqty{\orientation, \angularVelocity} \\
+	\deriv{2}{\orientation} \equiv \deriv{2}{\orientation}\pqty{\orientation, \angularVelocity, \deriv{1}{\angularVelocity}} \\
+	\vdots \\
+	\deriv{\taylorOrder+1}{\orientation} \equiv \deriv{\taylorOrder+1}{\orientation}\pqty{\orientation, \angularVelocity, \dots, \deriv{\taylorOrder}{\angularVelocity}}
+\end{gather*}
+
+Assim, com a parametrização, é possível definir-se toda a cinemática da rotação da partícula. Mais ainda, devido à equivalência entre o sistema de eixos principais e a parametrização, vetores definidos com relação ao sistema de eixos locais podem ser escritos em termos das direções principais. Isso significa que
+\begin{equation*}
+	\principal{\resultingTorque} \equiv \principal{\resultingTorque}\pqty{\resultingTorque, \orientation}.
+\end{equation*}
+
+Como resultado dessas considerações, o sistema de equações \eqref{eq:motion_second_system} pode ser transformado em uma equação diferencial da forma
+\begin{equation*}
+	\deriv{2}{\orientation} = \eqFor{\orientation}\pqty{\resultingTorque, \orientation, \deriv{1}{\orientation}}.
+\end{equation*}
+
+A função \(\eqFor{\orientation}\) representa a dependência de \(\deriv{2}{\orientation}\) com relação a \(\resultingTorque\), \(\orientation\) e \(\deriv{1}{\orientation}\), e seu formato depende da definição da parametrização e da expressão para o torque resultante em função das variáveis do problema.
 
 \subsection{Solução das Equações de Movimento} \label{subsec:motion_equations_solution}
 
