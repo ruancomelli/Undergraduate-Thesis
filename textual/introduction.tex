@@ -137,7 +137,7 @@ Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorith
 	% \vspace{-1cm}
 \end{figure}
 
-Também é possível acoplar o DEM a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:dem_chapter} apresentam alguns exemplos das diversas extensões que podem ser feitas ao DEM. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:conductivity} e \citeonline{bib:heat_dem} demonstram a aplicação de modelos de troca de calor. O acoplamento entre DEM e outras famílias é conhecido como EDEM, ou XDEM, o Método de Elementos Discretos Estendido.
+Também é possível acoplar o DEM a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:bicanic2007} apresentam alguns exemplos das diversas extensões que podem ser feitas ao DEM. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:conductivity} e \citeonline{bib:heat_dem} demonstram a aplicação de modelos de troca de calor. O acoplamento entre DEM e outras famílias é conhecido como EDEM, ou XDEM, o Método de Elementos Discretos Estendido.
 
 \section{Revisão Bibliográfica}
 
@@ -147,7 +147,7 @@ O Método dos Elementos Discretos foi primeiramente apresentado por Cundall. Uma
 
 O método foi ainda extendido com os trabalhos de \citeonline{bib:haff1986}, \apudonline{bib:walton1983}{bib:haff1986}, \citeonline{bib:gallas1992}, além de vários outros.
 
-Dentre as principais referências sobre o DEM, destacam-se \citeonline{bib:liquids}, \citeonline{bib:computational_granular_dynamics} e \citeonline{bib:dem_chapter}.
+Dentre as principais referências sobre o DEM, destacam-se \citeonline{bib:liquids}, \citeonline{bib:computational_granular_dynamics} e \citeonline{bib:bicanic2007}.
 
 Além das publicações acadêmicas, existem diversos \textit{softwares} comerciais e de código aberto projetados para simulação com o DEM, cada qual com seus objetivos, vantagens e desvantagens. Dentre os simuladores comerciais, destacam-se o Rocky DEM, o EDEM e o PFD (\textit{Particle Flow Code}). Dentre os principais programas de código aberto estão o Yade, o LIGGGHTS e o KRATOS. Algumas das características desses simuladores são o processamento em paralelo, a capacidade de customização, pós-processamento, geração de scripts, acoplamento entre diferentes físicas, uso de geometrias CAD e acoplamento com outros simuladores.
 
