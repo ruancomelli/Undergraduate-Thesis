@@ -97,6 +97,8 @@
 
 \newcommand{\orientationScalar}{\varphi}
 \newcommand{\orientation}{\vec{\orientationScalar}}
+\newcommand{\orientationi}{\ind{\orientation}{i}}
+\newcommand{\orientationj}{\ind{\orientation}{j}}
 \newcommand{\angularVelocityScalar}{\omega}
 \newcommand{\angularVelocityVersor}{\versor{\angularVelocityScalar}}
 \newcommand{\angularVelocity}{\vec{\angularVelocityScalar}}
@@ -104,6 +106,13 @@
 \newcommand{\angularVelocityj}{\ind{\angularVelocity}{j}}
 \newcommand{\angularAcceleration}{\deriv{1}{\angularVelocity}}
 \newcommand{\angularAccelerationi}{\ind{\angularAcceleration}{i}}
+
+\newcommand{\orientationRotationMatrix}{\mtx{\orientationScalar}}
+
+% \newcommand{\parametrizationScalar}{\Phi}
+% \newcommand{\parametrization}{\vec{\parametrizationScalar}}
+% \newcommand{\parametrizationi}{\ind{\parametrizationScalar}{i}}
+% \newcommand{\parametrizationj}{\ind{\parametrizationScalar}{j}}
 
 \newcommand{\momentOfInertia}{J} % Scalar moment of inertia
 \newcommand{\momentOfInertiai}{\ind{\momentOfInertia}{i}} % Scalar moment of inertia
@@ -211,6 +220,7 @@
 \newcommand{\ineighborhood}[1]{\neighborhood_{#1}}
 
 \newcommand{\dint}{\displaystyle\int}
+\newcommand{\dsum}{\displaystyle\sum}
 
 \newcommand{\distance}{d}
 \newcommand{\distanceij}{\betw{\distance}{i}{j}}
@@ -303,9 +313,6 @@
 \newcommand{\poissoni}{\ind{\poisson}{i}}
 \newcommand{\poissonj}{\ind{\poisson}{j}}
 
-\newcommand{\error}{\text{E}}
-\newcommand{\maximumError}{\error_{\text{max}}}
-
 \newcommand{\friction}{\mu}
 \newcommand{\dynamic}[1]{#1}
 \newcommand{\dynamicFrictioni}{\dynamic{\ind{\friction}{i}}}
@@ -322,6 +329,7 @@
 \newcommand{\tangentialElasticConstantij}{\betw{\kappa}{i}{j}^{\text{t}}}
 
 \newcommand{\collisionBeginningij}{\betw{t}{i}{j}}
+\newcommand{\collisionEndingij}{\betw{t}{i}{j}^\star}
 
 \newcommand{\betaij}{\betw{\beta}{i}{j}}
 \newcommand{\omegaij}{\betw{\omega}{i}{j}}
@@ -330,6 +338,17 @@
 
 \newcommand{\remainderFunction}[3]{R_{#1,#2,#3}}
 \newcommand{\rkty}[3]{\remainderFunction{\taylorOrder}{t}{y}}
+
+\newcommand{\error}{\text{Erro}}
+\newcommand{\maximumError}{\underset{\text{max}}{\error}}
+\newcommand{\errorOf}[1]{\error\pqty{#1}}
+\newcommand{\maximumErrorOf}[1]{\maximumError\pqty{#1}}
+
+\newcommand{\analytical}[1]{#1_S}
+
+\newcommand{\inverted}[1]{\dfrac{1}{#1}}
+
+\newcommand{\eqFor}[1]{f_{#1}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
