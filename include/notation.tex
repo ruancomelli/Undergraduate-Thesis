@@ -348,7 +348,48 @@
 
 \newcommand{\inverted}[1]{\dfrac{1}{#1}}
 
-\newcommand{\eqFor}[1]{f_{#1}}
+\newcommand{\eqFor}[1]{f^{#1}}
+\newcommand{\eqFori}[1]{{f_i}^{#1}}
+
+\newcommand{\extrapolationMatrixSymbol}{\mtx{A}}
+\newcommand{\extrapolationMatrix}[1]{\extrapolationMatrixSymbol_{#1}}
+
+\newcommand{\correctorConstantSymbol}{c}
+\newcommand{\correctorConstant}[1]{\correctorConstantSymbol_{#1}}
+\newcommand{\correctorConstantVectorSymbol}{\vec{\correctorConstantSymbol}}
+\newcommand{\correctorConstantVector}[1]{\correctorConstantVectorSymbol_{#1}}
+
+\newcommand{\dorientation}[1]{\deriv{#1}{\orientation}}
+\newcommand{\dorientationi}[1]{\ind{\deriv{#1}{\orientation}}{i}}
+\newcommand{\dangularVelocity}[1]{\deriv{#1}{\angularVelocity}}
+\newcommand{\dangularVelocityi}[1]{\ind{\deriv{#1}{\angularVelocity}}{i}}
+\newcommand{\ipr}{i,\text{pr}}
+\newcommand{\icorr}{i,\text{corr}}
+\newcommand{\positionipr}{\ind{\position}{\ipr}}
+\newcommand{\velocityipr}{\ind{\velocity}{\ipr}}
+\newcommand{\accelerationipr}{\ind{\acceleration}{\ipr}}
+\newcommand{\positionicorr}{\ind{\position}{\icorr}}
+\newcommand{\accelerationicorr}{\ind{\acceleration}{\icorr}}
+\newcommand{\orientationipr}{\ind{\orientation}{\ipr}}
+\newcommand{\orientationicorr}{\ind{\orientation}{\icorr}}
+\newcommand{\dorientationipr}[1]{\ind{\dorientation{#1}}{\ipr}}
+\newcommand{\dorientationicorr}[1]{\ind{\dorientation{#1}}{\icorr}}
+\newcommand{\jpr}{j,\text{pr}}
+\newcommand{\jcorr}{j,\text{corr}}
+\newcommand{\positionjpr}{\ind{\position}{\jpr}}
+\newcommand{\velocityjpr}{\ind{\velocity}{\jpr}}
+\newcommand{\accelerationjpr}{\ind{\acceleration}{\jpr}}
+\newcommand{\positionjcorr}{\ind{\position}{\jcorr}}
+\newcommand{\orientationjpr}{\ind{\orientation}{\jpr}}
+\newcommand{\orientationjcorr}{\ind{\orientation}{\jcorr}}
+\newcommand{\dorientationjpr}[1]{\ind{\dorientation{#1}}{\jpr}}
+\newcommand{\dorientationjcorr}[1]{\ind{\dorientation{#1}}{\jcorr}}
+\newcommand{\angularVelocityipr}{\ind{\angularVelocity}{\ipr}}
+\newcommand{\angularVelocityicorr}{\ind{\angularVelocity}{\icorr}}
+\newcommand{\angularVelocityjpr}{\ind{\angularVelocity}{\jpr}}
+\newcommand{\angularVelocityjcorr}{\ind{\angularVelocity}{\jcorr}}
+\newcommand{\dangularVelocityipr}[1]{\ind{\dangularVelocity{#1}}{\ipr}}
+\newcommand{\dangularVelocityicorr}[1]{\ind{\dangularVelocity{#1}}{\icorr}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
