@@ -1,17 +1,27 @@
 \chapter{O Método de Elementos Discretos} \label{ch:discrete_element_method}
 
-O Método de Elementos Discretos, ou DEM\footnote{Do inglês, \textit{Discrete Element Method}}, \alert{Explicar que é um tipo de método explícito no tempo, com partículas que interagem entre si}
+\alert{Reescrever tudo isso}
 
-\section{}
+O Método de Elementos Discretos, ou DEM\footnote{Do inglês, \textit{Discrete Element Method}}, refere-se a um conjunto de métodos numéricos aplicados na simulação de sistemas de partículas. Segundo \citeonline{bib:bicanic2007}
 
-Uma distinção que pode ser feita entre métodos computacionais é a que distingue métodos implícitos de explícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma
-\[
+Cada partícula é considerada um corpo rígido com seis graus de liberdade: três translações e três rotações. O processo de simulação consiste na solução das equações diferenciais de movimento como apresentadas na \autoref{sec:equations_of_motion}. Essas equações, contudo, devem ser resolvidas para cada partícula
+
+Os elementos do sistema, porém, interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações.
+
+\alert{melhorar isso}
+
+Este capítulo visa detalhar, com base nas ferramentas e equações descritas no capítulo \ref{ch:mathematical_model}, os principais aspectos do DEM. \alert{Dar uma descrição do que é apresentado nas seções}
+
+\section{Características Gerais do Método} \alert{Descrever aqui as características básicas e gerais que o DEM possui}
+
+Uma distinção que pode ser feita entre métodos computacionais é a que distingue métodos explícitos de implícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma \alert{Usei as palavras 'distinção' e 'distingue' em sequência}
+\begin{equation*}
 	y\pqty{t+\Dt} = f\pqty{y\pqty{t}},
-\]
+\end{equation*}
 enquanto métodos implícitos buscam resolver
-\[
+\begin{equation*}
 	g\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
-\]
+\end{equation*}
 
 É evidente que os métodos implícitos, em geral, incorrem em maiores custos computacionais. 
 
@@ -19,9 +29,34 @@ O Método de Elementos Discretos é um método explícito. Para um \textit{passo
 
 \alert{Será que essas considerações cabem aqui?}
 
-\section{Acoplamento com outros métodos}
+\alert{Mostrar as equações:}
+
+\alert{Falar algo como "de acordo com o cap. 2". Achei o segundo capítulo mal organizado, então terei que reescrevê-lo}
+\alert{Introduzir algo para escrever o seguinte sistema:}
+\begin{equation*}
+	\left\lbrace
+		\begin{array}{l}
+			\accelerationi = \inverted{\massi}\cdot\dsum_{\particlej\in\neighborhoodi} \forceji\pqty{\positioni, \velocityi, \orientationi, \angularVelocityi, \positionj, \velocityj, \orientationj, \angularVelocityj}
+			\\
+			\accelerationi = \inverted{\massi}\cdot\dsum_{\particlej\in\neighborhoodi} \forceji\pqty{\positioni, \velocityi, \orientationi, \angularVelocityi, \positionj, \velocityj, \orientationj, \angularVelocityj}
+		\end{array},\quad i = 1, \dots, \numberOfParticles
+	\right.
+\end{equation*}
+
+\section{Inicialização}
+
+\section{Condições de Contorno} \label{sec:boundary_condition}
+
+
 
 \section{Vizinhança} \label{sec:neighborhood}
 
+\alert{Explicar que é um tipo de método explícito no tempo, com partículas que interagem entre si}
 \alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
+\alert{Falar das condições iniciais}
+\alert{Falar do critério de parada}
 \alert{Falar dos métodos de busca de vizinhos}
+\alert{Mostrar os principais aspectos do algoritmo e passar por cada um deles, detalhando}
+\alert{Falar da discretização do tempo}
+
+\section{Acoplamento com outros métodos}
