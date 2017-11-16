@@ -24,7 +24,7 @@ sendo \(\particlei\) a \(i\)-ésima partícula no sistema.
 
 Cada partícula ainda possui uma \textit{vizinhança}, que é o conjunto de elementos que podem interagir com ela. Denota-se por \(\ineighborhood{i}\) ou \(\neighborhoodOf{\particlei}\) a vizinhança da partícula \(i\). A determinação da vizinhança de uma partícula é essencial para o cálculo das forças e dos torques que atuam sobre ela, e alguns dos métodos para se construir esse conjunto são apresentados na \autoref{sec:neighborhood}.
 
-Escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela partícula \(\particlej\) sobre a partícula \(\particlei\), tem-se que a força resultante \(\resultingForcei\) e o torque resultante \(\resultingTorquei\) sobre \(\particlei\) são dados por
+Escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela partícula \(\particlej\) sobre a partícula \(\particlei\), tem-se que a força resultante \(\resultingForcei\) e o torque resultante \(\resultingTorquei\) sobre \(\particlei\) são dados pelo princípio da superposição como
 \begin{gather}
 	\resultingForcei = \sum_{\particlej\in\ineighborhood{i}}\forceji, \label{eq:superposition_translation} \\
 	\resultingTorquei = \sum_{\particlej\in\ineighborhood{i}}\torqueji. \label{eq:superposition_rotation}
@@ -269,9 +269,9 @@ Assim, com a parametrização, é possível definir-se toda a cinemática da rot
 \end{equation*}
 
 Como resultado dessas considerações, o sistema de equações \eqref{eq:motion_second_system} pode ser transformado em uma equação diferencial da forma
-\begin{equation*}
+\begin{equation} \label{eq:diff_equation_orientation_parametrization}
 	\deriv{2}{\orientation} = \eqFor{\orientation}\pqty{\resultingTorque, \orientation, \deriv{1}{\orientation}}.
-\end{equation*}
+\end{equation}
 
 A função \(\eqFor{\orientation}\) representa a dependência de \(\deriv{2}{\orientation}\) com relação a \(\resultingTorque\), \(\orientation\) e \(\deriv{1}{\orientation}\), e seu formato depende da definição da parametrização e da expressão para o torque resultante em função das variáveis do problema.
 
@@ -294,11 +294,6 @@ O procedimento de se calcularem as forças e torques e, posteriormente, resolver
 Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os modelos de força têm o papel de atribuir, para cada par de partículas, uma componente de força \(\force\) e uma componente de torque \(\torque\).
 
 Seguindo a notação apresentada na \autoref{sec:particle_systems}, denota-se por \(\forceji\) a componente de força aplicada pela partícula \(\particlej\) sobre a partícula \(\particlei\), e \(\torqueji\) a componente de torque correspondente definida no sistema de eixos da partícula \(\particlei\).
-
-Ainda, de acordo com a terceira lei de Newton, ocorre que
-\begin{equation*}
-	\forceji = - \forceij.
-\end{equation*}
 
 Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana. Nesta seção, são apresentados alguns dos parâmetros geralmente utilizados na determinação de forças e torques e alguns dos principais modelos considerados, segundo \citeonline{bib:computational_granular_dynamics}. 
 
@@ -723,7 +718,7 @@ No início do choque, tanto a superposição quanto a sua derivada são positiva
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
 	\label{fig:particle_attraction}
-	\legend{Fonte: \citeonline[p. 22]{bib:computational_granular_dynamics}.}
+	\legend{Fonte: Adaptado de \citeonline[p. 22]{bib:computational_granular_dynamics}.}
 	% \vspace{-1cm}
 \end{figure}
 
@@ -744,7 +739,7 @@ Como consequência dessa mudança, o coeficiente de restituição normal tem seu
 \begin{equation*}
 	\normalCoefficientOfRestitutionij = 
 	\left\lbrace
-		\def\arraystretch{1.5}
+		\def\arraystretch{1.8}
 		\begin{array}{ll}
 			\exp\bqty{-\dfrac{\betaij}{\omegaij}\pqty{\pi - \arctan\dfrac{2\betaij\omegaij}{\omegaij^2-\betaij^2}}}, & \text{se } \betaij < \dfrac{\omegazij}{\sqrt{2}} \\
 			\exp\bqty{-\dfrac{\betaij}{\omegaij}\arctan\dfrac{2\betaij\omegaij}{\omegaij^2-\betaij^2}}, & \text{se } \betaij \in \bqty{\dfrac{\omegazij}{\sqrt{2}}, \omegazij} \\
@@ -844,19 +839,101 @@ sendo que
 	Porém essas constantes, assim como o amortecimento no modelo de Haff e Werner, só são obtidas na comparação posterior das simulações com resultados experimentais.
 \end{itemize}
 
-\section{Extrapolação de Funções}
-\label{sec:extrapolation}
+\section{Algoritmo de Gear} \label{sec:gear_integration_scheme}
 
-Com as equações diferenciais bem determinadas através do uso de modelos de interação, é possível buscar-se a sua solução. Nos métodos computacionais desenvolvidos para a solução dessas equações, a extrapolação de funções possui um papel fundamental por permitir a estimativa de valores além do conjunto previamente conhecido.
+Com as equações diferenciais bem determinadas através do uso de modelos de interação, inicia-se a busca por sua solução. O algoritmo de Gear é um método de resolução de equações diferenciais ordinárias originado do trabalho de \citeonline{bib:gear_book}.
 
-Para simplificação da notação, dada uma função \(y: X\to Y\), define-se o vetor das \(k\) primeiras derivadas de \(y\) como a função vetorial
+Gear considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t), \deriv{1}{y}(t),\dots, \deriv{\taylorOrder}{y}(t)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t + \Dt), \deriv{1}{y}(t + \Dt),\dots, \deriv{\taylorOrder}{y}(t + \Dt)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
+\begin{equation} \label{eq:gear_diff}
+	\deriv{\eqOrder}{y} = \eqFor{y}\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-1}{y}, t}
+\end{equation}
+com \(\eqOrder \leq \taylorOrder\).
+
+O algoritmo consiste em duas etapas: uma etapa de \textit{previsão} e uma de \textit{correção}. Os detalhes dessas etapas são apresentados nas seções \ref{subsec:prediction} e \ref{subsec:correction}, e sua aplicação aos sistemas de partículas é explicada na seção \ref{subsec:gear_application}.
+
+\subsection{Etapa de Predição} \label{subsec:prediction}
+
+Nos métodos computacionais desenvolvidos para a solução dessas equações, a extrapolação de funções possui um papel fundamental por permitir a estimativa de valores além do conjunto previamente conhecido.
+
+A etapa de predição é responsável por obter uma estimativa para \(y\pqty{t+\Dt}\), \(\deriv{1}{y}\pqty{t+\Dt}\),\,\dots, \(\deriv{\taylorOrder}{y}\pqty{t+\Dt}\) através de uma extrapolação a partir dos valores de \(y\pqty{t}\), \(\deriv{1}{y}\pqty{t}\),\,\dots, \(\deriv{\taylorOrder}{y}\pqty{t}\).
+
+Para simplificação da notação, dada uma função \(y\), define-se o vetor das \(\taylorOrder\) primeiras derivadas de \(y\) como a função vetorial
 \begin{equation*}
 	\drvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dots, \deriv{\taylorOrder}{y}}
 \end{equation*}
 nos pontos em que todas as coordenadas estiverem definidas.
 
 Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolação lineares para uma função e suas derivadas podem ser escritos na forma
-\[
+\begin{equation*}
+	\begin{pmatrix}
+		\predicted{y} \\
+		\predicted{\deriv{1}{y}} \\
+		\predicted{\deriv{2}{y}} \\
+		\vdots \\
+		\predicted{\deriv{\taylorOrder-1}{y}} \\
+		\predicted{\deriv{\taylorOrder}{y}}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		a_{0,0} & a_{0,1} & a_{0,2} &  & a_{0,\taylorOrder-1} & a_{0,\taylorOrder} \\
+		a_{1,0} & a_{1,1} & a_{1,2} & \cdots & a_{1,\taylorOrder-1} & a_{1,\taylorOrder} \\
+		a_{2,0} & a_{2,1} & a_{2,2} &  & a_{2,\taylorOrder-1} & a_{2,\taylorOrder} \\
+	     & \vdots & & \ddots & & \vdots \\
+	    a_{\taylorOrder-1,0} & a_{\taylorOrder-1,1} & a_{\taylorOrder-1,2} &  & a_{\taylorOrder-1,\taylorOrder-1} & a_{\taylorOrder-1,\taylorOrder} \\
+	    a_{\taylorOrder,0} & a_{\taylorOrder,1} & a_{\taylorOrder,2} & \cdots & a_{\taylorOrder,\taylorOrder-1} & a_{\taylorOrder,\taylorOrder}
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		y \\
+		\deriv{1}{y} \\
+		\deriv{2}{y} \\
+		\vdots \\
+		\deriv{\taylorOrder-1}{y} \\
+		\deriv{\taylorOrder}{y}
+	\end{pmatrix}
+\end{equation*}
+ou, mais simplesmente,
+\begin{equation} \label{eq:prediction}
+	\drvec{\taylorOrder}{\predicted{y}} = \extrapolationMatrix{\taylorOrder} \cdot \drvec{\taylorOrder}{y}.
+\end{equation}
+em que a matriz \(\extrapolationMatrix{\taylorOrder}\) é determinada pelo método escolhido e \(\drvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
+
+Dentre os métodos de extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \cite{bib:gear_book}.
+
+O método de extrapolação por expansão de Taylor combina simplicidade, exatidão e estabilidade, e por isso é o método adotado neste trabalho. Esse método é fundamentado pelo \nameref{theo:taylor}.
+
+\begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
+	Seja \(y\) uma função de uma variável com derivadas \(\deriv{1}{y},\dots,y^{\pqty{\taylorOrder+1}}\) todas definidas em um intervalo aberto que contenha \(t\), e seja \(\remainderFunction{\taylorOrder}{t}{y}\) definida pela equação
+    \begin{equation*}
+    	y(t + \Dt) = y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder + \remainderFunction{\taylorOrder}{t}{y}(\Dt).
+    \end{equation*}
+    Então
+    \begin{equation} \label{eq:remainder_limit}
+    	\lim_{\Dt \rightarrow 0} \dfrac{\remainderFunction{\taylorOrder}{t}{y}(\Dt)}{\Dt^\taylorOrder} = 0.
+    \end{equation}
+\end{theorem}
+
+Uma versão mais completa desse teorema é apresentada e demonstrada por \citeonline{bib:spivak}.
+
+A função \(\remainderFunction{\taylorOrder}{t}{y}\) é o resto de ordem \(\taylorOrder\) para a função \(y\) no entorno de \(t\). A equação \eqref{eq:remainder_limit} indica que o resto é um termo da ordem de \(\Dt^{\taylorOrder+1}\), e motiva a aproximação
+\begin{equation} \label{eq:taylor_trunc}
+    y(t + \Dt) \approximately y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder.
+\end{equation}
+
+A equação \eqref{eq:taylor_trunc} é o truncamento da expansão de Taylor na \(\taylorOrder\)-ésima derivada.
+
+Considerando uma função vetorial \(\vec{y}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{y}(t) = \pqty{y_1(t),\dots,y_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{y}\) é a função \(y_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}, desde que as hipóteses do teorema sejam satisfeitas. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; e \(m=4\) para algumas parametrizações para a orientação das partículas, como mostrado no \autoref{app:three_dimensional_rotation}.
+
+Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
+
+Não somente a função pode ser prevista, mas suas derivadas também. Para a \(j\)-ésima derivada de \(y\):
+\begin{equation*}
+	\predicted{\deriv{j}{y}}\pqty{t + \Dt} = \deriv{j}{y}\pqty{t} + \dots + \dfrac{\Dt^{\taylorOrder-j}}{\pqty{\taylorOrder-j}!}\cdot\deriv{\taylorOrder-j}{y}\pqty{t}.
+\end{equation*}
+
+Com isso, é possível escrever
+\begin{equation} \label{eq:extrapolation_matricial_form}
+	\def\arraystretch{1.2}
 \begin{pmatrix}
 	\predicted{y} \\
 	\predicted{\deriv{1}{y}} \\
@@ -864,80 +941,6 @@ Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolaç
 	\vdots \\
 	\predicted{\deriv{\taylorOrder-1}{y}} \\
 	\predicted{\deriv{\taylorOrder}{y}}
-\end{pmatrix}
-=
-\begin{pmatrix}
-	a_{0,0} & a_{0,1} & a_{0,2} &  & a_{0,\taylorOrder-1} & a_{0,\taylorOrder} \\
-	a_{1,0} & a_{1,1} & a_{1,2} & \cdots & a_{1,\taylorOrder-1} & a_{1,\taylorOrder} \\
-	a_{2,0} & a_{2,1} & a_{2,2} &  & a_{2,\taylorOrder-1} & a_{2,\taylorOrder} \\
-     & \vdots & & \ddots & & \vdots \\
-    a_{\taylorOrder-1,0} & a_{\taylorOrder-1,1} & a_{\taylorOrder-1,2} &  & a_{\taylorOrder-1,\taylorOrder-1} & a_{\taylorOrder-1,\taylorOrder} \\
-    a_{\taylorOrder,0} & a_{\taylorOrder,1} & a_{\taylorOrder,2} & \cdots & a_{\taylorOrder,\taylorOrder-1} & a_{\taylorOrder,\taylorOrder}
-\end{pmatrix}
-\cdot
-\begin{pmatrix}
-	y \\
-	\deriv{1}{y} \\
-	\deriv{2}{y} \\
-	\vdots \\
-	\deriv{\taylorOrder-1}{y} \\
-	\deriv{\taylorOrder}{y}
-\end{pmatrix}
-\]
-ou, mais simplesmente,
-\begin{equation}
-	\drvec{\taylorOrder}{\predicted{y}} = \mtx{A} \cdot \drvec{\taylorOrder}{y}.
-\end{equation}
-em que a matriz \(\mtx{A}\) é determinada pelo método escolhido e \(\drvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
-
-Dentre os métodos de extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \cite{bib:gear_book}.
-
-O método de extrapolação por expansão de Taylor combina simplicidade, exatidão e estabilidade, e por isso é o método adotado neste trabalho. Esse método é fundamentado pelo \nameref{theo:taylor}.
-
-\begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
-	Seja \(y\) uma função com derivadas \(\deriv{1}{y},\dots,y^{\pqty{\taylorOrder+1}}\) todas definidas em um intervalo aberto que contenha \(t\), e seja \(R_{\taylorOrder, t, y}\) definida por
-    \begin{equation*}
-    	y(t + \Dt) = y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder + R_{\taylorOrder, t, y}(\Dt).
-    \end{equation*}
-    Então
-    \begin{equation} \label{eq:remainder_limit}
-    	\lim_{\Dt \rightarrow 0} \dfrac{R_{\taylorOrder, t, y}(\Dt)}{\Dt^\taylorOrder} = 0.
-    \end{equation}
-\end{theorem}
-
-Uma versão mais completa desse teorema é apresentada e demonstrada por \citeonline{bib:spivak}.
-
-A função \(R_{\taylorOrder, t, y}\) é o resto de ordem \(\taylorOrder\) para a função \(y\) no entorno de \(t\). A equação \eqref{eq:remainder_limit} indica que o resto é um termo da ordem de \(\Dt^{\taylorOrder+1}\), e motiva a aproximação
-\begin{equation} \label{eq:taylor_trunc}
-    y(t + \Dt) \approximately y(t) + \deriv{1}{y}(t)\cdot\Dt + \dots + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder.
-\end{equation}
-
-A equação \eqref{eq:taylor_trunc} é o truncamento da expansão de Taylor na \(\taylorOrder\)-ésima derivada.
-
-Considerando uma função \(\vec{y}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{y}(t) = \pqty{y_1(t),\dots,y_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{y}\) é a função \(y_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; e \(m=4\) para algumas parametrizações para a orientação das partículas, como mostrado no \autoref{app:three_dimensional_rotation}.
-
-Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
-
-Com isso, seja \(\position\) a função posição de uma partícula. Se a posição for conhecida em um instante de tempo \(t\), ela pode ser \textit{prevista} em um instante posterior \(t+\Dt\) explicitamente:
-\begin{equation} \label{eq:position_prediction}
-	\predicted{\position}\pqty{t+\Dt} = \position\pqty{t} + \Dt\cdot\deriv{1}{\position}\pqty{t} + \dfrac{\Dt^2}{2}\cdot \deriv{2}{\position}\pqty{t} + \dots + \dfrac{\Dt^\taylorOrder}{\taylorOrder!}\cdot \deriv{\taylorOrder}{\position}\pqty{t}.
-\end{equation}
-
-Não somente a posição pode ser prevista, mas suas derivadas (como a velocidade e a aceleração) também. Para a \(j\)-ésima derivada de \(\position\):
-\[
-	\predicted{\deriv{j}{\position}}\pqty{t + \Dt} = \deriv{j}{\position}\pqty{t} + \dots + \dfrac{\Dt^{\taylorOrder-j}}{\pqty{\taylorOrder-j}!}\cdot\deriv{\taylorOrder-j}{\position}\pqty{t}.
-\]
-
-Com isso, é possível escrever
-\begin{equation} \label{eq:position_prediction}
-	\def\arraystretch{1.2}
-\begin{pmatrix}
-	\predicted{\position} \\
-	\predicted{\deriv{1}{\position}} \\
-	\predicted{\deriv{2}{\position}} \\
-	\vdots \\
-	\predicted{\deriv{\taylorOrder-1}{\position}} \\
-	\predicted{\deriv{\taylorOrder}{\position}}
 \end{pmatrix}
 =
 \begin{pmatrix}
@@ -950,51 +953,34 @@ Com isso, é possível escrever
 \end{pmatrix}
 \cdot
 \begin{pmatrix}
-	\position \\
-	\deriv{1}{\position} \\
-	\deriv{2}{\position} \\
+	y \\
+	\deriv{1}{y} \\
+	\deriv{2}{y} \\
 	\vdots \\
-	\deriv{\taylorOrder-1}{\position} \\
-	\deriv{\taylorOrder}{\position}
+	\deriv{\taylorOrder-1}{y} \\
+	\deriv{\taylorOrder}{y}
 \end{pmatrix}.
 \end{equation}
 
-A matriz da equação \eqref{eq:position_prediction} é a matriz de extrapolação do método de expansão de Taylor, sendo a mesma para a extrapolação de ordem \(\taylorOrder\) de qualquer função.
+A matriz da equação \eqref{eq:extrapolation_matricial_form} é a matriz de extrapolação do método de expansão de Taylor, sendo a mesma para a extrapolação de ordem \(\taylorOrder\) de qualquer função.
 
-Esse método ainda pode ser aplicado à função de orientação da partícula e a outros graus de liberdade que o problema porventura possua.
+Esse método ainda pode ser usado para aproximar as funções de posição e de orientação da partícula, assim como outros graus de liberdade que o problema porventura possua.
 
-Todavia essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Ainda assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
+Todavia essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Mesmo assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
 
-A principal fonte de erros da equação \eqref{eq:position_prediction} é que não se considera, em nenhum momento, a ação de forças que porventura atuem sobre a partícula entre os instantes \(t\) e \(t + \Dt\). É necessário, então, \textit{corrigir} a posição prevista. Essa correção pode ser feita através do algoritmo de Gear, apresentado na seção \ref{sec:gear_integration_scheme}.
+A principal fonte de erros da equação \eqref{eq:extrapolation_matricial_form} é que não se considera, em nenhum momento, equações diferenciais a que a função \(y\) pode estar restrita. Por exemplo, para a posição ou a orientação de uma partícula, pode haver a ação de forças e torques atuantes entre os instantes \(t\) e \(t + \Dt\). É necessário, então, \textit{corrigir} a função prevista. Essa correção pode ser feita na etapa de correção, apresentada na seção \ref{subsec:correction}.
 
-\section{O Algoritmo de Gear} \label{sec:gear_integration_scheme}
+\subsection{Correção} \label{subsec:correction}
 
-\citeonline{bib:gear_book} considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t), \deriv{1}{y}(t),\dots, \deriv{\taylorOrder}{y}(t)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t + \Dt), \deriv{1}{y}(t + \Dt),\dots, \deriv{\taylorOrder}{y}(t + \Dt)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
-\begin{equation} \label{eq:gear_diff}
-	\deriv{\eqOrder}{y} = f\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-1}{y}, t}
-\end{equation}
-com \(\eqOrder \leq \taylorOrder\).
+Na etapa de correção, um termo é adicionado ao vetor previsto \(\drvec{\taylorOrder}{\predicted{y}}\) para se obter o vetor \(\drvec{\taylorOrder}{\corrected{y}}\), corrigido em função da equação diferencial \eqref{eq:gear_diff}.
 
-Do resultado desse estudo originou-se o que é conhecido por algoritmo de Gear \cite{bib:computational_granular_dynamics}. O algoritmo consiste de duas etapas: a \textit{predição} e a \textit{correção}.
-
-\subsection{Predição}
-
-A etapa de predição é responsável por obter uma estimativa para \(y(t + \Dt)\), \(\deriv{1}{y}(t + \Dt)\),\,\dots, \(\deriv{\taylorOrder}{y}(t + \Dt)\).
-
-A predição é feita através de extrapolações conforme a seção \ref{sec:extrapolation}, obtendo-se uma previsão \(\drvec{\taylorOrder}{\predicted{y}}\) dada por
-\[\drvec{\taylorOrder}{\predicted{y}}\pqty{t+\Dt} = \mtx{A}\cdot\drvec{\taylorOrder}{y}\pqty{t}.\]
-
-\subsection{Correção}
-
-Na etapa de correção, um termo é adicionado ao vetor previsto \(\drvec{\taylorOrder}{\predicted{y}}\) para se obter o vetor \(\drvec{\taylorOrder}{\corrected{y}}\), corrigido em função da equação diferencial.
-
-O valor corrigido para \(\deriv{\eqOrder}{y}\) pode ser obtido através da equação diferencial \eqref{eq:gear_diff} no instante \(t+\Dt\):
+O valor corrigido para \(\deriv{\eqOrder}{y}\) pode ser obtido no instante \(t+\Dt\) diretamente através da equação:
 \[
-	\corrected{\deriv{\eqOrder}{y}}\pqty{t+\Dt} = f\pqty{\predicted{y}, \predicted{\deriv{1}{y}},\dots,\predicted{\deriv{\eqOrder-1}{y}}, t+\Dt},
+	\corrected{\deriv{\eqOrder}{y}}\pqty{t+\Dt} = \eqFor{y}\pqty{\predicted{y}, \predicted{\deriv{1}{y}},\dots,\predicted{\deriv{\eqOrder-1}{y}}, t+\Dt},
 \]
 e assim é conhecido o valor do erro \(\Delta \deriv{\eqOrder}{y} \eqdef \corrected{\deriv{\eqOrder}{y}} - \predicted{\deriv{\eqOrder}{y}}\) no ponto \(t+\Dt\).
 
-Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) podem ser corrigidas em função de \(\Delta \deriv{\eqOrder}{y}\) conforme a equação
+Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) podem ser corrigidas em função de \(\Delta \deriv{\eqOrder}{y}\) de acordo com a equação
 \begin{equation} \label{eq:correction}
 	\def\arraystretch{1.2}
 	\begin{pmatrix}
@@ -1020,19 +1006,28 @@ Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) po
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
-		c_0 \\
-		c_1\frac{1}{\Dt} \\
-		c_2\frac{2}{\Dt^2} \\
+		\correctorConstant{0} \\
+		\correctorConstant{1}\frac{1}{\Dt} \\
+		\correctorConstant{2}\frac{2}{\Dt^2} \\
 		\vdots \\
-		c_p\frac{\eqOrder!}{\Dt^\eqOrder}\\
+		\correctorConstant{p}\frac{\eqOrder!}{\Dt^\eqOrder}\\
 		\vdots \\
-		c_{\taylorOrder-1}\frac{\pqty{\taylorOrder-1}!}{\Dt^{\taylorOrder-1}}\\
-		c_{\taylorOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}
+		\correctorConstant{\taylorOrder-1}\frac{\pqty{\taylorOrder-1}!}{\Dt^{\taylorOrder-1}}\\
+		\correctorConstant{\taylorOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}
 	\end{pmatrix}
 	\cdot
 	\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y},
 \end{equation}
-sendo que as constantes corretoras \(c_0\), \(c_1\), \dots, \(c_{\taylorOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela \ref{table:corrector_constants}. Em todos casos, sempre se tem que \(c_p=1\).
+sendo que as constantes corretoras \(\correctorConstant{0}\), \(\correctorConstant{1}\), \dots, \(\correctorConstant{\taylorOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela \ref{table:corrector_constants}. Em todos casos, sempre se tem que \(\correctorConstant{p}=1\), pois \(\corrected{\deriv{p}{y}} = \predicted{\deriv{p}{y}} + \Delta \deriv{\eqOrder}{y}\).
+
+Por simplicidade, escreve-se
+\begin{equation*}
+	\correctorConstantVector{\taylorOrder} = \pqty{\correctorConstant{0}, \correctorConstant{1}\dfrac{1}{\Dt}, \correctorConstant{2}\frac{2}{\Dt^2}, \dots, \correctorConstant{\taylorOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}},
+\end{equation*}
+e então a equação \eqref{eq:correction} pode ser reescrita como
+\begin{equation} \label{eq:correction_simplified}
+	\drvec{\taylorOrder}{\corrected{y}} = \drvec{\taylorOrder}{\predicted{y}} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y}.
+\end{equation}
 	
 \begin{table}[h]
 	\caption{Constantes corretoras para o algoritmo de Gear em função da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial}
@@ -1044,7 +1039,7 @@ sendo que as constantes corretoras \(c_0\), \(c_1\), \dots, \(c_{\taylorOrder}\)
 		\begin{array}{cccccccccc}
 	\hline
 	\hline
-		\eqOrder & \taylorOrder & c_0 & c_1 & c_2 & c_3 & c_4 & c_5 & c_6 & c_7 \\
+		\eqOrder & \taylorOrder & \correctorConstant{0} & \correctorConstant{1} & \correctorConstant{2} & \correctorConstant{3} & \correctorConstant{4} & \correctorConstant{5} & \correctorConstant{6} & \correctorConstant{7} \\
 	\hline
 		\multirow{6}{*}{1} 
 		& 2 & \frac{5}{12} & 1 & \frac{1}{2} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
@@ -1080,32 +1075,181 @@ sendo que as constantes corretoras \(c_0\), \(c_1\), \dots, \(c_{\taylorOrder}\)
 
 \alert{O \(k\) que estou usando é diferente do de Gear. Para Gear, a maior derivada considerada é \(k-1\). A minha tabela está corrigida e, em todos os casos, \(k_{\text{Ruan}} = k_{\text{Gear}}-1 \). Será que devo mudar o símbolo?}
 
-O erro global do algoritmo de Gear é da ordem de \(\Dt^{\taylorOrder+1+\maxDerivOrder-\eqOrder}\), em que \(\maxDerivOrder\) é o maior inteiro tal que a equação diferencial \eqref{eq:gear_diff} pode ser escrita como
+Ainda, de acordo com \citeonline[p. 153]{bib:gear_book}, o erro global do algoritmo é da ordem de \(\Dt^{\taylorOrder+1+\maxDerivOrder-\eqOrder}\), em que \(\maxDerivOrder\) é o maior inteiro tal que a equação diferencial \eqref{eq:gear_diff} pode ser escrita como
 \begin{equation} \label{eq:smaller_diff}
-	\deriv{\eqOrder}{y} = f\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
+	\deriv{\eqOrder}{y} = \eqFor{y}\pqty{y, \deriv{1}{y},\dots,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
 \end{equation}
 
+Com isso, a etapa de correção está bem definida, e se torna possível aplicar o método para sistemas de partículas.
 
-Para o caso da posição de uma partícula esférica \(\particlei\), as equações de movimento são obtidas a partir de \eqref{eq:superposition_translation} e \eqref{eq:motion_first} como
+\subsection{Aplicação do Algoritmo de Gear aos Sistemas de Partículas} \label{subsec:gear_application}
+
+Em virtude das características apresentadas, o algoritmo de Gear é usado como método de resolução das equações de movimento dos elementos dos sistemas de partículas. Esta seção é dedicada a apresentar essa utilização. Primeiramente, é apresentado o caso geral. Por fim, mostra-se a simplificação existente para partículas esféricas.
+
+\subsubsection*{Caso Geral}
+
+No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
+
+Primeiramente, as coordenadas das partículas do sistema devem ser previstas de acordo com a equação \eqref{eq:prediction}. Escolhida uma ordem de derivação \(\taylorOrder\), e sendo \(\numberOfParticles\) o número de partículas do sistema, calculam-se
 \begin{equation*}
-	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji\pqty{\positioni, \velocityi, \angularVelocityi, \positionj, \velocityj, \angularVelocityj},
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
+		\drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}\cdot\drvec{\taylorOrder}{\orientationi}\pqty{t} \\
+	\end{array}, \quad i = 1, \dots, \numberOfParticles,
 \end{equation*}
-ou, vendo \(\angularVelocityi\), \(\positionj\), \(\velocityj\) e \(\angularVelocityj\) como funções do tempo,
+em que \(\extrapolationMatrix{\taylorOrder}\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\), indicada na \autoref{subsec:prediction}.
+
+Com as coordenadas previstas, inicia-se a etapa de correção. Nessa etapa, são calculados forças e torques segundo os modelos de força:
 \begin{equation*}
-	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji\pqty{\positioni, \velocityi, t}.
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}} \\
+		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}}
+	\end{array}, \quad i,j = 1, \dots, \numberOfParticles.
 \end{equation*}
 
-Já a equação de movimento rotacional é obtida através de \eqref{eq:superposition_rotation} e \eqref{eq:rotation_spherical_particle} como
+Com as forças e os torques determinados para cada par de partículas, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
 \begin{equation*}
-	\angularAccelerationi = \dfrac{1}{\momentOfInertiai}\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\positioni, \velocityi, \angularVelocityi, \positionj, \velocityj, \angularVelocityj},
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji \\
+		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
 \end{equation*}
-ou, similarmente,
+
+E, com isso, são obtidos os valores corrigidos para \(\accelerationi\) e \(\deriv{2}{\orientationi}\) (\(i=1,\dots,\numberOfParticles\)) de acordo com as equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}:
 \begin{equation*}
-	\angularAccelerationi = \dfrac{1}{\momentOfInertiai}\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\angularVelocityi, t}.
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt} \\
+		\dorientationicorr{2}\pqty{t+\Dt} = \eqFor{\orientation}\pqty{\resultingTorquei\pqty{t+\Dt}, \orientationipr\pqty{t+\Dt}, \dorientationipr{1}\pqty{t+\Dt}}
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
 \end{equation*}
 
-Assim, para o movimento de translação, a ordem da equação diferencial resultante é \(p=2\), enquanto \(q=1\) na equação \eqref{eq:smaller_diff}. Disso que resulta que o erro do algoritmo é da ordem de \(\Dt^{\taylorOrder}\).
+Definem-se, então, os erros
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
+		\Delta \dorientationi{2}\pqty{t+\Dt} = \dorientationicorr{2}\pqty{t+\Dt} - \dorientationipr{2}\pqty{t+\Dt} \\
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
 
-Por sua vez, a equação para o movimento de rotação tem ordem \(p=1\), e pode-se considerar que \(q=0\) em \eqref{eq:smaller_diff}. Logo, o erro também é da ordem de \(\Dt^{\taylorOrder}\).
+Por fim, resta executar a correção nos vetores de derivadas. Tanto para a translação quanto para a rotação, a equação diferencial é de ordem \(\eqOrder = 2\), e isso, juntamente com a ordem de extrapolação \(\taylorOrder\), determina as constantes de correção. Com isso, utiliza-se a equação \eqref{eq:correction_simplified} para se escrever	
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{l}
+		\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt} \\
+		\drvec{\taylorOrder}{\orientationicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^2}{2}\Delta \dorientationi{2}\pqty{t+\Dt}
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
 
-Com essas informações, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.
+Dessa forma, estão calculadas a posição, a orientação e as suas derivadas.
+
+\subsubsection*{Partículas Esféricas}
+
+Para partículas esféricas, as equações de movimento assumem uma forma mais simples, conforme mostrado na \autoref{subsubsec:rotation_of_spherical_particles}. 
+
+Novamente, o algoritmo inicia-se com a escolha da ordem de derivação \(\taylorOrder\), para a predição conforme a equação \eqref{eq:prediction}. Dessa vez, porém, a velocidade angular é prevista com uma ordem a menos que a posição.
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
+		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder-1}\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{t} \\
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+O cálculo de forças e torques se dá, então, por
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
+		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr}
+	\end{array}, \quad i,j = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+Similarmente ao caso geral, as forças e os torques resultantes são obtidos pelo princípio da superposição, resultando em
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji \\
+		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+Novamente, o valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
+\begin{equation*}
+	\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:rotation_spherical_particle}, obtendo-se
+\begin{equation*}
+	\dangularVelocityicorr{1}\pqty{t+\Dt} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{t+\Dt}
+\end{equation*}
+
+Com isso, os erros são dados por
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
+		\Delta \dangularVelocityi{1}\pqty{t+\Dt} = \dangularVelocityicorr{1}\pqty{t+\Dt} - \dangularVelocityipr{1}\pqty{t+\Dt} \\
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação a equação diferencial é de ordem \(\eqOrder = 2\), e então
+\begin{equation*}
+	\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
+\begin{equation*}
+		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder-1}\cdot\Dt\cdot\Delta \dangularVelocityi{1}\pqty{t+\Dt}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+
+E assim está demonstrada a aplicação do algoritmo de Gear aos sistemas de partículas. Com as considerações feitas neste capítulo, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.
+
+% Para o caso da posição de uma partícula  \(\particlei\), a equação de movimento translacional é obtida a partir do princípio da superposição \eqref{eq:superposition_translation} e da primeira lei de Euler \eqref{eq:motion_first} como
+% \begin{equation*}
+% 	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji.
+% \end{equation*}
+
+% A força \(\forceji\) que cada partícula \(\particlej\) aplica sobre \(\particlei\) é função de suas posições, velocidades, orientações e velocidades angulares. Utilizando-se parametrizações \(\orientationi\) e \(\orientationj\) para as orientações das partículas, obtém-se
+% \begin{equation*}
+% 	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji\pqty{\positioni, \velocityi, \orientationi, \deriv{1}{\orientationi}, \positionj, \velocityj, \orientationj, \deriv{1}{\orientationj}}.
+% \end{equation*}
+
+% De forma semelhante, a equação de movimento rotacional para \(\particlei\) é obtida a partir do princípio da superposição \eqref{eq:superposition_rotation} e da equação diferencial para rotação parametrizada \eqref{eq:diff_equation_orientation_parametrization}, como apresentada na \autoref{subsubsec:general_rotation}:
+% \begin{equation*}
+% 	\deriv{2}{\orientationi} = \eqFori{\orientation}\pqty{\sum_{\particlej\in\neighborhoodi}\torqueji, \,\orientationi,\,\deriv{1}{\orientationi}}.
+% \end{equation*}
+
+% Ainda, cada parcela \(\torqueji\) é função das coordenadas (e suas derivadas) das partículas \(\particlei\) e \(\particlej\), e então
+% \begin{equation*}
+% 	\deriv{2}{\orientationi} = \eqFori{\orientation}\pqty{\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\positioni, \velocityi, \orientationi, \deriv{1}{\orientationi}, \positionj, \velocityj, \orientationj, \deriv{1}{\orientationj}}, \,\orientationi,\,\deriv{1}{\orientationi}}.
+% \end{equation*}
+
+% Para se utilizar o algoritmo de Gear, porém, é necessário escrever-se uma equação diferencial para uma única função, e o que se tem, até agora, é um sistema de \(\numberOfParticles\) equações
+% \begin{equation*}
+% 	,
+% \end{equation*}
+% em que \(\numberOfParticles\) é o número de partículas no sistema.
+
+% \alert{Apagar a partir daqui}
+% ou, vendo \(\angularVelocityi\), \(\positionj\), \(\velocityj\) e \(\angularVelocityj\) como funções do tempo,
+% \begin{equation*}
+% 	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji\pqty{\positioni, \velocityi, t}.
+% \end{equation*}
+
+% Já a equação de movimento rotacional é obtida através de \eqref{eq:superposition_rotation} e \eqref{eq:rotation_spherical_particle} como
+% \begin{equation*}
+% 	\angularAccelerationi = \dfrac{1}{\momentOfInertiai}\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\positioni, \velocityi, \angularVelocityi, \positionj, \velocityj, \angularVelocityj},
+% \end{equation*}
+% ou, similarmente,
+% \begin{equation*}
+% 	\angularAccelerationi = \dfrac{1}{\momentOfInertiai}\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\angularVelocityi, t}.
+% \end{equation*}
+
+% Assim, para o movimento de translação, a ordem da equação diferencial resultante é \(p=2\), enquanto \(q=1\) na equação \eqref{eq:smaller_diff}. Disso que resulta que o erro do algoritmo é da ordem de \(\Dt^{\taylorOrder}\).
+
+% Por sua vez, a equação para o movimento de rotação tem ordem \(p=1\), e pode-se considerar que \(q=0\) em \eqref{eq:smaller_diff}. Logo, o erro também é da ordem de \(\Dt^{\taylorOrder}\).
