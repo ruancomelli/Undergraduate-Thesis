@@ -34,12 +34,12 @@ O lançamento oblíquo é um dos problemas clássicos de física básica. Consid
 	\angularAcceleration = \nullVector \label{eq:free_fall_rotation}.
 \end{gather}
 
-O instante inicial da simulação é definido como \(\initial{t}=0\), e o instante final é um valor arbitrário \(\final{t}\). A posição, a velocidade e a velocidade angular da partícula no instante inicial assumem, respectivamente, os valores \(\initial{\position}\), \(\initial{\velocity}\) e \(\initial{\angularVelocity}\). As equações \eqref{eq:free_fall_translation} e \eqref{eq:free_fall_translation} podem ser resolvidas por integração simples:
+O instante inicial da simulação é definido como \(\initial{t}=0\), e o instante final é um valor arbitrário \(\final{t}\). A posição, a velocidade e a velocidade angular da partícula no instante inicial assumem, respectivamente, os valores \(\initial{\position}\), \(\initial{\velocity}\) e \(\initial{\angularVelocity}\). Com isso, as equações \eqref{eq:free_fall_translation} e \eqref{eq:free_fall_rotation} podem ser resolvidas por integração simples:
 \begin{gather*}
 	\acceleration\pqty{t} = \gravity, \\
-	\velocity\pqty{t} = \initial{\velocity} + \int_{0}^{t} \acceleration\pqty{\tau} \dd{\tau} = \initial{\velocity} + \gravity\cdot t, \\
-	\position\pqty{t} = \initial{\position} + \int_{0}^{t} \velocity\pqty{\tau} \dd{\tau} = \initial{\position} + \initial{\velocity}\cdot t + \gravity\cdot \dfrac{t^2}{2}, \\
-	\angularVelocity\pqty{t} = \initial{\angularVelocity} + \int_{0}^{t} \nullVector \dd{\tau} = \initial{\angularVelocity}.
+	\velocity\pqty{t} = \initial{\velocity} + \int_{\initial{t}}^{t} \acceleration\pqty{\tau} \dd{\tau} = \initial{\velocity} + \gravity\cdot t, \\
+	\position\pqty{t} = \initial{\position} + \int_{\initial{t}}^{t} \velocity\pqty{\tau} \dd{\tau} = \initial{\position} + \initial{\velocity}\cdot t + \gravity\cdot \dfrac{t^2}{2}, \\
+	\angularVelocity\pqty{t} = \initial{\angularVelocity} + \int_{\initial{t}}^{t} \nullVector \dd{\tau} = \initial{\angularVelocity}.
 \end{gather*}
 
 Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\), e que a partícula não possua rotação, como representado na figura \ref{fig:free_fall}. Nessa situação, a posição em \(\yAxis\) da partícula também é chamada de altura.
@@ -94,13 +94,11 @@ Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\)
 Embora seja conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite:
 \begin{itemize}
 \item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo. Em cada instante, as coordenadas da partícula são previstas e, em seguida, corrigidas a partir do valor da força peso. A proximidade da resposta numericamente calculada com a solução analítica evidencia o bom funcionamento do algoritmo e valida a implementação.
-\item A análise da evolução do erro em função do passo de tempo. Como indicado na \autoref{sec:gear_integration_scheme}, o algoritmo de Gear apresenta um erro global da ordem de \(\Dt^\taylorOrder\), sendo \(\taylorOrder\) a ordem da maior derivada considerada. \alert{e a verificação desse fato[...]}
-\item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo. \alert{Falar mais alguma coisa aqui}
+\item A análise da evolução do erro em função do passo de tempo. Como indicado na \autoref{sec:gear_integration_scheme}, o algoritmo de Gear apresenta um erro global da ordem de \(\Dt^\taylorOrder\), sendo \(\taylorOrder\) a ordem da maior derivada considerada. A verificação desse fato implica que o algoritmo se comporta conforme previsto.
+\item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo.
 \end{itemize}
 
-
-
-\alert{Mostrar o quanto o erro evolui com o aumento do tempo final de simulação}
+\alert{Por isso são apresentados nesta seção [...]}
 
 \subsection{Estudo de Caso} \alert{Que título horrível!}
 
@@ -122,7 +120,7 @@ A fim de se compararem os resultados numéricos com a solução analítica, fora
 
 Muito embora se trate de um problema bidimensional sem rotação, o simulador utiliza a formulação tridimensional e considera a evolução da velocidade angular da partícula.
 
-Com esses parâmetros, foi calculada a trajetória da partícula através do simulador e da solução analítica como expostos na figura \ref{fig:falling_sphere}. O erro em função do tempo, por sua vez, é apresentado na figura \ref{fig:falling_sphere_error}
+Com esses parâmetros, foi calculada a trajetória da partícula através do simulador e da solução analítica como expostos na figura \ref{fig:falling_sphere}. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações.
 
 \begin{figure}[h]
 	\caption{Solução do problema de lançamento oblíquo}
@@ -136,6 +134,10 @@ Com esses parâmetros, foi calculada a trajetória da partícula através do sim
 	\legend{Fonte: do Autor.}
 	% \vspace{-1cm}
 \end{figure}
+
+\alert{Mostrar as outras posições, as velocidades e as derivadas?}
+
+O erro em função do tempo, por sua vez, é apresentado na figura \ref{fig:falling_sphere_error}.
 
 \begin{figure}[h]
 	\caption{Erro da solução do problema de lançamento oblíquo}
@@ -157,9 +159,15 @@ Com esses parâmetros, foi calculada a trajetória da partícula através do sim
 
 \subsection{Influência do Passo de Tempo}
 
-\section{Queda Livre com Arrasto}
-\section{Esfera Contra Parede}
 \section{Esfera Quicando}
+
+Como extensão do problema de queda livre, o problema da esfera quicando inclui, além da gravidade, a colisão entre uma esfera e uma parede plana. Supõe-se uma partícula \(\particle\) esférica de raio \(\radius\) e massa \(\mass\) que, no instante inicial \(\initial{t}=0\), é liberada no espaço, em repouso, na posição \(\initial{\position} = \explicitVector{0}{\initial{\yComponent{\position}}}{0}\).
+
+A partícula está sujeita a um campo gravitacional constante cuja aceleração da gravidade é \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\). 
+
+Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\). \label{Continuar isso aqui}
+
+\section{Queda Livre com Arrasto}
 \section{Colisão com Rotação}
 \section{Escoamento em Funil}
 \section{Colisão de Esferas com Condutividade Infinita}
