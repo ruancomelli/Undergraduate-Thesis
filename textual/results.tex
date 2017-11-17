@@ -98,11 +98,12 @@ Embora seja conceitualmente simples e de fácil resolução, o problema do lanç
 \item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo.
 \end{itemize}
 
-\alert{Por isso são apresentados nesta seção [...]}
+Em razão disso, é apresentado, nesta seção, um estudo de caso, em que os resultados de uma simulação do problema de lançamento oblíquo são mostrados e comparados com a respectiva solução analítica. Também são expostas análises relativas à influência da alteração de parâmetros da simulação no erro.
+\alert{``Estudo de caso''?}
 
 \subsection{Estudo de Caso} \alert{Que título horrível!}
 
-A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados os seguintes valores aos parâmetros do problema:
+A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados os seguintes valores aos parâmetros do problema: \alert{Se eu mudar para uma tabela, referênciar por ``os valores da tabela X''}
 \begin{parametersdesc}
 	\item{Massa da partícula}{\mass = 1}{\si\kilogram}
 	\item{Raio da partícula}{\radius = 3}{\si\centi\metre}
@@ -126,12 +127,12 @@ Com esses parâmetros, foi calculada a trajetória da partícula através do sim
 	\caption{Solução do problema de lançamento oblíquo}
 	% \vspace{-0.5cm}
 	\begin{center}
-		\includegraphics[width=0.8\textwidth]{images/falling_sphere/y_position.pdf}
+		\includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
 	\end{center}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
 	\label{fig:falling_sphere}
-	\legend{Fonte: do Autor.}
+	\legend{Fonte: \mine.}
 	% \vspace{-1cm}
 \end{figure}
 
@@ -149,7 +150,7 @@ O erro em função do tempo, por sua vez, é apresentado na figura \ref{fig:fall
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
 	\label{fig:falling_sphere_error}
-	\legend{Fonte: do Autor.}
+	\legend{Fonte: \mine.}
 	% \vspace{-1cm}
 \end{figure}
 
