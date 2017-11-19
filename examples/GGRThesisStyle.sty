@@ -1,0 +1,147 @@
+% Gustavo's Thesis Style
+
+\ProvidesPackage{GGRThesisStyle}
+
+\usepackage{geometry}               
+\geometry{a5paper, top=20mm, bottom=17.5mm, inner=25mm, outer=15mm, headsep=4mm, foot=5mm } 
+\usepackage{graphicx}
+\usepackage{epstopdf}
+%\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage{chngpage}
+
+\usepackage[brazilian]{babel}
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage[utopia]{mathdesign}
+\usepackage{vector}
+\newcommand\bmmax{0}
+\usepackage{bm}
+
+\usepackage{supertabular}
+
+\DeclareMathAlphabet\mathscr{T1}{pzc}{m}{n}
+
+\emergencystretch = 0pt
+\pretolerance = 150
+\tolerance = 250
+\hbadness = 150
+\hfuzz = 0pt
+\hyphenpenalty = 1000
+\doublehyphendemerits = 10000
+\brokenpenalty=4000               	
+\widowpenalty=9000                
+\clubpenalty=9000                 
+\interfootnotelinepenalty=9999    
+
+\setlength{\parindent}{6.5mm}
+\linespread{1.1} 
+
+\addtolength{\skip\footins}{1ex}
+\setlength{\textfloatsep}{12pt}
+\renewcommand{\textfraction}{0.01}
+\renewcommand{\topfraction}{0.9}
+
+% Para deixar a primeira linha do paragrafo inicial de cada capitulo/seção também identada
+\usepackage{indentfirst}
+
+\usepackage{fancyhdr}
+
+\makeatletter 
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+	\hbox{} 
+	\vspace*{\fill} 
+	\vspace{\fill} 
+	\thispagestyle{empty}
+	\newpage
+	\if@twocolumn\hbox{}\newpage\fi\fi\fi} 
+\makeatother
+
+%\usepackage[square, numbers, comma, sort&compress]{natbib}
+\usepackage[authoryear]{natbib}
+\bibpunct{(}{)}{;}{a}{,}{;} %estilo
+\setlength{\bibhang}{0em} %indentação
+\setlength{\bibsep}{2em} %espaçamentos 
+\addto\captionsbrazilian { \renewcommand\bibname{Referências bibliográficas} }
+\addto\captionsbrazilian { \renewcommand\listfigurename{Lista de figuras} }
+\addto\captionsbrazilian { \renewcommand\listtablename{Lista de tabelas} }
+
+\usepackage{setspace}
+\usepackage[font={small,{stretch=0.95}}, labelfont=bf, margin=5mm, labelsep=endash,figurewithin=chapter, format=hang, skip=4mm]{caption} 
+
+\usepackage{enumerate}
+\usepackage{amsthm}
+\theoremstyle{definition} \newtheorem{defin}{Definição}[chapter]        
+
+\usepackage{titlesec}
+\DeclareFixedFont{\chapterfont}{T1}{phv}{b}{n}{30mm}
+\titleformat{\chapter}[display] {\fontfamily{cmss}\fontseries{sbc}} {\filleft 
+\small \MakeUppercase {\chaptertitlename $\mspace{-2mu}$} \\ \vspace{4pt} \chapterfont \thechapter}{24pt}{\Huge}
+
+\titleformat{\section} {\fontfamily{cmss}\fontseries{sbc} \Large}{\thesection}{0.5em}{}
+\titleformat{\subsection} {\fontfamily{cmss}\fontseries{sbc} \large}{\thesubsection}{0.5em}{}
+
+\newcommand{\fonte}[1]{\small{Fonte: #1.}}
+\newcommand{\fonteEU}{ \fonte{Elaborada pelo autor}}
+
+%--------------------------------- Pacote para inserção de listagens de códigos ou conteúdo de arquivos ----------------------------------------------------
+\usepackage{color}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listagem}
+\renewcommand{\lstlistlistingname}{Listagens}
+\definecolor{dkgreen}{RGB}{73,87,66}
+\definecolor{dkyellow}{RGB}{204,150,41}
+\definecolor{dkgray}{RGB}{96,96,96}
+\definecolor{lgreen}{RGB}{140,160,129}
+\lstset{
+	frame = tb,
+	framesep = 5pt,
+	columns = flexible,
+	numbers = left,
+	numberblanklines = true,
+	numberstyle = \tiny,
+	framexleftmargin = 4em,
+	xleftmargin  = 1.5cm,
+	xrightmargin = 0.0cm,
+	abovecaptionskip = 2ex,
+	belowcaptionskip = 2ex,
+	aboveskip = 4ex,
+	belowskip = 7ex,
+	tabsize = 4,
+}
+\lstdefinestyle{C++}{
+	language = [Visual]{C++},
+	basicstyle = \scriptsize\bfseries,
+	identifierstyle = \color{dkgreen},
+	morekeywords = {foreach, std},
+	keywordstyle = \color{dkyellow},
+	commentstyle = \color{lgreen},
+	emph = {IntArray, DoubleArray, StringArray, GridDimension, int, double, string, GridDataPtr, GridPtr, ScalarField, ScalarFieldPtr, VectorField, VectorFieldPtr, ofstreamPtr,
+fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, TopologyNodePtr, TopologyConnectionPtr, VertexPtr, FacePtr, CellPtr, BoundaryPtr, TopologyConnectionArray, Vector3DPtr, GridReaderPtr, GridWriterPtr, VectorArray, BoundaryConditionArray, CellBasedMethod, BoolArray, DoubleArray2D, Vector3D, GradientReconstructorPtr, AlgebraMatrix, QRDecompositor, AlgebraVector, SVDDecompositor, AlgebraMatrixArray, CellArray, FaceArray, Connection, SparseMatrixPtr, acmlib, VectorPtr, MultigridPtr, AssemblerPtr, ControllerPtr, EventPtr, Signal, IterationWriterEventPtr, UsingAddersAssemblerPtr, AccumulationAdderPtr, BoundaryConditionArrayPtr, SparseMatrixLoaderPtr, CellLocatorPtr, WellPropertiesPtr, ParserNodePtr, FlowModelCalculatorPtr, WellPropertiesArrayPtr, DoubleArrayPtr },
+	emphstyle = \bfseries,
+	moreemph = {[2]getTopologyNodes, getTopologyConnections, getVertices, getFaces, getCells, getBoundaries, getHandle, getNode0, getNode1, getArea, getAreaVector, getCentroid, getVolume, read, getDirectory, makeDirectory, write, AppendScalarField, AppendVectorField, reconstructGradient, greenGaussReconstruction, getGeometry, fill, getFaceHandle, interpolateFaceValues, updateFaceValues, isBoundaryVertex, setBoundaryValues, updateFaceValuesFromVertices, interpolateVertexValues, calcVertexWeights3Points, calcVertexWeights2Points, calcVertexWeightsNPoints, determineMatrixCWithNormalEquations, determineMatrixCWithQR, determineMatrixCWithSVD,  getQ, getR, extractColumns, extractLines, getDimension, traspose, inverse, getSingularValues, getV, getU, resize, getNumberOfNeighbors, matmult},
+	emphstyle = {[2]\color{dkgray}},
+	moreemph = {[3]ONE_STEP, TWO_STEPS, NORMAL_EQUATIONS, QR_FACTORIZATION, SVD_FACTORIZATION, TWO_DIMENSIONAL, THREE_DIMENSIONAL},
+	emphstyle = {[3]\color{lgreen}},
+	stringstyle = \color{lgreen},
+}
+\lstdefinestyle{txt}{
+	basicstyle = \footnotesize\bfseries\color{dkgray},
+}
+\lstdefinestyle{pseudocode}{
+	language ={C++},
+	mathescape = true,
+	basicstyle = \small,
+	identifierstyle = \color{dkgreen}\bfseries,
+	morekeywords = {para, cada, for, to, each, computar, adicionar, compute, set, retrieve, update, assemble, do, while, solve},
+	keywordstyle = \color{dkyellow}\bfseries,
+	commentstyle = \color{lgreen}\bfseries,
+	emph = {},
+	emphstyle = \itshape\bfseries,
+	moreemph = {elemento, nó, element, node, face, grid, cell_indexes, cell_index, inner_face, boundary_face, Neumann_boundary, Dirichlet_boundary, subcélula, subface, ponto, célula, subface_de_contorno, face_interna, região_de_interação },
+	emphstyle = {[2]\color{dkgray}\bfseries},
+	moreemph = {[3]and},
+	emphstyle = {[3]\color{dkgreen}\bfseries},
+	stringstyle = \color{lgreen},
+}
