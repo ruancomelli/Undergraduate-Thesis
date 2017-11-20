@@ -162,13 +162,27 @@ O erro em função do tempo, por sua vez, é apresentado na figura \ref{fig:fall
 
 \section{Esfera Quicando}
 
-Como extensão do problema de queda livre, o problema da esfera quicando inclui, além da gravidade, a colisão entre uma esfera e uma parede plana. Supõe-se uma partícula \(\particle\) esférica de raio \(\radius\) e massa \(\mass\) que, no instante inicial \(\initial{t}=0\), é liberada no espaço, em repouso, na posição \(\initial{\position} = \explicitVector{0}{\initial{\yComponent{\position}}}{0}\).
+Como extensão do problema de queda livre, o problema da esfera quicando inclui, além da gravidade, a colisão entre uma esfera e uma parede plana. Supõe-se uma partícula \(\particle\) esférica de raio \(\radius\) e massa \(\mass\) que, no instante inicial \(\initial{t}=0\), é liberada no espaço, em repouso, na posição \(\initial{\position} = \explicitVector{0}{\initial{\yComponent{\positionScalar}}}{0}\).
 
-A partícula está sujeita a um campo gravitacional constante cuja aceleração da gravidade é \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\). 
+A partícula está sujeita a um campo gravitacional constante cuja aceleração da gravidade é \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\). Nessa situação, a componente \(\yComponent{\positionScalar}\) denota a altura da partícula.
 
-Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\). \label{Continuar isso aqui}
+Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\) representando o chão. Sendo um plano fixo, esse elemento é completamente determinado ao se fornecerem um ponto e um versor normal a ele. \alert{Continuar}
+
+\alert{Análises a se fazerem: comparação entre o coeficiente de restituição calculado e o analítico. Talvez desenvolver uma solução analítica, visto que o coeficiente de restituição é dado.}
 
 \section{Queda Livre com Arrasto}
+
+\alert{...}
+
+Segundo \citeonline[p. 392]{bib:fox},
+\begin{equation*}
+	\dragCoefficient = \dfrac{\dragForce}{\frac{1}{2}\density\ \velocity^2\ \projectedArea}
+\end{equation*}
+\alert{Erro! não podemos dividir por vetor...}
+
 \section{Colisão com Rotação}
+
+\alert{Análises a se fazerem: Conservação do momento linear e do momento angular. Conservação da energia quando os termos dissipativos são nulos. Energia perdida no caso contrário.}
+
 \section{Escoamento em Funil}
 \section{Colisão de Esferas com Condutividade Infinita}
