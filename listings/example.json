@@ -1,0 +1,8 @@
+// JSON example
+{
+	"Mass": 30,
+	"Particle":
+	{
+		"Name": "Frodo"
+	}
+}

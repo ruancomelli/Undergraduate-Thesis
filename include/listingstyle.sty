@@ -1,0 +1,127 @@
+% Listing style
+
+\ProvidesPackage{listingstyle}
+
+
+%--------------------------------- Pacote para inserção de listagens de códigos ou conteúdo de arquivos ----------------------------------------------------
+\usepackage{color}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listagem}
+\renewcommand{\lstlistlistingname}{Listagens}
+
+\definecolor{dkgreen}{RGB}{73,87,66}
+\definecolor{dkyellow}{RGB}{204,150,41}
+\definecolor{dkgray}{RGB}{96,96,96}
+\definecolor{lgreen}{RGB}{140,160,129}
+
+\newcommand{\basicStyle}{\small}
+\newcommand{\stringStyle}{\color{lgreen}\bfseries}
+\newcommand{\emphStyle}{{[2]\color{dkgray}}}
+
+\lstset{
+	frame = tb,
+	framesep = 5pt,
+	columns = flexible,
+	numbers = left,
+	numberblanklines = true,
+	numberstyle = \tiny,
+	framexleftmargin = 4em,
+	xleftmargin  = 1.5cm,
+	xrightmargin = 0.0cm,
+	abovecaptionskip = 2ex,
+	belowcaptionskip = 2ex,
+	aboveskip = 4ex,
+	belowskip = 7ex,
+	tabsize = 4,
+}
+\lstdefinestyle{C++}{
+	language = [Visual]{C++},
+	basicstyle = \basicStyle,
+	identifierstyle = \color{dkgreen},
+	morekeywords = {foreach, std},
+	keywordstyle = \color{dkyellow}\bfseries,
+	commentstyle = \color{lgreen},
+	emph = {IntArray, DoubleArray, StringArray, GridDimension, int, double, string, GridDataPtr, GridPtr, ScalarField, ScalarFieldPtr, VectorField, VectorFieldPtr, ofstreamPtr,
+fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, TopologyNodePtr, TopologyConnectionPtr, VertexPtr, FacePtr, CellPtr, BoundaryPtr, TopologyConnectionArray, Vector3DPtr, GridReaderPtr, GridWriterPtr, VectorArray, BoundaryConditionArray, CellBasedMethod, BoolArray, DoubleArray2D, Vector3D, GradientReconstructorPtr, AlgebraMatrix, QRDecompositor, AlgebraVector, SVDDecompositor, AlgebraMatrixArray, CellArray, FaceArray, Connection, SparseMatrixPtr, acmlib, VectorPtr, MultigridPtr, AssemblerPtr, ControllerPtr, EventPtr, Signal, IterationWriterEventPtr, UsingAddersAssemblerPtr, AccumulationAdderPtr, BoundaryConditionArrayPtr, SparseMatrixLoaderPtr, CellLocatorPtr, WellPropertiesPtr, ParserNodePtr, FlowModelCalculatorPtr, WellPropertiesArrayPtr, DoubleArrayPtr },
+	emphstyle = \bfseries,
+	moreemph = {[2]getTopologyNodes, getTopologyConnections, getVertices, getFaces, getCells, getBoundaries, getHandle, getNode0, getNode1, getArea, getAreaVector, getCentroid, getVolume, read, getDirectory, makeDirectory, write, AppendScalarField, AppendVectorField, reconstructGradient, greenGaussReconstruction, getGeometry, fill, getFaceHandle, interpolateFaceValues, updateFaceValues, isBoundaryVertex, setBoundaryValues, updateFaceValuesFromVertices, interpolateVertexValues, calcVertexWeights3Points, calcVertexWeights2Points, calcVertexWeightsNPoints, determineMatrixCWithNormalEquations, determineMatrixCWithQR, determineMatrixCWithSVD,  getQ, getR, extractColumns, extractLines, getDimension, traspose, inverse, getSingularValues, getV, getU, resize, getNumberOfNeighbors, matmult},
+	emphstyle = {[2]\color{dkgray}},
+	moreemph = {[3]ONE_STEP, TWO_STEPS, NORMAL_EQUATIONS, QR_FACTORIZATION, SVD_FACTORIZATION, TWO_DIMENSIONAL, THREE_DIMENSIONAL},
+	emphstyle = {[3]\color{lgreen}},
+	stringstyle = \stringStyle,
+	showspaces=false
+}
+\lstdefinestyle{txt}{
+	basicstyle = \basicStyle,
+}
+\lstdefinestyle{pseudocode}{
+	language ={C++},
+	mathescape = true,
+	basicstyle = \basicStyle\bfseries,
+	identifierstyle = \color{dkgreen}\bfseries,
+	morekeywords = {para, cada, for, to, each, computar, adicionar, compute, set, retrieve, update, assemble, do, while, solve},
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	keywordstyle = \color{dkyellow}\bfseries,
+	commentstyle = \color{lgreen}\bfseries,
+	emph = {},
+	emphstyle = \itshape\bfseries,
+	moreemph = {elemento, nó, element, node, face, grid, cell_indexes, cell_index, inner_face, boundary_face, Neumann_boundary, Dirichlet_boundary, subcélula, subface, ponto, célula, subface_de_contorno, face_interna, região_de_interação },
+	emphstyle = {[2]\color{dkgray}\bfseries},
+	moreemph = {[3]and},
+	emphstyle = {[3]\color{dkgreen}\bfseries},
+	stringstyle = \stringStyle,
+}
+
+\lstdefinestyle{json}{
+	% language ={Java},
+	basicstyle = \basicStyle,
+	mathescape = true,
+	basicstyle = \basicStyle,
+	identifierstyle = \color{dkgreen}\bfseries,
+	keywordstyle = \color{dkyellow}\bfseries,
+	commentstyle = \color{lgreen}\bfseries,
+	emph = {},
+	emphstyle = \itshape\bfseries,
+	moreemph = {elemento, nó, element, node, face, grid, cell_indexes, cell_index, inner_face, boundary_face, Neumann_boundary, Dirichlet_boundary, subcélula, subface, ponto, célula, subface_de_contorno, face_interna, região_de_interação },
+	emphstyle = {[2]\color{dkgray}\bfseries},
+	moreemph = {[3]and},
+	emphstyle = {[3]\color{dkgreen}\bfseries},
+	string=[s]{"}{"}
+	showspaces=false
+	stringstyle = \stringStyle,
+}
+
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+% See <https://tex.stackexchange.com/questions/89574/language-option-supported-in-listings>
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{dkyellow}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{lgreen}\bfseries,
+  stringstyle=\stringStyle,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinestyle{JSON}{
+   language=JavaScript,
+   % backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle = \basicStyle,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
