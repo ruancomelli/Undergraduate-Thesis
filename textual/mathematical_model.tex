@@ -8,13 +8,13 @@ Este capítulo aborda os aspectos matemáticos pertinentes ao Método dos Elemen
 
 As partículas são os elementos fundamentais do Método de Elementos Discretos. De acordo com a definição apresentada por \citeonline{bib:sampaio}, partículas são consideradas corpos rígidos. Por serem indeformáveis, fica implícita a hipótese de que não ocorrem deformações plásticas nesses elementos, e então eles preservam a sua geometria mesmo durante e após colisões.
 
-A princípio, o DEM suporta geometrias arbitrárias para seus elementos. Entretanto, devido a limitações de modelos físicos e de avaliação das colisões, em geral consideram-se formatos básicos como esferas, superelipsoides e poliedros. Geometrias mais complexas podem ser geradas pela associação de geometrias mais simples em partículas compostas \cite{bib:sampaio,bib:computational_granular_dynamics}.
+A princípio, o \DEM{} suporta geometrias arbitrárias para seus elementos. Entretanto, devido a limitações de modelos físicos e de avaliação das colisões, em geral consideram-se formatos básicos como esferas, superelipsoides e poliedros. Geometrias mais complexas podem ser geradas pela associação de geometrias mais simples em partículas compostas \cite{bib:sampaio,bib:computational_granular_dynamics}.
 
 Um sistema de partículas é, por sua vez, um conjunto de partículas que interagem entre si. Considera-se que o sistema possua um referencial global fixo centrado no ponto \(\originPoint\), a partir do qual as demais grandezas vetoriais são definidas.
 
-A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos local com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
+A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos principais com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
-As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o DEM considera, a princípio, apenas as colisões.
+As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões.
 
 Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
 \begin{equation*}
@@ -245,9 +245,9 @@ Com a parametrização \(\orientation\), sempre é possível obter os eixos prin
 \begin{equation*}
 	\principal{\basis}\pqty{t} \leftrightarrow \orientation\pqty{t},
 \end{equation*}
-e sempre é possível obter uma matriz de rotação \(\orientationRotationMatrix\) que transforme vetores da base de eixos locais na base das direções principais da partícula.
+e, com isso, determina-se uma matriz de rotação \(\orientationRotationMatrix\) que transforma vetores da base de eixos locais na base das direções principais da partícula.
 
-Ainda, com os eixos principais dados em função de \(\orientation\), é possível calcularem-se a velocidade angular e suas derivadas a partir da parametrização e suas derivadas:
+Ainda, com os eixos principais dados em função de \(\orientation\), a velocidade angular e suas derivadas podem ser escritas a partir da parametrização e suas derivadas:
 \begin{gather*}
 	\angularVelocity \equiv \angularVelocity\pqty{\orientation, \deriv{1}{\orientation}}, \\
 	\deriv{1}{\angularVelocity} \equiv \deriv{1}{\angularVelocity}\pqty{\orientation, \deriv{1}{\orientation}, \deriv{2}{\orientation}}, \\
@@ -263,12 +263,12 @@ Essas relações são inversíveis, e então é possível obter
 	\deriv{\taylorOrder+1}{\orientation} \equiv \deriv{\taylorOrder+1}{\orientation}\pqty{\orientation, \angularVelocity, \dots, \deriv{\taylorOrder}{\angularVelocity}}
 \end{gather*}
 
-Assim, com a parametrização, é possível definir-se toda a cinemática da rotação da partícula. Mais ainda, devido à equivalência entre o sistema de eixos principais e a parametrização, vetores definidos com relação ao sistema de eixos locais podem ser escritos em termos das direções principais. Isso significa que
+Assim, com a parametrização \(\orientation\), define-se toda a cinemática da rotação da partícula. Mais ainda, devido à equivalência entre o sistema de eixos principais e a parametrização, vetores definidos com relação ao sistema de eixos locais podem ser escritos em termos das direções principais. Isso significa que
 \begin{equation*}
 	\principal{\resultingTorque} \equiv \principal{\resultingTorque}\pqty{\resultingTorque, \orientation}.
 \end{equation*}
 
-Como resultado dessas considerações, o sistema de equações \eqref{eq:motion_second_system} pode ser transformado em uma equação diferencial da forma
+Como resultado dessas considerações, o sistema de equações \eqref{eq:motion_second_system} transforma-se em uma equação diferencial da forma
 \begin{equation} \label{eq:diff_equation_orientation_parametrization}
 	\deriv{2}{\orientation} = \eqFor{\orientation}\pqty{\resultingTorque, \orientation, \deriv{1}{\orientation}}.
 \end{equation}
@@ -283,7 +283,7 @@ O cálculo das forças e dos torques geralmente leva em conta \textit{modelos de
  
 Com os vetores força e torque resultantes, as equações diferenciais do movimento ficam bem determinadas. Resta a escolha de procedimentos para a resolução dessas equações, algoritmos chamados de \textit{métodos de integração} que, dadas duas partículas no instante \(t\) e as equações de movimento, sejam capazes de calcular as coordenadas e as propriedades dessas partículas em um instante futuro \(t+\Dt\).  
  
-As principais características consideradas para a escolha de um método de solução das equações diferenciais são a exatidão, a estabilidade e o custo computacional. Neste trabalho, é utilizado o algoritmo de Gear, descrito na \autoref{sec:gear_integration_scheme}. Outros algoritmos de integração são o método baseado em pontos centrais \textit{leapfrog}, os métodos de Verlet e os de Runge-Kutta \cite{bib:sampaio}.
+As principais características consideradas para a escolha de um método de solução das equações diferenciais são a exatidão, a estabilidade e o custo computacional. Neste trabalho, é utilizado o algoritmo de Gear, descrito na \autoref{sec:gear_integration_scheme}. A motivação para seu uso é que, como indicado na \autoref{sec:neighborhood}, o principal custo computacional dos métodos de elementos discretos advém do cômputo das forças em cada instante de tempo. O método de Gear necessita de apenas uma avaliação das interações por passo de tempo, o que representa uma eficiência máxima nesse sentido. A estabilidade do algoritmo ainda dispensa iterações dentro de cada passo de tempo, reduzindo, mais uma vez, o custo computacional. Outros algoritmos de integração são o método baseado em pontos centrais \textit{leapfrog}, os métodos de Verlet e os de Runge-Kutta \cite{bib:sampaio}.
  
 De uma simulação, é possível extrair diversas informações. Alguns dos principais resultados que se buscam obter são a trajetória das partículas, o carregamento ou a pressão sobre determinada superfície, o coeficiente de restituição resultante das colisões, tempo para esvaziamento de um reservatório, entre outros.
 
@@ -293,7 +293,7 @@ O procedimento de se calcularem as forças e torques e, posteriormente, resolver
 
 Dentre as interações entre partículas do sistema, as mais comumente encontradas são as forças de colisão que surgem durante o seu contato. Os modelos de força têm o papel de atribuir, para cada par de partículas, uma componente de força \(\force\) e uma componente de torque \(\torque\).
 
-Seguindo a notação apresentada na \autoref{sec:particle_systems}, denota-se por \(\forceji\) a componente de força aplicada pela partícula \(\particlej\) sobre a partícula \(\particlei\), e \(\torqueji\) a componente de torque correspondente definida no sistema de eixos da partícula \(\particlei\).
+Seguindo a notação apresentada na \autoref{sec:particle_systems}, denota-se por \(\forceji\) a componente de força aplicada pela partícula \(\particlej\) sobre a partícula \(\particlei\), e por \(\torqueji\) a componente de torque correspondente definida no sistema de eixos centrado na partícula \(\particlei\).
 
 Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana. Nesta seção, são apresentados alguns dos parâmetros geralmente utilizados na determinação de forças e torques e alguns dos principais modelos considerados, segundo \citeonline{bib:computational_granular_dynamics}. 
 
