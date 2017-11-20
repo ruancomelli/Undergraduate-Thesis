@@ -1,32 +1,49 @@
 \chapter{O Método de Elementos Discretos} \label{ch:discrete_element_method}
 
-O Método de Elementos Discretos, ou DEM\footnote{Do inglês, \textit{Discrete Element Method}}, refere-se a uma família de métodos numéricos aplicados na simulação de sistemas de partículas. Segundo \citeonline[p. 1]{bib:bicanic2007}, o DEM constitui-se de técnicas de modelagem computacional indicadas para a simulação do comportamento dinâmico de conjuntos de corpos rígidos de geometria arbitrária sujeitos a restrições de contato variantes no tempo.
+\alert{Descrever aqui as características básicas e gerais que o \DEM{} possui}
 
-Todo método de elementos \alert{que que tem?}
+\alert{Mostrar os principais aspectos do algoritmo e passar por cada um deles, detalhando}
 
-Este capítulo é destinado a \alert{a quê?}
+\alert{Explicar que é um tipo de método explícito no tempo, com partículas que interagem entre si}
 
-Cada partícula é considerada um corpo rígido com seis graus de liberdade: três translações e três rotações. O processo de simulação consiste na solução das equações diferenciais de movimento como apresentadas na \autoref{sec:equations_of_motion}. Essas equações, contudo, devem ser resolvidas para cada partícula
+\alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
+
+\alert{Falar do critério de parada}
+
+\alert{Falar dos métodos de busca de vizinhos}
+
+\alert{Falar da discretização do tempo}
+
+\alert{Falar da paralelização}
+
+O Método de Elementos Discretos, ou \DEM{}\footnote{Do inglês, \textit{Discrete Element Method}}, refere-se a uma família de métodos numéricos aplicados na simulação de sistemas de partículas. Esses métodos compartilham diversas características entre si, como o monitoramento da vizinhança de cada partícula, o cálculo explícito das variáveis do problema a partir de seus valores nos instantes anteriores, dentre outras.
+
+Este capítulo é dedicado à apresentação e à explicação dessas características. São apresentados o funcionamento geral de um algoritmo \DEM{}, o procedimento de solução das equações do problema e as principais etapas do método.
+
+\alert{Talvez descrever melhor o que há em cada seção}
+
+\section{Características Gerais do Método}
+
+Segundo \citeonline[p. 1]{bib:bicanic2007}, o \DEM{} constitui-se de técnicas de modelagem computacional indicadas para a simulação do comportamento dinâmico de conjuntos de partículas de geometria arbitrária sujeitas a restrições de contato variantes no tempo.
+
+Cada partícula é considerada um corpo rígido com seis graus de liberdade: três translações e três rotações, e está sujeita às equações diferenciais de movimento descritas na \autoref{sec:equations_of_motion}. O processo de simulação consiste na solução dessas equações.
 
 Os elementos do sistema, porém, interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações.
 
 \alert{melhorar isso}
 
-Este capítulo visa detalhar, com base nas ferramentas e equações descritas no capítulo \ref{ch:mathematical_model}, os principais aspectos do DEM. \alert{Dar uma descrição do que é apresentado nas seções}
+\subsection{Método Explícito}
 
-\section{Características Gerais do Método} \alert{Descrever aqui as características básicas e gerais que o DEM possui}
-\alert{Mostrar os principais aspectos do algoritmo e passar por cada um deles, detalhando}
-
-Uma distinção que pode ser feita entre métodos computacionais é a que distingue métodos explícitos de implícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma \alert{Usei as palavras 'distinção' e 'distingue' em sequência}
+Uma distinção que pode ser feita entre métodos computacionais é a que separa métodos explícitos de implícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma
 \begin{equation*}
-	y\pqty{t+\Dt} = f\pqty{y\pqty{t}},
+	y\pqty{t+\Dt} = \eqForExplicit{y}\pqty{y\pqty{t}},
 \end{equation*}
 enquanto métodos implícitos buscam resolver
 \begin{equation*}
-	g\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
+	\eqForImplicit{y}\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
 \end{equation*}
 
-É evidente que os métodos implícitos, em geral, incorrem em maiores custos computacionais. 
+Métodos implícitos, em geral, incorrem em maiores custos computacionais. 
 
 O Método de Elementos Discretos é um método explícito. Para um \textit{passo de tempo} \(\Dt>0\), procura-se determinar o estado do sistema de partículas no instante \(t+\Dt\) a partir do estado no instante \(t\) que é, por hipótese, conhecido.
 
@@ -46,26 +63,41 @@ O Método de Elementos Discretos é um método explícito. Para um \textit{passo
 	\right.
 \end{equation*}
 
+\section{Elementos da Simulação}
+
+\subsection{Tipos de Elementos}
+\subsection{Geometria}
+
 \section{Inicialização do Sistema de Partículas}
 
-
+A primeira etapa em uma simulação \DEM{} consiste na inicialização do sistema de partículas.
 
 \alert{Falar das condições iniciais}
 
-\section{Vizinhança} \label{sec:neighborhood}
+\section{Monitoramento da Vizinhança} \label{sec:neighborhood}
+
+\alert{Verificar se já não falei dos custos do cálculo das forças}
+
+Segundo \citeonline[p. 26]{bib:computational_granular_dynamics}, o maior custo computacional em uma simulação de elementos discretos está associado à avaliação das forças atuantes sobre cada partícula em cada passo de tempo. Em um sistema de \(\numberOfParticles\) elementos, e com a simplificação de que a interação de cada par interagente é independente dos demais, cada partícula pode interagir com até \(\numberOfParticles-1\) outros elementos. Isso resulta em um total de
+\begin{equation*}
+	\numberOfParticles\cdot\pqty{\numberOfParticles-1}
+\end{equation*}
+interações computadas a cada passo de tempo.
+
+\alert{Usei as palavras ``interação'' e ``cada'' diversas vezes nesse parágrafo...}
+
+
 
 \section{Identificação de Contatos}
 
-\section{Condições de Contorno e Restrições} \label{sec:boundary_condition}
+\section{Limitação do Passo de Tempo}
 
-\alert{Explicar que é um tipo de método explícito no tempo, com partículas que interagem entre si}
-\alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
-\alert{Falar do critério de parada}
-\alert{Falar dos métodos de busca de vizinhos}
-\alert{Falar da discretização do tempo}
+\alert{Explicar que o passo de tempo deve ser menor que um limite. Ver se essa seção é mesmo necessária.}
+
+\section{Condições de Contorno e Restrições} \label{sec:boundary_condition}
 
 \section{Outros Aspectos do Método}
 \alert{Considerar, principalmente, \citeonline{bib:bicanic2007}. Essa seção deve falar que existem o estudo de fratura e fragmentação, abordagem para corpos deformáveis e esquemas de variação do passo de tempo}
 
-\section{Acoplamento com outros métodos}
-\alert{Falar aqui como o DEM pode ser acoplado com CFD e FEM}
+\section{Acoplamento com Outros Métodos}
+\alert{Falar aqui como o \DEM{} pode ser acoplado com CFD e FEM}
