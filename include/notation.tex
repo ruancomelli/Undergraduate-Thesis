@@ -10,6 +10,7 @@
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
 
 \newcommand{\DEM}{DEM}
+\newcommand{\CC}{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
 
 \newcommand{\Dt}{\Delta t}
 % \newcommand{\eqdef}{:=}
@@ -350,6 +351,8 @@
 
 \newcommand{\eqFor}[1]{f^{#1}}
 \newcommand{\eqFori}[1]{{f_i}^{#1}}
+\newcommand{\eqForExplicit}[1]{f_{\text{impl}}^{#1}}
+\newcommand{\eqForImplicit}[1]{f_{\text{expl}}^{#1}}
 
 \newcommand{\extrapolationMatrixSymbol}{\mtx{A}}
 \newcommand{\extrapolationMatrix}[1]{\extrapolationMatrixSymbol_{#1}}
@@ -391,6 +394,14 @@
 \newcommand{\dangularVelocityipr}[1]{\ind{\dangularVelocity{#1}}{\ipr}}
 \newcommand{\dangularVelocityicorr}[1]{\ind{\dangularVelocity{#1}}{\icorr}}
 
+\newcommand{\drag}[1]{#1_D}
+\newcommand{\dragForceScalar}{\drag{\forceScalar}}
+\newcommand{\dragForce}{\drag{\force}}
+\newcommand{\dragCoefficient}{\drag{C}}
+\newcommand{\density}{\rho}
+\newcommand{\projectedArea}{A}
+
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
 % Convention: given a variable \variable whose indices are not commutative, \variableij denotes \fromTo{\variable}{i}{j}
+% Convention: given a variable \variable, \dvariable[1] denotes \deriv{#1}{\variable} 
