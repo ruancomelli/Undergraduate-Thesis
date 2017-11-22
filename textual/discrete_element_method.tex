@@ -2,6 +2,8 @@
 
 \alert{Descrever aqui as características básicas e gerais que o \DEM{} possui}
 
+\alert{Falar as forças externas, que são fundamentais para algumas das simulações}
+
 \alert{Mostrar os principais aspectos do algoritmo e passar por cada um deles, detalhando}
 
 \alert{Explicar que é um tipo de método explícito no tempo, com partículas que interagem entre si}
@@ -86,11 +88,27 @@ interações computadas a cada passo de tempo.
 
 \alert{Usei as palavras ``interação'' e ``cada'' diversas vezes nesse parágrafo...}
 
+Essa quantidade de interações, porém, limita as quantidades de partículas e de passos de tempo aplicáveis. Buscam-se, então, métodos mais eficientes para o monitoramento da vizinhança de cada elemento. Uma simples consideração, a terceira lei de Newton, reduz pela metade a quantidade de interações avaliadas. \alert{Continuar aqui}
 
+\subsection{Terceira Lei de Newton}
+
+Dadas duas partículas \(\particlei\) e \(\particlej\), a terceira lei de Newton estabelece que à força \(\forceij\) que a partícula \(i\) aplica sobre a \(j\) corresponde uma reação \(\forceji\) que satisfaz
+\begin{equation*}
+	\forceji = -\forceij.
+\end{equation*}
+Esse princípio possui duas consequências: a primeira, que, se \(\particlej\) está na vizinhança de \(\particlei\), então \(\particlei\) está, necessariamente, na vizinhança de \(\particlej\); a segunda é que a força de interação entre \(i\) e \(j\) precisa ser computada apenas uma vez.
+
+\alert{Eu ficaria mais feliz se a primeira fosse representada por uma figura ou uma equação para a vizinhança, mostrando a vizinhança explícita e a vizinhança implícita.}
+
+\subsection{Algoritmo de Verlet}
+\subsection{Algoritmo \textit{link cell}}
+\subsection{Algoritmo \textit{lattice}}
 
 \section{Identificação de Contatos}
 
 \section{Limitação do Passo de Tempo}
+
+\alert{Ver \citeonline{bib:cundall1979} e \citeonline{bib:gomes2014}}
 
 \alert{Explicar que o passo de tempo deve ser menor que um limite. Ver se essa seção é mesmo necessária.}
 
