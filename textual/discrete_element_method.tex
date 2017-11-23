@@ -2,7 +2,7 @@
 
 \alert{Descrever aqui as características básicas e gerais que o \DEM{} possui}
 
-\alert{Falar as forças externas, que são fundamentais para algumas das simulações}
+\alert{Falar das forças externas, que são fundamentais para algumas das simulações}
 
 \alert{Mostrar os principais aspectos do algoritmo e passar por cada um deles, detalhando}
 
@@ -11,10 +11,6 @@
 \alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
 
 \alert{Falar do critério de parada}
-
-\alert{Falar dos métodos de busca de vizinhos}
-
-\alert{Falar da discretização do tempo}
 
 \alert{Falar da paralelização}
 
@@ -30,9 +26,13 @@ Segundo \citeonline[p. 1]{bib:bicanic2007}, o \DEM{} constitui-se de técnicas d
 
 Cada partícula é considerada um corpo rígido com seis graus de liberdade: três translações e três rotações, e está sujeita às equações diferenciais de movimento descritas na \autoref{sec:equations_of_motion}. O processo de simulação consiste na solução dessas equações.
 
-Os elementos do sistema, porém, interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações.
+Os elementos do sistema, porém, interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações. Sendo assim, é necessário o \textit{monitoramento das vizinhanças}, isto é, o método deve sempre determinar quais são os pares de elementos que interagem em cada passo de tempo.
 
 \alert{melhorar isso}
+
+\subsection{Discretização do Tempo}
+
+\alert{Falar da discretização do tempo}
 
 \subsection{Método Explícito}
 
@@ -72,15 +72,15 @@ O Método de Elementos Discretos é um método explícito. Para um \textit{passo
 
 \section{Inicialização do Sistema de Partículas}
 
-A primeira etapa em uma simulação \DEM{} consiste na inicialização do sistema de partículas.
+A primeira etapa em uma simulação \DEM{} consiste na inicialização do sistema de partículas. Essa inicialização consiste em se definir o ambiente da simulação e se construírem todos os elementos necessários.
 
 \alert{Falar das condições iniciais}
 
 \section{Monitoramento da Vizinhança} \label{sec:neighborhood}
 
-\alert{Verificar se já não falei dos custos do cálculo das forças}
+\alert{Falar dos métodos de busca de vizinhos}
 
-Segundo \citeonline[p. 26]{bib:computational_granular_dynamics}, o maior custo computacional em uma simulação de elementos discretos está associado à avaliação das forças atuantes sobre cada partícula em cada passo de tempo. Em um sistema de \(\numberOfParticles\) elementos, e com a simplificação de que a interação de cada par interagente é independente dos demais, cada partícula pode interagir com até \(\numberOfParticles-1\) outros elementos. Isso resulta em um total de
+\alert{Verificar se já não falei dos custos do cálculo das forças} Segundo \citeonline[p. 26]{bib:computational_granular_dynamics}, o maior custo computacional em uma simulação de elementos discretos está associado à avaliação das forças atuantes sobre as partícula em cada passo de tempo. Em um sistema de \(\numberOfParticles\) elementos, e com a simplificação de que a interação de cada par interagente é independente dos demais, cada partícula pode interagir com até \(\numberOfParticles-1\) outros elementos. Isso resulta em um total de
 \begin{equation*}
 	\numberOfParticles\cdot\pqty{\numberOfParticles-1}
 \end{equation*}
@@ -88,7 +88,18 @@ interações computadas a cada passo de tempo.
 
 \alert{Usei as palavras ``interação'' e ``cada'' diversas vezes nesse parágrafo...}
 
-Essa quantidade de interações, porém, limita as quantidades de partículas e de passos de tempo aplicáveis. Buscam-se, então, métodos mais eficientes para o monitoramento da vizinhança de cada elemento. Uma simples consideração, a terceira lei de Newton, reduz pela metade a quantidade de interações avaliadas. \alert{Continuar aqui}
+Essa quantidade de interações, porém, limita as quantidades de partículas e de passos de tempo aplicáveis. Buscam-se, então, métodos mais eficientes para o monitoramento da vizinhança de cada elemento. 
+
+\alert{Onde escrever a parte a seguir: ?}
+
+A vizinhança de uma partícula \(\particlei\) é o conjunto \(\neighborhoodi\) de todos os elementos da simulação com os quais a partícula pode interagir. Sendo \(\particleSet\) o conjunto de todas as partículas do sistema, pode-se definir
+\begin{equation*}
+	\neighborhoodi = \particleSet \setminus \Bqty{\particlei}.
+\end{equation*}
+
+Entretanto essa definição resulta em tempos de simulação elevados.
+
+Uma simples consideração, a terceira lei de Newton, reduz pela metade a quantidade de interações avaliadas. \alert{Continuar aqui}
 
 \subsection{Terceira Lei de Newton}
 
@@ -96,11 +107,53 @@ Dadas duas partículas \(\particlei\) e \(\particlej\), a terceira lei de Newton
 \begin{equation*}
 	\forceji = -\forceij.
 \end{equation*}
-Esse princípio possui duas consequências: a primeira, que, se \(\particlej\) está na vizinhança de \(\particlei\), então \(\particlei\) está, necessariamente, na vizinhança de \(\particlej\); a segunda é que a força de interação entre \(i\) e \(j\) precisa ser computada apenas uma vez.
+Esse princípio possui duas consequências. A primeira, que, se \(\particlej\) está na vizinhança de \(\particlei\), então \(\particlei\) está, necessariamente, na vizinhança de \(\particlej\).
+
+A segunda é que a força de interação entre \(i\) e \(j\) precisa ser computada apenas uma vez.
 
 \alert{Eu ficaria mais feliz se a primeira fosse representada por uma figura ou uma equação para a vizinhança, mostrando a vizinhança explícita e a vizinhança implícita.}
 
 \subsection{Algoritmo de Verlet}
+
+De acordo com \citeonline{bib:computational_granular_dynamics}, o algoritmo de Verlet é um método de monitoramento de vizinhanças que fundamenta-se em duas considerações:
+\begin{itemize}
+	\item Uma partícula só pode colidir com partículas que estejam próximas a ela.
+	\item \alert{Caso as partículas não se movam o suficiente, a vizinhança é constante}
+\end{itemize}
+
+Nesse método, considera-se que duas partículas são vizinhas se a menor distância entre suas superfícies for menor que uma constante arbitrada \(\verletDistance\) denominada de \textit{distância de Verlet}.
+
+\begin{figure}[h]
+	\caption{Representação da vizinhança de partículas esféricas no algoritmo de Verlet. Duas partículas são vizinhas se a distância entre suas superfícies for menor que a distância de Verlet \(\verletDistance\)}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar imagem representando a distância de Verlet. Mostrar três pares de partículas: não vizinhas, caso extremo em que são quase vizinhas e vizinhas}
+		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:verlet_distance}
+	\legend{Fonte: \alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+Para partículas esféricas \(\particlei\) e \(\particlej\), a condição de vizinhança se escreve como
+\begin{equation*}
+	\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance,
+\end{equation*}
+como indicado na figura \ref{fig:verlet_distance}. 
+
+\alert{Mostrar o conjunto vizinhança e dizer que, para o algoritmo de Verlet, esse conjunto é denominado de lista de Verlet}
+\alert{Definir o deslocamento de Verlet como a distância \(\verletPosition\) entre a partícula e a sua posição quando a última lista de Verlet foi construída}
+
+% Com isso, no instante \(t\), a vizinhança da \(i\)-ésima partícula é o conjunto
+% \begin{equation*}
+% 	\neighborhoodi\pqty{t} = \left\lbrace\particlej \,\suchThat\, \distanceij\pqty{t} < \radiusi + \radiusj + \verletDistance\right\rbrace,
+% \end{equation*}
+% em que \(\distanceij\) é a distância entre os centros das partículas \(i\) e \(j\).
+
+Ao longo da simulação, porém, a movimentação das partículas faz com que sua vizinhança se altere, e assim é necessário reconstruir as listas de Verlet.
+
 \subsection{Algoritmo \textit{link cell}}
 \subsection{Algoritmo \textit{lattice}}
 
