@@ -10,7 +10,7 @@
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
 
 \newcommand{\DEM}{DEM}
-\newcommand{\CC}{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
+\newcommand{\CPP}[1]{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}#1}
 
 \newcommand{\Dt}{\Delta t}
 % \newcommand{\eqdef}{:=}
@@ -90,6 +90,8 @@
 \newcommand{\force}{\vec{\forceScalar}}
 \newcommand{\forceScalarij}{\fromTo{\forceScalar}{i}{j}}
 \newcommand{\forceScalarji}{\fromTo{\forceScalar}{j}{i}}
+\newcommand{\forcei}{\ind{\force}{i}}
+\newcommand{\forcej}{\ind{\force}{j}}
 \newcommand{\forceij}{\fromTo{\force}{i}{j}}
 \newcommand{\forceji}{\fromTo{\force}{j}{i}}
 \newcommand{\resultingForce}{\force_{\text{R}}}
@@ -136,6 +138,8 @@
 
 \newcommand{\torqueScalar}{M}
 \newcommand{\torque}{\vec{\torqueScalar}}
+\newcommand{\torquei}{\ind{\torque}{i}}
+\newcommand{\torquej}{\ind{\torque}{j}}
 \newcommand{\torqueij}{\fromTo{\torque}{i}{j}}
 \newcommand{\torqueji}{\fromTo{\torque}{j}{i}}
 \newcommand{\resultingTorque}{\torque_{\text{R}}}
@@ -403,6 +407,10 @@
 \newcommand{\dragCoefficient}{\drag{C}}
 \newcommand{\density}{\rho}
 \newcommand{\projectedArea}{A}
+
+\newcommand{\verlet}[1]{#1_{\text{V}}}
+\newcommand{\verletDistance}{\verlet{\distance}}
+\newcommand{\verletPosition}{\verlet{\position}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
