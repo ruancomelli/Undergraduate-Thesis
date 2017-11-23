@@ -14,7 +14,7 @@ Um sistema de partículas é, por sua vez, um conjunto de partículas que intera
 
 A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos principais com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
-As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões.
+As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões e as forças de campo, como a gravidade.
 
 Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
 \begin{equation*}
@@ -26,9 +26,10 @@ Cada partícula ainda possui uma \textit{vizinhança}, que é o conjunto de elem
 
 Escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela partícula \(\particlej\) sobre a partícula \(\particlei\), tem-se que a força resultante \(\resultingForcei\) e o torque resultante \(\resultingTorquei\) sobre \(\particlei\) são dados pelo princípio da superposição como
 \begin{gather}
-	\resultingForcei = \sum_{\particlej\in\ineighborhood{i}}\forceji, \label{eq:superposition_translation} \\
-	\resultingTorquei = \sum_{\particlej\in\ineighborhood{i}}\torqueji. \label{eq:superposition_rotation}
+	\resultingForcei = \sum_{\particlej\in\ineighborhood{i}}\forceji + \external\resultingForcei, \label{eq:superposition_translation} \\
+	\resultingTorquei = \sum_{\particlej\in\ineighborhood{i}}\torqueji + \external\resultingTorquei, \label{eq:superposition_rotation}
 \end{gather}
+em que \(\external\resultingForcei\) e \(\external\resultingTorquei\) são a força e o torque \textit{externos} atuantes sobre \(\particlei\), isto é, resultantes da interação entre a \(i\)-ésima partícula com elementos exteriores ao sistema.
 
 Uma importante hipótese que se faz no Método de Elementos Discretos é que a interação entre duas partículas \(\particlei\) e \(\particlej\) não interfere na interação entre outras partículas ou entre \(\particlei\) e uma terceira partícula \(\particlek\). Com isso, cada par de partículas pode ser estudado isoladamente, e o estado final do sistema, após as interações, é uma simples combinação desses resultados.
 
