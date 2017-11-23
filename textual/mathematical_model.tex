@@ -1107,15 +1107,25 @@ Com as coordenadas previstas, inicia-se a etapa de correção. Nessa etapa, são
 	\begin{array}{c}
 		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}} \\
 		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}}
-	\end{array}, \quad i,j = 1, \dots, \numberOfParticles.
+	\end{array}, \quad i,j = 1, \dots, \numberOfParticles,
 \end{equation*}
-
-Com as forças e os torques determinados para cada par de partículas, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
+e, também, são computadas as forças e os torques devidos à ação de outros elementos,
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji \\
-		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji
+		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
+		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
+	\end{array}, \quad i = 1, \dots, \numberOfParticles.
+\end{equation*}
+\begin{equation*}
+\end{equation*}
+
+Com as forças e os torques determinados para cada par de interagentes, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
+		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
 	\end{array}, \quad i = 1, \dots, \numberOfParticles.
 \end{equation*}
 
@@ -1166,7 +1176,9 @@ O cálculo de forças e torques se dá, então, por
 	\def\arraystretch{1.5}
 	\begin{array}{c}
 		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
-		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr}
+		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
+		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \angularVelocityi} \\
+		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \angularVelocityi}
 	\end{array}, \quad i,j = 1, \dots, \numberOfParticles.
 \end{equation*}
 
@@ -1174,8 +1186,8 @@ Similarmente ao caso geral, as forças e os torques resultantes são obtidos pel
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji \\
-		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji
+		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
+		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
 	\end{array}, \quad i = 1, \dots, \numberOfParticles.
 \end{equation*}
 
