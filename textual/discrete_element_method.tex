@@ -30,9 +30,20 @@ Os elementos do sistema, porém, interagem entre si, e as forças e os torques a
 
 \alert{melhorar isso}
 
-\subsection{Discretização do Tempo}
+\subsection{Discretização Temporal}
 
-\alert{Falar da discretização do tempo}
+Como é recorrente em métodos de simulação numérica, o DEM conta com a discretização do tempo para a solução das equações de movimento. Para o intervalo de simulação \(\interval{\initial{t}}{\final{t}}\), sendo \(\initial{t}\) o instante e inicial e \(\final{t}\), o final, uma discretização temporal é um conjunto \(\set{t_0, t_1, \dotsc, t_{\numberOfTimesteps}}\) tal que
+\begin{equation*}
+	\initial{t} = t_0 < t_1 < \dotsb < t_{\numberOfTimesteps - 1} < t_{\numberOfTimesteps} = \final{t}.
+\end{equation*}
+
+O valor \(\numberOfTimesteps\) é o número de passos de tempo da simulação. Um passo de tempo é o período compreendido entre dois instantes consecutivos da discretização. O \(n\)-ésimo passo de tempo é dado então por
+\begin{equation*}
+	\Dt_{n} \eqdef t_{n} - t_{n-1},
+\end{equation*}
+e escreve-se \(\Dt\) no caso em que os passos de tempo têm todos o mesmo tamanho.
+
+Com isso, o objetivo do Método de Elementos Discretos torna-se obter a solução para as coordenadas das partículas no tempo discretizado.
 
 \subsection{Método Explícito}
 
@@ -61,11 +72,13 @@ O Método de Elementos Discretos é um método explícito. Para um \textit{passo
 			\accelerationi = \inverted{\massi}\cdot\dsum_{\particlej\in\neighborhoodi} \forceji\pqty{\positioni, \velocityi, \orientationi, \angularVelocityi, \positionj, \velocityj, \orientationj, \angularVelocityj}
 			\\
 			\accelerationi = \inverted{\massi}\cdot\dsum_{\particlej\in\neighborhoodi} \forceji\pqty{\positioni, \velocityi, \orientationi, \angularVelocityi, \positionj, \velocityj, \orientationj, \angularVelocityj}
-		\end{array},\quad i = 1, \dots, \numberOfParticles
+		\end{array},\quad i = 1, \dotsc, \numberOfParticles
 	\right.
 \end{equation*}
 
 \section{Elementos da Simulação}
+
+\alert{Falar de elementos de contorno \(\mathcal{B}\), partículas \(\mathcal{P}\), elementos \(\mathcal{E}\)}
 
 \subsection{Tipos de Elementos}
 \subsection{Geometria}
