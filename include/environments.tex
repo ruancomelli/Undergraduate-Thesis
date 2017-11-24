@@ -19,11 +19,20 @@
 	{
 		% \let\olditem\item
 		\let\olditem\item
-		\renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
-		\begin{description}
+		% \renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
+		\renewcommand{\item}[3]{##1 & \(##2\) & \(##3\) \\}
+		% \begin{table}[h]
+		\begin{tabular}{lcc}
+		\hline
+		\multicolumn{1}{c}{Parâmetro} & 
+		\multicolumn{1}{c}{Valor} & 
+		\multicolumn{1}{c}{Unidade} \\
+		\hline
 	}
 	{
-		\end{description}
+		\hline
+		\end{tabular}
+		% \end{table}
 		% \renewcommand{\item}{\olditem}
 	}
 

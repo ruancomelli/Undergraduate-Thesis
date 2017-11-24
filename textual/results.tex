@@ -104,20 +104,23 @@ Em razão disso, é apresentado, nesta seção, um estudo de caso, em que os res
 \subsection{Estudo de Caso} \alert{Que título horrível!}
 
 A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados os seguintes valores aos parâmetros do problema: \alert{Se eu mudar para uma tabela, referênciar por ``os valores da tabela X''}
+\begin{table}[h]
+\centering
+\caption{Parâmetros para o \alert{estudo de caso} do problema de lançamento oblíquo.}
+\label{tab:free_fall_case_parameters}
 \begin{parametersdesc}
 	\item{Massa da partícula}{\mass = 1}{\si\kilogram}
 	\item{Raio da partícula}{\radius = 3}{\si\centi\metre}
-	\item{Posição inicial}{\explicitVector{\initial{\positionx}}{\initial{\positiony}}{\initial{\positionz}} = \explicitVector{0}{0}{0}}{\si{\metre}}
-	\item{Velocidade inicial}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{10}{5}{0}}{\si[per-mode=symbol]{\metre\per\second}}
-	\alert{Confusão entre 10,5 e 10, 5 ??}
-	\item{Aceleração inicial}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
-	\item{Instante final}{\final{t} = 2\,}{\si\second} 
-	\item{Ordem de extrapolação}{\taylorOrder = 7}{}
-	\item{Gravidade}{\gravityScalar = 9,81\,}{\si[per-mode=symbol]{\metre\per\square\second}}
-	\item{Passo de tempo}{\Dt = 10^{-3}\,}{\si\second}
-\end{parametersdesc} 
-
-\alert{Usar uma tabela?}
+	\item{Posição inicial}{\explicitVector{\initial{\positionx}}{\initial{\positiony}}{\initial{\positionz}} = \explicitNumericVector{0}{0}{0}}{\si{\metre}}
+	\item{Velocidade inicial}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitNumericVector{20}{10}{0}}{\si[per-mode=symbol]{\metre\per\second}}
+	\item{Aceleração inicial}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitNumericVector{0}{-9,81}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Instante final}{\final{t} = 3}{\si\second} 
+	\item{Ordem de extrapolação}{\taylorOrder = 7}{\emptyTableEntry}
+	\item{Gravidade}{\gravityScalar = 9,81}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Passo de tempo}{\Dt = 10^{-3}}{\si\second}
+\end{parametersdesc}
+\sourceMe 
+\end{table}
 
 Muito embora se trate de um problema bidimensional sem rotação, o simulador utiliza a formulação tridimensional e considera a evolução da velocidade angular da partícula.
 
