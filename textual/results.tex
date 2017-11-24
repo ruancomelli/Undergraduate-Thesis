@@ -26,6 +26,12 @@ O erro máximo, por sua vez, é o maior erro pontual entre \(y\) e \(\analytical
 	\maximumErrorOf{y} = \max\pqty{\Im\pqty{\errorOf{y}}}.
 \end{equation*}
 
+Para funções vetoriais \(\vec{y}\), o erro e o erro máximo são definidos equivalentemente como
+\begin{gather}
+	\errorOf{\vec{y}} = \norm{\vec{y} - \analytical{\vec{y}}}, \label{eq:vector_error} \\
+	\maximumErrorOf{\vec{y}} = \max\pqty{\Im\pqty{\errorOf{\vec y}}}. \label{eq:maximum_vector_error}
+\end{gather}
+
 \section{Lançamento Oblíquo}
 
 O lançamento oblíquo é um dos problemas clássicos de física básica. Considera-se uma partícula de massa \(\mass\) sujeita unicamente à ação de um campo gravitacional constante cuja aceleração da gravidade é \(\gravity\). Nessas condições, as equações de movimento para a partícula se tornam, simplesmente,
@@ -93,8 +99,8 @@ Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\)
 
 Embora seja conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite:
 \begin{itemize}
-\item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo. Em cada instante, as coordenadas da partícula são previstas e, em seguida, corrigidas a partir do valor da força peso. A proximidade da resposta numericamente calculada com a solução analítica evidencia o bom funcionamento do algoritmo e valida a implementação.
-\item A análise da evolução do erro em função do passo de tempo. Como indicado na \autoref{sec:gear_integration_scheme}, o algoritmo de Gear apresenta um erro global da ordem de \(\Dt^\taylorOrder\), sendo \(\taylorOrder\) a ordem da maior derivada considerada. A verificação desse fato implica que o algoritmo se comporta conforme previsto.
+\item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo. Em cada instante, as coordenadas da partícula são previstas e, em seguida, corrigidas a partir do valor da força da gravidade. A proximidade da resposta numericamente calculada com a solução analítica evidencia o bom funcionamento do algoritmo.
+\item A análise da evolução do erro em função do passo de tempo. Como indicado na \autoref{sec:gear_integration_scheme}, o algoritmo de Gear apresenta um erro global da ordem de \(\Dt^\taylorOrder\), sendo \(\taylorOrder\) a ordem da maior derivada considerada. A verificação desse fato indica que o algoritmo se comporta conforme previsto.
 \item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo.
 \end{itemize}
 
@@ -103,7 +109,8 @@ Em razão disso, é apresentado, nesta seção, um estudo de caso, em que os res
 
 \subsection{Estudo de Caso} \alert{Que título horrível!}
 
-A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados os seguintes valores aos parâmetros do problema: \alert{Se eu mudar para uma tabela, referênciar por ``os valores da tabela X''}
+A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados aos parâmetros do problema os valores dispostos na tabela \ref{tab:free_fall_case_parameters}.
+
 \begin{table}[h]
 \centering
 \caption{Parâmetros para o \alert{estudo de caso} do problema de lançamento oblíquo.}
@@ -124,44 +131,103 @@ A fim de se compararem os resultados numéricos com a solução analítica, fora
 
 Muito embora se trate de um problema bidimensional sem rotação, o simulador utiliza a formulação tridimensional e considera a evolução da velocidade angular da partícula.
 
-Com esses parâmetros, foi calculada a trajetória da partícula através do simulador e da solução analítica como expostos na figura \ref{fig:falling_sphere}. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações.
-
 \begin{figure}[h]
-	\caption{Solução do problema de lançamento oblíquo}
+	\caption{Solução para a altura da partícula no problema de lançamento oblíquo\protect\footnotemark.}
 	% \vspace{-0.5cm}
 	\begin{center}
-		\includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
+		\includegraphics[scale=1]{images/falling_sphere/y_position.pdf}
+		% \includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
 	\end{center}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
-	\label{fig:falling_sphere}
-	\legend{Fonte: \mine.}
+	\label{fig:falling_sphere_y_position}
+	\sourceMe
 	% \vspace{-1cm}
 \end{figure}
 
-\alert{Mostrar as outras posições, as velocidades e as derivadas?}
-
-O erro em função do tempo, por sua vez, é apresentado na figura \ref{fig:falling_sphere_error}.
+\footnotetext{Para melhor visualização dos resultados, é apresentado um ponto a cada dez passos de tempo.}
 
 \begin{figure}[h]
-	\caption{Erro da solução do problema de lançamento oblíquo}
+	\caption{Solução do problema de lançamento oblíquo para (\subref{subfig:x_position}) a posição horizontal, (\subref{subfig:x_velocity}) a velocidade horizontal, (\subref{subfig:y_velocity}) a velocidade vertical e (\subref{subfig:y_acceleration}) a aceleração vertical da partícula}
 	% \vspace{-0.5cm}
+	\centering
+	\captionsetup[subfloat]{labelfont=bf}
+	\subfloat{
 	\begin{center}
-		\alert{Inserir figura}
-		% \includegraphics[width=0.8\textwidth]{images/falling_sphere/y_position.png}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/falling_sphere/x_position.pdf}
+			\caption{}
+			\label{subfig:x_position}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/falling_sphere/x_velocity.pdf}
+			\caption{}
+			\label{subfig:x_velocity}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/falling_sphere/y_velocity.pdf}
+			\caption{}
+			\label{subfig:y_velocity}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/falling_sphere/y_acceleration.pdf}
+			\caption{}
+			\label{subfig:y_acceleration}
+		\end{subfigure}
 	\end{center}
+	}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:falling_sphere_other}
+	\sourceMe
+	% \vspace{-1cm}
+\end{figure}
+
+Com esses parâmetros, foi calculada a trajetória da partícula através do simulador e da solução analítica. Na figura \ref{fig:falling_sphere_y_position} estão expostas as soluções para a altura da partícula, isto é, para a componente de posição \(\yComponent\positionScalar\). Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações.
+
+Outras variáveis, como a posição horizontal, as velocidades horizontal e vertical e a aceleração vertical estão apresentados na figura \ref{fig:falling_sphere_other}.
+
+\begin{figure}[h]
+	\caption{Erro da simulação com relação à solução numérica para (\subref{subfig:position_error}) a posição e (\subref{subfig:velocity_error}) da partícula}
+	% \vspace{-0.5cm}
+	\centering
+	\captionsetup[subfloat]{labelfont=bf}
+	\subfloat{
+	\begin{center}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/falling_sphere/position_error.pdf}
+			\caption{}
+			\label{subfig:position_error}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/falling_sphere/velocity_error.pdf}
+			\caption{}
+			\label{subfig:velocity_error}
+		\end{subfigure}
+	\end{center}
+	}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
 	\label{fig:falling_sphere_error}
-	\legend{Fonte: \mine.}
+	\sourceMe
 	% \vspace{-1cm}
 \end{figure}
 
+Por sua vez, o erro da posição e o erro da velocidade, como funções do tempo, são apresentados na figura \ref{fig:falling_sphere_error}. Esses erros são calculados de acordo com a equação \eqref{eq:vector_error}.
+
 \alert{Incluir arquivo .json em um apêndice para mostrar como a simulação é configurada?}
 
-\subsection{Influência da Ordem de Extrapolação}
-
 \subsection{Influência do Passo de Tempo}
+
+Na \autoref{sec:gear_integration_scheme}, foi visto que o erro do algoritmo de Gear, para sistemas de partículas, para uma ordem de extrapolação \(\taylorOrder\), é da ordem de \(\Dt^{\taylorOrder}\).
+
+\subsection{Influência da Ordem de Extrapolação} \alert{Colocar isso mesmo?}
 
 \section{Esfera Quicando}
 
