@@ -6,6 +6,7 @@
 %--------------------------------- Pacote para inserção de listagens de códigos ou conteúdo de arquivos ----------------------------------------------------
 \usepackage{color}
 \usepackage{listings}
+% \usepackage{listingsutf8}
 \renewcommand{\lstlistingname}{Listagem}
 \renewcommand{\lstlistlistingname}{Listagens}
 
@@ -17,6 +18,41 @@
 \newcommand{\basicStyle}{\small}
 \newcommand{\stringStyle}{\color{lgreen}\bfseries}
 \newcommand{\emphStyle}{{[2]\color{dkgray}}}
+
+\lstset{
+     literate=%
+     	{ã}{{\~a}}1
+        {á}{{\'a}}1
+        {í}{{\'i}}1
+        {é}{{\'e}}1
+        {ý}{{\'y}}1
+        {ú}{{\'u}}1
+        {ó}{{\'o}}1
+        {ě}{{\v{e}}}1
+        {š}{{\v{s}}}1
+        {č}{{\v{c}}}1
+        {ř}{{\v{r}}}1
+        {ž}{{\v{z}}}1
+        {ď}{{\v{d}}}1
+        {ť}{{\v{t}}}1
+        {ň}{{\v{n}}}1                
+        {ů}{{\r{u}}}1
+        {Á}{{\'A}}1
+        {Í}{{\'I}}1
+        {É}{{\'E}}1
+        {Ý}{{\'Y}}1
+        {Ú}{{\'U}}1
+        {Ó}{{\'O}}1
+        {Ě}{{\v{E}}}1
+        {Š}{{\v{S}}}1
+        {Č}{{\v{C}}}1
+        {Ř}{{\v{R}}}1
+        {Ž}{{\v{Z}}}1
+        {Ď}{{\v{D}}}1
+        {Ť}{{\v{T}}}1
+        {Ň}{{\v{N}}}1                
+        {Ů}{{\r{U}}}1    
+}
 
 \lstset{
 	frame = tb,
@@ -32,7 +68,7 @@
 	belowcaptionskip = 2ex,
 	aboveskip = 4ex,
 	belowskip = 7ex,
-	tabsize = 4,
+	tabsize = 4
 }
 \lstdefinestyle{C++}{
 	language = [Visual]{C++},
@@ -41,8 +77,7 @@
 	morekeywords = {foreach, std},
 	keywordstyle = \color{dkyellow}\bfseries,
 	commentstyle = \color{lgreen},
-	emph = {IntArray, DoubleArray, StringArray, GridDimension, int, double, string, GridDataPtr, GridPtr, ScalarField, ScalarFieldPtr, VectorField, VectorFieldPtr, ofstreamPtr,
-fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, TopologyNodePtr, TopologyConnectionPtr, VertexPtr, FacePtr, CellPtr, BoundaryPtr, TopologyConnectionArray, Vector3DPtr, GridReaderPtr, GridWriterPtr, VectorArray, BoundaryConditionArray, CellBasedMethod, BoolArray, DoubleArray2D, Vector3D, GradientReconstructorPtr, AlgebraMatrix, QRDecompositor, AlgebraVector, SVDDecompositor, AlgebraMatrixArray, CellArray, FaceArray, Connection, SparseMatrixPtr, acmlib, VectorPtr, MultigridPtr, AssemblerPtr, ControllerPtr, EventPtr, Signal, IterationWriterEventPtr, UsingAddersAssemblerPtr, AccumulationAdderPtr, BoundaryConditionArrayPtr, SparseMatrixLoaderPtr, CellLocatorPtr, WellPropertiesPtr, ParserNodePtr, FlowModelCalculatorPtr, WellPropertiesArrayPtr, DoubleArrayPtr },
+	emph = {IntArray, DoubleArray, StringArray, GridDimension, int, double, string, GridDataPtr, GridPtr, ScalarField, ScalarFieldPtr, VectorField, VectorFieldPtr, ofstreamPtr, fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, TopologyNodePtr, TopologyConnectionPtr, VertexPtr, FacePtr, CellPtr, BoundaryPtr, TopologyConnectionArray, Vector3DPtr, GridReaderPtr, GridWriterPtr, VectorArray, BoundaryConditionArray, CellBasedMethod, BoolArray, DoubleArray2D, Vector3D, GradientReconstructorPtr, AlgebraMatrix, QRDecompositor, AlgebraVector, SVDDecompositor, AlgebraMatrixArray, CellArray, FaceArray, Connection, SparseMatrixPtr, acmlib, VectorPtr, MultigridPtr, AssemblerPtr, ControllerPtr, EventPtr, Signal, IterationWriterEventPtr, UsingAddersAssemblerPtr, AccumulationAdderPtr, BoundaryConditionArrayPtr, SparseMatrixLoaderPtr, CellLocatorPtr, WellPropertiesPtr, ParserNodePtr, FlowModelCalculatorPtr, WellPropertiesArrayPtr, DoubleArrayPtr },
 	emphstyle = \bfseries,
 	moreemph = {[2]getTopologyNodes, getTopologyConnections, getVertices, getFaces, getCells, getBoundaries, getHandle, getNode0, getNode1, getArea, getAreaVector, getCentroid, getVolume, read, getDirectory, makeDirectory, write, AppendScalarField, AppendVectorField, reconstructGradient, greenGaussReconstruction, getGeometry, fill, getFaceHandle, interpolateFaceValues, updateFaceValues, isBoundaryVertex, setBoundaryValues, updateFaceValuesFromVertices, interpolateVertexValues, calcVertexWeights3Points, calcVertexWeights2Points, calcVertexWeightsNPoints, determineMatrixCWithNormalEquations, determineMatrixCWithQR, determineMatrixCWithSVD,  getQ, getR, extractColumns, extractLines, getDimension, traspose, inverse, getSingularValues, getV, getU, resize, getNumberOfNeighbors, matmult},
 	emphstyle = {[2]\color{dkgray}},
@@ -54,22 +89,28 @@ fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, Topo
 \lstdefinestyle{txt}{
 	basicstyle = \basicStyle,
 }
+\newcommand\keywordstyle[1]{\color{dkyellow}\bfseries{#1}}
+\newcommand\emphstyle[1]{\itshape\bfseries{#1}}
 \lstdefinestyle{pseudocode}{
 	language ={C++},
 	mathescape = true,
+	escapeinside = {(*}{*)},
 	basicstyle = \basicStyle\bfseries,
 	identifierstyle = \color{dkgreen}\bfseries,
 	morekeywords = {para, cada, for, to, each, computar, adicionar, compute, set, retrieve, update, assemble, do, while, solve},
-	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
 	keywordstyle = \color{dkyellow}\bfseries,
 	commentstyle = \color{lgreen}\bfseries,
+	morecomment = [s]{\[}{\]}
 	emph = {},
-	emphstyle = \itshape\bfseries,
-	moreemph = {elemento, nó, element, node, face, grid, cell_indexes, cell_index, inner_face, boundary_face, Neumann_boundary, Dirichlet_boundary, subcélula, subface, ponto, célula, subface_de_contorno, face_interna, região_de_interação },
+	emphstyle = \emphstyle,
+	moreemph = {vizinho, calcular},
 	emphstyle = {[2]\color{dkgray}\bfseries},
 	moreemph = {[3]and},
 	emphstyle = {[3]\color{dkgreen}\bfseries},
 	stringstyle = \stringStyle,
+	literate=
+		{partícula}{{\emphstyle{part\'icula}}}9
 }
 
 \lstdefinestyle{json}{
