@@ -223,10 +223,14 @@
 \newcommand{\elementj}{\ind{\element}{j}}
 
 \newcommand{\particleSet}{\mathcal{P}}
-\newcommand{\particle}{\mathcal{P}}
-\newcommand{\particlei}{\ind{\particle}{i}}
-\newcommand{\particlej}{\ind{\particle}{j}}
-\newcommand{\particlek}{\ind{\particle}{k}}
+\newcommand{\particleSymbol}{\mathcal{P}}
+\NewDocumentCommand{\particle}{o}
+{
+    \IfValueTF{#1}{\ind{\particleSymbol}{#1}}{\particleSymbol}    
+}
+\newcommand{\particlei}{\particle[i]}
+\newcommand{\particlej}{\particle[j]}
+\newcommand{\particlek}{\particle[k]}
 \newcommand{\numberOfParticles}{N_{\particleSet}}
 
 \newcommand{\boundarySet}{\mathcal{B}}
@@ -291,6 +295,7 @@
 
 \newcommand{\beforeCollision}[1]{#1}
 \newcommand{\afterCollision}[1]{\pqty{#1}^{\prime}}
+\newcommand{\collisionDuration}{\Dt^{\prime}}
 
 \newcommand{\normalForceij}{\normal{\forceij}}
 \newcommand{\normalForceji}{\normal{\forceji}}
@@ -434,6 +439,8 @@
 \newcommand{\verletPosition}{\verlet{\position}}
 
 \newcommand{\orderedPair}[2]{\pqty{#1, #2}}
+
+\newcommand{\fig}[1]{figura \ref{#1}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
