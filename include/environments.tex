@@ -5,33 +5,34 @@
 \counterwithin{figure}{chapter}
 \counterwithin{table}{chapter}
 
+\usepackage{array}
+\usepackage{tabularx, tabulary}
 \usepackage{tikz}
 
 % Enumerate
 
-\usepackage{enumerate}
-\usepackage{enumitem}
+% \usepackage{enumerate}
 
 % Allow table elements to spread over multiple rows
 \usepackage{multirow}
 
-\newenvironment{parametersdesc}
+\usepackage{environ}
+\NewEnviron{parametersdesc}
 	{
 		% \let\olditem\item
 		\let\olditem\item
 		% \renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
-		\renewcommand{\item}[3]{##1 & \(##2\) & \(##3\) \\}
+		\renewcommand{\item}[3]{##1 & \(##2\) & \(##3\) \tabularnewline}
 		% \begin{table}[h]
-		\begin{tabular}{lcc}
+		\begin{tabularx}{\textwidth}{Xcc}
 		\hline
 		\multicolumn{1}{c}{Parâmetro} & 
 		\multicolumn{1}{c}{Valor} & 
-		\multicolumn{1}{c}{Unidade} \\
+		\multicolumn{1}{c}{Unidade} \tabularnewline
 		\hline
-	}
-	{
+		\BODY
 		\hline
-		\end{tabular}
+		\end{tabularx}
 		% \end{table}
 		% \renewcommand{\item}{\olditem}
 	}
