@@ -860,7 +860,7 @@ A etapa de predição é responsável por obter uma estimativa para \(y\pqty{t+\
 
 Para simplificação da notação, dada uma função \(y\), define-se o vetor das \(\taylorOrder\) primeiras derivadas de \(y\) como a função vetorial
 \begin{equation*}
-	\drvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dotsc, \deriv{\taylorOrder}{y}}
+	\drvvec{\taylorOrder}{y} = \pqty{y, \deriv{1}{y}, \deriv{2}{y}, \dotsc, \deriv{\taylorOrder}{y}}
 \end{equation*}
 nos pontos em que todas as coordenadas estiverem definidas.
 
@@ -895,9 +895,9 @@ Conforme demonstrado por \citeonline{bib:extrapolation}, métodos de extrapolaç
 \end{equation*}
 ou, mais simplesmente,
 \begin{equation} \label{eq:prediction}
-	\drvec{\taylorOrder}{\predicted{y}} = \extrapolationMatrix{\taylorOrder} \cdot \drvec{\taylorOrder}{y}.
+	\drvvec{\taylorOrder}{\predicted{y}} = \extrapolationMatrix{\taylorOrder} \cdot \drvvec{\taylorOrder}{y}.
 \end{equation}
-em que a matriz \(\extrapolationMatrix{\taylorOrder}\) é determinada pelo método escolhido e \(\drvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
+em que a matriz \(\extrapolationMatrix{\taylorOrder}\) é determinada pelo método escolhido e \(\drvvec{\taylorOrder}{\predicted{y}}\) é o vetor de derivadas de \(y\) \textit{predito}.
 
 Dentre os métodos de extrapolação mais utilizados estão o método de expansão de Taylor, o método de Richardson, o método de interpolação de Aitken e os métodos de Runge-Kutta, cada qual com diferentes características em termos de exatidão e estabilidade \cite{bib:gear_book}.
 
@@ -973,7 +973,7 @@ A principal fonte de erros da equação \eqref{eq:extrapolation_matricial_form} 
 
 \subsection{Correção} \label{subsec:correction}
 
-Na etapa de correção, um termo é adicionado ao vetor previsto \(\drvec{\taylorOrder}{\predicted{y}}\) para se obter o vetor \(\drvec{\taylorOrder}{\corrected{y}}\), corrigido em função da equação diferencial \eqref{eq:gear_diff}.
+Na etapa de correção, um termo é adicionado ao vetor previsto \(\drvvec{\taylorOrder}{\predicted{y}}\) para se obter o vetor \(\drvvec{\taylorOrder}{\corrected{y}}\), corrigido em função da equação diferencial \eqref{eq:gear_diff}.
 
 O valor corrigido para \(\deriv{\eqOrder}{y}\) pode ser obtido no instante \(t+\Dt\) diretamente através da equação:
 \[
@@ -1007,27 +1007,27 @@ Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) po
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
-		\correctorConstant{0} \\
-		\correctorConstant{1}\frac{1}{\Dt} \\
-		\correctorConstant{2}\frac{2}{\Dt^2} \\
+		\correctorConstant{0}{\eqOrder} \\
+		\correctorConstant{1}{\eqOrder}\frac{1}{\Dt} \\
+		\correctorConstant{2}{\eqOrder}\frac{2}{\Dt^2} \\
 		\vdots \\
-		\correctorConstant{p}\frac{\eqOrder!}{\Dt^\eqOrder}\\
+		\correctorConstant{\eqOrder}{\eqOrder}\frac{\eqOrder!}{\Dt^\eqOrder}\\
 		\vdots \\
-		\correctorConstant{\taylorOrder-1}\frac{\pqty{\taylorOrder-1}!}{\Dt^{\taylorOrder-1}}\\
-		\correctorConstant{\taylorOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}
+		\correctorConstant{\taylorOrder-1}{\eqOrder}\frac{\pqty{\taylorOrder-1}!}{\Dt^{\taylorOrder-1}}\\
+		\correctorConstant{\taylorOrder}{\eqOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}
 	\end{pmatrix}
 	\cdot
 	\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y},
 \end{equation}
-sendo que as constantes corretoras \(\correctorConstant{0}\), \(\correctorConstant{1}\), \(\dotsc\), \(\correctorConstant{\taylorOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela \ref{table:corrector_constants}. Em todos casos, sempre se tem que \(\correctorConstant{p}=1\), pois \(\corrected{\deriv{p}{y}} = \predicted{\deriv{p}{y}} + \Delta \deriv{\eqOrder}{y}\).
+sendo que as constantes corretoras \(\correctorConstant{0}{\eqOrder}\), \(\correctorConstant{1}{\eqOrder}\), \(\dotsc\), \(\correctorConstant{\taylorOrder}{\eqOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela \ref{table:corrector_constants}. Em todos casos, sempre se tem que \(\correctorConstant{\eqOrder}{\eqOrder}=1\), pois \(\corrected{\deriv{p}{y}} = \predicted{\deriv{p}{y}} + \Delta \deriv{\eqOrder}{y}\).
 
 Por simplicidade, escreve-se
 \begin{equation*}
-	\correctorConstantVector{\taylorOrder} = \pqty{\correctorConstant{0}, \correctorConstant{1}\dfrac{1}{\Dt}, \correctorConstant{2}\frac{2}{\Dt^2}, \dotsc, \correctorConstant{\taylorOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}},
+	\correctorConstantVector{\taylorOrder}{\eqOrder} = \pqty{\correctorConstant{0}{\eqOrder}, \correctorConstant{1}{\eqOrder}\dfrac{1}{\Dt}, \correctorConstant{2}{\eqOrder}\frac{2}{\Dt^2}, \dotsc, \correctorConstant{\taylorOrder}{\eqOrder}\frac{\taylorOrder!}{\Dt^\taylorOrder}},
 \end{equation*}
 e então a equação \eqref{eq:correction} pode ser reescrita como
 \begin{equation} \label{eq:correction_simplified}
-	\drvec{\taylorOrder}{\corrected{y}} = \drvec{\taylorOrder}{\predicted{y}} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y}.
+	\drvvec{\taylorOrder}{\corrected{y}} = \drvvec{\taylorOrder}{\predicted{y}} + \correctorConstantVector{\taylorOrder}{\eqOrder}\cdot\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y}.
 \end{equation}
 	
 \begin{table}[h]
@@ -1040,7 +1040,7 @@ e então a equação \eqref{eq:correction} pode ser reescrita como
 		\begin{array}{cccccccccc}
 	\hline
 	\hline
-		\eqOrder & \taylorOrder & \correctorConstant{0} & \correctorConstant{1} & \correctorConstant{2} & \correctorConstant{3} & \correctorConstant{4} & \correctorConstant{5} & \correctorConstant{6} & \correctorConstant{7} \\
+		\eqOrder & \taylorOrder & \correctorConstant{0}{\eqOrder} & \correctorConstant{1}{\eqOrder} & \correctorConstant{2}{\eqOrder} & \correctorConstant{3}{\eqOrder} & \correctorConstant{4}{\eqOrder} & \correctorConstant{5}{\eqOrder} & \correctorConstant{6}{\eqOrder} & \correctorConstant{7}{\eqOrder} \\
 	\hline
 		\multirow{6}{*}{1} 
 		& 2 & \frac{5}{12} & 1 & \frac{1}{2} & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry & \emptyTableEntry \\
@@ -1092,14 +1092,14 @@ Em virtude das características apresentadas, o algoritmo de Gear é usado como 
 No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
 
 Primeiramente, as coordenadas das partículas do sistema devem ser previstas de acordo com a equação \eqref{eq:prediction}. Escolhida uma ordem de derivação \(\taylorOrder\), e sendo \(\numberOfParticles\) o número de partículas do sistema, calculam-se
-\begin{equation*}
+\begin{equation} \label{eq:position_and_orientation_prediction}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
-		\drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}\cdot\drvec{\taylorOrder}{\orientationi}\pqty{t} \\
+		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
+		\drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{t} \\
 	\end{array}, \quad i = 1, \dotsc, \numberOfParticles,
-\end{equation*}
-em que \(\extrapolationMatrix{\taylorOrder}\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\), indicada na \autoref{subsec:prediction}.
+\end{equation}
+em que \(\extrapolationMatrix{\taylorOrder}[\Dt]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt\), como indicada na \autoref{subsec:prediction}.
 
 Com as coordenadas previstas, inicia-se a etapa de correção. Nessa etapa, são calculados forças e torques segundo os modelos de força:
 \begin{equation*}
@@ -1151,8 +1151,8 @@ Por fim, resta executar a correção nos vetores de derivadas. Tanto para a tran
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{l}
-		\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt} \\
-		\drvec{\taylorOrder}{\orientationicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^2}{2}\Delta \dorientationi{2}\pqty{t+\Dt}
+		\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt} \\
+		\drvec{\taylorOrder}{\orientationicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \dorientationi{2}\pqty{t+\Dt}
 	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
 \end{equation*}
 
@@ -1166,8 +1166,8 @@ Novamente, o algoritmo inicia-se com a escolha da ordem de derivação \(\taylor
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
-		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder-1}\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{t} \\
+		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
+		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder-1}[\Dt]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{t} \\
 	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
 \end{equation*}
 
@@ -1212,12 +1212,12 @@ Com isso, os erros são dados por
 
 E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação a equação diferencial é de ordem \(\eqOrder = 2\), e então
 \begin{equation*}
-	\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+	\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvecipr{\taylorOrder}{\position}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
 \end{equation*}
 
-A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
+A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}{1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
 \begin{equation*}
-		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder-1}\cdot\Dt\cdot\Delta \dangularVelocityi{1}\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt\cdot\Delta \dangularVelocityi{1}\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
 \end{equation*}
 
 E assim está demonstrada a aplicação do algoritmo de Gear aos sistemas de partículas. Com as considerações feitas neste capítulo, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.
