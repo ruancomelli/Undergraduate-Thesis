@@ -1,5 +1,6 @@
 \usepackage{nomencl}
 \usepackage{siunitx}
+\usepackage{xparse}
 
 \newcommand{\emptyTableEntry}{..}
 \newcommand{\dummy}{\cdot}
@@ -12,7 +13,9 @@
 \newcommand{\DEM}{DEM}
 \newcommand{\CPP}[1]{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}#1}
 
-\newcommand{\Dt}{\Delta t}
+\newcommand{\numberOfTimesteps}{N}
+\newcommand{\instant}[1][]{t_{#1}}
+\newcommand{\Dt}[1][]{\Delta \instant[#1]}
 % \newcommand{\eqdef}{:=}
 \newcommand*{\eqdef}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
                      \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
@@ -28,7 +31,8 @@
 \newcommand{\innerProduct}[2]{\left\langle #1, #2 \right\rangle}
 \newcommand{\tensor}[1]{\hat{\mathbf{#1}}}
 \newcommand{\quaternion}[1]{\bm{#1}}
-\newcommand{\drvec}[2]{\vec{#2}^{\bqty{#1}}}
+\newcommand{\drvec}[2]{#2^{\bqty{#1}}}
+\newcommand{\drvvec}[2]{\drvec{#1}{\vec{#2}}}
 \newcommand{\versor}[1]{\hat{\vec{#1}}}
 \newcommand{\nullVector}{\vec{0}}
 
@@ -185,6 +189,8 @@
 
 \newcommand{\initial}[1]{#1^{\text{i}}}
 \newcommand{\final}[1]{#1^{\text{f}}}
+\newcommand{\initialInstant}{\initial{\instant}}
+\newcommand{\finalInstant}{\final{\instant}}
 
 \newcommand{\normal}[1]{#1^{\text{n}}}
 \newcommand{\tangential}[1]{#1^{\text{t}}}
@@ -210,15 +216,22 @@
 \newcommand{\basis}{\mtx{e}}
 \newcommand{\principal}[1]{#1^\star}
 
+% Elements
+
+\newcommand{\elementSet}{\mathcal{E}}
+\newcommand{\element}{\mathcal{E}}
+\newcommand{\elementj}{\ind{\element}{j}}
+
 \newcommand{\particleSet}{\mathcal{P}}
 \newcommand{\particle}{\mathcal{P}}
 \newcommand{\particlei}{\ind{\particle}{i}}
 \newcommand{\particlej}{\ind{\particle}{j}}
 \newcommand{\particlek}{\ind{\particle}{k}}
-
-\newcommand{\element}{\mathcal{E}}
-\newcommand{\elementj}{\ind{\element}{j}}
 \newcommand{\numberOfParticles}{N_{\particleSet}}
+
+\newcommand{\boundarySet}{\mathcal{B}}
+\newcommand{\universeSet}{\mathcal{U}}
+\newcommand{\domain}{\mathcal{D}}
 
 \newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
 \newcommand{\suchThat}{\,\middle|\,}
@@ -363,12 +376,15 @@
 \newcommand{\eqForImplicit}[1]{f_{\text{impl}}^{#1}}
 
 \newcommand{\extrapolationMatrixSymbol}{\mtx{A}}
-\newcommand{\extrapolationMatrix}[1]{\extrapolationMatrixSymbol_{#1}}
+% \newcommand{\extrapolationMatrix}[2]{\extrapolationMatrixSymbol_{#1}}
+\NewDocumentCommand{\extrapolationMatrix}{m o}{
+    \extrapolationMatrixSymbol_{#1}\IfValueT{#2}{\pqty{#2}}
+} % Good explanation on how this works: <https://tex.stackexchange.com/questions/287657/learning-to-use-xparse>. See xparse package
 
 \newcommand{\correctorConstantSymbol}{c}
-\newcommand{\correctorConstant}[1]{\correctorConstantSymbol_{#1}}
+\newcommand{\correctorConstant}[2]{\correctorConstantSymbol_{#2, #1}}
 \newcommand{\correctorConstantVectorSymbol}{\vec{\correctorConstantSymbol}}
-\newcommand{\correctorConstantVector}[1]{\correctorConstantVectorSymbol_{#1}}
+\newcommand{\correctorConstantVector}[2]{\correctorConstantVectorSymbol_{#2, #1}}
 
 \newcommand{\dorientation}[1]{\deriv{#1}{\orientation}}
 \newcommand{\dorientationi}[1]{\ind{\deriv{#1}{\orientation}}{i}}
@@ -401,6 +417,10 @@
 \newcommand{\angularVelocityjcorr}{\ind{\angularVelocity}{\jcorr}}
 \newcommand{\dangularVelocityipr}[1]{\ind{\dangularVelocity{#1}}{\ipr}}
 \newcommand{\dangularVelocityicorr}[1]{\ind{\dangularVelocity{#1}}{\icorr}}
+\newcommand{\drvecipr}[2]{\ind{\drvec{#1}{#2}}{\ipr}}
+\newcommand{\drvecjpr}[2]{\ind{\drvec{#1}{#2}}{\jpr}}
+\newcommand{\drvecicorr}[2]{\ind{\drvec{#1}{#2}}{\icorr}}
+\newcommand{\drvecjcorr}[2]{\ind{\drvec{#1}{#2}}{\jcorr}}
 
 \newcommand{\drag}[1]{#1_D}
 \newcommand{\dragForceScalar}{\drag{\forceScalar}}
@@ -413,9 +433,9 @@
 \newcommand{\verletDistance}{\verlet{\distance}}
 \newcommand{\verletPosition}{\verlet{\position}}
 
-\newcommand{\numberOfTimesteps}{N}
+\newcommand{\orderedPair}[2]{\pqty{#1, #2}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
 % Convention: given a variable \variable whose indices are not commutative, \variableij denotes \fromTo{\variable}{i}{j}
-% Convention: given a variable \variable, \dvariable[1] denotes \deriv{#1}{\variable} 
+% Convention: given a variable \variable, \dvariable[1] denotes \deriv{#1}{\variable}
