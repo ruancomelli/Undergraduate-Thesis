@@ -6,15 +6,9 @@
 
 \alert{Mostrar os principais aspectos do algoritmo e passar por cada um deles, detalhando}
 
-\alert{Explicar que é um tipo de método explícito no tempo, com partículas que interagem entre si}
-
-\alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
-
 \alert{Falar do critério de parada}
 
-\alert{Falar da paralelização}
-
-O Método de Elementos Discretos, ou \DEM{}\footnote{Do inglês, \textit{Discrete Element Method}}, refere-se a uma família de métodos numéricos aplicados na simulação de sistemas de partículas. Esses métodos compartilham diversas características entre si, como o monitoramento da vizinhança de cada partícula, o cálculo explícito das variáveis do problema a partir de seus valores nos instantes anteriores, dentre outras.
+O Método de Elementos Discretos (\DEM{}\footnote{Do inglês, \textit{Discrete Element Method}.}) refere-se a uma família de métodos numéricos aplicados na simulação de sistemas de partículas. Esses métodos compartilham diversas características entre si, como o monitoramento da vizinhança de cada partícula, o cálculo explícito das variáveis do problema a partir de seus valores nos instantes anteriores, dentre outras.
 
 Este capítulo é dedicado à apresentação e à explicação dessas características. São apresentados o funcionamento geral de um algoritmo \DEM{}, o procedimento de solução das equações do problema e as principais etapas do método.
 
@@ -24,72 +18,131 @@ Este capítulo é dedicado à apresentação e à explicação dessas caracterí
 
 Segundo \citeonline[p. 1]{bib:bicanic2007}, o \DEM{} constitui-se de técnicas de modelagem computacional indicadas para a simulação do comportamento dinâmico de conjuntos de partículas de geometria arbitrária sujeitas a restrições de contato variantes no tempo.
 
-Cada partícula é considerada um corpo rígido com seis graus de liberdade: três translações e três rotações, e está sujeita às equações diferenciais de movimento descritas na \autoref{sec:equations_of_motion}. O processo de simulação consiste na solução dessas equações.
+Conforme a definição apresentada por \apudonline{bib:cundall1989}{bib:bicanic2007}, métodos de elementos discretos são métodos computacionais que:
+\begin{alineas}
+	\item consideram deslocamentos e rotações finitos de corpos discretos;
+	\item reconhecem novos contatos automaticamente à medida que a simulação progride.
+\end{alineas}
 
-Os elementos do sistema, porém, interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações. Sendo assim, é necessário o \textit{monitoramento das vizinhanças}, isto é, o método deve sempre determinar quais são os pares de elementos que interagem em cada passo de tempo.
+Cada partícula é considerada um corpo rígido com seis graus de liberdade: três translações e três rotações, e está sujeita às equações diferenciais de movimento descritas na \autoref{sec:equations_of_motion}. O processo de simulação consiste na solução dessas equações. 
 
-\alert{melhorar isso}
+Em um sistema, porém, os elementos interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações. Sendo assim, é necessário o \textit{monitoramento das vizinhanças}, isto é, o método deve sempre determinar quais são os pares de elementos que interagem em cada passo de tempo. Dentre os algoritmos disponíveis, destacam-se o algoritmo de Verlet, dedicado a partículas esféricas, o algoritmo \textit{link cell} e o algoritmo \textit{lattice}. \alert{São esses mesmo que considero depois?}
+
+Os elementos da simulação ainda podem pertencer a \textit{tipos} distintos. Por exemplo, é possível distinguirem-se \textit{partículas}, elementos cujas equações de movimento precisam ser resolvidas, de \textit{elementos de contorno}, que têm seu estado conhecido já na etapa de inicialização do algoritmo. Além dos elementos de contorno, outras \textit{condições de contorno} podem ser aplicadas ao sistema, como restrições de movimento, paredes reflexivas e condição de repetição.
+
+De acordo com \citeonline[p. 2]{bib:bicanic2007}, existem diversas metodologias para a simulação com elementos discretos, sendo que as variações ocorrem:
+\begin{alineas}
+	\item nos algoritmos de detecção de contatos;
+	\item nas formulações para as interações;
+	\item nas condições de contorno;
+	\item na consideração de modelos de fratura, fragmentação ou aglutinação;
+	\item nos métodos de integração das equações;
+	\item nos algoritmos de monitoramento de vizinhanças.
+\end{alineas}
 
 \subsection{Discretização Temporal}
 
-Como é recorrente em métodos de simulação numérica, o DEM conta com a discretização do tempo para a solução das equações de movimento. Para o intervalo de simulação \(\interval{\initial{t}}{\final{t}}\), sendo \(\initial{t}\) o instante e inicial e \(\final{t}\), o final, uma discretização temporal é um conjunto \(\set{t_0, t_1, \dotsc, t_{\numberOfTimesteps}}\) tal que
+Como é recorrente em métodos de simulação numérica, o \DEM{} conta com a discretização do tempo para a solução das equações de movimento. Para o intervalo de simulação \(\interval{\initial{t}}{\final{t}}\), sendo \(\initial{t}\) o instante inicial e \(\final{t}\), o final, uma discretização temporal é um conjunto \(\set{t_0, t_1, \dotsc, t_{\numberOfTimesteps}}\) tal que
 \begin{equation*}
-	\initial{t} = t_0 < t_1 < \dotsb < t_{\numberOfTimesteps - 1} < t_{\numberOfTimesteps} = \final{t}.
+	\initial{t} = \instant[0] < \instant[1] < \dotsb < \instant[\numberOfTimesteps - 1] < \instant[\numberOfTimesteps] = \final{t}.
 \end{equation*}
 
-O valor \(\numberOfTimesteps\) é o número de passos de tempo da simulação. Um passo de tempo é o período compreendido entre dois instantes consecutivos da discretização. O \(n\)-ésimo passo de tempo é dado então por
+O valor \(\numberOfTimesteps\) é o número de passos de tempo da simulação. Um passo de tempo é o período compreendido entre dois instantes consecutivos da discretização. A duração do \(n\)-ésimo passo de tempo é dada então por
 \begin{equation*}
-	\Dt_{n} \eqdef t_{n} - t_{n-1},
+	\Dt[n] \eqdef \instant[n] - \instant[n-1],
 \end{equation*}
-e escreve-se \(\Dt\) no caso em que os passos de tempo têm todos o mesmo tamanho.
+e escreve-se \(\Dt\) no caso em que os passos de tempo têm todos a mesma duração.
 
 Com isso, o objetivo do Método de Elementos Discretos torna-se obter a solução para as coordenadas das partículas no tempo discretizado.
 
-\subsection{Método Explícito}
+\subsection{Solução das Equações}
 
-Uma distinção que pode ser feita entre métodos computacionais é a que separa métodos explícitos de implícitos. Representando por \(y\pqty{t}\) um estado conhecido e por \(y\pqty{t+\Dt}\) um estado que se quer determinar, métodos explícitos lidam com equações da forma
+A solução das equações governantes do sistema é feita conforme explicado na \autoref{subsec:motion_equations_solution} utilizando algoritmos de integração como o algoritmo de Gear, descrito na \autoref{sec:gear_integration_scheme}.
+
+Uma característica dos métodos de elementos discretos é serem métodos explícitos, ou seja, o estado do sistema de partículas no instante \(\instant[n]\) é calculado a partir do estado em \(\instant[n-1]\) que se supõe ser conhecido. Isso é evidente no algoritmo de Gear.
+
+Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na equação \eqref{eq:position_and_orientation_prediction}:
 \begin{equation*}
-	y\pqty{t+\Dt} = \eqForExplicit{y}\pqty{y\pqty{t}},
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]} \\
+		\drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{\instant[n-1]} \\
+	\end{array}, \quad \particlei \in \particleSet,
 \end{equation*}
-enquanto métodos implícitos buscam resolver
+sendo \(\particleSet\) o conjunto de partículas do sistema, \(\taylorOrder\), a ordem de extrapolação escolhida para o método e \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\), a matriz de extrapolação dada na equação \eqref{eq:extrapolation_matricial_form} calculada com o passo de tempo \(\Dt[n]\).
+
+A vizinhança de uma partícula, como explicado na \autoref{sec:neighborhood}, é o conjunto de todas as entidades da simulação com as quais há interação. A vizinhança da \(i\)-ésima partícula do sistema é denotada por \(\neighborhoodi\) \alert{Verificar se essas coisas já não foram ditas antes com a mudança das seções.}. Cada elemento \(\elementj\) da vizinhança de \(\particlei\) contribui para a força \(\forcei\) e o torque \(\torquei\) resultantes sobre a mesma com parcelas \(\forceji\) e \(\torqueji\) que são, por hipótese, dependentes apenas do par \(\orderedPair{\particlei}{\elementj}\). Com isso, os vetores força e torque resultantes são calculados como
 \begin{equation*}
-	\eqForImplicit{y}\pqty{y\pqty{t}, y\pqty{t+\Dt}} = 0.
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\displaystyle \forcei = \sum_{\elementj\in\neighborhoodi} \forceji \\
+		\displaystyle \torquei = \sum_{\elementj\in\neighborhoodi} \torqueji 
+	\end{array}, \quad \particlei \in \particleSet,
 \end{equation*}
+já incluindo-se as forças e os torques provenientes de elementos externos ao sistema.
 
-Métodos implícitos, em geral, incorrem em maiores custos computacionais. 
-
-O Método de Elementos Discretos é um método explícito. Para um \textit{passo de tempo} \(\Dt>0\), procura-se determinar o estado do sistema de partículas no instante \(t+\Dt\) a partir do estado no instante \(t\) que é, por hipótese, conhecido.
-
-\alert{Será que essas considerações cabem aqui?}
-
-\alert{Mostrar as equações:}
-
-\alert{Falar algo como "de acordo com o cap. 2".}
-\alert{Introduzir algo para escrever o seguinte sistema:}
+A cada um dos graus de liberdade da partícula é associada uma equação que determina seu comportamento. Para as equações de movimento, essas equações são escritas na forma
 \begin{equation*}
-	\left\lbrace
-		\begin{array}{l}
-			\accelerationi = \inverted{\massi}\cdot\dsum_{\particlej\in\neighborhoodi} \forceji\pqty{\positioni, \velocityi, \orientationi, \angularVelocityi, \positionj, \velocityj, \orientationj, \angularVelocityj}
-			\\
-			\accelerationi = \inverted{\massi}\cdot\dsum_{\particlej\in\neighborhoodi} \forceji\pqty{\positioni, \velocityi, \orientationi, \angularVelocityi, \positionj, \velocityj, \orientationj, \angularVelocityj}
-		\end{array},\quad i = 1, \dotsc, \numberOfParticles
-	\right.
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\displaystyle \accelerationicorr =  \dfrac{1}{\massi}\cdot \forcei \\
+		\displaystyle \dorientationicorr{2} = \eqFor{\orientationScalar}\pqty{\torquei, \orientationipr, \dorientationipr{1}}
+	\end{array}, \quad \particlei \in \particleSet,
 \end{equation*}
+sendo que \(\eqFor{\orientationScalar}\) depende da parametrização escolhida para a orientação.
 
-\section{Elementos da Simulação}
+\alert{Corrigir essas equações e continuar}
 
-\alert{Falar de elementos de contorno \(\mathcal{B}\), partículas \(\mathcal{P}\), elementos \(\mathcal{E}\)}
+\alert{Referenciar as equações anteriores}
 
-\subsection{Tipos de Elementos}
-\subsection{Geometria}
+\alert{Falar da etapa de correção com as constantes}
 
-\section{Inicialização do Sistema de Partículas}
+\alert{Falar que o método considera essas correções como exatas}
+
+\alert{Mostrar isso em forma de fluxograma e de pseudocódigo}
+
+\begin{lstlisting}[style=pseudocode]
+para cada partícula $\particlei \in \particleSet$
+	para cada vizinho $\elementj \in \neighborhoodi$
+		calcular \forceji
+		calcular \torqueji
+\end{lstlisting}
+
+\subsection{Elementos da Simulação}
+
+Toda simulação possui um \textit{conjunto universo} \(\universeSet\) que consiste em todas as entidades consideradas pelo algoritmo: elementos, fluidos, campos de força, entre outras. Nos métodos de elementos discretos, os corpos rígidos pertencentes ao conjunto universo são agrupados no \textit{conjunto de elementos} \(\elementSet\). Por fim, é possível dividir-se o conjunto de elementos em um \textit{conjunto de partículas} \(\particleSet\) e um \textit{conjunto de elementos de contorno} \(\boundarySet\).
+
+O conjunto de partículas é o conjunto de todos os elementos para os quais as equações de movimento devem ser resolvidas. Essa resolução é feita de acordo com os algoritmos de integração. 
+
+Os elementos de contorno, por outro lado, são elementos cujos estados já são conhecidos como funções explícitas do tempo desde a etapa de inicialização. Exemplo disso são os elementos fixos, cujas coordenadas são sempre iguais às coordenadas iniciais.
+
+\alert{Continuar}
+
+\subsubsection{Tipos de Elementos}
+\subsubsection{Geometria}
+
+A geometria dos elementos de um sistema de um sistema de partículas é \alert{o quê?}
+
+\subsection{Algoritmo Geral do \DEM{}} \label{sec:dem_algorithm}
+
+\section{Etapas do Algoritmo}
+\subsection{Inicialização do Sistema de Partículas}
 
 A primeira etapa em uma simulação \DEM{} consiste na inicialização do sistema de partículas. Essa inicialização consiste em se definir o ambiente da simulação e se construírem todos os elementos necessários.
 
 \alert{Falar das condições iniciais}
 
+\subsection{Laço da Simulação}
+\alert{É esse mesmo o nome? Falar aqui sobre o ciclo previsão - cálculo de forças - correção}
+
+\subsection{Exportação de Dados}
+
+\subsection{Condição de Parada}
+
+\subsection{Finalização}\alert{Talvez essa seja a seção mais inútil. Talvez excluí-la. Mas falar que o último timestep pode ser usado como inicialização para outras simulações}
+
 \section{Monitoramento da Vizinhança} \label{sec:neighborhood}
+\alert{Dividir em vizinhança global, local e contato: em uma, o domínio é dividido em regiões. Partículas só podem colidir com as que estão na mesma região ou em regiões vizinhas à sua. Depois, os vizinhos locais: Define-se, em torno da partícula, um volume envolvente. Duas partículas só podem colidir se houver contato entre seus volumes envolventes. Por fim, avalia-se o contato efetivamente, levando em conta a geometria das partículas.}
 
 \alert{Falar dos métodos de busca de vizinhos}
 
@@ -101,7 +154,7 @@ interações computadas a cada passo de tempo.
 
 \alert{Usei as palavras ``interação'' e ``cada'' diversas vezes nesse parágrafo...}
 
-Essa quantidade de interações, porém, limita as quantidades de partículas e de passos de tempo aplicáveis. Buscam-se, então, métodos mais eficientes para o monitoramento da vizinhança de cada elemento. 
+Essa quantidade de interações, porém, limita o número de partículas e de passos de tempo aplicáveis. Buscam-se, então, métodos mais eficientes para o monitoramento da vizinhança de cada elemento. 
 
 \alert{Onde escrever a parte a seguir: ?}
 
@@ -154,7 +207,10 @@ Para partículas esféricas \(\particlei\) e \(\particlej\), a condição de viz
 \begin{equation*}
 	\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance,
 \end{equation*}
-como indicado na figura \ref{fig:verlet_distance}. 
+como indicado na figura \ref{fig:verlet_distance}, e então a vizinhança da partícula \(i\) é o conjunto
+\begin{equation*}
+	\neighborhoodi = \set{\particlej \suchThat \alert{}}
+\end{equation*}
 
 \alert{Mostrar o conjunto vizinhança e dizer que, para o algoritmo de Verlet, esse conjunto é denominado de lista de Verlet}
 \alert{Definir o deslocamento de Verlet como a distância \(\verletPosition\) entre a partícula e a sua posição quando a última lista de Verlet foi construída}
@@ -165,7 +221,11 @@ como indicado na figura \ref{fig:verlet_distance}.
 % \end{equation*}
 % em que \(\distanceij\) é a distância entre os centros das partículas \(i\) e \(j\).
 
-Ao longo da simulação, porém, a movimentação das partículas faz com que sua vizinhança se altere, e assim é necessário reconstruir as listas de Verlet.
+Ao longo da simulação, porém, a movimentação das partículas faz  com que sua vizinhança se altere, e então é necessário reconstruir as listas de Verlet. O critério para a reconstrução das listas leva em consideração a situação extrema
+
+\alert{continuar}
+
+O algoritmo de Verlet, embora bastante eficiente para partículas esféricas \alert{Falar ainda que há como otimizar isso}
 
 \subsection{Algoritmo \textit{link cell}}
 \subsection{Algoritmo \textit{lattice}}
@@ -180,8 +240,11 @@ Ao longo da simulação, porém, a movimentação das partículas faz com que su
 
 \section{Condições de Contorno e Restrições} \label{sec:boundary_condition}
 
+\alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
+
 \section{Outros Aspectos do Método}
 \alert{Considerar, principalmente, \citeonline{bib:bicanic2007}. Essa seção deve falar que existem o estudo de fratura e fragmentação, abordagem para corpos deformáveis e esquemas de variação do passo de tempo}
+\alert{Falar da paralelização}
 
 \section{Acoplamento com Outros Métodos}
 \alert{Falar aqui como o \DEM{} pode ser acoplado com CFD e FEM}
