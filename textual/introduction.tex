@@ -78,11 +78,11 @@ em que \(\position\), \(\angularVelocity\), \(\mass\) e \(\tensorOfInertia\) sã
 
 É na solução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second} que consiste a análise acerca dos sistemas de partículas. Essas equações, porém, são de difícil resolução já que a força e o torque resultantes sobre a partícula são oriundos de sua interação com os demais elementos do sistema e são, portanto, funções das propriedades físicas, posições, velocidades, orientações e velocidades angulares dos interagentes.
 
-Em vista disso, é necessário o uso de métodos para a resolução dessas equações, e nessa situação destaca-se o Método dos Elementos Discretos.
+Em vista disso, é necessário o uso de métodos para a resolução dessas equações, e nessa situação destaca-se o Método de Elementos Discretos.
 
-\section{O Método dos Elementos Discretos} 
+\section{O Método de Elementos Discretos} 
 
-Segundo \citeonline{bib:sampaio}, o Método dos Elementos Discretos, ou \DEM{} (\textit{Discrete Element Method}), refere-se a uma família de métodos computacionais que consideram deslocamentos e rotações de corpos discretos e reconhecem contatos entre elementos automaticamente à medida em que os cálculos são executados. Devido a essa característica, o \DEM{} representa um conjunto de técnicas apropriadas para a simulação do comportamento dinâmico de sistemas de partículas.
+Segundo \citeonline{bib:sampaio}, o Método de Elementos Discretos, ou \DEM{} (\textit{Discrete Element Method}), refere-se a uma família de métodos computacionais que consideram deslocamentos e rotações de corpos discretos e reconhecem contatos entre elementos automaticamente à medida em que os cálculos são executados. Devido a essa característica, o \DEM{} representa um conjunto de técnicas apropriadas para a simulação do comportamento dinâmico de sistemas de partículas.
 
 De acordo com \citeonline{bib:cundall1979}, os cálculos são executados explicitamente, alternando entre a aplicação das leis de Euler para a determinação da posição e da orientação das partículas e a aplicação de relações força-deslocamento para a computação das forças e torques atuantes.
 
@@ -124,7 +124,7 @@ Segundo \citeonline{bib:computational_granular_dynamics}, algoritmos do \DEM{}, 
 Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorithm}. Outros passos podem ser introduzidos no algoritmo, tais quais exportação de dados, iterações em cada passo de tempo e acoplamento com outros simuladores.
 
 \begin{figure}[h]
-	\caption{Fluxograma simplificado do Método dos Elementos Discretos.}
+	\caption{Fluxograma simplificado do Método de Elementos Discretos.}
 	% \vspace{-0.5cm}
 	\begin{center}
 		\alert{Colocar fluxograma do \DEM{}}
@@ -143,7 +143,7 @@ Também é possível acoplar o \DEM{} a outras famílias de métodos, como FEM (
 
 A base matemática para os Métodos de Elementos Discretos foi fundada por Isaac Newton, com a divulgação de suas leis de movimento. Entretanto, devido às dificuldades mencionadas na seção \ref{sec:motivation}, como a quantidade de partículas e a natureza das equações diferenciais, a análise de sistemas de partículas só se tornou factível com o advento dos computadores.
 
-O Método dos Elementos Discretos foi primeiramente apresentado por Cundall. Uma descrição do método pode ser encontrada em \citeonline{bib:cundall1979}, em que se consideram atrito e amortecimento na colisão das partículas. A presença de atrito provoca rotações, que devem ser solucionadas juntamente com as posições. Nesse algoritmo, as velocidades eram preditas como constantes durante um passo de tempo.
+O Método de Elementos Discretos foi primeiramente apresentado por Cundall. Uma descrição do método pode ser encontrada em \citeonline{bib:cundall1979}, em que se consideram atrito e amortecimento na colisão das partículas. A presença de atrito provoca rotações, que devem ser solucionadas juntamente com as posições. Nesse algoritmo, as velocidades eram preditas como constantes durante um passo de tempo.
 
 O método foi ainda extendido com os trabalhos de \citeonline{bib:haff1986}, \apudonline{bib:walton1983}{bib:haff1986}, \citeonline{bib:gallas1992}, além de vários outros.
 
