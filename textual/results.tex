@@ -227,6 +227,8 @@ Por sua vez, o erro da posição e o erro da velocidade, como funções do tempo
 
 Na \autoref{sec:gear_integration_scheme}, foi visto que o erro do algoritmo de Gear, para sistemas de partículas, para uma ordem de extrapolação \(\taylorOrder\), é da ordem de \(\Dt^{\taylorOrder}\).
 
+Porém, para a simulação em questão, a solução numérica deve ser idêntica à analítica excetuando-se o limite de precisão do computador. Isso porque \alert{Falar isso mesmo?}
+
 \subsection{Influência da Ordem de Extrapolação} \alert{Colocar isso mesmo?}
 
 \section{Esfera Quicando}
@@ -235,7 +237,39 @@ Como extensão do problema de queda livre, o problema da esfera quicando inclui,
 
 A partícula está sujeita a um campo gravitacional constante cuja aceleração da gravidade é \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\). Nessa situação, a componente \(\yComponent{\positionScalar}\) denota a altura da partícula.
 
-Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\) representando o chão. Sendo um plano fixo, esse elemento é completamente determinado ao se fornecerem um ponto e um versor normal a ele. 
+Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\) representando o chão. Sendo um plano fixo, esse elemento é completamente determinado ao se fornecerem um ponto e um versor normal a ele. Para o plano \(\xAxis\zAxis\), podem ser adotados a origem como ponto pertencente ao plano e o versor normal \(\planeNormalVersor = \explicitVector{0}{1}{0}\).
+
+Esse problema pode ser representado como na figura \ref{fig:bouncing_sphere}.
+
+\begin{figure}[h]
+	\caption{O problema da esfera quicando}
+	% \vspace{-0.5cm}
+	\begin{center}
+		\alert{Colocar imagem representando o problema da esfera quicando}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	\end{center}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:bouncing_sphere}
+	\source{\alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+Além de servir como mais um caso para a validação do código, o problema da esfera quicando possibilita:
+\begin{itemize}
+	\item O estudo da colisão entre dois corpos. \alert{Eu fiz essa análise?}
+	\item A comparação entre o coeficiente de restituição calculado a partir dos resultados da simulação e o coeficiente calculado analiticamente a partir do modelo de força escolhido.
+\end{itemize}
+
+A configuração do problema implica que a velocidade da esfera relativa ao plano é a sua própria velocidade vertical, já que o plano não se movimenta. Como consequência das equações \eqref{eq:antisymmetry_relative_velocity} e \eqref{eq:sphere_plane_relative_velocity}, a velocidade da partícula relativa ao plano é a sua própria velocidade.
+
+Com isso, sendo \(\coefficientOfRestitution\) o coeficiente de restituição associado ao modelo de força de colisão escolhido, é possível mostrar que
+\begin{equation*}
+	\coefficientOfRestitution = - \dfrac{\afterCollision{\yComponent{\velocityScalar}} + \gravityScalar\cdot\collisionDuration}{\beforeCollision{\yComponent{\velocityScalar}}},
+\end{equation*}
+sendo \(\afterCollision{\yComponent{\velocityScalar}}\) a velocidade da partícula \(\particle\) após a colisão e \(\collisionDuration\) o tempo em que os corpos permanecem em contato.
+
+\alert{Isso é o suficiente, ou devo demonstrar os cálculos??}
 
 \alert{Análises a se fazerem: comparação entre o coeficiente de restituição calculado e o analítico. Talvez desenvolver uma solução analítica, visto que o coeficiente de restituição é dado.}
 
@@ -251,7 +285,7 @@ Segundo \citeonline[p. 392]{bib:fox},
 
 \section{Colisão com Rotação}
 
-\alert{Análises a se fazerem: Conservação do momento linear e do momento angular. Conservação da energia quando os termos dissipativos são nulos. Energia perdida no caso contrário.}
+\alert{Análises a se fazerem: Conservação da quantidade de movimento linear e da quantidade de movimento angular. Conservação da energia quando os termos dissipativos são nulos. Energia perdida no caso contrário.}
 
 \section{Escoamento em Funil}
 \section{Colisão de Esferas com Condutividade Infinita}

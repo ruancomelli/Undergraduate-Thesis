@@ -39,7 +39,7 @@ Na dinâmica de partículas, os elementos estudados são considerados corpos rí
 
 Em um sistema inercial fixo, considera-se uma partícula de massa \(\mass\) com um centro de massa \(C\) cuja posição é descrita pela função vetorial \(\position\). Além disso, considera-se que a partícula possua uma velocidade angular \(\angularVelocity\) e um tensor momento de inércia \(\tensorOfInertia\) definido com relação ao seu centro de massa.
 
-Conforme demonstrado por \citeonline{bib:dynamics_of_multibody_systems}, o \textit{momento linear} e o \textit{momento angular} da partícula, denotados respectivamente por \(\linearMomentum\) e \(\angularMomentum\), são então dados por
+Conforme demonstrado por \citeonline{bib:dynamics_of_multibody_systems}, a \textit{quantidade de movimento linear} e a \textit{quantidade de movimento angular} da partícula, denotadas respectivamente por \(\linearMomentum\) e \(\angularMomentum\), são então dadas por
 \begin{gather*}
 	\linearMomentum = \mass\cdot\velocity, \\
 	\angularMomentum = \position\cross\linearMomentum + \tensorOfInertia\cdot\angularVelocity.
@@ -278,7 +278,7 @@ A função \(\eqFor{\orientation}\) representa a dependência de \(\deriv{2}{\or
 
 \subsection{Solução das Equações de Movimento} \label{subsec:motion_equations_solution}
 
-Para a determinação do comportamento do sistema, é necessária a obtenção das soluções para as equações \eqref{eq:motion_first} e \eqref{eq:motion_second}. Isso exige  o cálculo da força e do momento resultantes sobre cada partícula e a consequente resolução da equação. 
+Para a determinação do comportamento do sistema, é necessária a obtenção das soluções para as equações \eqref{eq:motion_first} e \eqref{eq:motion_second}. Isso exige  o cálculo da força e do torque resultantes sobre cada partícula e a consequente resolução da equação. 
 
 O cálculo das forças e dos torques geralmente leva em conta \textit{modelos de interação}. Cada modelo determina uma parcela do vetor força ou torque resultante a partir de parâmetros de material, da posição, da velocidade, da orientação e da velocidade angular das partículas. Na \autoref{sec:collision_force_models}, são apresentados alguns desses modelos. Os vetores resultantes são então a soma de todas as parcelas.
  
@@ -471,7 +471,7 @@ Em ambos os casos, com a definição do vetor radial \(\contactVectorij\), a com
 
 A velocidade relativa no ponto de contato é o principal parâmetro cinemático na determinação da força tangencial que ocorre entre dois elementos. A velocidade do elemento \(j\) relativa ao elemento \(i\) no ponto de contato é denotada por \(\relativeVelocityContactPointij\).
 
-O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, acabam por se encontrar. Isso é representado na figura \ref{fig:relative_velocity}.
+O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, os dois acabam por se encontrar. Isso é representado na figura \ref{fig:relative_velocity}.
 
 \begin{figure}[h]
 	\caption{Velocidade relativa no ponto de contato}
@@ -487,7 +487,7 @@ O cálculo dessa velocidade leva em consideração o fato de que, no ponto de co
 	% \vspace{-1cm}
 \end{figure}
 
-Como esses dois pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo. A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois vetores:
+Como esses pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo. A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois vetores:
 \begin{equation*}
 	\relativeVelocityContactPointij = \dv{t}(\vectorFromPoints{\originPoint}{\contactPointj} - \vectorFromPoints{\originPoint}{\contactPointi}).
 \end{equation*}
@@ -504,9 +504,9 @@ Com isso, obtém-se
 \end{equation*}
 
 Nota-se dessa equação que
-\begin{equation*}
+\begin{equation} \label{eq:antisymmetry_relative_velocity}
 	\relativeVelocityContactPointji = - \relativeVelocityContactPointij.
-\end{equation*}
+\end{equation}
 
 A velocidade normal de \(j\) relativa ao elemento \(i\) é a projeção de \(\relativeVelocityContactPointij\) na direção de \(\normalVersorij\):
 \begin{equation} \label{eq:relative_normal_velocity}
@@ -532,9 +532,9 @@ As simplificações que se fazem no caso em que o elemento \(j\) é uma parede p
 	\angularVelocityj = \nullVector,
 \end{gather*}
 do que segue que
-\begin{equation*}
+\begin{equation} \label{eq:sphere_plane_relative_velocity}
 	\relativeVelocityContactPointij = - \velocityi - \angularVelocityi\cross\contactVectorij.
-\end{equation*}
+\end{equation}
 
 \subsubsection*{Versor Tangencial}
 
