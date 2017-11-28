@@ -11,7 +11,7 @@
 
 % Enumerate
 
-% \usepackage{enumerate}
+\usepackage{enumitem}
 
 % Allow table elements to spread over multiple rows
 \usepackage{multirow}
@@ -36,6 +36,26 @@
 		% \end{table}
 		% \renewcommand{\item}{\olditem}
 	}
+
+\newcounter{descriptcount}
+\newlist{enumdesc}{description}{2}
+\setlist[enumdesc,1]{%
+	leftmargin = *,
+	itemindent=*,
+	labelindent=*,
+  % before={\setcounter{descriptcount}{0}%
+  %         \renewcommand*\thedescriptcount{\alph{descriptcount}}}
+  before=\setcounter{descriptcount}{0}
+  ,font=\normalfont\stepcounter{descriptcount}\thedescriptcount.\itshape~
+}
+\setlist[enumdesc,2]{%
+	leftmargin = *,
+	itemindent=*,
+	labelindent=*,
+	  before={\setcounter{descriptcount}{0}%
+	          \renewcommand*\thedescriptcount{\alph{descriptcount}}}
+	  ,font=\normalfont\stepcounter{descriptcount}\thedescriptcount)\itshape~
+}
 
 \newcommand{\normalresultsfigwidth}{0.9\textwidth}
 \newcommand{\smallresultsfigwidth}{0.49\textwidth}
