@@ -61,6 +61,15 @@ A solução das equações governantes do sistema é feita conforme explicado na
 
 Uma característica dos métodos de elementos discretos é serem métodos explícitos, ou seja, o estado do sistema de partículas no instante \(\instant[n]\) é calculado a partir do estado em \(\instant[n-1]\) que se supõe ser conhecido. Isso é evidente no algoritmo de Gear.
 
+A solução das equações pode ser dividida em \alert{quantas?} etapas, sendo elas:
+
+\begin{enumerate}
+	\item \textit{Determinação da Vizinhança:} \alert{ou daS vizinhançaS?} \alert{``Determinação?''} Nessa etapa, a vizinhança das partículas do sistema são construídas (no primeiro instante) ou atualizadas (em instantes posteriores da simulação). O objetivo \alert{continuar} \alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
+	\item \textit{Predição:} 
+	\item \textit{Interação:}
+	\item \textit{Correção:}
+\end{enumerate}
+
 Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na equação \eqref{eq:position_and_orientation_prediction}:
 \begin{equation*}
 	\def\arraystretch{1.5}
