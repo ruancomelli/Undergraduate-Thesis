@@ -61,14 +61,16 @@ A solução das equações governantes do sistema é feita conforme explicado na
 
 Uma característica dos métodos de elementos discretos é serem métodos explícitos, ou seja, o estado do sistema de partículas no instante \(\instant[n]\) é calculado a partir do estado em \(\instant[n-1]\) que se supõe ser conhecido. Isso é evidente no algoritmo de Gear.
 
-A solução das equações pode ser dividida em \alert{quantas?} etapas, sendo elas:
+De acordo com \citeonline{bib:computational_granular_dynamics}, a solução das equações pode ser dividida em quatro etapas, sendo elas:
 
-\begin{enumerate}
-	\item \textit{Determinação da Vizinhança:} \alert{ou daS vizinhançaS?} \alert{``Determinação?''} Nessa etapa, a vizinhança das partículas do sistema são construídas (no primeiro instante) ou atualizadas (em instantes posteriores da simulação). O objetivo \alert{continuar} \alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
-	\item \textit{Predição:} 
-	\item \textit{Interação:}
-	\item \textit{Correção:}
-\end{enumerate}
+\begin{enumdesc}
+	\item[Determinação da Vizinhança:] Nessa etapa, a vizinhança de cada partícula do sistema é construída (no primeiro instante) ou atualizada (em instantes posteriores da simulação). O objetivo é limitar a quantidade de interações avaliadas no passo de tempo. 
+	\item[Predição:] Nesse passo, o estado do sistema no instante \(\instant[n]\) é predito em função do estado em \(\instant[n-1]\). Essa predição é feita por métodos de extrapolação, como explicado na \autoref{subsec:prediction}.
+	\item[Interação:] A partir do estado predito do sistema, são computadas as interações entre cada partícula e os elementos de sua vizinhança. \label{item:interaction}
+	\item[Correção:] Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:interaction} e das equações governantes do problema, como apresentado na \autoref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\).
+\end{enumdesc}
+
+\alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
 
 Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na equação \eqref{eq:position_and_orientation_prediction}:
 \begin{equation*}
