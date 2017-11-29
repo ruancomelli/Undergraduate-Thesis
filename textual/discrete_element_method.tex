@@ -70,19 +70,25 @@ De acordo com \citeonline{bib:computational_granular_dynamics}, a solução das 
 % 	\item[Correção:] Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:DEM_interaction} e das equações governantes do problema, como apresentado na \autoref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\). \label{item:DEM_correction}
 % \end{enumdesc}
 \begin{enumerate}
-	\item \textit{Determinação da Vizinhança:} Nessa etapa, a vizinhança de cada partícula do sistema é construída (no início da simulação) ou atualizada (em instantes posteriores). O objetivo é limitar a quantidade de interações avaliadas no passo de tempo. \label{item:DEM_neighborhood}
+	\item \textit{Determinação da Vizinhança:} Nessa etapa, a vizinhança de cada partícula do sistema é construída (no início da simulação) ou atualizada (em instantes posteriores) com o intuito de limitar a quantidade de interações avaliadas no passo de tempo. \label{item:DEM_neighborhood}
 	\item \textit{Predição:} Nesse passo, o estado do sistema no instante \(\instant[n]\) é predito em função do estado em \(\instant[n-1]\) por meio de métodos de extrapolação, como explicado na \autoref{subsec:prediction}. \label{item:DEM_prediction}
 	\item \textit{Interação:} A partir do estado predito do sistema, são computadas as interações entre cada partícula e os elementos de sua vizinhança. \label{item:DEM_interaction}
 	\item \textit{Correção:} Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:DEM_interaction} e das equações governantes do problema, como apresentado na \autoref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\). \label{item:DEM_correction}
 \end{enumerate}
 
-Os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction} são específicos do algoritmo de Gear, podendo mudar se forem escolhidos outros métodos. Para a determinação da vizinhança no passo \ref{item:DEM_neighborhood}, são usados algoritmos de monitoramento de vizinhança, como explicado na \autoref{sec:neighborhood}.
+Os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction} são específicos do algoritmo de Gear, podendo mudar se forem adotados outros métodos.
+
+Para a determinação da vizinhança no passo \ref{item:DEM_neighborhood}, são usados algoritmos de monitoramento de vizinhança, como explicado na \autoref{sec:neighborhood}. O objetivo desta seção é, assim, apresentar os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction}, mostrando a aplicação dos conceitos apresentados no \autoref{ch:mathematical_model} aos sistemas de partículas.
 
 % \alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
 
-O objetivo desta seção é, então, apresentar os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction}, mostrando a aplicação dos conceitos apresentados no \autoref{ch:mathematical_model} aos sistemas de partículas.
+Pode ser feita uma distinção entre o caso de partículas com geometria arbitrária, em que é necessário monitorar-se a orientação das partículas, e o de partículas esféricas, situação em que é possível aplicarem-se simplificações.
 
-Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na equação \eqref{eq:position_and_orientation_prediction}:
+\subsubsection*{Caso Geral}
+
+No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
+
+Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na equação \eqref{eq:prediction}. Escolhida uma ordem de extrapolação \(\taylorOrder\), e definido o conjunto \(\particleSet\) de partículas do sistema, calculam-se
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
@@ -90,9 +96,20 @@ Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante an
 		\drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{\instant[n-1]} \\
 	\end{array}, \quad \particlei \in \particleSet,
 \end{equation*}
-sendo \(\particleSet\) o conjunto de partículas do sistema, \(\taylorOrder\), a ordem de extrapolação escolhida para o método e \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\), a matriz de extrapolação dada na equação \eqref{eq:extrapolation_matricial_form} calculada com o passo de tempo \(\Dt[n]\).
+em que \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt[n]\), como indicada na \autoref{subsec:prediction}.
 
-A vizinhança de uma partícula, como explicado na \autoref{sec:neighborhood}, é o conjunto de todas as entidades da simulação com as quais há interação. A vizinhança da \(i\)-ésima partícula do sistema é denotada por \(\neighborhoodi\) \alert{Verificar se essas coisas já não foram ditas antes com a mudança das seções.}. Cada elemento \(\elementj\) da vizinhança de \(\particlei\) contribui para a força \(\forcei\) e o torque \(\torquei\) resultantes sobre a mesma com parcelas \(\forceji\) e \(\torqueji\) que são, por hipótese, dependentes apenas do par \(\orderedPair{\particlei}{\elementj}\). Com isso, os vetores força e torque resultantes são calculados como
+\alert{Continuar aqui }
+
+A vizinhança de uma partícula, como explicado na \autoref{sec:neighborhood}, é o conjunto de todas as entidades da simulação com as quais ela interage. A vizinhança da \(i\)-ésima partícula do sistema é denotada por \(\neighborhoodi\) \alert{Verificar se essas coisas já não foram ditas antes com a mudança das seções.}. Cada elemento \(\elementj\) da vizinhança de \(\particlei\) contribui para a força \(\forcei\) e o torque \(\torquei\) resultantes sobre a mesma com parcelas \(\forceji\) e \(\torqueji\) que são, por hipótese, dependentes apenas do par \(\orderedPair{\particlei}{\elementj}\), isto é,
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\displaystyle \forceji \equiv \forceji\pqty{\particlei, \elementj} \\
+		\displaystyle \torqueji \equiv \torqueji\pqty{\particlei, \elementj} \\
+	\end{array}, \quad \particlei \in \particleSet.
+\end{equation*}
+
+Com isso, os vetores força e torque resultantes são calculados como
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
@@ -113,10 +130,6 @@ A cada um dos graus de liberdade da partícula é associada uma equação que de
 sendo que \(\eqFor{\orientationScalar}\) depende da parametrização escolhida para a orientação.
 
 \alert{Início}
-
-\subsubsection*{Caso Geral}
-
-No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
 
 Primeiramente, as coordenadas das partículas do sistema devem ser previstas de acordo com a equação \eqref{eq:prediction}. Escolhida uma ordem de derivação \(\taylorOrder\), e sendo \(\numberOfParticles\) o número de partículas do sistema, calculam-se
 \begin{equation} \label{eq:position_and_orientation_prediction}
