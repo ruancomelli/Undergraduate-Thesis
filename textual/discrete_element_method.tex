@@ -64,11 +64,23 @@ Uma característica dos métodos de elementos discretos é serem métodos explí
 De acordo com \citeonline{bib:computational_granular_dynamics}, a solução das equações pode ser dividida em quatro etapas, sendo elas:
 
 % \begin{enumdesc}
+% 	\item[Determinação da Vizinhança:] Nessa etapa, a vizinhança de cada partícula do sistema é construída (no primeiro instante) ou atualizada (em instantes posteriores da simulação). O objetivo é limitar a quantidade de interações avaliadas no passo de tempo. 
 % 	\item[Predição:] Nesse passo, o estado do sistema no instante \(\instant[n]\) é predito em função do estado em \(\instant[n-1]\). Essa predição é feita por métodos de extrapolação, como explicado na \autoref{subsec:prediction}. \label{item:DEM_prediction}
 % 	\item[Interação:] A partir do estado predito do sistema, são computadas as interações entre cada partícula e os elementos de sua vizinhança. \label{item:DEM_interaction}
 % 	\item[Correção:] Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:DEM_interaction} e das equações governantes do problema, como apresentado na \autoref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\). \label{item:DEM_correction}
+% \end{enumdesc}
+\begin{enumerate}
+	\item \textit{Determinação da Vizinhança:} Nessa etapa, a vizinhança de cada partícula do sistema é construída (no primeiro instante) ou atualizada (em instantes posteriores da simulação). O objetivo é limitar a quantidade de interações avaliadas no passo de tempo. \label{item:DEM_neighborhood}
+	\item \textit{Predição:} Nesse passo, o estado do sistema no instante \(\instant[n]\) é predito em função do estado em \(\instant[n-1]\). Essa predição é feita por métodos de extrapolação, como explicado na \autoref{subsec:prediction}. \label{item:DEM_prediction}
+	\item \textit{Interação:} A partir do estado predito do sistema, são computadas as interações entre cada partícula e os elementos de sua vizinhança. \label{item:DEM_interaction}
+	\item \textit{Correção:} Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:DEM_interaction} e das equações governantes do problema, como apresentado na \autoref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\). \label{item:DEM_correction}
+\end{enumerate}
 
-\alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
+Os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction} são específicos do algoritmo de Gear, podendo mudar se forem escolhidos outros métodos.
+
+Para a determinação da vizinhança no passo \ref{item:DEM_neighborhood}, são usados algoritmos de monitoramento de vizinhança, como explicado na \autoref{sec:neighborhood}. O objetivo desta seção é, então, apresentar os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction}, mostrando a aplicação dos conceitos apresentados no \autoref{ch:mathematical_model} aos sistemas de partículas.
+
+% \alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
 
 Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na equação \eqref{eq:position_and_orientation_prediction}:
 \begin{equation*}
@@ -99,6 +111,145 @@ A cada um dos graus de liberdade da partícula é associada uma equação que de
 	\end{array}, \quad \particlei \in \particleSet,
 \end{equation*}
 sendo que \(\eqFor{\orientationScalar}\) depende da parametrização escolhida para a orientação.
+
+\alert{Início}
+
+\subsubsection*{Caso Geral}
+
+No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
+
+Primeiramente, as coordenadas das partículas do sistema devem ser previstas de acordo com a equação \eqref{eq:prediction}. Escolhida uma ordem de derivação \(\taylorOrder\), e sendo \(\numberOfParticles\) o número de partículas do sistema, calculam-se
+\begin{equation} \label{eq:position_and_orientation_prediction}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
+		\drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{t} \\
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles,
+\end{equation}
+em que \(\extrapolationMatrix{\taylorOrder}[\Dt]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt\), como indicada na \autoref{subsec:prediction}.
+
+Com as coordenadas previstas, inicia-se a etapa de correção. Nessa etapa, são calculados forças e torques segundo os modelos de força:
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}} \\
+		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}}
+	\end{array}, \quad i,j = 1, \dotsc, \numberOfParticles,
+\end{equation*}
+e, também, são computadas as forças e os torques devidos à ação de outros elementos,
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
+		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+\begin{equation*}
+\end{equation*}
+
+Com as forças e os torques determinados para cada par de interagentes, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
+		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+E, com isso, são obtidos os valores corrigidos para \(\accelerationi\) e \(\deriv{2}{\orientationi}\) (\(i=1,\dots,\numberOfParticles\)) de acordo com as equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}:
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt} \\
+		\dorientationicorr{2}\pqty{t+\Dt} = \eqFor{\orientation}\pqty{\resultingTorquei\pqty{t+\Dt}, \orientationipr\pqty{t+\Dt}, \dorientationipr{1}\pqty{t+\Dt}}
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+Definem-se, então, os erros
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
+		\Delta \dorientationi{2}\pqty{t+\Dt} = \dorientationicorr{2}\pqty{t+\Dt} - \dorientationipr{2}\pqty{t+\Dt} \\
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+Por fim, resta executar a correção nos vetores de derivadas. Tanto para a translação quanto para a rotação, a equação diferencial é de ordem \(\eqOrder = 2\), e isso, juntamente com a ordem de extrapolação \(\taylorOrder\), determina as constantes de correção. Com isso, utiliza-se a equação \eqref{eq:correction_simplified} para se escrever	
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{l}
+		\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt} \\
+		\drvec{\taylorOrder}{\orientationicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \dorientationi{2}\pqty{t+\Dt}
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+Dessa forma, estão calculadas a posição, a orientação e as suas derivadas.
+
+\subsubsection*{Partículas Esféricas}
+
+Para partículas esféricas, as equações de movimento assumem uma forma mais simples, conforme mostrado na \autoref{subsubsec:rotation_of_spherical_particles}. 
+
+Novamente, o algoritmo inicia-se com a escolha da ordem de derivação \(\taylorOrder\), para a predição conforme a equação \eqref{eq:prediction}. Dessa vez, porém, a velocidade angular é prevista com uma ordem a menos que a posição.
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
+		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder-1}[\Dt]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{t} \\
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+O cálculo de forças e torques se dá, então, por
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
+		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
+		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \angularVelocityi} \\
+		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \angularVelocityi}
+	\end{array}, \quad i,j = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+Similarmente ao caso geral, as forças e os torques resultantes são obtidos pelo princípio da superposição, resultando em
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
+		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+Novamente, o valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
+\begin{equation*}
+	\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:rotation_spherical_particle}, obtendo-se
+\begin{equation*}
+	\dangularVelocityicorr{1}\pqty{t+\Dt} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{t+\Dt}
+\end{equation*}
+
+Com isso, os erros são dados por
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
+		\Delta \dangularVelocityi{1}\pqty{t+\Dt} = \dangularVelocityicorr{1}\pqty{t+\Dt} - \dangularVelocityipr{1}\pqty{t+\Dt} \\
+	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação a equação diferencial é de ordem \(\eqOrder = 2\), e então
+\begin{equation*}
+	\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvecipr{\taylorOrder}{\position}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}{1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
+\begin{equation*}
+		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt\cdot\Delta \dangularVelocityi{1}\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+\end{equation*}
+
+\alert{Fim}
+
+
 
 \alert{Corrigir essas equações e continuar}
 
