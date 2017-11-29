@@ -10,7 +10,7 @@ As partículas são os elementos fundamentais do Método de Elementos Discretos.
 
 A princípio, o \DEM{} suporta geometrias arbitrárias para seus elementos. Entretanto, devido a limitações de modelos físicos e de avaliação das colisões, em geral consideram-se formatos básicos como esferas, superelipsoides e poliedros. Geometrias mais complexas podem ser geradas pela associação de geometrias mais simples em partículas compostas \cite{bib:sampaio,bib:computational_granular_dynamics}.
 
-Um sistema de partículas é, por sua vez, um conjunto de partículas que interagem entre si. Considera-se que o sistema possua um referencial global fixo centrado no ponto \(\originPoint\), a partir do qual as demais grandezas vetoriais são definidas.
+Um sistema de partículas é, por sua vez, um conjunto de partículas que interagem entre si. Considera-se que o sistema possua um referencial global fixo centrado no ponto \(\originPoint\) a partir do qual as demais grandezas vetoriais são definidas.
 
 A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos principais com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
@@ -850,7 +850,7 @@ Gear considerou o problema de extrapolar funções sujeitas a equações diferen
 \end{equation}
 com \(\eqOrder \leq \taylorOrder\).
 
-O algoritmo consiste em duas etapas: uma etapa de \textit{previsão} e uma de \textit{correção}. Os detalhes dessas etapas são apresentados nas seções \ref{subsec:prediction} e \ref{subsec:correction}, e sua aplicação aos sistemas de partículas é explicada na seção \ref{subsec:gear_application}.
+O algoritmo consiste em duas etapas: uma etapa de \textit{previsão} e uma de \textit{correção}, detalhadas nas seções \ref{subsec:prediction} e \ref{subsec:correction}.
 
 \subsection{Etapa de Predição} \label{subsec:prediction}
 
@@ -903,7 +903,7 @@ Dentre os métodos de extrapolação mais utilizados estão o método de expans�
 
 O método de extrapolação por expansão de Taylor combina simplicidade, exatidão e estabilidade, e por isso é o método adotado neste trabalho. Esse método é fundamentado pelo \nameref{theo:taylor}.
 
-\begin{theorem}[Teorema  de Taylor] \label{theo:taylor}
+\begin{unnumberedtheorem}[Teorema  de Taylor] \label{theo:taylor}
 	Seja \(y\) uma função de uma variável com derivadas \(\deriv{1}{y},\dotsc,y^{\pqty{\taylorOrder+1}}\) todas definidas em um intervalo aberto que contenha \(t\), e seja \(\remainderFunction{\taylorOrder}{t}{y}\) definida pela equação
     \begin{equation*}
     	y(t + \Dt) = y(t) + \deriv{1}{y}(t)\cdot\Dt + \dotsb + \dfrac{\deriv{\taylorOrder}{y}(t)}{\taylorOrder!}\cdot\Dt^\taylorOrder + \remainderFunction{\taylorOrder}{t}{y}(\Dt).
@@ -912,7 +912,7 @@ O método de extrapolação por expansão de Taylor combina simplicidade, exatid
     \begin{equation} \label{eq:remainder_limit}
     	\lim_{\Dt \rightarrow 0} \dfrac{\remainderFunction{\taylorOrder}{t}{y}(\Dt)}{\Dt^\taylorOrder} = 0.
     \end{equation}
-\end{theorem}
+\end{unnumberedtheorem}
 
 Uma versão mais completa desse teorema é apresentada e demonstrada por \citeonline{bib:spivak}.
 
@@ -1081,146 +1081,17 @@ Ainda, de acordo com \citeonline[p. 153]{bib:gear_book}, o erro global do algori
 	\deriv{\eqOrder}{y} = \eqFor{y}\pqty{y, \deriv{1}{y},\dotsc,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
 \end{equation}
 
-Com isso, a etapa de correção está bem definida, e se torna possível aplicar o método para sistemas de partículas.
+E, com isso, a etapa de correção está bem definida. Em virtude das características apresentadas, o algoritmo de Gear é usado como método de resolução das equações de movimento dos elementos dos sistemas de partículas.
 
-\subsection{Aplicação do Algoritmo de Gear aos Sistemas de Partículas} \label{subsec:gear_application}
+Com as considerações feitas neste capítulo, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.
 
-Em virtude das características apresentadas, o algoritmo de Gear é usado como método de resolução das equações de movimento dos elementos dos sistemas de partículas. Esta seção é dedicada a apresentar essa utilização. Primeiramente, é apresentado o caso geral. Por fim, mostra-se a simplificação existente para partículas esféricas.
+% \subsection{Aplicação do Algoritmo de Gear aos Sistemas de Partículas} \label{subsec:gear_application}
 
-\subsubsection*{Caso Geral}
+%  Esta seção é dedicada a apresentar essa utilização. Primeiramente, é apresentado o caso geral. Por fim, mostra-se a simplificação existente para partículas esféricas.
 
-No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
 
-Primeiramente, as coordenadas das partículas do sistema devem ser previstas de acordo com a equação \eqref{eq:prediction}. Escolhida uma ordem de derivação \(\taylorOrder\), e sendo \(\numberOfParticles\) o número de partículas do sistema, calculam-se
-\begin{equation} \label{eq:position_and_orientation_prediction}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
-		\drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{t} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles,
-\end{equation}
-em que \(\extrapolationMatrix{\taylorOrder}[\Dt]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt\), como indicada na \autoref{subsec:prediction}.
 
-Com as coordenadas previstas, inicia-se a etapa de correção. Nessa etapa, são calculados forças e torques segundo os modelos de força:
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}} \\
-		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}}
-	\end{array}, \quad i,j = 1, \dotsc, \numberOfParticles,
-\end{equation*}
-e, também, são computadas as forças e os torques devidos à ação de outros elementos,
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
-		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-\begin{equation*}
-\end{equation*}
-
-Com as forças e os torques determinados para cada par de interagentes, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
-		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-E, com isso, são obtidos os valores corrigidos para \(\accelerationi\) e \(\deriv{2}{\orientationi}\) (\(i=1,\dots,\numberOfParticles\)) de acordo com as equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}:
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt} \\
-		\dorientationicorr{2}\pqty{t+\Dt} = \eqFor{\orientation}\pqty{\resultingTorquei\pqty{t+\Dt}, \orientationipr\pqty{t+\Dt}, \dorientationipr{1}\pqty{t+\Dt}}
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Definem-se, então, os erros
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
-		\Delta \dorientationi{2}\pqty{t+\Dt} = \dorientationicorr{2}\pqty{t+\Dt} - \dorientationipr{2}\pqty{t+\Dt} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Por fim, resta executar a correção nos vetores de derivadas. Tanto para a translação quanto para a rotação, a equação diferencial é de ordem \(\eqOrder = 2\), e isso, juntamente com a ordem de extrapolação \(\taylorOrder\), determina as constantes de correção. Com isso, utiliza-se a equação \eqref{eq:correction_simplified} para se escrever	
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{l}
-		\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt} \\
-		\drvec{\taylorOrder}{\orientationicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \dorientationi{2}\pqty{t+\Dt}
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Dessa forma, estão calculadas a posição, a orientação e as suas derivadas.
-
-\subsubsection*{Partículas Esféricas}
-
-Para partículas esféricas, as equações de movimento assumem uma forma mais simples, conforme mostrado na \autoref{subsubsec:rotation_of_spherical_particles}. 
-
-Novamente, o algoritmo inicia-se com a escolha da ordem de derivação \(\taylorOrder\), para a predição conforme a equação \eqref{eq:prediction}. Dessa vez, porém, a velocidade angular é prevista com uma ordem a menos que a posição.
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
-		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder-1}[\Dt]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{t} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-O cálculo de forças e torques se dá, então, por
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
-		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
-		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \angularVelocityi} \\
-		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \angularVelocityi}
-	\end{array}, \quad i,j = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Similarmente ao caso geral, as forças e os torques resultantes são obtidos pelo princípio da superposição, resultando em
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
-		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Novamente, o valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
-\begin{equation*}
-	\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:rotation_spherical_particle}, obtendo-se
-\begin{equation*}
-	\dangularVelocityicorr{1}\pqty{t+\Dt} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{t+\Dt}
-\end{equation*}
-
-Com isso, os erros são dados por
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
-		\Delta \dangularVelocityi{1}\pqty{t+\Dt} = \dangularVelocityicorr{1}\pqty{t+\Dt} - \dangularVelocityipr{1}\pqty{t+\Dt} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação a equação diferencial é de ordem \(\eqOrder = 2\), e então
-\begin{equation*}
-	\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvecipr{\taylorOrder}{\position}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}{1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
-\begin{equation*}
-		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt\cdot\Delta \dangularVelocityi{1}\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-E assim está demonstrada a aplicação do algoritmo de Gear aos sistemas de partículas. Com as considerações feitas neste capítulo, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.
+% E assim está demonstrada a aplicação do algoritmo de Gear aos sistemas de partículas. 
 
 % Para o caso da posição de uma partícula  \(\particlei\), a equação de movimento translacional é obtida a partir do princípio da superposição \eqref{eq:superposition_translation} e da primeira lei de Euler \eqref{eq:motion_first} como
 % \begin{equation*}
