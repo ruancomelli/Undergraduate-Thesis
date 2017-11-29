@@ -40,21 +40,23 @@
 \newcounter{descriptcount}
 \newlist{enumdesc}{description}{2}
 \setlist[enumdesc,1]{%
-	leftmargin = *,
+	% label=\arabic*,
+	ref=\roman*,
+	leftmargin=*,
 	itemindent=*,
 	labelindent=*,
   % before={\setcounter{descriptcount}{0}%
   %         \renewcommand*\thedescriptcount{\alph{descriptcount}}}
-  before=\setcounter{descriptcount}{0}
-  ,font=\normalfont\stepcounter{descriptcount}\thedescriptcount.\itshape~
+	before=\setcounter{descriptcount}{0},
+	font=\normalfont\stepcounter{descriptcount}\thedescriptcount.\itshape~
 }
 \setlist[enumdesc,2]{%
 	leftmargin = *,
 	itemindent=*,
 	labelindent=*,
-	  before={\setcounter{descriptcount}{0}%
-	          \renewcommand*\thedescriptcount{\alph{descriptcount}}}
-	  ,font=\normalfont\stepcounter{descriptcount}\thedescriptcount)\itshape~
+	before={\setcounter{descriptcount}{0}%
+	          \renewcommand*\thedescriptcount{\alph{descriptcount}}},
+	font=\normalfont\stepcounter{descriptcount}\thedescriptcount)\itshape~
 }
 
 \newcommand{\normalresultsfigwidth}{0.9\textwidth}
