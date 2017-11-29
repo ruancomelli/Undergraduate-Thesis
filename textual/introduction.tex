@@ -109,17 +109,30 @@ Por sua vez, a geometria das partículas determina quais os modelos de interaç�
 O Método de Elementos Discretos é intimamente ligado à Dinâmica Molecular, outra família de métodos computacionais. A distinção que geralmente se faz é que o \DEM{} considera geometrias arbitrariamente complexas, exigindo um tratamento da identificação dos pontos de contato e do cálculo das rotações mais adequado.
 
 Segundo \citeonline{bib:computational_granular_dynamics}, algoritmos do \DEM{}, de forma simplificada, são compostos por algumas etapas principais, sendo elas:
-\begin{enumdesc}
-	\item[Inicialização:] Nesta etapa, os elementos da simulação são construídos, cada qual com tipo, geometria, propriedades físicas, posição e velocidade iniciais. Também são determinados os modelos de interação considerados e o critério de parada. Esses itens são geralmente definidos por um arquivo de entrada.
-	\item[Predição:] O cálculo de forças e torques atuantes sobre cada partícula depende da posição, da velocidade, da orientação e da velocidade angular dos elementos da simulação, que são desconhecidas no instante futuro. Sendo assim, é necessária uma estimativa, ou \textit{predição}, para os valores dessas variáveis. Essa estimativa é feita na etapa de predição. \label{item:prediction}
-	\item[Interação:] A etapa de interação se divide em duas subetapas:
-		\begin{enumdesc}
-			\item Determinação dos pares de interação. Nem todas as partículas interagem em todos os instantes. Para o caso das forças de colisão, é necessário identificar todos os pares que estão em contato. Essa etapa costuma ser a mais custosa do método, e várias técnicas são propostas para minimizar esse custo.
-			\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}.
-		\end{enumdesc}
-	\item[Correção:] Nesta etapa, valores corrigidos para as coordenadas (e as respectivas derivadas) das partículas são obtidos através da resolução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second}.
-	\item[Finalizar:] Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}.
-\end{enumdesc}
+
+% \begin{enumdesc}
+% 	\item[Inicialização:] Nesta etapa, os elementos da simulação são construídos, cada qual com tipo, geometria, propriedades físicas, posição e velocidade iniciais. Também são determinados os modelos de interação considerados e o critério de parada. Esses itens são geralmente definidos por um arquivo de entrada.
+% 	\item[Predição:] O cálculo de forças e torques atuantes sobre cada partícula depende da posição, da velocidade, da orientação e da velocidade angular dos elementos da simulação, que são desconhecidas no instante futuro. Sendo assim, é necessária uma estimativa, ou \textit{predição}, para os valores dessas variáveis. Essa estimativa é feita na etapa de predição. \label{item:prediction}
+% 	\item[Interação:] A etapa de interação se divide em duas subetapas:
+% 		\begin{enumdesc}
+% 			\item Determinação dos pares de interação. Nem todas as partículas interagem em todos os instantes. Para o caso das forças de colisão, é necessário identificar todos os pares que estão em contato. Essa etapa costuma ser a mais custosa do método, e várias técnicas são propostas para minimizar esse custo.
+% 			\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}.
+% 		\end{enumdesc}
+% 	\item[Correção:] Nesta etapa, valores corrigidos para as coordenadas (e as respectivas derivadas) das partículas são obtidos através da resolução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second}.
+% 	\item[Finalizar:] Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}.
+% \end{enumdesc}
+
+\begin{enumerate} 
+	\item \textbf{Inicialização:} Nesta etapa, os elementos da simulação são construídos, cada qual com tipo, geometria, propriedades físicas, posição e velocidade iniciais. Também são determinados os modelos de interação considerados e o critério de parada. Esses itens são geralmente definidos por um arquivo de entrada. 
+	\item \textbf{Predição:} O cálculo de forças e torques atuantes sobre cada partícula depende da posição, da velocidade, da orientação e da velocidade angular dos elementos da simulação, que são desconhecidas no instante futuro. Sendo assim, é necessária uma estimativa, ou \textit{predição}, para os valores dessas variáveis. Essa estimativa é feita na etapa de predição. \label{item:prediction} 
+	\item \textbf{Interação:} A etapa de interação se divide em duas subetapas: 
+	\begin{enumerate} 
+		\item Determinação dos pares de interação. Nem todas as partículas interagem em todos os instantes. Para o caso das forças de colisão, é necessário identificar todos os pares que estão em contato. Essa etapa costuma ser a mais custosa do método, e várias técnicas são propostas para minimizar esse custo. 
+		\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}. 
+	\end{enumerate} 
+	\item \textbf{Correção:} Nesta etapa, valores corrigidos para as coordenadas (e as respectivas derivadas) das partículas são obtidos através da resolução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second}. 
+	\item \textbf{Finalizar:} Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}. 
+\end{enumerate} 
 
 Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorithm}. Outros passos podem ser introduzidos no algoritmo, tais quais exportação de dados, iterações em cada passo de tempo e acoplamento com outros simuladores.
 
