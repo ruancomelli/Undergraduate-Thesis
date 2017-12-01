@@ -5,8 +5,8 @@
 
 %--------------------------------- Pacote para inserção de listagens de códigos ou conteúdo de arquivos ----------------------------------------------------
 \usepackage{color}
-\usepackage{listings}
-% \usepackage{listingsutf8}
+% \usepackage{listings}
+\usepackage{listingsutf8}
 \renewcommand{\lstlistingname}{Listagem}
 \renewcommand{\lstlistlistingname}{Listagens}
 
@@ -19,40 +19,7 @@
 \newcommand{\stringStyle}{\color{lgreen}\bfseries}
 \newcommand{\emphStyle}{{[2]\color{dkgray}}}
 
-\lstset{
-     literate=%
-     	{ã}{{\~a}}1
-        {á}{{\'a}}1
-        {í}{{\'i}}1
-        {é}{{\'e}}1
-        {ý}{{\'y}}1
-        {ú}{{\'u}}1
-        {ó}{{\'o}}1
-        {ě}{{\v{e}}}1
-        {š}{{\v{s}}}1
-        {č}{{\v{c}}}1
-        {ř}{{\v{r}}}1
-        {ž}{{\v{z}}}1
-        {ď}{{\v{d}}}1
-        {ť}{{\v{t}}}1
-        {ň}{{\v{n}}}1                
-        {ů}{{\r{u}}}1
-        {Á}{{\'A}}1
-        {Í}{{\'I}}1
-        {É}{{\'E}}1
-        {Ý}{{\'Y}}1
-        {Ú}{{\'U}}1
-        {Ó}{{\'O}}1
-        {Ě}{{\v{E}}}1
-        {Š}{{\v{S}}}1
-        {Č}{{\v{C}}}1
-        {Ř}{{\v{R}}}1
-        {Ž}{{\v{Z}}}1
-        {Ď}{{\v{D}}}1
-        {Ť}{{\v{T}}}1
-        {Ň}{{\v{N}}}1                
-        {Ů}{{\r{U}}}1    
-}
+\lstset{language=C++,texcl=true} % This allows free LaTeX inside comments
 
 \lstset{
 	frame = tb,
@@ -71,6 +38,7 @@
 	tabsize = 4
 }
 \lstdefinestyle{C++}{
+	inputencoding=utf8,
 	language = [Visual]{C++},
 	basicstyle = \basicStyle,
 	identifierstyle = \color{dkgreen},
@@ -91,8 +59,45 @@
 }
 \newcommand\keywordstyle[1]{\color{dkyellow}\bfseries{#1}}
 \newcommand\emphstyle[1]{\itshape\bfseries{#1}}
+
+\newcommand\uhuu[2]{{#1}{#2}1}
+
 \lstdefinestyle{pseudocode}{
-	language ={C++},
+	language={C++},
+	inputencoding=utf8,
+	extendedchars=true,
+	texcl=true,
+	literate=*%
+		{é}{{\'{e}}}{1}
+		{è}{{\`{e}}}{1}
+		{ê}{{\^{e}}}{1}
+		{ë}{{\¨{e}}}{1}
+		{É}{{\'{E}}}{1}
+		{Ê}{{\^{E}}}{1}
+		{û}{{\^{u}}}{1}
+		{ù}{{\`{u}}}{1}
+		{ú}{{\'{u}}}{1}
+		{â}{{\^{a}}}{1}
+		{à}{{\`{a}}}{1}
+		{á}{{\'{a}}}{1}
+		{ã}{{\~{a}}}{1}
+		{Á}{{\'{A}}}{1}
+		{Â}{{\^{A}}}{1}
+		{Ã}{{\~{A}}}{1}
+		{ç}{{\c{c}}}{1}
+		{Ç}{{\c{C}}}{1}
+		{õ}{{\~{o}}}{1}
+		{ó}{{\'{o}}}{1}
+		{ô}{{\^{o}}}{1}
+		{Õ}{{\~{O}}}{1}
+		{Ó}{{\'{O}}}{1}
+		{Ô}{{\^{O}}}{1}
+		{î}{{\^{i}}}{1}
+		{Î}{{\^{I}}}{1}
+		{í}{{\'{i}}}{1}
+		{Í}{{\~{Í}}}{1}
+		{partícula}{\emphstyle{part\'icula}}{9}
+		{elemento}{\emphstyle{elemento}}{8},
 	mathescape = true,
 	escapeinside = {(*}{*)},
 	basicstyle = \basicStyle\bfseries,
@@ -101,17 +106,48 @@
 	extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
 	keywordstyle = \color{dkyellow}\bfseries,
 	commentstyle = \color{lgreen}\bfseries,
-	morecomment = [s]{\[}{\]}
-	emph = {},
+	morecomment = [s]{\[}{\]},
 	emphstyle = \emphstyle,
-	moreemph = {vizinho, calcular},
+	emph = {},
 	emphstyle = {[2]\color{dkgray}\bfseries},
 	moreemph = {[3]and},
 	emphstyle = {[3]\color{dkgreen}\bfseries},
-	stringstyle = \stringStyle,
-	literate=
-		{partícula}{{\emphstyle{part\'icula}}}9
+	stringstyle = \stringStyle
 }
+% \lstset{%
+% 	language=pseudocode,
+% 	inputencoding=utf8,
+% 	extendedchars=true,
+% 	literate=%
+% 		{é}{{\'{e}}}1
+% 		{è}{{\`{e}}}1
+% 		{ê}{{\^{e}}}1
+% 		{ë}{{\¨{e}}}1
+% 		{É}{{\'{E}}}1
+% 		{Ê}{{\^{E}}}1
+% 		{û}{{\^{u}}}1
+% 		{ù}{{\`{u}}}1
+% 		{ú}{{\'{u}}}1
+% 		{â}{{\^{a}}}1
+% 		{à}{{\`{a}}}1
+% 		{á}{{\'{a}}}1
+% 		{ã}{{\~{a}}}1
+% 		{Á}{{\'{A}}}1
+% 		{Â}{{\^{A}}}1
+% 		{Ã}{{\~{A}}}1
+% 		{ç}{{\c{c}}}1
+% 		{Ç}{{\c{C}}}1
+% 		{õ}{{\~{o}}}1
+% 		{ó}{{\'{o}}}1
+% 		{ô}{{\^{o}}}1
+% 		{Õ}{{\~{O}}}1
+% 		{Ó}{{\'{O}}}1
+% 		{Ô}{{\^{O}}}1
+% 		{î}{{\^{i}}}1
+% 		{Î}{{\^{I}}}1
+% 		{í}{{\'{i}}}1
+% 		{Í}{{\~{Í}}}1
+% }
 
 \lstdefinestyle{json}{
 	% language ={Java},
