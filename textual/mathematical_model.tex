@@ -661,7 +661,7 @@ O modelo para esferas viscoelásticas tem a finalidade de expressar de forma mai
 
 \citeonline{bib:hertz1881} propôs primeiramente um modelo para a componente elástica da força, obtendo
 \begin{equation*}
-	\normalElasticForceji = \dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot\overlapij^{\sfrac{3}{2}},
+	\normalElasticForceji = \dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\overlapij^{\sfrac{3}{2}},
 \end{equation*}
 sendo que:
 \begin{itemize}
@@ -679,7 +679,7 @@ sendo que:
 
 Esse modelo foi posteriormente estendido por \citeonline{bib:brilliantov1996} com a adição do termo dissipativo:
 \begin{equation*}
-	\normalDissipativeForceji = \dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot \normalDissipativeConstantij\overlapDerivativeij\sqrt{\overlapij},
+	\normalDissipativeForceji = \dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij},
 \end{equation*}
 em que
 \begin{itemize}
@@ -693,8 +693,8 @@ em que
 
 Com isso, a expressão para a força normal, segundo o modelo de esferas viscoelásticas, fica
 \begin{equation*}
-	\normalForceScalarji = \dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot\pqty{
-		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\overlapDerivativeij\sqrt{\overlapij}
+	\normalForceScalarji = \dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
+		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij}
 	}.
 \end{equation*}
 
@@ -744,8 +744,8 @@ Para o amortecedor linear, isso significa que
 \end{equation*}
 enquanto, para o modelo de esferas viscoelásticas, essa correção resulta em
 \begin{equation*}
-	\normalForceScalarji = \max\Bqty{\dfrac{4}{3}\effectiveNormalElasticij\sqrt{\effectiveRadiusij}\cdot\pqty{
-		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\overlapDerivativeij\sqrt{\overlapij}
+	\normalForceScalarji = \max\Bqty{\dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
+		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij}
 	}, \,\, 0}.
 \end{equation*}
 
@@ -755,8 +755,8 @@ Como consequência dessa mudança, o coeficiente de restituição normal tem seu
 	\left\lbrace
 		\def\arraystretch{1.8}
 		\begin{array}{ll}
-			\exp\bqty{-\dfrac{\betaij}{\omegaij}\pqty{\pi - \arctan\dfrac{2\betaij\omegaij}{\omegaij^2-\betaij^2}}}, & \text{se } \betaij < \dfrac{\omegazij}{\sqrt{2}} \\
-			\exp\bqty{-\dfrac{\betaij}{\omegaij}\arctan\dfrac{2\betaij\omegaij}{\omegaij^2-\betaij^2}}, & \text{se } \betaij \in \bqty{\dfrac{\omegazij}{\sqrt{2}}, \omegazij} \\
+			\exp\bqty{-\dfrac{\betaij}{\omegaij}\pqty{\pi - \arctan\dfrac{2\ \betaij\ \omegaij}{\omegaij^2-\betaij^2}}}, & \text{se } \betaij < \dfrac{\omegazij}{\sqrt{2}} \\
+			\exp\bqty{-\dfrac{\betaij}{\omegaij}\arctan\dfrac{2\ \betaij\ \omegaij}{\omegaij^2-\betaij^2}}, & \text{se } \betaij \in \bqty{\dfrac{\omegazij}{\sqrt{2}}, \omegazij} \\
 			\exp\bqty{-\dfrac{\betaij}{\Omegaij} \ln\dfrac{\betaij + \Omegaij}{\betaij - \Omegaij}}, & \text{se } \betaij > \omegazij
 		\end{array}
 	\right.
@@ -766,11 +766,13 @@ em que
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{cc}
-		\omegazij = \bigslant{\effectiveNormalElasticij}{\massij}, &
+		\pqty{\omegazij}^2 = \bigslant{\elasticModulusij}{\massij}, &
 		\betaij = \bigslant{\normalDampingConstantij}{\massij}, \\
 		\omegaij = \sqrt{\pqty{\omegazij}^2 - \betaij^2}, &	\Omegaij = \sqrt{\betaij^2 - \pqty{\omegazij}^2}.
 	\end{array}
 \end{equation*}
+
+Uma expressão para o coeficiente de restituição corrigido para o modelo de esferas viscoelásticas pode ser encontrada em \citeonline{bib:schwager2008}.
 
 \subsection{Modelos de Força Tangencial} \label{subsec:tangential_force_models}
 
