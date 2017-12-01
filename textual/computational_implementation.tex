@@ -2,9 +2,12 @@
 
 \lstinputlisting[style=json]{listings/example.json}
 
-\begin{lstlisting}[style=pseudocode]
-para cada elemento $\in W$
-	faca isso
+\begin{lstlisting}[style=pseudocode, label=lst:equations_solution, caption=Solução das equações de movimento por meio do algoritmo de Gear]
+[Algoritmo de Gear]
+para cada partícula $\particlei \in \particleSet$:
+	determinar a vizinhança $\neighborhoodi$
+	para cada elemento $\elementj \in \neighborhoodi$:
+		calcular a força
 \end{lstlisting}
 
 \begin{lstlisting}[style=C++]
