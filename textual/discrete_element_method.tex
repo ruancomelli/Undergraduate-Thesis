@@ -98,28 +98,34 @@ Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante an
 \end{equation*}
 em que \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt[n]\), como indicada na \autoref{subsec:prediction}.
 
-\alert{Continuar aqui }
-
 A vizinhança de uma partícula, como explicado na \autoref{sec:neighborhood}, é o conjunto de todas as entidades da simulação com as quais ela interage. A vizinhança da \(i\)-ésima partícula do sistema é denotada por \(\neighborhoodi\) \alert{Verificar se essas coisas já não foram ditas antes com a mudança das seções.}. Cada elemento \(\elementj\) da vizinhança de \(\particlei\) contribui para a força \(\forcei\) e o torque \(\torquei\) resultantes sobre a mesma com parcelas \(\forceji\) e \(\torqueji\) que são, por hipótese, dependentes apenas do par \(\orderedPair{\particlei}{\elementj}\), isto é,
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
 		\displaystyle \forceji \equiv \forceji\pqty{\particlei, \elementj} \\
 		\displaystyle \torqueji \equiv \torqueji\pqty{\particlei, \elementj} \\
-	\end{array}, \quad \particlei \in \particleSet.
+	\end{array}, \quad \particlei \in \particleSet, \elementj \in \neighborhoodi.
 \end{equation*}
 
-Com isso, os vetores força e torque resultantes são calculados como
+Mais ainda, a partícula \(i\) pode sofrer com forças e torques provocados por entidades externas ao sistema, como forças de campo, cujas resultantes são dadas por
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\displaystyle \forcei = \sum_{\elementj\in\neighborhoodi} \forceji \\
-		\displaystyle \torquei = \sum_{\elementj\in\neighborhoodi} \torqueji 
-	\end{array}, \quad \particlei \in \particleSet,
+		\external\forcei \equiv \external\forcei\pqty{\particlei} \\
+		\external\torquei \equiv \external\torquei\pqty{\particlei} \\
+	\end{array}, \quad \particlei \in \particleSet.
 \end{equation*}
-já incluindo-se as forças e os torques provenientes de elementos externos ao sistema.
+ 
+Com isso, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\elementj\in\neighborhoodi}\forceji + \external\forcei\\
+		\resultingTorquei = \dsum_{\elementj\in\neighborhoodi}\torqueji + \external\torquei
+	\end{array}, \quad \particlei\in\particleSet.
+\end{equation*}
 
-A cada um dos graus de liberdade da partícula é associada uma equação que determina seu comportamento. Para as equações de movimento, essas equações são escritas na forma
+A cada um dos graus de liberdade da partícula é associada uma equação que determina seu comportamento, e o algoritmo de Gear baseia-se nisso para executar a etapa de correção. As equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}, então, são utilizadas para se corrigirem as derivadas de segunda ordem da posição e da orientação das partículas:
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
@@ -129,148 +135,78 @@ A cada um dos graus de liberdade da partícula é associada uma equação que de
 \end{equation*}
 sendo que \(\eqFor{\orientationScalar}\) depende da parametrização escolhida para a orientação.
 
-\alert{Início}
-
-Primeiramente, as coordenadas das partículas do sistema devem ser previstas de acordo com a equação \eqref{eq:prediction}. Escolhida uma ordem de derivação \(\taylorOrder\), e sendo \(\numberOfParticles\) o número de partículas do sistema, calculam-se
-\begin{equation} \label{eq:position_and_orientation_prediction}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
-		\drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{t} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles,
-\end{equation}
-em que \(\extrapolationMatrix{\taylorOrder}[\Dt]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt\), como indicada na \autoref{subsec:prediction}.
-
-Com as coordenadas previstas, inicia-se a etapa de correção. Nessa etapa, são calculados forças e torques segundo os modelos de força:
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}} \\
-		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}, \positionjpr, \velocityjpr, \orientationjpr, \dorientationjpr{1}}
-	\end{array}, \quad i,j = 1, \dotsc, \numberOfParticles,
-\end{equation*}
-e, também, são computadas as forças e os torques devidos à ação de outros elementos,
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
-		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \orientationipr, \dorientationipr{1}} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-\begin{equation*}
-\end{equation*}
-
-Com as forças e os torques determinados para cada par de interagentes, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas equações \eqref{eq:superposition_translation} e \eqref{eq:superposition_rotation}:
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
-		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-E, com isso, são obtidos os valores corrigidos para \(\accelerationi\) e \(\deriv{2}{\orientationi}\) (\(i=1,\dots,\numberOfParticles\)) de acordo com as equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}:
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt} \\
-		\dorientationicorr{2}\pqty{t+\Dt} = \eqFor{\orientation}\pqty{\resultingTorquei\pqty{t+\Dt}, \orientationipr\pqty{t+\Dt}, \dorientationipr{1}\pqty{t+\Dt}}
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
 Definem-se, então, os erros
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
-		\Delta \dorientationi{2}\pqty{t+\Dt} = \dorientationicorr{2}\pqty{t+\Dt} - \dorientationipr{2}\pqty{t+\Dt} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+		\Delta \accelerationi\pqty{\instant[n]} = \accelerationicorr\pqty{\instant[n]} - \accelerationipr\pqty{\instant[n]} \\
+		\Delta \dorientationi{2}\pqty{\instant[n]} = \dorientationicorr{2}\pqty{\instant[n]} - \dorientationipr{2}\pqty{\instant[n]} \\
+	\end{array}, \quad \particlei\in\particleSet.
 \end{equation*}
 
 Por fim, resta executar a correção nos vetores de derivadas. Tanto para a translação quanto para a rotação, a equação diferencial é de ordem \(\eqOrder = 2\), e isso, juntamente com a ordem de extrapolação \(\taylorOrder\), determina as constantes de correção. Com isso, utiliza-se a equação \eqref{eq:correction_simplified} para se escrever	
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{l}
-		\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt} \\
-		\drvec{\taylorOrder}{\orientationicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\orientationipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \dorientationi{2}\pqty{t+\Dt}
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+		\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]} \\
+		\drvec{\taylorOrder}{\orientationicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \dorientationi{2}\pqty{\instant[n]}
+	\end{array}, \quad \particlei\in\particleSet.
 \end{equation*}
 
-Dessa forma, estão calculadas a posição, a orientação e as suas derivadas.
+Dessa forma, estão calculadas a posição, a orientação e as suas derivadas, e o instante de tempo \(\instant[n]\) é considerado solucionado.
 
 \subsubsection*{Partículas Esféricas}
 
 Para partículas esféricas, as equações de movimento assumem uma forma mais simples, conforme mostrado na \autoref{subsubsec:rotation_of_spherical_particles}. 
 
-Novamente, o algoritmo inicia-se com a escolha da ordem de derivação \(\taylorOrder\), para a predição conforme a equação \eqref{eq:prediction}. Dessa vez, porém, a velocidade angular é prevista com uma ordem a menos que a posição.
+Novamente, o algoritmo inicia com a escolha da ordem de derivação \(\taylorOrder\) para a predição conforme a equação \eqref{eq:prediction}. Dessa vez, porém, a velocidade angular é prevista com uma ordem a menos que a posição.
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder}[\Dt]\cdot\drvec{\taylorOrder}{\positioni}\pqty{t} \\
-		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{t+\Dt} = \extrapolationMatrix{\taylorOrder-1}[\Dt]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{t} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+		\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]} \\
+		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n-1]} \\
+	\end{array}, \quad \particlei\in\particleSet.
 \end{equation*}
 
-O cálculo de forças e torques se dá, então, por
+O cálculo de forças e torques se dá de maneira idêntica ao caso geral, isto é,
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\forceij \equiv \forceij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
-		\torqueij \equiv \torqueij\pqty{\positionipr, \velocityipr, \angularVelocityipr, \positionjpr, \velocityjpr, \angularVelocityjpr} \\
-		\external\forcei \equiv \external\forcei\pqty{\positionipr, \velocityipr, \angularVelocityi} \\
-		\external\torquei \equiv \external\torquei\pqty{\positionipr, \velocityipr, \angularVelocityi}
-	\end{array}, \quad i,j = 1, \dotsc, \numberOfParticles.
+		\resultingForcei = \dsum_{\elementj\in\neighborhoodi}\forceji\pqty{\particlei, \elementj} + \external\forcei\pqty{\particlei}\\
+		\resultingTorquei = \dsum_{\elementj\in\neighborhoodi}\torqueji\pqty{\particlei, \elementj} + \external\torquei\pqty{\particlei}
+	\end{array}, \quad \particlei\in\particleSet.
 \end{equation*}
 
-Similarmente ao caso geral, as forças e os torques resultantes são obtidos pelo princípio da superposição, resultando em
+E, como no caso geral, o valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
 \begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\resultingForcei = \dsum_{\particlej\in\ineighborhood{i}}\forceji + \external\forcei\\
-		\resultingTorquei = \dsum_{\particlej\in\ineighborhood{i}}\torqueji + \external\torquei
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+	\accelerationicorr\pqty{\instant[n]} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{\instant[n]}, \quad\particlei\in\particleSet.
 \end{equation*}
 
-Novamente, o valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
+Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:rotation_spherical_particle}, obtendo-se, para cada \(\particlei\in\particleSet\),
 \begin{equation*}
-	\accelerationicorr\pqty{t+\Dt} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
-\end{equation*}
-
-Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:rotation_spherical_particle}, obtendo-se
-\begin{equation*}
-	\dangularVelocityicorr{1}\pqty{t+\Dt} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{t+\Dt}
+	\dangularVelocityicorr{1}\pqty{\instant[n]} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{\instant[n]}
 \end{equation*}
 
 Com isso, os erros são dados por
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
-		\Delta \accelerationi\pqty{t+\Dt} = \accelerationicorr\pqty{t+\Dt} - \accelerationipr\pqty{t+\Dt} \\
-		\Delta \dangularVelocityi{1}\pqty{t+\Dt} = \dangularVelocityicorr{1}\pqty{t+\Dt} - \dangularVelocityipr{1}\pqty{t+\Dt} \\
-	\end{array}, \quad i = 1, \dotsc, \numberOfParticles.
+		\Delta \accelerationi\pqty{\instant[n]} = \accelerationicorr\pqty{\instant[n]} - \accelerationipr\pqty{\instant[n]} \\
+		\Delta \dangularVelocityi{1}\pqty{\instant[n]} = \dangularVelocityicorr{1}\pqty{\instant[n]} - \dangularVelocityipr{1}\pqty{\instant[n]} \\
+	\end{array}, \quad\particlei\in\particleSet.
 \end{equation*}
 
-E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação a equação diferencial é de ordem \(\eqOrder = 2\), e então
+E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação, a equação diferencial é de ordem \(\eqOrder = 2\), e então
 \begin{equation*}
-	\drvec{\taylorOrder}{\positionicorr}\pqty{t+\Dt} = \drvecipr{\taylorOrder}{\position}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt^2}{2}\Delta \accelerationi\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+	\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvecipr{\taylorOrder}{\position}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]}, \quad\particlei\in\particleSet.
 \end{equation*}
 
 A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}{1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
 \begin{equation*}
-		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{t+\Dt} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{t+\Dt} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt\cdot\Delta \dangularVelocityi{1}\pqty{t+\Dt}, \quad i = 1, \dotsc, \numberOfParticles.
+		\drvec{\taylorOrder}{\angularVelocityicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\angularVelocityipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt[n]\cdot\Delta \dangularVelocityi{1}\pqty{\instant[n]}, \quad\particlei\in\particleSet.
 \end{equation*}
 
-\alert{Fim}
-
-
-
-\alert{Corrigir essas equações e continuar}
-
-\alert{Referenciar as equações anteriores}
-
-\alert{Falar da etapa de correção com as constantes}
-
-\alert{Falar que o método considera essas correções como exatas}
+\alert{continuar}
 
 \alert{Mostrar isso em forma de fluxograma e de pseudocódigo}
 
@@ -388,9 +324,9 @@ como indicado na figura \ref{fig:verlet_distance}, e então a vizinhança da par
 \alert{Mostrar o conjunto vizinhança e dizer que, para o algoritmo de Verlet, esse conjunto é denominado de lista de Verlet}
 \alert{Definir o deslocamento de Verlet como a distância \(\verletPosition\) entre a partícula e a sua posição quando a última lista de Verlet foi construída}
 
-% Com isso, no instante \(t\), a vizinhança da \(i\)-ésima partícula é o conjunto
+% Com isso, no instante \(\instant[n-1]\), a vizinhança da \(i\)-ésima partícula é o conjunto
 % \begin{equation*}
-% 	\neighborhoodi\pqty{t} = \left\lbrace\particlej \,\suchThat\, \distanceij\pqty{t} < \radiusi + \radiusj + \verletDistance\right\rbrace,
+% 	\neighborhoodi\pqty{\instant[n-1]} = \left\lbrace\particlej \,\suchThat\, \distanceij\pqty{\instant[n-1]} < \radiusi + \radiusj + \verletDistance\right\rbrace,
 % \end{equation*}
 % em que \(\distanceij\) é a distância entre os centros das partículas \(i\) e \(j\).
 
