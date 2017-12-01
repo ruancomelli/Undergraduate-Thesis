@@ -104,10 +104,9 @@ Embora seja conceitualmente simples e de fácil resolução, o problema do lanç
 \item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo.
 \end{itemize}
 
-Em razão disso, é apresentado, nesta seção, um estudo de caso, em que os resultados de uma simulação do problema de lançamento oblíquo são mostrados e comparados com a respectiva solução analítica. Também são expostas análises relativas à influência da alteração de parâmetros da simulação no erro.
-\alert{``Estudo de caso''?}
+Em razão disso, é apresentado, nesta seção, um \alert{estudo de caso}, em que os resultados de uma simulação do problema de lançamento oblíquo são mostrados e comparados com a respectiva solução analítica. Também são expostas análises relativas à influência da alteração de parâmetros da simulação no erro.
 
-\subsection{Estudo de Caso} \alert{Que título horrível!}
+\subsection{\alert{Estudo de Caso}} \alert{Que título horrível!}
 
 A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados aos parâmetros do problema os valores dispostos na tabela \ref{tab:free_fall_case_parameters}.
 
@@ -255,23 +254,43 @@ Esse problema pode ser representado como na figura \ref{fig:bouncing_sphere}.
 	% \vspace{-1cm}
 \end{figure}
 
-Além de servir como mais um caso para a validação do código, o problema da esfera quicando possibilita:
-\begin{itemize}
-	\item O estudo da colisão entre dois corpos. \alert{Eu fiz essa análise?}
-	\item A comparação entre o coeficiente de restituição calculado a partir dos resultados da simulação e o coeficiente calculado analiticamente a partir do modelo de força escolhido.
-\end{itemize}
+Além de servir como mais um caso para a validação do código, o problema da esfera quicando possibilita a comparação entre o coeficiente de restituição calculado a partir dos resultados da simulação e o coeficiente calculado analiticamente a partir do modelo de força escolhido.
 
-A configuração do problema implica que a velocidade da esfera relativa ao plano é a sua própria velocidade vertical, já que o plano não se movimenta. Como consequência das equações \eqref{eq:antisymmetry_relative_velocity} e \eqref{eq:sphere_plane_relative_velocity}, a velocidade da partícula relativa ao plano é a sua própria velocidade.
+A configuração do problema implica que a velocidade da esfera relativa ao plano é a sua própria velocidade vertical, já que o plano não se movimenta. Como consequência das equações \eqref{eq:antisymmetry_relative_velocity} e \eqref{eq:sphere_plane_relative_velocity}, essa velocidade é a própria velocidade da partícula.
 
 Com isso, sendo \(\coefficientOfRestitution\) o coeficiente de restituição associado ao modelo de força de colisão escolhido, é possível mostrar que
 \begin{equation*}
 	\coefficientOfRestitution = - \dfrac{\afterCollision{\yComponent{\velocityScalar}} + \gravityScalar\cdot\collisionDuration}{\beforeCollision{\yComponent{\velocityScalar}}},
 \end{equation*}
-sendo \(\afterCollision{\yComponent{\velocityScalar}}\) a velocidade da partícula \(\particle\) após a colisão e \(\collisionDuration\) o tempo em que os corpos permanecem em contato.
+sendo \(\afterCollision{\yComponent{\velocityScalar}}\) a velocidade da partícula \(\particle\) após a colisão e \(\collisionDuration\) o tempo em que os corpos permanecem em contato. O termo \(\gravityScalar\cdot\collisionDuration\) é uma compensação feita pelo fato de que, no problema em questão, a gravidade contribui para a variação da velocidade das partículas, o que não é considerado no cálculo analítico do coeficiente de restituição.
 
 \alert{Isso é o suficiente, ou devo demonstrar os cálculos??}
 
+% \alert{Verificar se é + ou -} --> É -, pois a velocidade da partículas seria maior se não houvesse a gravidade
+
 \alert{Análises a se fazerem: comparação entre o coeficiente de restituição calculado e o analítico. Talvez desenvolver uma solução analítica, visto que o coeficiente de restituição é dado.}
+
+\subsection{\alert{Estudo de Caso}}
+
+Para o estudo do problema da esfera quicando, foram considerados os parâmetros de simulação expostos na tabela \ref{tab:bouncing_sphere_case_parameters}.
+
+\begin{table}[h]
+\centering
+\caption{Parâmetros para o \alert{estudo de caso} do problema da esfera quicando.}
+\label{tab:bouncing_sphere_case_parameters}
+\begin{parametersdesc}
+	\item{Massa da partícula}{\mass = 1}{\si\kilogram}
+	\item{Raio da partícula}{\radius = 3}{\si\centi\metre}
+	\item{Altura inicial}{\initial{\positiony} = 1}{\si{\metre}}
+	\item{Velocidade inicial}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\second}}
+	\item{Aceleração inicial}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitNumericVector{0}{-9,81}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Instante final}{\finalInstant = 3}{\si\second} 
+	\item{Ordem de extrapolação}{\taylorOrder = 7}{\emptyTableEntry}
+	\item{Gravidade}{\gravityScalar = 9,81}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Passo de tempo}{\Dt = 10^{-3}}{\si\second}
+\end{parametersdesc}
+\sourceMe 
+\end{table}
 
 \section{Queda Livre com Arrasto}
 
