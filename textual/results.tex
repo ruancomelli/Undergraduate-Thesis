@@ -32,7 +32,7 @@ Para funções vetoriais \(\vec{y}\), o erro e o erro máximo são definidos equ
 	\maximumErrorOf{\vec{y}} = \max\pqty{\Im\pqty{\errorOf{\vec y}}}. \label{eq:maximum_vector_error}
 \end{gather}
 
-\section{Lançamento Oblíquo}
+\section{Lançamento Oblíquo} \label{sec:free_fall}
 
 O lançamento oblíquo é um dos problemas clássicos de física básica. Considera-se uma partícula de massa \(\mass\) sujeita unicamente à ação de um campo gravitacional constante cuja aceleração da gravidade é \(\gravity\). Nessas condições, as equações de movimento para a partícula se tornam, simplesmente,
 \begin{gather}
@@ -147,7 +147,7 @@ Muito embora se trate de um problema bidimensional sem rotação, o simulador ut
 \footnotetext{Para melhor visualização dos resultados, é apresentado um ponto a cada dez passos de tempo.}
 
 \begin{figure}[h]
-	\caption{Solução do problema de lançamento oblíquo para (\subref{subfig:x_position}) a posição horizontal, (\subref{subfig:x_velocity}) a velocidade horizontal, (\subref{subfig:y_velocity}) a velocidade vertical e (\subref{subfig:y_acceleration}) a aceleração vertical da partícula}
+	\caption[Solução do problema de lançamento oblíquo para a posição horizontal, a velocidade horizontal, a velocidade vertical e a aceleração vertical da partícula]{Solução do problema de lançamento oblíquo para (\subref{subfig:x_position}) a posição horizontal, (\subref{subfig:x_velocity}) a velocidade horizontal, (\subref{subfig:y_velocity}) a velocidade vertical e (\subref{subfig:y_acceleration}) a aceleração vertical da partícula}
 	% \vspace{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
@@ -191,7 +191,7 @@ Com esses parâmetros, foi calculada a trajetória da partícula através do sim
 Outras variáveis, como a posição horizontal, as velocidades horizontal e vertical e a aceleração vertical estão apresentados na figura \ref{fig:falling_sphere_other}.
 
 \begin{figure}[h]
-	\caption{Erro da simulação com relação à solução numérica para (\subref{subfig:position_error}) a posição e (\subref{subfig:velocity_error}) da partícula}
+	\caption[Erro da simulação com relação à solução numérica para a posição e da partícula]{Erro da simulação com relação à solução numérica para (\subref{subfig:position_error}) a posição e (\subref{subfig:velocity_error}) da partícula}
 	% \vspace{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
