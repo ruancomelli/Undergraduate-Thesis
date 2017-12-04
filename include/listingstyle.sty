@@ -4,24 +4,59 @@
 
 
 %--------------------------------- Pacote para inserção de listagens de códigos ou conteúdo de arquivos ----------------------------------------------------
+% Information: 
+% <https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings>
+% <http://linorg.usp.br/CTAN/macros/latex/contrib/listings/listings.pdf>
+
 \usepackage{color}
 % \usepackage{listings}
 \usepackage{listingsutf8}
+\usepackage{tocloft}
+
+\renewcommand{\lstlistlistingname}{Lista de Listagens}
 \renewcommand{\lstlistingname}{Listagem}
-\renewcommand{\lstlistlistingname}{Listagens}
+
+% This prints \lstlistingname before number in list of listings.
+\let\oldlstlistoflistings\lstlistoflistings
+\renewcommand{\lstlistoflistings}{%
+  \begingroup%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{\lstlistingname~\oldnumberline}%
+  \oldlstlistoflistings%
+  \endgroup}
 
 \definecolor{dkgreen}{RGB}{73,87,66}
-\definecolor{dkyellow}{RGB}{204,150,41}
-\definecolor{dkgray}{RGB}{96,96,96}
 \definecolor{lgreen}{RGB}{140,160,129}
+\definecolor{dkgray}{RGB}{96,96,96}
+\definecolor{dkyellow}{RGB}{204,150,41}
+\definecolor{lpurple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
 
-\newcommand{\basicStyle}{\small}
-\newcommand{\stringStyle}{\color{lgreen}\bfseries}
-\newcommand{\emphStyle}{{[2]\color{dkgray}}}
+\newcommand{\alertstyle}{\color{red}}
+\newcommand{\mathstyle}{\normalfont\color{black}}
+\newcommand{\basicstyle}{\footnotesize\bfseries\color{dkgreen}}
+\newcommand{\identifierstyle}{\footnotesize\bfseries\color{dkgreen}}
+\newcommand{\commentstyle}{\footnotesize\color{lgreen}}
+\newcommand{\emphstyle}{\footnotesize\itshape\bfseries\color{black}}
+\newcommand{\functionstyle}{\footnotesize\itshape\bfseries\color{lpurple}}
+\newcommand{\keywordstyle}{\footnotesize\bfseries\color{dkyellow}}
+\newcommand{\numberstyle}{}
+\newcommand{\stringstyle}{\footnotesize\ttfamily\color{lpurple}}
 
-\lstset{language=C++,texcl=true} % This allows free LaTeX inside comments
+% \makeatletter
+% \def\addToLiterate#1{\edef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}
+% \lst@Key{literate}{}{\addToLiterate{#1}}
+% \makeatother
+% \makeatletter
+% \def\lst@Literatekey#1\@nil@{\let\lst@ifxliterate\lst@if
+%     \expandafter\def\expandafter\lst@literate\expandafter{\lst@literate#1}}
+% \makeatother
 
-\lstset{
+\newcommand{\indentrule}{\hspace{8pt}\color{lgreen}\vrule\hspace{-8pt}}
+\newcommand{\hiddenCode}{{\alertstyle\dots}}
+
+\lstdefinelanguage{pseudocode}{
 	frame = tb,
 	framesep = 5pt,
 	columns = flexible,
@@ -35,39 +70,12 @@
 	belowcaptionskip = 2ex,
 	aboveskip = 4ex,
 	belowskip = 7ex,
-	tabsize = 4
-}
-\lstdefinestyle{C++}{
-	inputencoding=utf8,
-	language = [Visual]{C++},
-	basicstyle = \basicStyle,
-	identifierstyle = \color{dkgreen},
-	morekeywords = {foreach, std},
-	keywordstyle = \color{dkyellow}\bfseries,
-	commentstyle = \color{lgreen},
-	emph = {IntArray, DoubleArray, StringArray, GridDimension, int, double, string, GridDataPtr, GridPtr, ScalarField, ScalarFieldPtr, VectorField, VectorFieldPtr, ofstreamPtr, fstreamPtr, EnsightGoldWriterPtr, GridBuilderPtr, TopologyPtr, GeometryPtr, TopologyNodePtr, TopologyConnectionPtr, VertexPtr, FacePtr, CellPtr, BoundaryPtr, TopologyConnectionArray, Vector3DPtr, GridReaderPtr, GridWriterPtr, VectorArray, BoundaryConditionArray, CellBasedMethod, BoolArray, DoubleArray2D, Vector3D, GradientReconstructorPtr, AlgebraMatrix, QRDecompositor, AlgebraVector, SVDDecompositor, AlgebraMatrixArray, CellArray, FaceArray, Connection, SparseMatrixPtr, acmlib, VectorPtr, MultigridPtr, AssemblerPtr, ControllerPtr, EventPtr, Signal, IterationWriterEventPtr, UsingAddersAssemblerPtr, AccumulationAdderPtr, BoundaryConditionArrayPtr, SparseMatrixLoaderPtr, CellLocatorPtr, WellPropertiesPtr, ParserNodePtr, FlowModelCalculatorPtr, WellPropertiesArrayPtr, DoubleArrayPtr },
-	emphstyle = \bfseries,
-	moreemph = {[2]getTopologyNodes, getTopologyConnections, getVertices, getFaces, getCells, getBoundaries, getHandle, getNode0, getNode1, getArea, getAreaVector, getCentroid, getVolume, read, getDirectory, makeDirectory, write, AppendScalarField, AppendVectorField, reconstructGradient, greenGaussReconstruction, getGeometry, fill, getFaceHandle, interpolateFaceValues, updateFaceValues, isBoundaryVertex, setBoundaryValues, updateFaceValuesFromVertices, interpolateVertexValues, calcVertexWeights3Points, calcVertexWeights2Points, calcVertexWeightsNPoints, determineMatrixCWithNormalEquations, determineMatrixCWithQR, determineMatrixCWithSVD,  getQ, getR, extractColumns, extractLines, getDimension, traspose, inverse, getSingularValues, getV, getU, resize, getNumberOfNeighbors, matmult},
-	emphstyle = {[2]\color{dkgray}},
-	moreemph = {[3]ONE_STEP, TWO_STEPS, NORMAL_EQUATIONS, QR_FACTORIZATION, SVD_FACTORIZATION, TWO_DIMENSIONAL, THREE_DIMENSIONAL},
-	emphstyle = {[3]\color{lgreen}},
-	stringstyle = \stringStyle,
-	showspaces=false
-}
-\lstdefinestyle{txt}{
-	basicstyle = \basicStyle,
-}
-\newcommand\keywordstyle[1]{\color{dkyellow}\bfseries{#1}}
-\newcommand\emphstyle[1]{\itshape\bfseries{#1}}
-
-\newcommand\uhuu[2]{{#1}{#2}1}
-
-\lstdefinestyle{pseudocode}{
-	language={C++},
-	inputencoding=utf8,
+	tabsize = 4,
 	extendedchars=true,
-	texcl=true,
-	literate=*%
+	inputencoding=utf8,
+	mathescape=true,
+	escapebegin=\mathstyle,
+	literate=%
 		{é}{{\'{e}}}{1}
 		{è}{{\`{e}}}{1}
 		{ê}{{\^{e}}}{1}
@@ -96,109 +104,86 @@
 		{Î}{{\^{I}}}{1}
 		{í}{{\'{i}}}{1}
 		{Í}{{\~{Í}}}{1}
-		{partícula}{\emphstyle{part\'icula}}{9}
-		{elemento}{\emphstyle{elemento}}{8},
-	mathescape = true,
-	escapeinside = {(*}{*)},
-	basicstyle = \basicStyle\bfseries,
-	identifierstyle = \color{dkgreen}\bfseries,
-	morekeywords = {para, cada, for, to, each, computar, adicionar, compute, set, retrieve, update, assemble, do, while, solve},
-	extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-	keywordstyle = \color{dkyellow}\bfseries,
-	commentstyle = \color{lgreen}\bfseries,
-	morecomment = [s]{\[}{\]},
-	emphstyle = \emphstyle,
-	emph = {},
-	emphstyle = {[2]\color{dkgray}\bfseries},
-	moreemph = {[3]and},
-	emphstyle = {[3]\color{dkgreen}\bfseries},
-	stringstyle = \stringStyle
+		{posição}{{\emphstyle{posi\c{c}\~{a}o}}}{7}
+		{força}{{\emphstyle{for\c{c}a}}}{5}
+		{orientação}{{\emphstyle{orienta\c{c}\~{a}o}}}{10}
+		{vizinhança}{{\emphstyle{vizinhan\c{c}a}}}{10}
+		{partícula}{{\emphstyle{part\'{i}cula}}}{9},	% Little hack for accented,
+	basicstyle=\basicstyle,
+	commentstyle=\commentstyle,
+	morecomment=[l]{//}, % l is for line comment
+	emphstyle=[1]{\emphstyle},
+	emph=[1]{elemento, torque},
+	emphstyle=[2]{\functionstyle},
+	emph=[2]{calcular, determinar, ler, escrever, atribuir, guardar, inicializar, corrigir, adicionar, incrementar},
+	keywordstyle=\keywordstyle,
+	keywords={para, cada, fim, enquanto, se},
+	stringstyle=\stringstyle,
+	identifierstyle=\identifierstyle,
+	escapeinside={(*}{*)},
+	breaklines=true,
+	postbreak={(\dots)\,}
 }
-% \lstset{%
-% 	language=pseudocode,
-% 	inputencoding=utf8,
-% 	extendedchars=true,
-% 	literate=%
-% 		{é}{{\'{e}}}1
-% 		{è}{{\`{e}}}1
-% 		{ê}{{\^{e}}}1
-% 		{ë}{{\¨{e}}}1
-% 		{É}{{\'{E}}}1
-% 		{Ê}{{\^{E}}}1
-% 		{û}{{\^{u}}}1
-% 		{ù}{{\`{u}}}1
-% 		{ú}{{\'{u}}}1
-% 		{â}{{\^{a}}}1
-% 		{à}{{\`{a}}}1
-% 		{á}{{\'{a}}}1
-% 		{ã}{{\~{a}}}1
-% 		{Á}{{\'{A}}}1
-% 		{Â}{{\^{A}}}1
-% 		{Ã}{{\~{A}}}1
-% 		{ç}{{\c{c}}}1
-% 		{Ç}{{\c{C}}}1
-% 		{õ}{{\~{o}}}1
-% 		{ó}{{\'{o}}}1
-% 		{ô}{{\^{o}}}1
-% 		{Õ}{{\~{O}}}1
-% 		{Ó}{{\'{O}}}1
-% 		{Ô}{{\^{O}}}1
-% 		{î}{{\^{i}}}1
-% 		{Î}{{\^{I}}}1
-% 		{í}{{\'{i}}}1
-% 		{Í}{{\~{Í}}}1
-% }
 
 \lstdefinestyle{json}{
 	% language ={Java},
-	basicstyle = \basicStyle,
+	frame = tb,
+	framesep = 5pt,
+	columns = flexible,
+	numbers = left,
+	numberblanklines = true,
+	numberstyle = \tiny,
+	framexleftmargin = 4em,
+	xleftmargin  = 1.5cm,
+	xrightmargin = 0.0cm,
+	abovecaptionskip = 2ex,
+	belowcaptionskip = 2ex,
+	aboveskip = 4ex,
+	belowskip = 7ex,
+	tabsize = 4,
+	extendedchars=true,
+	inputencoding=utf8,
+	mathescape=true,
+	escapebegin=\mathstyle,
+	literate=%
+		{é}{{\'{e}}}{1}
+		{è}{{\`{e}}}{1}
+		{ê}{{\^{e}}}{1}
+		{ë}{{\¨{e}}}{1}
+		{É}{{\'{E}}}{1}
+		{Ê}{{\^{E}}}{1}
+		{û}{{\^{u}}}{1}
+		{ù}{{\`{u}}}{1}
+		{ú}{{\'{u}}}{1}
+		{â}{{\^{a}}}{1}
+		{à}{{\`{a}}}{1}
+		{á}{{\'{a}}}{1}
+		{ã}{{\~{a}}}{1}
+		{Á}{{\'{A}}}{1}
+		{Â}{{\^{A}}}{1}
+		{Ã}{{\~{A}}}{1}
+		{ç}{{\c{c}}}{1}
+		{Ç}{{\c{C}}}{1}
+		{õ}{{\~{o}}}{1}
+		{ó}{{\'{o}}}{1}
+		{ô}{{\^{o}}}{1}
+		{Õ}{{\~{O}}}{1}
+		{Ó}{{\'{O}}}{1}
+		{Ô}{{\^{O}}}{1}
+		{î}{{\^{i}}}{1}
+		{Î}{{\^{I}}}{1}
+		{í}{{\'{i}}}{1}
+		{Í}{{\~{Í}}}{1},
+	basicstyle = \basicstyle,
 	mathescape = true,
-	basicstyle = \basicStyle,
-	identifierstyle = \color{dkgreen}\bfseries,
-	keywordstyle = \color{dkyellow}\bfseries,
-	commentstyle = \color{lgreen}\bfseries,
-	emph = {},
-	emphstyle = \itshape\bfseries,
-	moreemph = {elemento, nó, element, node, face, grid, cell_indexes, cell_index, inner_face, boundary_face, Neumann_boundary, Dirichlet_boundary, subcélula, subface, ponto, célula, subface_de_contorno, face_interna, região_de_interação },
-	emphstyle = {[2]\color{dkgray}\bfseries},
-	moreemph = {[3]and},
-	emphstyle = {[3]\color{dkgreen}\bfseries},
-	string=[s]{"}{"}
-	showspaces=false
-	stringstyle = \stringStyle,
-}
-
-\definecolor{lightgray}{rgb}{.9,.9,.9}
-\definecolor{darkgray}{rgb}{.4,.4,.4}
-\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
-
-% See <https://tex.stackexchange.com/questions/89574/language-option-supported-in-listings>
-\lstdefinelanguage{JavaScript}{
-  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
-  keywordstyle=\color{dkyellow}\bfseries,
-  ndkeywords={class, export, boolean, throw, implements, import, this},
-  ndkeywordstyle=\color{darkgray}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{lgreen}\bfseries,
-  stringstyle=\stringStyle,
-  morestring=[b]',
-  morestring=[b]"
-}
-\lstdefinestyle{JSON}{
-   language=JavaScript,
-   % backgroundcolor=\color{lightgray},
-   extendedchars=true,
-   basicstyle = \basicStyle,
-   showstringspaces=false,
-   showspaces=false,
-   numbers=left,
-   numberstyle=\footnotesize,
-   numbersep=9pt,
-   tabsize=2,
-   breaklines=true,
-   showtabs=false,
-   captionpos=b
+	keywordstyle = \keywordstyle,
+	morecomment = [l]{//},
+	commentstyle = \commentstyle,
+	emph = {null},
+	emphstyle = \emphstyle,
+	showspaces=false,
+	morestring=[b]",
+	stringstyle = \stringstyle,
+	breaklines=true,
+	postbreak=(...)\,
 }
