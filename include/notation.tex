@@ -12,6 +12,12 @@
 
 \newcommand{\DEM}{DEM}
 \newcommand{\CPP}[1]{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}#1}
+\newcommand{\JSON}{JSON}
+\newcommand{\RAM}{RAM}
+\newcommand{\HD}{HD}
+\newcommand{\SSD}{SSD}
+\newcommand{\CD}{CD}
+\newcommand{\DVD}{DVD}
 
 \newcommand{\numberOfTimesteps}{N}
 \newcommand{\instant}[1][]{t_{#1}}
@@ -101,6 +107,7 @@
 \newcommand{\forceji}{\fromTo{\force}{j}{i}}
 \newcommand{\resultingForce}{\force_{\text{R}}}
 \newcommand{\resultingForcei}{\ind{\force}{i}}
+\newcommand{\resultingForcej}{\ind{\force}{j}}
 \newcommand{\linearMomentum}{\vec{p}}
 
 \newcommand{\external}[1]{#1^{\text{ext}}}
@@ -149,6 +156,7 @@
 \newcommand{\torqueji}{\fromTo{\torque}{j}{i}}
 \newcommand{\resultingTorque}{\torque_{\text{R}}}
 \newcommand{\resultingTorquei}{\ind{\torque}{i}}
+\newcommand{\resultingTorquej}{\ind{\torque}{j}}
 \newcommand{\angularMomentum}{\vec{L}}
 
 \newcommand{\applied}[3]{\underaccent{#2\to#3}{#1}}
@@ -232,6 +240,7 @@
 \newcommand{\particlej}{\particle[j]}
 \newcommand{\particlek}{\particle[k]}
 \newcommand{\numberOfParticles}{N_{\particleSet}}
+\newcommand{\numberOfElements}{N_{\elementSet}}
 
 \newcommand{\boundarySet}{\mathcal{B}}
 \newcommand{\universeSet}{\mathcal{U}}
@@ -242,6 +251,7 @@
 
 \newcommand{\neighborhood}{\mathcal{N}}
 \newcommand{\neighborhoodi}{\ind{\neighborhood}{i}}
+\newcommand{\neighborhoodj}{\ind{\neighborhood}{j}}
 \newcommand{\neighborhoodOf}[1]{\neighborhood\pqty{#1}}
 \newcommand{\ineighborhood}[1]{\neighborhood_{#1}}
 
@@ -440,7 +450,10 @@
 
 \newcommand{\orderedPair}[2]{\pqty{#1, #2}}
 
-\newcommand{\fig}[1]{figura \ref{#1}}
+\newcommand{\stepsForStoring}{N_{\text{s}}}
+\newcommand{\stepsForStoringCounter}{n_{\text{s}}}
+\newcommand{\storagesForWriting}{N_{\text{w}}}
+\newcommand{\storagesForWritingCounter}{n_{\text{w}}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
