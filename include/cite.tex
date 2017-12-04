@@ -1,3 +1,28 @@
 % \newcommand{\cite}[1]{(\citeauthoronline{#1}, \citeyear{#1})} % Cites ($Author, $Year)
 
+\usepackage[nameinlink, noabbrev]{cleveref}
+\crefname{listing}{listagem}{listagens}
+\Crefname{listing}{Listagem}{Listagens}
+\crefname{chapter}{capítulo}{capítulo}
+\Crefname{chapter}{Capítulo}{Capítulos}
+\crefname{section}{seção}{seções}
+\Crefname{section}{Seção}{Seções}
+\crefname{subsection}{seção}{seções}
+\Crefname{subsection}{Seção}{Seções}
+\crefname{subsubsection}{seção}{seções}
+\Crefname{subsubsection}{Seção}{Seções}
+
+\crefname{appendix}{apêndice}{apêndices}
+\Crefname{appendix}{Apêndice}{Apêndices}
+
+\crefname{equation}{equação}{equações}
+\Crefname{equation}{Equação}{Equações}
+
+\crefname{line}{linha}{linhas}
+\Crefname{line}{Linha}{Linhas}
+
+\newcommand{\crefpairconjunction}{ e }
+\newcommand{\crefmiddleconjunction}{, }
+\newcommand{\creflastconjunction}{ e }
+
 \newcommand{\citenp}[1]{\citeauthoronline{#1}, \citeyear{#1}} % No parens version
