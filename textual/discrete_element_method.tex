@@ -81,7 +81,7 @@ Outras características que podem ser atribuídas aos elementos da simulação s
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
-	\begin{center}
+		\centering
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
 			\alert{Figura aqui (partícula esférica)}
@@ -112,7 +112,6 @@ Outras características que podem ser atribuídas aos elementos da simulação s
 			\caption{Geometria composta.}
 			\label{subfig:element_geometry:composite_particle}
 		\end{subfigure}
-	\end{center}
 	}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
@@ -137,10 +136,9 @@ A forma geral desse algoritmo pode ser representada como o fluxograma exposto na
 \begin{figure}[h]
 	\caption{Floxugrama do funcionamento geral do \DEM{}.}
 	% \vspace{-0.5cm}
-	\begin{center}
+	\centering
 		\alert{Colocar imagem representando o \DEM{}}
 		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	\end{center}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
 	\label{fig:general_algorithm}
@@ -272,7 +270,7 @@ Dessa forma, estão calculadas a posição, a orientação e as suas derivadas, 
 \alert{O seguinte deve ser movido, ou alterado para o caso de partículas esféricas, caso exista um capítulo para implementação computacional.}
 
 Esse procedimento pode ser representado em forma de pseudocódigo como na \cref{lst:equations_solution}.
-\begin{lstlisting}[float, floatplacement=H, language=pseudocode, label=lst:equations_solution, caption=Pseudocódigo para a solução das equações de movimento por meio do algoritmo de Gear.]
+\begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:equations_solution, caption=Pseudocódigo para a solução das equações de movimento por meio do algoritmo de Gear.]
 // Algoritmo de Gear
 para cada partícula $\particlei \in \particleSet$:
 (*\indentrule*)	// Determinação da Vizinhança
@@ -376,7 +374,7 @@ Uma solução comumente adotada é a definição de dois parâmetros: o \textit{
 
 Essa solução pode ser implementada como na \cref{lst:data_exportation}. Definem-se os contadores \(\stepsForStoringCounter\) e \(\storagesForWritingCounter\), inicializados com o valor zero. A cada passo de tempo, o contador \(\stepsForStoringCounter\) é incrementado. Quando esse contador atinge o valor máximo de \(\stepsForStoring\), ele é reiniciado, o contador \(\storagesForWriting\) é incrementado e é feito um registro do instante de tempo na memória. Quando o contador \(\storagesForWritingCounter\) se iguala a \(\storagesForWriting\), o mesmo é reiniciado, e as informações armazenadas são escritas em disco.
 
-\begin{lstlisting}[float, floatplacement=H, language=pseudocode, label=lst:data_exportation, caption=Pseudocódigo para a exportação de dados.]
+\begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:data_exportation, caption=Pseudocódigo para a exportação de dados.]
 inicializar $\stepsForStoringCounter \gets 0$
 inicializar $\storagesForWritingCounter \gets 0$
 // Laço de simulação 
@@ -401,7 +399,7 @@ A condição de parada representa a condição que interrompe o laço de simula�
 
 Uma das condições mais simples e mais aplicadas é a condição de parada por tempo final da simulação. Esse critério baseia-se na definição de um valor \(\finalInstant\) para o instante final da simulação, e a simulação progride até que esse limite seja ultrapassado. O laço da simulação pode então ser representado como na \cref{lst:stop_criterion}. O instante inicial \(\initialInstant\) é proveniente da etapa de inicialização, e o \(n\)-ésimo passo de tempo \(\Dt[n]\) é dependente do método escolhido, do arquivo de inicialização e dos algoritmos de integração e de determinação de vizinhanças. \alert{Mover caso haja um capítulo próprio para implementação computacional.}
 
-\begin{lstlisting}[float, floatplacement=H, language=pseudocode, label=lst:stop_criterion, caption=Pseudocódigo para a condição de parada do laço da simulação.]
+\begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:stop_criterion, caption=Pseudocódigo para a condição de parada do laço da simulação.]
 ler $\initialInstant$ do arquivo de inicialização
 inicializar $n \gets 0$
 inicializar $\instant[0] \gets \initialInstant$
@@ -479,10 +477,9 @@ Nesse método, considera-se que duas partículas são vizinhas se a menor distâ
 \begin{figure}[h]
 	\caption{Representação da vizinhança de partículas esféricas no algoritmo de Verlet. Duas partículas são vizinhas se a distância entre suas superfícies for menor que a distância de Verlet \(\verletDistance\)}
 	% \vspace{-0.5cm}
-	\begin{center}
+	\centering
 		\alert{Colocar imagem representando a distância de Verlet. Mostrar três pares de partículas: não vizinhas, caso extremo em que são quase vizinhas e vizinhas}
 		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	\end{center}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	% \vspace{-0.2cm}
 	\label{fig:verlet_distance}
