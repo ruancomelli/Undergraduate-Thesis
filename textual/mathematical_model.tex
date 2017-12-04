@@ -232,7 +232,13 @@ ou ainda
 \begin{equation} \label{eq:rotation_spherical_particle}
 	\resultingTorque = \momentOfInertia\cdot\angularAcceleration,
 \end{equation}
-e, com isso, a equação diferencial para o movimento de rotação está pronta para simulações tridimensionais de partículas esféricas.
+sendo que o momento de inércia \(\momentOfInertia\) é facilmente calculado pela expressão
+\begin{equation*}
+	\momentOfInertia = \dfrac{2}{5}\cdot\mass \radius^2,
+\end{equation*}
+em que \(\radius\) é o raio da esfera.
+
+Com isso, a equação diferencial para o movimento de rotação está pronta para simulações tridimensionais de partículas esféricas.
 
 \subsubsection{Rotação Geral em Três Dimensões} \label{subsubsec:general_rotation}
 
