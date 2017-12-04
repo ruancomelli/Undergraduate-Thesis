@@ -1,20 +1,19 @@
 {
 	// Parâmetros do simulador:
-	"initialTime": 0.0,
-	"timeStep": 1e-3,
-	"finalTime": 3,
-	"timeStepsForOutput": 10, // Quantidade de passos de tempo para salvar informação
-	"outputsForExporting": 1, // Quantidade de passos salvos para escrever em disco
-	"mainOutputFolder": "output", // Diretório principal de exportação
+	"InitialInstant": 0.0,
+	"TimeStep": 1e-3,
+	"FinalInstant": 3,
+	"StepsForStoring": 50, // Número de passos de tempo para armazenamento
+	"StoragesForWriting": 1, // Número de passos armazenados para a escrita em arquivo
+	"ParticleOutputFolder": "output", // Diretório principal de exportação
 	"particleOutputFolder": "output/particles", // Diretório para exportação de partículas
-	"boundaryOutputFolder": "output/boundaries", // Diretório para exportação de elementos de contorno
-	"looper": "GearLooper", // Algoritmo de integração das equações
-	"seeker": "BlindSeeker", // Algoritmo de monitoramento das vizinhanças
+	"BoundaryOutputFolder": "output/boundaries", // Diretório para exportação de elementos de contorno
+	"IntegrationAlgorithm": "Gear", // Algoritmo de integração das equações
 
 	// Definição das interações
-	"interactions": "GravityForce", // A única interação que ocorre é a da gravidade
+	"Interactions": "GravityForce", // A única interação que ocorre é a da gravidade
 
-	"particles": // Definição das partículas
+	"Particles": // Definição das partículas
 	{
 		"SphericalParticle": // Tipo de partículas esféricas
 		{
@@ -27,13 +26,13 @@
 			"Radius": 0.03,
 			"MomentOfInertia": 3.6e-4,
 
-			"Position": [0.0, 0.0, 0.0],
-			"Velocity": [20.0, 10.0, 0.0],
-			"Acceleration": [0.0, 0.0, 0.0]
+			"Position": [0.0, 0.0, 0.0], // Vetor posição inicial
+			"Velocity": [20.0, 10.0, 0.0], // Vetor velocidade inicial
+			"Acceleration": [0.0, 0.0, 0.0] // Vetor aceleração inicial
 		}
 	},
 
-	"boundaries": // Definição de outras entidades
+	"Boundaries": // Definição de outras entidades
 	{
 		"GravityField": // Campo gravitacional
 		{
