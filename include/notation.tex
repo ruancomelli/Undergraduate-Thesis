@@ -22,7 +22,7 @@
 \newcommand{\GiB}{GiB}
 
 \newcommand{\numberOfTimesteps}{N}
-\newcommand{\instant}[1][]{t_{#1}}
+\newcommand{\instant}[1][]{\IfValueTF{#1}{t_{#1}}{t}}
 \newcommand{\Dt}[1][]{\Delta \instant[#1]}
 % \newcommand{\eqdef}{:=}
 \newcommand*{\eqdef}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
@@ -345,6 +345,7 @@
 \newcommand{\normalDissipativeConstantj}{\ind{\normalDissipativeConstant}{j}}
 \newcommand{\normalDissipativeConstantij}{\betw{\normalDissipativeConstant}{i}{j}}
 
+\newcommand{\effectiveNormalElastic}{\normal{k}}
 \newcommand{\effectiveNormalElasticij}{\normal{\betw{k}{i}{j}}}
 \newcommand{\effectiveRadiusij}{\betw{\radius}{i}{j}}
 
@@ -446,9 +447,10 @@
 \newcommand{\density}{\rho}
 \newcommand{\projectedArea}{A}
 
-\newcommand{\verlet}[1]{#1_{\text{V}}}
+\newcommand{\verlet}[1]{#1^{\text{V}}}
 \newcommand{\verletDistance}{\verlet{\distance}}
-\newcommand{\verletPosition}{\verlet{\position}}
+\newcommand{\verletPosition}[1][]{\verlet{\position_{#1}}}
+\newcommand{\verletList}[1][]{\verlet{\IfValueTF{#1}{\ineighborhood{#1}}{\neighborhood}}}
 
 \newcommand{\orderedPair}[2]{\pqty{#1, #2}}
 
@@ -456,6 +458,9 @@
 \newcommand{\stepsForStoringCounter}{n_{\text{s}}}
 \newcommand{\storagesForWriting}{N_{\text{w}}}
 \newcommand{\storagesForWritingCounter}{n_{\text{w}}}
+
+\newcommand{\critical}[1]{#1_{\text{c}}}
+\newcommand{\criticalDt}{\critical{\Delta t}}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
