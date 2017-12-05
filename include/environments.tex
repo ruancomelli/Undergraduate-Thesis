@@ -21,13 +21,12 @@
 		% \let\olditem\item
 		\let\olditem\item
 		% \renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
-		\renewcommand{\item}[3]{##1 & \(##2\) & \(##3\) \tabularnewline}
+		\renewcommand{\item}[3]{##1 & \(##2\) \(##3\) \tabularnewline}
 		% \begin{table}[h]
-		\begin{tabularx}{\textwidth}{Xcc}
+		\begin{tabularx}{\textwidth}{Xc}
 		\hline
 		\multicolumn{1}{c}{Parâmetro} & 
-		\multicolumn{1}{c}{Valor} & 
-		\multicolumn{1}{c}{Unidade} \tabularnewline
+		\multicolumn{1}{c}{Valor} \tabularnewline
 		\hline
 		\BODY
 		\hline
