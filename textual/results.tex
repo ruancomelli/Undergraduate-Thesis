@@ -234,43 +234,188 @@ Além de servir como mais um caso para a validação do código, o problema da e
 A configuração do problema implica que a velocidade da esfera relativa ao plano é a sua própria velocidade vertical, já que o plano não se movimenta. Como consequência das equações \eqref{eq:antisymmetry_relative_velocity} e \eqref{eq:sphere_plane_relative_velocity}, essa velocidade é a própria velocidade da partícula.
 
 Com isso, sendo \(\coefficientOfRestitution\) o coeficiente de restituição associado ao modelo de força de colisão escolhido, é possível mostrar que
-\begin{equation*}
+\begin{equation} \label{eq:coefficient_of_restitution_with_gravity}
 	\coefficientOfRestitution = - \dfrac{\afterCollision{\yComponent{\velocityScalar}} + \gravityScalar\cdot\collisionDuration}{\beforeCollision{\yComponent{\velocityScalar}}},
-\end{equation*}
+\end{equation}
 sendo \(\afterCollision{\yComponent{\velocityScalar}}\) a velocidade da partícula \(\particle\) após a colisão com o chão, e \(\collisionDuration\), o tempo em que os corpos permanecem em contato. O termo \(\gravityScalar\cdot\collisionDuration\) é uma compensação feita pelo fato de que, no problema em questão, a gravidade contribui para a variação da velocidade das partículas, o que não é considerado no cálculo analítico do coeficiente de restituição.
 
 \alert{Análises a se fazerem: comparação entre o coeficiente de restituição calculado e o analítico.}
 
-\subsection{\alert{Estudo de Caso}}
+\subsection{Caso Dissipativo} \label{sec:results:bouncing_sphere:dissipative_case}
 
-Para o estudo do problema da esfera quicando, foram considerados os parâmetros de simulação expostos na tabela \ref{tab:bouncing_sphere_case_parameters}.
+Para o estudo do problema da esfera quicando, foram considerados os parâmetros de simulação expostos na tabela \ref{tab:bouncing_sphere:dissipative_case:parameters}. O modelo de interação considerado é o modelo do amortecimento linear corrigido, cuja expressão para a força é dada pela \cref{eq:corrected_linear_dashpot:normal_force}, enquanto o coeficiente de restituição é calculado pela \cref{eq:corrected_linear_dashpot:coefficient_of_restitution}.
 
 \begin{table}[h]
 \centering
-\caption{Parâmetros para o \alert{estudo de caso} do problema da esfera quicando.}
-\label{tab:bouncing_sphere_case_parameters}
+\caption{Parâmetros para o caso dissipativo do problema da esfera quicando.}
+\label{tab:bouncing_sphere:dissipative_case:parameters}
 \begin{parametersdesc}
-	\item{Modelo de força}{Amortecedor linear \alert{com correção ou não?}}{\emptyUnit}
+	\item{Modelo de força}{\text{Amortecedor linear corrigido}}{\emptyUnit}
 	\item{Gravidade}{\gravityScalar = 9,81}{\si[per-mode=symbol]{\metre\per\square\second}}
-	\item{Massa da partícula}{\mass = 1}{\si\kilogram}
-	\item{Raio da partícula}{\radius = 3}{\si\centi\metre}
-	\item{Altura inicial}{\initial{\positiony} = 1}{\si{\metre}}
-	\item{Velocidade inicial}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\second}}
-	\item{Aceleração inicial}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitNumericVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
-	\item{Instante final}{\finalInstant = 3}{\si\second} 
+	\item{Massa da partícula}{\ind{\mass}{\particle} = 1}{\si\kilogram}
+	\item{Raio da partícula}{\ind{\radius}{\particle} = 3}{\si\centi\metre}
+	\item{Constante elástica da partícula}{\ind{\elasticModulus}{\particle} = 1}{\si[per-mode=symbol]{\mega\pascal}}
+	\item{Constante de amortecimento da partícula}{\ind{\normalDampingConstant}{\particle} = 100}{\si[per-mode=symbol]{\newton\second\per\meter}}
+	\item{Altura inicial da partícula}{\initial{\positiony} = 1}{\si{\metre}}
+	\item{Velocidade inicial da partícula}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\second}}
+	\item{Aceleração inicial da partícula}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
+	\item{Ponto da parede}{\ind{\planeOrigin}{\element} = \explicitVector{0}{0}{0}}{\si\meter}
+	\item{Versor normal à parede}{\ind{\planeNormalVersor}{\element} = \explicitVector{0}{1}{0}}{\si\metre}
+	\item{Constante elástica da parede}{\ind{\elasticModulus}{\element} = 1}{\si[per-mode=symbol]{\mega\pascal}}
+	\item{Constante de amortecimento da parede}{\ind{\normalDampingConstant}{\element} = 100}{\si[per-mode=symbol]{\newton\second\per\meter}}
+	\item{Instante final}{\finalInstant = 10}{\si\second} 
+	\item{Passo de tempo}{\Dt = 10^{-5}}{\si\second}
 	\item{Ordem de extrapolação}{\taylorOrder = 7}{\emptyUnit}
-	\item{Passo de tempo}{\Dt = 10^{-3}}{\si\second}
 \end{parametersdesc}
 \sourceMe 
 \end{table}
 
-\section{Colisão com Rotação}
+\begin{figure}[h]
+	\caption{Solução para a altura da partícula no caso dissipativo do problema da esfera quicando.}
+	% \vspace{-0.5cm}
+	\centering
+		\includegraphics[scale=1]{images/bouncing_sphere/dissipative/y_position.pdf}
+		% \includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:bouncing_sphere_y_position}
+	\sourceMe
+	% \vspace{-1cm}
+\end{figure}
+
+A partir desses parâmetros, uma simulação foi executada, resultando na altura da partícula em função do tempo como exposta na \cref{fig:bouncing_sphere_y_position}.
+
+\begin{figure}[h]
+	\caption[Energia cinética e energia mecânica da partícula no caso dissipativo do problema da esfera quicando.]{Energia cinética (\subref{subfig:bouncing_sphere:kinetic_energy}) e energia mecânica (\subref{subfig:bouncing_sphere:mechanical_energy}) da partícula no caso dissipativo do problema da esfera quicando.}
+	% \vspace{-0.5cm}
+	\centering
+	\captionsetup[subfloat]{labelfont=bf}
+	\subfloat{
+		\centering
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/bouncing_sphere/dissipative/kinetic_energy.pdf}
+			\caption{}
+			\label{subfig:bouncing_sphere:kinetic_energy}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/bouncing_sphere/dissipative/mechanical_energy.pdf}
+			\caption{}
+			\label{subfig:bouncing_sphere:mechanical_energy}
+		\end{subfigure}
+	}
+	\sourceMe
+	\label{fig:bouncing_sphere_energy}
+	% \vspace{-1cm}
+\end{figure}
+
+Uma análise importante a se fazer nesse problema é a da energia. A energia cinética e a energia mecânica resultantes da simulação \alert{e calculada de acordo com a eq. (...)} são apresentadas na \cref{fig:bouncing_sphere_energy}. Observa-se nos gráficos que a partícula experiencia uma queda em sua sua energia após as colisões com o chão. A energia cinética anula-se aproximadamente após \SI{8}{\second} de simulação. As quedas pontuais de energia observadas nos gráficos devem-se à transformação da energia mecânica da partícula em energia elástica na colisão.
+
+\begin{figure}[h]
+	\caption{Coeficiente de restituição resultante da colisão dissipativa do problema da esfera quicando.}
+	% \vspace{-0.5cm}
+	\centering
+		\includegraphics[scale=1]{images/bouncing_sphere/dissipative/coefficient_of_restitution.pdf}
+		% \includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:bouncing_sphere:dissipative:coefficient_of_restitution}
+	\sourceMe
+	% \vspace{-1cm}
+\end{figure}
+
+Além da energia, o coeficiente de restituição resultante da colisão também pode ser estudado. Na \cref{fig:bouncing_sphere:dissipative:coefficient_of_restitution}, estão representados o coeficiente calculado numericamente através da \cref{eq:coefficient_of_restitution_with_gravity} e o coeficiente analítico dado pela expressão \eqref{eq:corrected_linear_dashpot:coefficient_of_restitution}. \alert{discutir esse resultado}
+
+\subsection{Caso Conservativo} \label{sec:results:bouncing_sphere:conservative_case}
+
+O caso dissipativo, como exposto na \cref{sec:results:bouncing_sphere:dissipative_case}, apresenta uma dissipação da energia causada pelo amortecimento do modelo de colisão adotado. Nesta \namecref{sec:results:bouncing_sphere:conservative_case}, considera-se o caso conservativo.
+
+\begin{table}[h]
+\centering
+\caption{Parâmetros para o caso dissipativo do problema da esfera quicando.}
+\label{tab:bouncing_sphere:conservative_case:parameters}
+\begin{parametersdesc}
+	\item{Constante de amortecimento da partícula}{\ind{\normalDampingConstant}{\particle} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
+	\item{Constante de amortecimento da parede}{\ind{\normalDampingConstant}{\element} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
+	\item{Demais parâmetros}{\text{\Cref{tab:bouncing_sphere:dissipative_case:parameters}}}{}
+\end{parametersdesc}
+\sourceMe 
+\end{table}
+\alert{Essa tabela ficou feia!}
+
+\begin{figure}[h]
+	\caption[Altura e energia mecânica da partícula e coeficiente de restituição no caso conservativo do problema da esfera quicando.]{Altura (\subref{subfig:bouncing_sphere:conservative:height}) e energia mecânica (\subref{subfig:bouncing_sphere:conservative:mechanical_energy}) da partícula e coeficiente de restituição (\subref{subfig:bouncing_sphere:conservative:coefficient_of_restitution}) no caso conservativo do problema da esfera quicando.}
+	\centering
+	\captionsetup[subfloat]{labelfont=bf}
+	\subfloat{
+		\centering
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/bouncing_sphere/conservative/small_y_position.pdf}
+			\caption{}
+			\label{subfig:bouncing_sphere:conservative:height}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/bouncing_sphere/conservative/mechanical_energy.pdf}
+			\caption{}
+			\label{subfig:bouncing_sphere:conservative:mechanical_energy}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[scale=1]{images/bouncing_sphere/conservative/small_coefficient_of_restitution.pdf}
+			\caption{}
+			\label{subfig:bouncing_sphere:conservative:coefficient_of_restitution}
+		\end{subfigure}
+	}
+	\sourceMe
+	\label{fig:bouncing_sphere:conservative}
+\end{figure}
+
+Para essa simulação, foram utilizados parâmetros idênticos aos indicados na \cref{tab:bouncing_sphere:dissipative_case:parameters}, à exceção das constantes de amortecimento. Essas constantes são responsáveis pela dissipação da energia, e, para o caso conservativo, devem tomar valor nulo, como indicado na \cref{tab:bouncing_sphere:conservative_case:parameters}.
+
+\begin{table}[h]
+\centering
+\caption{Parâmetros para o caso dissipativo do problema da esfera quicando.}
+\label{tab:bouncing_sphere:conservative_case:energy_and_coefficient_of_restitution}
+\begin{parametersdesc}
+	\item{Energia mecânica inicial}{\initial{\mechanicalEnergy} = \SI{9,81}{\joule}}{}
+	\item{Energia mecânica final}{\final{\mechanicalEnergy} = \SI{9,80999003902}{\joule}}{}
+	\item{Variação da energia mecânica}{\initial{\mechanicalEnergy} - \final{\mechanicalEnergy} = \SI{9,96}{\micro\joule} \approximately 10^{-5}\si{\joule}}{}
+	\item{Coeficiente de restituição analítico}{\coefficientOfRestitution = 1}{}
+	\item{Erro máximo do coeficiente de restituição}{\maximumErrorOf{\coefficientOfRestitution} = 1,2\cdot 10^{-5}}{}
+\end{parametersdesc}
+\sourceMe 
+\end{table}
+
+Nessa situação, os resultados obtidos pela simulação para a altura e a energia mecânica da partícula e para o coeficiente de restituição são obtidos como na \cref{fig:bouncing_sphere:conservative}. Observa-se nessa \namecref{fig:bouncing_sphere:conservative} que a energia se conserva. De fato, a diferença observada entre a energia mecânica inicial \(\initial{\mechanical{\energy}}\) e a final \(\final{\mechanical{\energy}}\) foi da ordem de \(10^{-5}\si{\joule}\). Por sua vez, o coeficiente de restituição manteve-se bastante próximo de \(1\), o que corresponde ao resultado analítico. Esses resultados estão expostos na \cref{tab:bouncing_sphere:conservative_case:energy_and_coefficient_of_restitution}.
+
+
+\section{Colisão entre Esferas} \label{sec:results:colliding_spheres}
+
+A questão central dos métodos de elementos discretos é a interação entre partículas, situação em que existem duas ou mais equações de movimento a serem resolvidas simultaneamente. Nesta \namecref{sec:results:colliding_spheres}, é apresentado o problema da colisão entre duas esferas.
+
+Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\) e a azul \(\blueParticle\). A partícula azul encontra-se em repouso na posição \(\initial{\bluePosition}\). A partícula vermelha encontra-se inicialmente na posição \(\initial{\redPosition}\) e avança, com uma velocidade linear \(\initial{\redVelocity}\) e uma velocidade angular \(\initial{\redAngularVelocity}\), na direção de \(\blueParticle\). As partículas colidem, e ocorre transferência de movimento da partícula vermelha para a azul. Essa situação é representada na \cref{fig:colliding_spheres}.
+
+\begin{figure}[h]
+	\caption{O problema da colisão entre esferas.}
+	% \vspace{-0.5cm}
+	\centering
+		\alert{Colocar imagem representando o problema da colisão entre esferas}
+		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:colliding_spheres}
+	\source{\alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
 
 \alert{Análises a se fazerem: Conservação da quantidade de movimento linear e da quantidade de movimento angular. Conservação da energia quando os termos dissipativos são nulos. Energia perdida no caso contrário.}
 
 \section{Queda com Arrasto}
 
-\alert{...}
+Como afirmado na \cref{sec:objective_and_contributions}, \alert{explicar o porquê dessa simulação}
 
 Segundo \citeonline[p. 392]{bib:fox},
 \begin{equation*}
