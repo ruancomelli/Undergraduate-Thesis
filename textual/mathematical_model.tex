@@ -586,6 +586,8 @@ De forma geral, o valor desse coeficiente depende de parâmetros de material e d
 
 Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. Nas seções \ref{subsec:normal_force_models} e \ref{subsec:tangential_force_models} são apresentados alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
 
+\subsubsection*{Energia} \alert{Falar aqui das energias e introduzir antes}
+
 \subsection{Modelos de Força Normal} \label{subsec:normal_force_models}
 
 Nesta seção, são apresentados os dois principais modelos de força normal utilizados nas simulações de elementos discretos. Ambos os modelos buscam determinar
@@ -739,9 +741,9 @@ No início do choque, tanto a superposição quanto a sua derivada são positiva
 No entanto a atração entre partículas geralmente não condiz com resultados experimentais. Uma das técnicas para eliminar esse fenômeno é limitarem-se inferiormente as forças calculadas. Esse artifício justifica-se pois, embora tenha sido feita a hipótese de que as partículas sejam corpos rígidos, partículas reais são deformáveis, e essa deformação pode ser suficiente para encerrar a colisão em um tempo anterior àquele considerado pelo modelo de partículas rígidas. Isso é representado na figura \ref{fig:particle_attraction}.
 
 Para o amortecedor linear, isso significa que
-\begin{equation*}
+\begin{equation} \label{eq:corrected_linear_dashpot:normal_force}
 	\normalForceScalarji = \max\Bqty{\elasticModulusij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij, \,\, 0},
-\end{equation*}
+\end{equation}
 enquanto, para o modelo de esferas viscoelásticas, essa correção resulta em
 \begin{equation*}
 	\normalForceScalarji = \max\Bqty{\dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
@@ -750,7 +752,7 @@ enquanto, para o modelo de esferas viscoelásticas, essa correção resulta em
 \end{equation*}
 
 Como consequência dessa mudança, o coeficiente de restituição normal tem seu valor alterado. \citeonline{bib:linear_dashpot_revisited} demonstram que, para o modelo de amortecedor linear, o coeficiente de restituição normal fica
-\begin{equation*}
+\begin{equation} \label{eq:corrected_linear_dashpot:coefficient_of_restitution}
 	\normalCoefficientOfRestitutionij = 
 	\left\lbrace
 		\def\arraystretch{1.8}
