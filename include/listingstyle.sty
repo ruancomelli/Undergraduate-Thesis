@@ -33,11 +33,11 @@
 \definecolor{lightgray}{rgb}{.9,.9,.9}
 \definecolor{darkgray}{rgb}{.4,.4,.4}
 
-\newcommand{\alertstyle}{\color{red}}
+\newcommand{\alertstyle}{\normalfont\color{red}}
 \newcommand{\mathstyle}{\normalfont\color{black}}
 \newcommand{\basicstyle}{\footnotesize\bfseries\color{dkgreen}}
 \newcommand{\identifierstyle}{\footnotesize\bfseries\color{dkgreen}}
-\newcommand{\commentstyle}{\footnotesize\color{lgreen}}
+\newcommand{\commentstyle}{\footnotesize\bfseries\color{lgreen}}
 \newcommand{\emphstyle}{\footnotesize\itshape\bfseries\color{black}}
 \newcommand{\functionstyle}{\footnotesize\itshape\bfseries\color{lpurple}}
 \newcommand{\keywordstyle}{\footnotesize\bfseries\color{dkyellow}}
@@ -108,17 +108,20 @@
 		{força}{{\emphstyle{for\c{c}a}}}{5}
 		{orientação}{{\emphstyle{orienta\c{c}\~{a}o}}}{10}
 		{vizinhança}{{\emphstyle{vizinhan\c{c}a}}}{10}
-		{partícula}{{\emphstyle{part\'{i}cula}}}{9},	% Little hack for accented,
+		{função}{{\keywordstyle{fun\c{c}\~{a}o}}}{6}
+		{partícula}{{\emphstyle{part\'{i}cula}}}{9},	% Little hack for accented words
 	basicstyle=\basicstyle,
 	commentstyle=\commentstyle,
 	morecomment=[l]{//}, % l is for line comment
 	emphstyle=[1]{\emphstyle},
 	emph=[1]{elemento, torque},
 	emphstyle=[2]{\functionstyle},
-	emph=[2]{calcular, determinar, ler, escrever, atribuir, guardar, inicializar, corrigir, adicionar, incrementar},
+	emph=[2]{calcular,determinar,ler,escrever,atribuir,guardar,inicializar,corrigir,adicionar,incrementar,incluir},
 	keywordstyle=\keywordstyle,
-	keywords={para, cada, fim, enquanto, se},
+	keywords={para, cada, fim, enquanto, se, chamar},
 	stringstyle=\stringstyle,
+	morestring=[b]",
+	showstringspaces=false,
 	identifierstyle=\identifierstyle,
 	escapeinside={(*}{*)},
 	breaklines=true,
