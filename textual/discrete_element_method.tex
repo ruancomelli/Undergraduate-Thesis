@@ -53,7 +53,7 @@ Com isso, o objetivo do Método de Elementos Discretos torna-se obter a soluçã
 
 A solução das equações governantes do sistema é feita conforme explicado na \cref{subsec:motion_equations_solution} utilizando algoritmos de integração como o algoritmo de Gear, descrito na \cref{sec:gear_integration_scheme}.
 
-Uma característica dos métodos de elementos discretos é serem métodos explícitos, ou seja, o estado do sistema de partículas no instante \(\instant[n]\) é calculado a partir do estado em \(\instant[n-1]\) que se supõe ser conhecido. Isso é evidente no algoritmo de Gear.
+Uma característica dos métodos de elementos discretos tradicionais é serem métodos explícitos, ou seja, o estado do sistema de partículas no instante \(\instant[n]\) é calculado a partir do estado em \(\instant[n-1]\) que se supõe ser conhecido. Isso é evidente no algoritmo de Gear.
 
 O procedimento de solução das equações é apresentado em maiores detalhes na \cref{subsec:simulation:equation_solution}.
 
@@ -420,34 +420,32 @@ Por fim, quando o critério de parada é atingido (ou o critério de continuaç�
 É comum também que a etapa de finalização determine arquivos de inicialização para serem usados por outras simulações. Os dados escritos nesses arquivos são suficientes para se gerar um estado inicial idêntico ao estado final da simulação finalizada. Dessa forma, é possível fazer uma simulação dar prosseguimento a outra.
 
 \section{Monitoramento da Vizinhança} \label{sec:neighborhood}
-\alert{Dividir em vizinhança global, local e contato: em uma, o domínio é dividido em regiões. Partículas só podem colidir com as que estão na mesma região ou em regiões vizinhas à sua. Depois, os vizinhos locais: Define-se, em torno da partícula, um volume envolvente. Duas partículas só podem colidir se houver contato entre seus volumes envolventes. Por fim, avalia-se o contato efetivamente, levando em conta a geometria das partículas.}
-
-\alert{Falar dos métodos de busca de vizinhos}
 \alert{Verificar se já não falei dos custos do cálculo das forças} 
 
 Segundo \citeonline[p. 26]{bib:computational_granular_dynamics}, o maior custo computacional em uma simulação de elementos discretos está associado à avaliação das forças atuantes sobre as partículas. Esse custo advém da quantidade de interações que devem ser consideradas dado o geralmente grande número de pares de colisão possíveis. Em um sistema de \(\numberOfElements\) elementos, dos quais \(\numberOfParticles\) são partículas, e com a simplificação de que cada par interage independentemente dos demais, cada partícula pode interagir com até \(\numberOfElements-1\) outros elementos. Isso resulta em um total de
 \begin{equation*}
 	\numberOfParticles\cdot\pqty{\numberOfElements-1}
 \end{equation*}
-interações computadas a cada passo de tempo. Adicionando a hipótese de que não há elementos além das partículas, o número total de interações avaliadas por passo de tempo é da ordem de \(\numberOfParticles^2\).
+interações computadas a cada passo de tempo. Adicionando a hipótese simplificativa de que não há elementos além das partículas, o número total de interações avaliadas por passo de tempo fica da ordem de \(\numberOfParticles^2\).
 
-Essa quantidade de interações limita o número de partículas e de passos de tempo aplicáveis, e motivaa busca por métodos mais eficientes para o monitoramento da vizinhança das partículas.
+Essa quantidade de interações limita o número de partículas e de passos de tempo aplicáveis, e motiva a busca por métodos mais eficientes para o monitoramento da vizinhança das partículas.
 
 A vizinhança de uma partícula \(\particlei\) é o conjunto \(\neighborhoodi\) de todos os elementos da simulação com os quais a partícula pode interagir.
 
-Uma simples consideração, a Terceira Lei de Newton, reduz pela metade a quantidade de interações avaliadas entre partículas.
+Uma simples consideração, a Terceira Lei de Newton, pode reduzir pela metade a quantidade de interações avaliadas entre partículas. Ainda assim, o uso de algoritmos de monitoramento de vizinhanças mais elaborados pode ser imprescindível, dependendo da simulação executada.
 
-\subsection{Terceira Lei de Newton}
+Segundo \citeonline[p. 6]{bib:bicanic2007}, esses algoritmos podem ser divididos entre os \textit{baseados em corpos} e os \textit{baseados no espaço}. No primeiro caso, são consideradas as formas geométricas das partículas, e dois elementos são podem colidir se estiverem suficientemente próximos uns dos outros. Como exemplo desse tipo de método, tem-se o algoritmo de Verlet e os volumes limitantes. Métodos baseados no espaço, por outro lado, fundamentam-se na divisão do domínio da simulação em regiões, como o algoritmo \textit{link cell} e o algoritmo \textit{lattice}. Dois elementos, então, só podem colidir se estiverem na mesma região ou em regiões vizinhas. Esses algoritmos podem ser encontrados em \citeonline{bib:computational_granular_dynamics}.
 
 Dadas duas partículas \(\particlei\) e \(\particlej\), a terceira lei de Newton estabelece que à força \(\forceij\) que a partícula \(i\) aplica sobre a \(j\) corresponde uma reação \(\forceji\) que satisfaz
 \begin{equation*}
 	\forceji = -\forceij.
 \end{equation*}
+
 Esse princípio possui duas consequências. A primeira, que, se \(\particlej\) está na vizinhança de \(\particlei\), então \(\particlei\) está, necessariamente, na vizinhança de \(\particlej\). A segunda é que a força e o torque de interação entre \(i\) e \(j\) precisam ser computados apenas uma vez.
 
-Uma maneira de se aplicar essa consideração é definir-se que \(\particlej\) somente pode pertencer a \(\neighborhoodi\) se \(i < j\). Se ocorrer que \(i < j\), então \(\particlej\) pertence a \(\neighborhoodi\), mas \(\particlei\) não pertence a \(\neighborhoodj\), e então a parcela de força que \(i\) aplica sobre \(j\) é perdida no laço de integração de \(j\). Sendo assim, a força \(\forceij = -\forceji\) é adicionada a \(\forcej\) quando esse valor for calculado no laço de integração da partícula \(i\). Isso corresponde uma alteração à \cref{lst:equations_solution} nas \crefrange{lstline:interaction_begin}{lstline:particle_element_interaction_end} como indicado na \cref{lst:third_law_of_newton}.
+Uma maneira de se aplicar essa consideração é definir-se que \(\particlej\) somente pode pertencer a \(\neighborhoodi\) se \(i < j\). Se, de fato, ocorrer que \(i < j\), então \(\particlej\) pertence a \(\neighborhoodi\), mas \(\particlei\) não pertence a \(\neighborhoodj\), e por isso a parcela de força que \(i\) aplica sobre \(j\) é perdida no laço de integração de \(j\). Sendo assim, a força \(\forceij = -\forceji\) é adicionada a \(\forcej\) quando esse valor for calculado no laço de integração da partícula \(i\). Isso corresponde a uma alteração na \cref{lst:equations_solution} nas \crefrange{lstline:interaction_begin}{lstline:particle_element_interaction_end} como indicado na \cref{lst:third_law_of_newton}.
 
-\begin{lstlisting}[float, floatplacement=H, language=pseudocode, label=lst:third_law_of_newton, caption=Pseudocódigo para a aplicação da Terceira Lei de Newton.]
+\begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:third_law_of_newton, caption=Pseudocódigo para a aplicação da Terceira Lei de Newton.]
 (*\hiddenCode*) // Predição e zeragem dos vetores (*{\commentstyle força}*) e torque resultantes
 para cada partícula $\particlei \in \particleSet$:
 (*\indentrule*)	// Interação
@@ -464,70 +462,93 @@ para cada partícula $\particlei \in \particleSet$:
 fim
 \end{lstlisting}
 
-\subsection{Algoritmo de Verlet}
+% \subsection{Algoritmo de Verlet}
 
-De acordo com \citeonline{bib:computational_granular_dynamics}, o algoritmo de Verlet é um método de monitoramento de vizinhanças que fundamenta-se em duas considerações:
-\begin{itemize}
-	\item Uma partícula só pode colidir com partículas que estejam próximas a ela.
-	\item \alert{Caso as partículas não se movam o suficiente, a vizinhança é constante}
-\end{itemize}
+% De acordo com \citeonline{bib:computational_granular_dynamics}, o algoritmo de Verlet é um método de monitoramento de vizinhanças que fundamenta-se em duas considerações:
+% \begin{alineas}
+% 	\item uma partícula só pode colidir com partículas que estejam próximas a ela;
+% 	\item a vizinhança de uma partícula só se altera se houver movimentação.
+% \end{alineas}
 
-Nesse método, considera-se que duas partículas são vizinhas se a menor distância entre suas superfícies for menor que uma constante arbitrada \(\verletDistance\) denominada de \textit{distância de Verlet}.
+% Nesse método, considera-se que duas partículas são vizinhas se a menor distância entre suas superfícies for menor que uma constante arbitrada \(\verletDistance\) denominada de \textit{distância de Verlet}.
 
-\begin{figure}[h]
-	\caption{Representação da vizinhança de partículas esféricas no algoritmo de Verlet. Duas partículas são vizinhas se a distância entre suas superfícies for menor que a distância de Verlet \(\verletDistance\)}
-	% \vspace{-0.5cm}
-	\centering
-		\alert{Colocar imagem representando a distância de Verlet. Mostrar três pares de partículas: não vizinhas, caso extremo em que são quase vizinhas e vizinhas}
-		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
-	\label{fig:verlet_distance}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
-\end{figure}
+% \begin{figure}[h]
+% 	\caption{Representação da vizinhança de partículas esféricas no algoritmo de Verlet. Duas partículas são vizinhas se a distância entre suas superfícies for menor que a distância de Verlet \(\verletDistance\)}
+% 	% \vspace{-0.5cm}
+% 	\centering
+% 		\alert{Colocar imagem representando a distância de Verlet. Mostrar três pares de partículas: não vizinhas, caso extremo em que são quase vizinhas e vizinhas}
+% 		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
+% 	% {\centerline{\includegraphics[scale=#2]{#1}}}
+% 	% \vspace{-0.2cm}
+% 	\label{fig:verlet_distance}
+% 	\source{\alert{Citar fonte}}
+% 	% \vspace{-1cm}
+% \end{figure}
 
-Para partículas esféricas \(\particlei\) e \(\particlej\), a condição de vizinhança se escreve como
-\begin{equation*}
-	\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance,
-\end{equation*}
-como indicado na figura \ref{fig:verlet_distance}, e então a vizinhança da partícula \(i\) é o conjunto
-\begin{equation*}
-	\neighborhoodi = \set{\particlej \suchThat \alert{}}
-\end{equation*}
-
-\alert{Mostrar o conjunto vizinhança e dizer que, para o algoritmo de Verlet, esse conjunto é denominado de lista de Verlet}
-\alert{Definir o deslocamento de Verlet como a distância \(\verletPosition\) entre a partícula e a sua posição quando a última lista de Verlet foi construída}
-
-% Com isso, no instante \(\instant[n-1]\), a vizinhança da \(i\)-ésima partícula é o conjunto
+% Para partículas esféricas \(\particlei\) e \(\particlej\), a condição de vizinhança se escreve como
 % \begin{equation*}
-% 	\neighborhoodi\pqty{\instant[n-1]} = \left\lbrace\particlej \,\suchThat\, \distanceij\pqty{\instant[n-1]} < \radiusi + \radiusj + \verletDistance\right\rbrace,
+% 	\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance,
 % \end{equation*}
-% em que \(\distanceij\) é a distância entre os centros das partículas \(i\) e \(j\).
+% como indicado na figura \ref{fig:verlet_distance}. Com isso, define-se a lista de Verlet da partícula \(i\) como
+% \begin{equation*}
+% 	\verletList[i] = \set{\elementj\in\elementSet\suchThat \norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance}.
+% \end{equation*}
 
-Ao longo da simulação, porém, a movimentação das partículas faz  com que sua vizinhança se altere, e então é necessário reconstruir as listas de Verlet. O critério para a reconstrução das listas leva em consideração a situação extrema
+% As listas de Verlet são construídas, para cada partícula, no início da simulação. Com a evolução do tempo, porém, a movimentação das partículas faz com que sua vizinhança se altere, e então é necessário reconstruir as listas. O critério para essa reconstrução leva em consideração a situação extrema em que duas partículas quase vizinhas tenham um deslocamento igual à metade da distância de Verlet uma em direção à outra, iniciando uma colisão. Para isso, define-se, para cada partícula, a posição de referência \(\verletPosition\) como a posição da partícula no momento em que as listas foram construídas. Tão logo a partícula se afaste dessa posição em uma distância igual à metade da distância de Verlet, as listas devem ser reconstruídas.
 
-\alert{continuar}
+% Esse algoritmo pode ser implementado como na \cref{lst:verlet_list}
 
-O algoritmo de Verlet, embora bastante eficiente para partículas esféricas \alert{Falar ainda que há como otimizar isso}
+% \begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:verlet_list, caption=Pseudocódigo para a implementação das listas de Verlet.]
+% // Definição da função de construção das listas de Verlet
+% função "construir listas de Verlet":
+% (*\indentrule*)	para cada partícula $\particlei\in\particleSet$:
+% (*\indentrule*)	(*\indentrule*) atribuir $\verletPosition[i] \gets \positioni$
+% (*\indentrule*)	(*\indentrule*)	inicializar $\verletList[i]$ como uma lista vazia
+% (*\indentrule*)	(*\indentrule*)	para cada elemento $\elementj\in\elementSet$:
+% (*\indentrule*)	(*\indentrule*)	(*\indentrule*)	se $\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance$:
+% (*\indentrule*)	(*\indentrule*)	(*\indentrule*)	(*\indentrule*)	incluir $\elementj$ em $\verletList[i]$
+% (*\indentrule*)	(*\indentrule*)	(*\indentrule*)	fim
+% (*\indentrule*)	(*\indentrule*)	fim
+% (*\indentrule*)	fim
+% fim
+% (*\hiddenCode*)
+% chamar função  "construir listas de Verlet"
+% enquanto o critério de parada não for atingido:
+% (*\indentrule*)	(*\hiddenCode*) // Exportação de dados
+% (*\indentrule*)	se $\norm{\positioni-\verletPosition[i]} \geq \bigslant{\verletDistance}{2}$ para alguma partícula ${}\particlei\in\particleSet$:
+% (*\indentrule*)	(*\indentrule*)	chamar função  "construir listas de Verlet"
+% (*\indentrule*)	fim
+% (*\indentrule*)	(*\hiddenCode*) // Solução das equações
+% fim
+% \end{lstlisting}
 
-\subsection{Volume Envolvente}
+% O algoritmo de Verlet, embora bastante eficiente para partículas esféricas, complica-se para o caso de partículas de geometria arbitrária, dada a necessidade de se conhecer sua a superfície.
 
-\subsection{Vizinhança Global}
-\subsection{Algoritmo \textit{link cell}}
-\subsection{Algoritmo \textit{lattice}}
+% \subsection{Volume Envolvente}
 
-\subsection{Identificação de Contatos}
+% \subsection{Vizinhança Global}
+% \subsection{Algoritmo \textit{link cell}}
+% \subsection{Algoritmo \textit{lattice}}
 
-\alert{Será necessária esta seção? Ela pode estar incluída no monitoramento de vizinhanças}
+% \subsection{Identificação de Contatos}
+
+% \alert{Será necessária esta seção? Ela pode estar incluída no monitoramento de vizinhanças}
 
 \section{Limitação do Passo de Tempo}
 
-\alert{Ver \citeonline{bib:cundall1979} e \citeonline{bib:gomes2014}}
+Diversos autores sugerem a limitação do passo de tempo da simulação para se garantirem a estabilidade numérica e a representatividade das soluções. Segundo \citeonline{bib:gomes2014}, uma estratégia possível é definir-se um valor de \textit{passo de tempo crítico} \(\criticalDt\) com a forma
+\begin{equation} \label{eq:critical_dt}
+	\criticalDt = C\cdot\sqrt{\bigslant{\mass}{\effectiveNormalElastic}},\quad C\in\real,
+\end{equation}
+sendo \(\mass\) a massa efetiva e \(\effectiveNormalElastic\) a constante elástica efetiva dos pares de colisão. O valor da constante \(C\) é, geralmente, determinado com base na experiência do usuário.
 
-\alert{Explicar que o passo de tempo deve ser menor que um limite. Ver se essa seção é mesmo necessária.}
+A limitação do passo de tempo, porém, depende fortemente da configuração da simulação. Por exemplo, quanto maiores forem as velocidades das partículas, menores os passos de tempo que devem ser usados a fim de evitar que as partículas se atravessem sem que a sua colisão seja computada. Entretanto a expressão em \eqref{eq:critical_dt} não indica nenhuma dependência com relação à velocidade.
+
+Na ausência de melhores formulações, passos de tempo arbitrados acabam sendo utilizados nas simulações, e sua obtenção baseia-se fortemente na intuição do usuário, em cálculos prévios e na experimenação numérica.
 
 \section{Condições de Contorno e Restrições} \label{sec:boundary_condition}
+
+Comumente, além das interações entre partículas, os métodos de elementos discretos contam com condições adicionais para a execução das simulações. 
 
 \alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
 
