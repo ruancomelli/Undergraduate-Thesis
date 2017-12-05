@@ -396,8 +396,6 @@ Nessa situação, os resultados obtidos pela simulação para a altura e a energ
 
 A questão central dos métodos de elementos discretos é a interação entre partículas, situação em que existem duas ou mais equações de movimento a serem resolvidas simultaneamente. Nesta \namecref{sec:results:colliding_spheres}, é apresentado o problema da colisão entre duas esferas.
 
-Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\) e a azul \(\blueParticle\). A partícula azul encontra-se em repouso na posição \(\initial{\bluePosition}\). A partícula vermelha encontra-se inicialmente na posição \(\initial{\redPosition}\) e avança, com uma velocidade linear \(\initial{\redVelocity}\) e uma velocidade angular \(\initial{\redAngularVelocity}\), na direção de \(\blueParticle\). As partículas colidem, e ocorre transferência de movimento da partícula vermelha para a azul. Essa situação é representada na \cref{fig:colliding_spheres}.
-
 \begin{figure}[h]
 	\caption{O problema da colisão entre esferas.}
 	% \vspace{-0.5cm}
@@ -411,14 +409,29 @@ Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\
 	% \vspace{-1cm}
 \end{figure}
 
+Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\) e a azul \(\blueParticle\). A partícula azul encontra-se em repouso na posição \(\initial{\bluePosition}\). A partícula vermelha encontra-se inicialmente na posição \(\initial{\redPosition}\) e avança, com uma velocidade linear \(\initial{\redVelocity}\) e uma velocidade angular \(\initial{\redAngularVelocity}\), na direção de \(\blueParticle\). As partículas colidem, e ocorre transferência de movimento da partícula vermelha para a azul. Essa situação é representada na \cref{fig:colliding_spheres}.
+
+Nesse problema, não é considerada a ação da gravidade, o que permite a análise simples das quantidades de movimento linear a angular. Como no problema da esfera quicando, são consideradas duas situações: o caso conservativo e o caso dissipativo.
+
 \alert{Análises a se fazerem: Conservação da quantidade de movimento linear e da quantidade de movimento angular. Conservação da energia quando os termos dissipativos são nulos. Energia perdida no caso contrário.}
+
+\subsection{Caso Conservativo}
+
+\subsubsection{Sem Rotação}
+Para a simulação com conservação da energia, foram escolhidos os parâmetros da simula
+
+\subsubsection{Com Rotação}
+
+\subsection{Caso Dissipativo}
 
 \section{Queda com Arrasto}
 
-Como afirmado na \cref{sec:objective_and_contributions}, \alert{explicar o porquê dessa simulação}
+Como afirmado na \cref{sec:objectives_and_contributions}, \alert{explicar o porquê dessa simulação}
 
 Segundo \citeonline[p. 392]{bib:fox},
 \begin{equation*}
 	\dragForce = \dragCoefficient\ \frac{1}{2}\density\ \projectedArea\ \norm{\velocity} \velocity
 \end{equation*}
 \alert{Erro! não podemos dividir por vetor...}
+
+\alert{Como comentário adicional, essa simulação é uma em que um critério de parada diferente seria útil: pouca mudança na velocidade, por exemplo}
