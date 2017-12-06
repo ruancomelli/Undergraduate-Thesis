@@ -548,9 +548,40 @@ Na ausência de melhores formulações, passos de tempo arbitrados acabam sendo 
 
 \section{Condições de Contorno e Restrições} \label{sec:boundary_condition}
 
-Comumente, além das interações entre partículas, os métodos de elementos discretos contam com condições adicionais para a execução das simulações. 
+Comumente, além das interações entre partículas, os métodos de elementos discretos contam com condições adicionais para a execução das simulações. Essas considerações são denominadas de \textit{condições de contorno}. Dentre elas, as mais utilizadas são:
+\begin{alineas}
+\item \textit{Movimento prescrito:} circunstância em que o movimento de um elemento é totalmente determinado por uma função fornecida na etapa de inicialização. É essa a condição que rege os elementos de contorno.
+\item \textit{Condição de repetição:} nesse caso, repete-se periodicamente a região da simulação em uma ou mais dimensões \cite[p. 15]{bib:computational_granular_dynamics}. Partículas que saem da região da simulação por um lado são reinseridas no lado oposto. Dessa forma, o domínio da simulação torna-se efetivamente infinito. A vizinhança de uma partícula deve, então, levar em consideração não apenas os elementos fisicamente próximos a ela, mas também aqueles localizados no extremo oposto da região de simulação, com os quais a partícula pode vir a colidir se houver o cruzamento das fronteiras. Mais detalhes sobre essa condição são apresentados por \citeonline[p. 24]{bib:liquids}, \citeonline{bib:bicanic2007} e \citeonline[p. 15]{bib:computational_granular_dynamics}.
+\item \textit{Condição de reflexão:} essa condição resume-se à definição de paredes reflexivas. Quando uma partícula colide com um elemento desse tipo, sua velocidade é refletida com relação à parede, enquanto a componente de velocidade paralela à parede mantém-se inalterada, como representado na \cref{fig:boundary_conditions:reflecting_boundary}. Mais considerações acerca dessa condição podem ser encontradas em \citeonline[p. 169]{bib:computational_granular_dynamics}.
 
-\alert{Falar das condições de contorno: partículas com movimento pré-determinado, condição de repetição e de reflexão (parede que reflete a partícula)}
+\begin{figure}[h]
+	\caption{Restrição de movimento pela ação de molas aos subelementos de uma partícula composta.}
+	% \vspace{-0.5cm}
+	\centering
+		\alert{Colocar imagem}
+		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:boundary_conditions:reflecting_boundary}
+	\source{\alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+
+\item \textit{Restrição de movimento:} a restrição de movimento consiste em se acoplarem as equações de movimento de duas ou mais partículas. Essa condição encontra-se presente em partículas compostas para mediar a movimentação relativa entre os subelementos. Uma maneira simples de se implementar essa restrição é com a adição de uma força elástica representada pela ação de molas, como indicado na \cref{fig:boundary_conditions:restrition}.
+
+\begin{figure}[h]
+	\caption{Restrição de movimento pela ação de molas aos subelementos de uma partícula composta.}
+	% \vspace{-0.5cm}
+	\centering
+		\alert{Colocar imagem}
+		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
+	% {\centerline{\includegraphics[scale=#2]{#1}}}
+	% \vspace{-0.2cm}
+	\label{fig:boundary_conditions:restrition}
+	\source{\alert{Citar fonte}}
+	% \vspace{-1cm}
+\end{figure}
+\end{alineas}
 
 \section{Outros Aspectos do Método}
 \alert{Considerar, principalmente, \citeonline{bib:bicanic2007}. Essa seção deve falar que existem o estudo de fratura e fragmentação, abordagem para corpos deformáveis e esquemas de variação do passo de tempo}
