@@ -233,9 +233,9 @@ ou ainda
 	\resultingTorque = \momentOfInertia\cdot\angularAcceleration,
 \end{equation}
 sendo que o momento de inércia \(\momentOfInertia\) é facilmente calculado pela expressão
-\begin{equation*}
+\begin{equation} \label{eq:momentOfInertia_for_spheres}
 	\momentOfInertia = \dfrac{2}{5}\cdot\mass \radius^2,
-\end{equation*}
+\end{equation}
 em que \(\radius\) é o raio da esfera.
 
 Com isso, a equação diferencial para o movimento de rotação está pronta para simulações tridimensionais de partículas esféricas.
@@ -306,7 +306,7 @@ Os modelos de colisão mais simples são aqueles que ocorrem entre partículas e
 
 \subsection{Parâmetros de Cálculo} \label{subsec:collision_parameters}
 
-Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. Esses parâmetros, representados graficamente na figura \ref{fig:collision_parameters}, descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força.
+Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. Esses parâmetros, representados graficamente na figura \ref{fig:collision_parameters}, descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força. Além disso, o coeficiente de restituição e as energias cinética, potencial e mecânica são de grande importância para a análise dos resultados.
 
 \begin{figure}[h]
 	\caption{Parâmetros de Cálculo na Colisão entre Elementos}
@@ -586,7 +586,35 @@ De forma geral, o valor desse coeficiente depende de parâmetros de material e d
 
 Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. Nas seções \ref{subsec:normal_force_models} e \ref{subsec:tangential_force_models} são apresentados alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
 
-\subsubsection*{Energia} \alert{Falar aqui das energias e introduzir antes}
+\subsubsection*{Energia}
+
+A energia de uma partícula é uma quantidade escalar de extrema importância na análise de resultados de simulações. De acordo com \citeonline{bib:dynamics_of_multibody_systems}, a energia translacional \(\translationalEnergy\) de uma partícula é dada por
+\begin{equation*}
+	\translationalEnergy = \dfrac{1}{2}\cdot\mass\ \norm{\velocity}^2,
+\end{equation*}
+enquanto a energia rotacional \(\rotationalEnergy\) associada é
+\begin{equation*}
+	\rotationalEnergy = \dfrac{1}{2}\cdot\angularVelocity\cdot\tensorOfInertia\cdot\angularVelocity.
+\end{equation*}
+
+Com isso, a energia cinética \(\kineticEnergy\) da partícula se calcula como
+\begin{equation} \label{eq:kineticEnergy}
+	\kineticEnergy = \translationalEnergy + \rotationalEnergy.
+\end{equation}
+
+Por sua vez, a energia potencial gravitacional \(\potentialEnergy\) da partícula com relação ao ponto de referência \(P\) em um campo de gravidade constante \(\gravity\) é dada por
+\begin{equation*}
+	\potentialEnergy = - \mass\ \gravity\cdot\pqty{\position - \vectorFromPoints{\originPoint}{P}},
+\end{equation*}
+e, para o caso recorrente em que \(\gravity = - \gravityScalar\cdot\yUnit\) e o ponto de referência é a própria origem do sistema, essa expressão se simplifica para
+\begin{equation*}
+	\potentialEnergy = \mass\ \gravityScalar\ \positiony.
+\end{equation*}
+
+Com isso, a energia mecânica \(\mechanicalEnergy\) da partícula é dada por
+\begin{equation} \label{eq:mechanicalEnergy}
+	\mechanicalEnergy = \kineticEnergy + \potentialEnergy.
+\end{equation}
 
 \subsection{Modelos de Força Normal} \label{subsec:normal_force_models}
 
