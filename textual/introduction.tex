@@ -33,27 +33,27 @@ A abordagem analítica, por sua vez, busca a obtenção de soluções analítica
 A fim de conciliar exatidão e eficiência, os métodos numéricos despontam como uma poderosa ferramenta capaz de resolver problemas complexos, com geometrias complicadas e grande número de partículas, alcançando, apesar disso, uma elevada rapidez e um baixíssimo custo \cite{bib:maliska}.
 
 \begin{figure}[h]
-	\caption{Comparação entre experimento e simulação de pílulas no interior de um misturador.}
-	\vspace{-0.5cm}
+	\caption{Comparação entre experimento e simulação de pílulas no interior de um misturador rotacionando a \SI{40}{\rpm}.}
+	% \vspace{-0.5cm}
 	\centering
-		\includegraphics[width=0.65\textwidth]{images/introduction/pellet_flow.png}
+		\includegraphics[width=0.65\textwidth]{images/introduction/pellet_flow_adapted.png}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	\vspace{-0.2cm}
+	% \vspace{-0.2cm}
 	\label{fig:pellet_flow}
-	\source{\citeonline{bib:applications}}
-	% \vspace{-1cm}
+	\adaptedFrom{\citeonline{bib:applications}}
+	\vspace{-0.5cm}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Comparação entre experimento e simulação da mistura de esferas de vidro no interior de um misturador.}
-	\vspace{-0.5cm}
+	\caption{Comparação entre experimento e simulação da mistura de esferas de vidro no interior de um misturador em função do número de revoluções do compartimento.}
+	% \vspace{-0.5cm}
 	\centering
-		\includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
+		\includegraphics[width=0.65\textwidth]{images/introduction/drug_production_adapted.png}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	\vspace{-0.2cm}
+	% \vspace{-0.2cm}
 	\label{fig:drug_production}
-	\source{\citeonline{bib:future}}
-	\vspace{-1cm}
+	\adaptedFrom{\citeonline{bib:future}}
+	\vspace{-0.5cm}
 \end{figure}
 
 As figuras \ref{fig:pellet_flow} e \ref{fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas com exceção de sua cor, o que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam \textit{exatamente} a posição das partículas, elas representam com grande fidelidade o sistema estudado.
@@ -91,15 +91,10 @@ Por sua vez, a geometria das partículas determina quais os modelos de interaç�
 
 \begin{figure}[h]
 	\caption{Exemplo de associação de partículas simples para a obtenção de geometrias mais complexas.}
-	% \vspace{-0.5cm}
 	\centering
-		\alert{Colocar imagem de uma partícula composta}
-		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.65\textwidth]{images/introduction/composite_particle.png}
 	\label{fig:composite_particle}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\source{\citeonline[p. 84]{bib:computational_granular_dynamics}}
 \end{figure}
 
 O Método de Elementos Discretos é intimamente ligado à Dinâmica Molecular, outra família de métodos computacionais. A distinção que geralmente se faz é que o \DEM{} considera geometrias arbitrariamente complexas, exigindo um tratamento da identificação dos pontos de contato e do cálculo das rotações mais adequado.
