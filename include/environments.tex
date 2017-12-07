@@ -8,6 +8,7 @@
 \usepackage{array}
 \usepackage{tabularx, tabulary}
 \usepackage{tikz}
+\usepackage{colortbl} % Allows us to change \hline's color
 
 % Enumerate
 \usepackage{enumitem}
@@ -23,7 +24,7 @@
 		% \renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
 		\renewcommand{\item}[3]{##1 & \(##2\) \(##3\) \tabularnewline}
 		% \begin{table}[h]
-		\begin{tabularx}{\textwidth}{Xc}
+		\begin{tabularx}{0.9\textwidth}{Xc}
 		\hline
 		\multicolumn{1}{c}{Parâmetro} & 
 		\multicolumn{1}{c}{Valor} \tabularnewline
