@@ -1,5 +1,5 @@
 \usepackage{nomencl}
-\usepackage{siunitx}
+% \usepackage{siunitx}
 \usepackage{xparse}
 
 \newcommand{\emptyTableEntry}{..}
@@ -358,6 +358,7 @@
 
 \newcommand{\friction}{\mu}
 \newcommand{\dynamic}[1]{#1}
+\newcommand{\dynamicFriction}{\dynamic{\friction}}
 \newcommand{\dynamicFrictioni}{\dynamic{\ind{\friction}{i}}}
 \newcommand{\dynamicFrictionj}{\dynamic{\ind{\friction}{j}}}
 \newcommand{\dynamicFrictionij}{\dynamic{\betw{\friction}{i}{j}}}
@@ -483,12 +484,16 @@
 \newcommand{\redParticle}{\redIdx{\particle}}
 \newcommand{\bluePosition}{\blueIdx{\position}}
 \newcommand{\redPosition}{\redIdx{\position}}
+\newcommand{\bluePositionScalar}{\blueIdx{\positionScalar}}
+\newcommand{\redPositionScalar}{\redIdx{\positionScalar}}
 \newcommand{\blueVelocity}{\blueIdx{\velocity}}
 \newcommand{\redVelocity}{\redIdx{\velocity}}
 \newcommand{\blueAcceleration}{\blueIdx{\acceleration}}
 \newcommand{\redAcceleration}{\redIdx{\acceleration}}
 \newcommand{\blueAngularVelocity}{\blueIdx{\angularVelocity}}
 \newcommand{\redAngularVelocity}{\redIdx{\angularVelocity}}
+\newcommand{\blueAngularVelocityScalar}{\blueIdx{\angularVelocityScalar}}
+\newcommand{\redAngularVelocityScalar}{\redIdx{\angularVelocityScalar}}
 \newcommand{\blueMass}{\blueIdx{\mass}}
 \newcommand{\redMass}{\redIdx{\mass}}
 \newcommand{\blueRadius}{\blueIdx{\radius}}
@@ -501,12 +506,18 @@
 \newcommand{\redTangentialDampingConstant}{\redIdx{\tangentialDampingConstant}}
 \newcommand{\blueMomentOfInertia}{\blueIdx{\momentOfInertia}}
 \newcommand{\redMomentOfInertia}{\redIdx{\momentOfInertia}}
+\newcommand{\blueDynamicFriction}{\blueIdx{\dynamicFriction}}
+\newcommand{\redDynamicFriction}{\redIdx{\dynamicFriction}}
 
 \newcommand{\kinematicViscosity}{\nu}
 
 \newcommand{\terminal}[1]{{#1}_{\text{t}}}
 \newcommand{\terminalVelocity}{\terminal{\velocity}}
 \newcommand{\terminalVelocityScalar}{\terminal{\velocityScalar}}
+
+\newcommand{\reynolds}{\text{Re}}
+\newcommand{\relative}[1]{{#1}_{\text{rel}}}
+\newcommand{\diameter}{D}
 
 % Convention: given a variable \variable, \variablei and \variablej denote \ind{\variable}{i} and \ind{\variable}{j}
 % Convention: given a variable \variable whose indices are commutative, \variableij denotes \betw{\variable}{i}{j}
