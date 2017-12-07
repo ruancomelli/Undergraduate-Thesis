@@ -844,9 +844,9 @@ Para partículas esféricas, supondo que há contato, a equação \eqref{eq:over
 Além disso, devido ao caráter dinâmico da força tangencial, desconsideram-se componentes elásticas.
 
 Com essas considerações e com a restrição da lei de Coulomb \eqref{eq:coulomb_law}, o análogo tangencial da equação \eqref{eq:linear_dashpot_force} fica
-\begin{equation*}
+\begin{equation} \label{eq:haff_werner}
 	\tangentialForceScalarji = - \min\set{\tangentialDampingConstantij\cdot\relativeTangentialVelocityScalarij,\,\, \dynamicFrictionij\cdot\normalForceScalarji},
-\end{equation*}
+\end{equation}
 em que
 \begin{itemize}
 	\item \(\tangentialDampingConstantij\) é a constante de amortecimento tangencial efetiva do par \(i\) e \(j\). Essa constante pode ser obtida por uma associação em série de amortecedores de constantes \(\tangentialDampingConstanti\) e \(\tangentialDampingConstantj\), cada um pertencente a uma das partículas, como
