@@ -24,14 +24,17 @@
 		% \renewcommand{\item}[3]{\olditem[##1: ]\(##2\,##3\);}
 		\renewcommand{\item}[3]{##1 & \(##2\) \(##3\) \tabularnewline}
 		% \begin{table}[h]
-		\begin{tabularx}{0.9\textwidth}{Xc}
-		\hline
-		\multicolumn{1}{c}{Parâmetro} & 
-		\multicolumn{1}{c}{Valor} \tabularnewline
-		\hline
-		\BODY
-		\hline
-		\end{tabularx}
+		\setlength{\extrarowheight}{3pt}
+		\centering{
+			\begin{tabularx}{\textwidth}{Xc}
+			\hline
+			\multicolumn{1}{c}{Parâmetro} & 
+			\multicolumn{1}{c}{Valor} \tabularnewline
+			\hline
+			\BODY
+			\hline
+			\end{tabularx}
+		}
 		% \end{table}
 		% \renewcommand{\item}{\olditem}
 	}
@@ -63,4 +66,5 @@
 \newcommand{\mine}{do Autor}
 \newcommand{\source}[1]{\legend{Fonte: #1.}}
 \newcommand{\adapted}[1]{Adaptado de #1}
+\newcommand{\adaptedFrom}[1]{\source{\adapted{#1}}}
 \newcommand{\sourceMe}{\source{\mine}}
