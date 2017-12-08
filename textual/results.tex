@@ -1,4 +1,8 @@
-\chapter{Resultados e Validação} \label{ch:results}
+\chapter{Implementação Computacional, Resultados e Validação} \label{ch:results}
+
+Os conceitos apresentados nos capítulos anteriores servem como fundamento para a implementação de algoritmos de solução através do Método de Elementos Discretos. Este \namecref{ch:results} é destinado a apresentar a implementação computacional resultante deste trabalho e a executar as tarefas de apresentação de resultados de simulação e de validação numérica da implementação.
+
+\alert{Falar aqui sobre a implementação}
 
 Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada. A apresentação e a análise de simulações são feitas neste capítulo. Com o fim de se fazer a validação numérica, os resultados são comparados com soluções analíticas ou qualitativamente avaliados.
 
@@ -317,15 +321,12 @@ Uma análise importante a se fazer nesse problema é a da energia. A energia cin
 
 \begin{figure}[h]
 	\caption{Coeficiente de restituição resultante da colisão dissipativa do problema da esfera quicando.}
-	% \vspace{-0.5cm}
 	\centering
 		\includegraphics[scale=1]{images/bouncing_sphere/dissipative/coefficient_of_restitution.pdf}
 		% \includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
 	\label{fig:bouncing_sphere:dissipative:coefficient_of_restitution}
 	\sourceMe
-	% \vspace{-1cm}
 \end{figure}
 
 Além da energia, o coeficiente de restituição resultante da colisão também pode ser estudado. Na \cref{fig:bouncing_sphere:dissipative:coefficient_of_restitution}, estão representados o coeficiente calculado numericamente através da \cref{eq:coefficient_of_restitution_with_gravity} e o coeficiente analítico dado pela expressão \eqref{eq:corrected_linear_dashpot:coefficient_of_restitution}. Observa-se uma boa concordância entre os resultados até aproximadamente \SI{5}{\second} de simulação. A divergência que ocorre após esse instante explica-se pelo fato de que a partícula entra em repouso sobre o chão.
