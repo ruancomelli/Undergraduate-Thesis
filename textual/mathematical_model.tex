@@ -67,7 +67,7 @@ No sistema, as forças internas são sempre sujeitas ao princípio de ação e r
 
 Para a translação, os movimentos ocorrem separadamente em cada eixo coordenado de modo que os algoritmos de solução da equação \eqref{eq:motion_first} são facilmente generalizados de duas para três dimensões. Ainda, cabe observar que a primeira lei de Euler independe da posição do eixo de referência. Isso nem sempre ocorre no movimento de rotação.
 
-\subsection{Segunda Lei de Euler}
+\subsection{Segunda Lei de Euler} \label{sec:second_law_of_motion}
 
 A segunda lei de Euler, por sua vez, é o análogo rotacional da primeira:
 \begin{equation*} % \label{eq:euler_second}
@@ -135,11 +135,9 @@ e reescrevendo, nessas coordenadas, o torque resultante como \(\principal{\resul
 
 Esse sistema pode ser resolvido de forma análoga à primeira lei de Euler, conforme discutido na \autoref{subsec:motion_equations_solution}. Os valores de \(\momentOfInertia_1\), \(\momentOfInertia_2\) e \(\momentOfInertia_3\) são dependentes da geometria da partícula e da distribuição de massa no seu interior. Em geral, essas características já são conhecidas no início das simulações.
 
-Entretanto o sistema \eqref{eq:motion_second_system} exige que se conheçam os eixos principais da partícula, isto é, sua orientação. Esses eixos, porém, movem-se e rotacionam junto com o corpo, e então são variantes no tempo. Para se resolver o problema no caso geral, são propostas parametrizações, tais quais os ângulos de Euler, os ângulos de Bryan, e os parâmetros de Euler-Rodrigues \cite{bib:dynamics_of_multibody_systems}. Mais detalhes sobre essas parametrizações são encontrados no \autoref{app:three_dimensional_rotation}.
+Entretanto o sistema \eqref{eq:motion_second_system} exige que se conheçam os eixos principais da partícula, isto é, sua orientação. Esses eixos, porém, movem-se e rotacionam junto com o corpo, e então são variantes no tempo. Para se resolver o problema no caso geral, são propostas parametrizações, tais quais os ângulos de Euler, os ângulos de Bryan, e os parâmetros de Euler-Rodrigues. Detalhes sobre essas parametrizações podem ser encontrados em \citeonline[pp. 9--23]{bib:dynamics_of_multibody_systems} e em \citeonline[pp. 68--75]{bib:computational_granular_dynamics}.
 
-\alert{Verificar que os detalhes foram explicados no apêndice}
-
-Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a simulação ocorre em apenas duas dimensões; ou que as partículas são esféricas. No primeiro caso, a direção de rotação é constante. Essa situação é tratada na \autoref{subsubsec:bidimensional}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}. Por fim, na \autoref{subsubsec:general_rotation}, apresenta-se o caso de rotação geral em três dimensões.
+Duas simplificações que podem se aplicar à equação \eqref{eq:motion_second} são: que a simulação ocorre em apenas duas dimensões; ou que as partículas são esféricas. No primeiro caso, a direção de rotação é constante. Essa situação é tratada na \autoref{subsubsec:bidimensional}. Já no segundo caso, como explicado na \autoref{subsubsec:rotation_of_spherical_particles}, qualquer sistema de eixos centrado no centro de massa da partícula é um sistema de eixos principais, e então a orientação das partículas não é mais necessária para a determinação de \eqref{eq:motion_second_system}. Por fim, na \autoref{subsubsec:general_rotation}, apresenta-se o caso de rotação geral em três dimensões. 
 
 \subsubsection{Simulação Bidimensional} \label{subsubsec:bidimensional}
 
@@ -246,7 +244,7 @@ Para simulações em três dimensões com partículas não esféricas, utiliza-s
 
 As direções principais de uma partícula são dadas pela base ortonormal \(\principal{\basis} = \explicitVector{\principal{\xUnit}}{\principal{\yUnit}}{\principal{\zUnit}}\) cujos versores são autovetores da matriz de momento de inércia. A importância dessa base se dá pelo fato de que a matriz de momento de inércia se torna diagonal quando escrita em termos de seus vetores.
 
-Entretanto, em virtude do caráter dinâmico dos sistemas de partículas, as direções principais dos elementos são funções do tempo: \(\principal{\basis} \equiv \principal{\basis}\pqty{t}\). Uma \textit{parametrização} para a orientação é qualquer conjunto de coordenadas \(\orientation\) que defina, equivalentemente, as direções principais. Diversas parametrizações já foram propostas, como mostrado no \autoref{app:three_dimensional_rotation}.
+Entretanto, em virtude do caráter dinâmico dos sistemas de partículas, as direções principais dos elementos são funções do tempo: \(\principal{\basis} \equiv \principal{\basis}\pqty{t}\). Uma \textit{parametrização} para a orientação é qualquer conjunto de coordenadas \(\orientation\) que defina, equivalentemente, as direções principais. Diversas parametrizações já foram propostas, como citado anteriormente, variando entre si em termos de estabilidade, eficiência, número de variáveis consideradas e de equações de restrição.
 
 Com a parametrização \(\orientation\), sempre é possível obter os eixos principais através de uma transformação inversível:
 \begin{equation*}
@@ -968,7 +966,7 @@ A função \(\remainderFunction{\taylorOrder}{t}{y}\) é o resto de ordem \(\tay
 
 A equação \eqref{eq:taylor_trunc} é o truncamento da expansão de Taylor na \(\taylorOrder\)-ésima derivada.
 
-Considerando uma função vetorial \(\vec{y}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{y}(t) = \pqty{y_1(t),\dotsc,y_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{y}\) é a função \(y_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}, desde que as hipóteses do teorema sejam satisfeitas. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; e \(m=4\) para algumas parametrizações para a orientação das partículas, como mostrado no \autoref{app:three_dimensional_rotation}.
+Considerando uma função vetorial \(\vec{y}:I\subseteq \real \rightarrow \real^m\), o \nameref{theo:taylor} pode ser aplicado a cada uma de suas funções coordenadas\footnote{Escrevendo \(\vec{y}(t) = \pqty{y_1(t),\dotsc,y_m(t)}\), a \(i\)-ésima função coordenada de \(\vec{y}\) é a função \(y_i\).}, resultando em uma expansão similar à da equação \eqref{eq:taylor_trunc}, desde que as hipóteses do teorema sejam satisfeitas. Os casos de interesse são \(m=1\), para funções reais; \(m=2\), para vetores bidimensionais como a posição de uma partícula em uma simulação em duas dimensões; \(m=3\), para simulações em três dimensões; e \(m=4\) para algumas parametrizações para a orientação das partículas.
 
 Assim, o \nameref{theo:taylor} permite a estimativa do valor de uma função em um ponto \(t+\Dt\) a partir do valor da função e de suas derivadas em um ponto \(t\), e essa estimativa é tanto melhor quanto menor for o valor de \(\Dt\).
 
@@ -1119,8 +1117,6 @@ e então a equação \eqref{eq:correction} pode ser reescrita como
 	\source{\citeonline{bib:gear_book}}
 \end{table}
 
-\alert{O \(k\) que estou usando é diferente do de Gear. Para Gear, a maior derivada considerada é \(k-1\). A minha tabela está corrigida e, em todos os casos, \(k_{\text{Ruan}} = k_{\text{Gear}}-1 \). Será que devo mudar o símbolo?}
-
 Ainda, de acordo com \citeonline[p. 153]{bib:gear_book}, o erro global do algoritmo é da ordem de \(\Dt^{\taylorOrder+1+\maxDerivOrder-\eqOrder}\), em que \(\maxDerivOrder\) é o maior inteiro tal que a equação diferencial \eqref{eq:gear_diff} pode ser escrita como
 \begin{equation} \label{eq:smaller_diff}
 	\deriv{\eqOrder}{y} = \eqFor{y}\pqty{y, \deriv{1}{y},\dotsc,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
@@ -1129,56 +1125,3 @@ Ainda, de acordo com \citeonline[p. 153]{bib:gear_book}, o erro global do algori
 E, com isso, a etapa de correção está bem definida. Em virtude das características apresentadas, o algoritmo de Gear é usado como método de resolução das equações de movimento dos elementos dos sistemas de partículas.
 
 Com as considerações feitas neste capítulo, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.
-
-% \subsection{Aplicação do Algoritmo de Gear aos Sistemas de Partículas} \label{subsec:gear_application}
-
-%  Esta seção é dedicada a apresentar essa utilização. Primeiramente, é apresentado o caso geral. Por fim, mostra-se a simplificação existente para partículas esféricas.
-
-
-
-% E assim está demonstrada a aplicação do algoritmo de Gear aos sistemas de partículas. 
-
-% Para o caso da posição de uma partícula  \(\particlei\), a equação de movimento translacional é obtida a partir do princípio da superposição \eqref{eq:superposition_translation} e da primeira lei de Euler \eqref{eq:motion_first} como
-% \begin{equation*}
-% 	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji.
-% \end{equation*}
-
-% A força \(\forceji\) que cada partícula \(\particlej\) aplica sobre \(\particlei\) é função de suas posições, velocidades, orientações e velocidades angulares. Utilizando-se parametrizações \(\orientationi\) e \(\orientationj\) para as orientações das partículas, obtém-se
-% \begin{equation*}
-% 	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji\pqty{\positioni, \velocityi, \orientationi, \deriv{1}{\orientationi}, \positionj, \velocityj, \orientationj, \deriv{1}{\orientationj}}.
-% \end{equation*}
-
-% De forma semelhante, a equação de movimento rotacional para \(\particlei\) é obtida a partir do princípio da superposição \eqref{eq:superposition_rotation} e da equação diferencial para rotação parametrizada \eqref{eq:diff_equation_orientation_parametrization}, como apresentada na \autoref{subsubsec:general_rotation}:
-% \begin{equation*}
-% 	\deriv{2}{\orientationi} = \eqFori{\orientation}\pqty{\sum_{\particlej\in\neighborhoodi}\torqueji, \,\orientationi,\,\deriv{1}{\orientationi}}.
-% \end{equation*}
-
-% Ainda, cada parcela \(\torqueji\) é função das coordenadas (e suas derivadas) das partículas \(\particlei\) e \(\particlej\), e então
-% \begin{equation*}
-% 	\deriv{2}{\orientationi} = \eqFori{\orientation}\pqty{\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\positioni, \velocityi, \orientationi, \deriv{1}{\orientationi}, \positionj, \velocityj, \orientationj, \deriv{1}{\orientationj}}, \,\orientationi,\,\deriv{1}{\orientationi}}.
-% \end{equation*}
-
-% Para se utilizar o algoritmo de Gear, porém, é necessário escrever-se uma equação diferencial para uma única função, e o que se tem, até agora, é um sistema de \(\numberOfParticles\) equações
-% \begin{equation*}
-% 	,
-% \end{equation*}
-% em que \(\numberOfParticles\) é o número de partículas no sistema.
-
-% \alert{Apagar a partir daqui}
-% ou, vendo \(\angularVelocityi\), \(\positionj\), \(\velocityj\) e \(\angularVelocityj\) como funções do tempo,
-% \begin{equation*}
-% 	\accelerationi = \dfrac{1}{\massi}\sum_{\particlej\in\neighborhoodi}\forceji\pqty{\positioni, \velocityi, t}.
-% \end{equation*}
-
-% Já a equação de movimento rotacional é obtida através de \eqref{eq:superposition_rotation} e \eqref{eq:rotation_spherical_particle} como
-% \begin{equation*}
-% 	\angularAccelerationi = \dfrac{1}{\momentOfInertiai}\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\positioni, \velocityi, \angularVelocityi, \positionj, \velocityj, \angularVelocityj},
-% \end{equation*}
-% ou, similarmente,
-% \begin{equation*}
-% 	\angularAccelerationi = \dfrac{1}{\momentOfInertiai}\sum_{\particlej\in\neighborhoodi}\torqueji\pqty{\angularVelocityi, t}.
-% \end{equation*}
-
-% Assim, para o movimento de translação, a ordem da equação diferencial resultante é \(p=2\), enquanto \(q=1\) na equação \eqref{eq:smaller_diff}. Disso que resulta que o erro do algoritmo é da ordem de \(\Dt^{\taylorOrder}\).
-
-% Por sua vez, a equação para o movimento de rotação tem ordem \(p=1\), e pode-se considerar que \(q=0\) em \eqref{eq:smaller_diff}. Logo, o erro também é da ordem de \(\Dt^{\taylorOrder}\).
