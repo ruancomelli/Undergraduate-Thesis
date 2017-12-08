@@ -6,10 +6,36 @@ A compreensão acerca do comportamento de sistemas de partículas e de materiais
 
 Esses conhecimentos são aplicados na previsão do comportamento mecânico de geomateriais, como rochas, e da propagação de trincas e fraturas em sólidos, na simulação da produção de fármacos, alimentos, detergentes e cosméticos, no desenvolvimento de novos materiais e na modelagem da fragmentação, sedimentação, granulação, escavação, transporte e armazenamento de grãos e do escoamento em máquinas extrusoras \cite{bib:donze,bib:poschel,bib:applications}.
 
-\alert{Imagens de aplicações aqui}
+% Annoying error:
+% \begin{figure}[htb!]
+% 	\caption{Exemplos de aplicações relacionadas à dinâmica de partículas.}
+% 	\centering
+% 	\captionsetup[subfloat]{labelfont=bf}
+% 	\subfloat{
+% 		\centering
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[width=0.9\textwidth]{images/introduction/grains_transport.jpg}
+% 			\caption{Transporte de grãos.}
+% 			\label{subfig:introduction:applications:grains_transport}
+% 			\source{Confederação da Agricultura e Pecuária do Brasil\footnotemark{}}
+% 		\end{subfigure}
+		
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[width=0.9\textwidth]{images/introduction/excavation.jpg}
+% 			\caption{Escavação.}
+% 			\label{subfig:introduction:applications:excavation}
+% 			\source{King’s Excavation \& Dirt Works\footnotemark{}}
+% 		\end{subfigure}
+% 	}
+% 	\label{fig:introduction:applications}
+% \end{figure}
+
+% \footnotetext[1]{Disponível em: \url{http://www.cnabrasil.org.br/noticias/pesquisa-vai-quantificar-perdas-no-transporte-de-graos-em-caminhoes}. Acesso em: 04/11/2017.}
+% \footnotetext{Disponível em: \url{https://kingsexcavation.com/}. Acesso em: 08/12/2017.}
 
 % \begin{figure}[h]
-% 	\caption{Transporte de grãos}
 % 	\vspace{-0.5cm}
 % 	\centering
 % 		\includegraphics[width=0.6\textwidth]{images/introduction/grains_transport.jpg}
@@ -110,7 +136,7 @@ Segundo \citeonline{bib:computational_granular_dynamics}, algoritmos do \DEM{}, 
 % 			\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}.
 % 		\end{enumdesc}
 % 	\item[Correção:] Nesta etapa, valores corrigidos para as coordenadas (e as respectivas derivadas) das partículas são obtidos através da resolução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second}.
-% 	\item[Finalizar:] Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}.
+% 	\item[Finalização:] Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}.
 % \end{enumdesc}
 
 \begin{enumerate} 
@@ -119,25 +145,20 @@ Segundo \citeonline{bib:computational_granular_dynamics}, algoritmos do \DEM{}, 
 	\item \textbf{Interação:} A etapa de interação se divide em duas subetapas: 
 	\begin{enumerate} 
 		\item Determinação dos pares de interação. Nem todas as partículas interagem em todos os instantes. Para o caso das forças de colisão, é necessário identificar todos os pares que estão em contato. Essa etapa costuma ser a mais custosa do método, e várias técnicas são propostas para minimizar esse custo. 
-		\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}. 
+		\item Computação das forças e torques entre os elementos da simulação com base nas coordenadas previstas na etapa \ref{item:prediction}.
 	\end{enumerate} 
 	\item \textbf{Correção:} Nesta etapa, valores corrigidos para as coordenadas (e as respectivas derivadas) das partículas são obtidos através da resolução das equações \eqref{eq:intro_motion_first} e \eqref{eq:intro_motion_second}. 
-	\item \textbf{Finalizar:} Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}. 
+	\item \textbf{Finalização:} Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}. 
 \end{enumerate} 
 
 Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorithm}. Outros passos podem ser introduzidos no algoritmo, tais quais exportação de dados, iterações em cada passo de tempo e acoplamento com outros simuladores.
 
 \begin{figure}[h]
 	\caption{Fluxograma simplificado do Método de Elementos Discretos.}
-	% \vspace{-0.5cm}
 	\centering
-		\alert{Colocar fluxograma do \DEM{}}
-		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\input{tikzpictures/introduction/simple_flowchart}
 	\label{fig:simple_dem_algorithm}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
 Também é possível acoplar o \DEM{} a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:bicanic2007} apresentam alguns exemplos das diversas extensões que podem ser feitas ao \DEM{}. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:conductivity} e \citeonline{bib:heat_dem} demonstram a aplicação de modelos de troca de calor. O acoplamento entre \DEM{} e outras famílias é conhecido como EDEM, ou XDEM, o Método de Elementos Discretos Estendido.
@@ -188,9 +209,8 @@ Com o propósito de melhor guiar as atividades, são propostos os seguintes obje
 
 Para melhor cobrir todos os assuntos relativos ao cumprimento dos objetivos, além do capítulo de introdução, este trabalho é dividido nos seguintes capítulos:
 \begin{description}
-	\item[\autoref{ch:mathematical_model} - \nameref{ch:mathematical_model}:] Nesse capítulo, são abordados os aspectos teóricos e matemáticos concernentes ao \DEM{}. Nele, são descritas as equações de movimento que devem ser solucionadas, alguns dos principais modelos para as forças de colisão e o algoritmo de Gear;
-	\item[\autoref{ch:discrete_element_method} - \nameref{ch:discrete_element_method}:] Nesse capítulo, é descrito o \DEM{}, demonstrando como os conceitos apresentados no capítulo \ref{ch:mathematical_model} são aplicados e transformados em algoritmos.
-	\item[\autoref{ch:computational_implementation} - \nameref{ch:computational_implementation}:] Esse capítulo evidencia a implementação da biblioteca e do simulador em linguagem \CPP{} ao apresentar códigos, pseudocódigos e fluxogramas com o intuito de fornecer uma visão geral do programa e explicar o seu funcionamento. \alert{Verificar se há mesmo esse capítulo}
-	\item[\autoref{ch:results} - \nameref{ch:results}:] Esse capítulo é destinado à apresentação de resultados de simulação, à sua confrontação com soluções analíticas e à sua análise. Com isso, a implementação é validada.
-	\item[\autoref{ch:conclusion} - \nameref{ch:conclusion}:] O último capítulo é dedicado a sumarizar o trabalho, reafirmando os principais pontos explorados ao longo do texto e atestando que os objetivos propostos foram alcançados. Também são apresentadas algumas sugestões para trabalhos futuros.
+	\item[\Cref{ch:mathematical_model} - \nameref{ch:mathematical_model}:] Nesse capítulo, são abordados os aspectos teóricos e matemáticos concernentes ao \DEM{}. Nele, são descritas as equações de movimento que devem ser solucionadas, alguns dos principais modelos para as forças de colisão e o algoritmo de Gear;
+	\item[\Cref{ch:discrete_element_method} - \nameref{ch:discrete_element_method}:] Nesse capítulo, é descrito o \DEM{}, demonstrando como os conceitos apresentados no \cref{ch:mathematical_model} são aplicados e transformados em algoritmos.
+	\item[\Cref{ch:results} - \nameref{ch:results}:] Esse capítulo evidencia a implementação da biblioteca e do simulador em linguagem \CPP{}. Nesse capítulo, ainda, resultados de simulação são apresentados, confrontados com soluções analíticas e analisados. Com isso, a implementação é validada.
+	\item[\Cref{ch:conclusion} - \nameref{ch:conclusion}:] O último capítulo é dedicado a sumarizar o trabalho, reafirmando os principais pontos explorados ao longo do texto e atestando que os objetivos propostos foram alcançados. Também são apresentadas algumas sugestões para trabalhos futuros.
 \end{description}

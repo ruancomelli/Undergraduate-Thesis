@@ -1,0 +1,20 @@
+\begin{tikzpicture}[node distance = 2.7cm,
+    % >=triangle 60,              % Nice arrows; your taste may be different
+    start chain=going right,    % General flow is top-to-bottom
+    auto]
+    % Place nodes
+	\node [block] (initialization) {Inicialização};
+	\node [block, right of=initialization] (prediction) {Predição};
+	\node [block, right of=prediction] (interaction) {Interação};
+	\node [block, right of=interaction] (correction) {Correção};
+	\node [decision, right of=correction] (stop) {Critério de parada satisfeito?};
+	\node [block, right of=stop, node distance=3.5cm] (termination) {Finalização};
+	\node [below of=stop, node distance=2cm] (void) {};
+    % Draw edges
+    \draw[arrow] (initialization) -- (prediction);
+    \draw[arrow] (prediction) -- (interaction);
+    \draw[arrow] (interaction) -- (correction);
+    \draw[arrow] (correction) -- (stop);
+	\draw[arrow] (stop.east) -- node[decision answer] {sim} (termination);
+	\draw[arrow] (stop.south) -- node[decision answer] {não} (void.center) -| (prediction);
+\end{tikzpicture}
