@@ -56,7 +56,7 @@ sendo \(\resultingForce\) o vetor força resultante sobre a partícula. Para o c
 	\resultingForce = \mass\cdot\acceleration.
 \end{equation}
 
-A equação \eqref{eq:euler_first} é aplicada para os fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. \citeonline{bib:computational_granular_dynamics} apresentam métodos que descrevem o fenômeno de fragmentação. Tais situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
+A equação \eqref{eq:euler_first} é aplicada nos fenômenos de fragmentação e aglutinação, casos em que partículas são divididas ou unidas, sendo que a massa de cada partícula isoladamente não é constante. \citeonline{bib:computational_granular_dynamics} apresentam métodos que descrevem o fenômeno de fragmentação. Tais situações, porém, são tratadas separadamente, de modo que a equação \eqref{eq:motion_first} é a que se considera para o estudo da evolução do sistema.
 
 De acordo com o princípio da superposição, a força resultante sobre a partícula é igual à soma vetorial todas as forças aplicadas sobre ela, conforme a equação \eqref{eq:superposition_translation}. Essas forças são comumente divididas em \textit{forças internas} e \textit{forças externas} ao sistema. As forças internas são aquelas oriundas das interações entre os elementos do sistema, enquanto as forças externas são atribuídas a elementos exteriores. 
 
@@ -153,19 +153,16 @@ Já que, neste caso, a velocidade angular possui direção constante, é possív
 	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\zUnit.
 \end{gather*}
 
-Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais da partícula e sua orientação de referência, como na figura \ref{fig:bidimensional_simulation}.
+Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais da partícula e sua orientação de referência, como na figura \ref{fig:bidimensional_rotation}.
 
 \begin{figure}[h]
 	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações bidimensionais}
-	% \vspace{-0.5cm}
+	\vspace{-0.5cm}
 	\centering
-		\alert{Colocar imagem representando a orientação de uma partícula em simulação bidimensionais}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
-	\label{fig:bidimensional_simulation}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+		\includegraphics[width=0.8\textwidth]{images/mathematical_model/bidimensional_orientation.pdf}
+	\vspace{-0.5cm}
+	\label{fig:bidimensional_rotation}
+	\sourceMe
 \end{figure}
 
 Além disso, da hipótese de que as rotações ocorrem apenas em torno do eixo \(\zAxis\) segue que o torque resultante possui apenas componentes nessa direção, isto é,
@@ -304,19 +301,31 @@ Os modelos de colisão mais simples são aqueles que ocorrem entre partículas e
 
 \subsection{Parâmetros de Cálculo} \label{subsec:collision_parameters}
 
-Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato e a \textit{superposição}. Esses parâmetros, representados graficamente na figura \ref{fig:collision_parameters}, descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força. Além disso, o coeficiente de restituição e as energias cinética, potencial e mecânica são de grande importância para a análise dos resultados.
+Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato, a \textit{superposição} e os versores normal e tangencial. Também, o ponto de contato e o plano de contato são necessários na determinação da geometria do choque. Esses parâmetros descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força. Além disso, o coeficiente de restituição e as energias cinética, potencial e mecânica são de grande importância para a análise dos resultados. Na \cref{fig:collision_parameters:collision_parameters} estão representadas graficamente as posições e as velocidades das partículas colidentes, assim como os versores normais. Na \cref{fig:collision_parameters:collision_geometry}, estão a reta que liga os centros das partículas, o plano de contato, os vetores radiais de colisão, a distância entre centros e a superposição.
 
-\begin{figure}[h]
-	\caption{Parâmetros de Cálculo na Colisão entre Elementos}
-	% \vspace{-0.5cm}
+\begin{figure}[htb!]
+	\caption{Representação dos raios, das posições, e das velocidades das partículas, da superposição, dos versores normais, dos vetores radiais, do plano de contato e da reta normal.}
 	\centering
-		\alert{Colocar figura aqui}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+	\captionsetup[subfloat]{labelfont=bf}
+	\subfloat{
+		\centering
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/mathematical_model/collision_parameters.pdf}
+			\caption{}
+			\label{subfig:collision_parameters:collision_parameters}
+		\end{subfigure}
+		\begin{subfigure}[t]{\smallresultsfigwidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/mathematical_model/collision_geometry.pdf}
+			\caption{}
+			\label{subfig:collision_parameters:collision_geometry}
+		\end{subfigure}
+	}
 	\label{fig:collision_parameters}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	% \vspace{-0.5cm}
+	\sourceMe
+	% \vspace{-0.5cm}
 \end{figure}
 
 \subsubsection*{Superposição} 
@@ -420,20 +429,7 @@ Em ambos os casos, é possível construir-se, a partir do centro da partícula \
 
 \subsubsection*{Ponto de Contato}
 
-Tanto na colisão entre partículas esféricas quanto na colisão entre partícula esférica e parede plana, existe um único plano, denominado de \textit{plano de contato} e denotado por \(\contactPlaneij\), que contém todos os pontos de interseção entre as superfícies dos colidentes, como mostra a figura \ref{fig:contact_point}.
-
-\begin{figure}[h]
-	\caption{Plano e ponto de contato entre dois elementos colidentes}
-	% \vspace{-0.5cm}
-	\centering
-		\alert{Colocar figura aqui}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
-	\label{fig:contact_point}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
-\end{figure}
+Tanto na colisão entre partículas esféricas quanto na colisão entre partícula esférica e parede plana, existe um único plano, denominado de \textit{plano de contato} e denotado por \(\contactPlaneij\), que contém todos os pontos de interseção entre as superfícies dos colidentes, como mostra a figura \ref{fig:collision_parameters}.
 
 O ponto de contato efetivo \(\contactPointij\) entre os elementos \(i\) e \(j\) é dado pela interseção entre o plano de contato e a reta normal \(\normalLineij\). Vetorialmente, o contato é representado pela posição \(\vectorFromPoints{\originPoint}{\contactPointij}\).
 
@@ -442,23 +438,10 @@ Esse ponto também pode ser representado pelo vetor radial \(\contactVectorij = 
 	\vectorFromPoints{\originPoint}{\contactPointij} = \positioni + \contactVectorij.
 \end{equation}
 
-Para duas partículas esféricas, a geometria do contato é tal como mostrado na figura \ref{fig:contact_geometry}. Segue então do teorema de Pitágoras que
+Para duas partículas esféricas, a geometria do contato é tal como mostrado na figura \ref{fig:contact_parameters:contact_geometry}. Segue então do teorema de Pitágoras que
 \begin{equation*}
 	\radiusi^2 - \contactRadiusij^2 = \radiusj^2 - \contactRadiusji^2.
 \end{equation*}
-
-\begin{figure}[h]
-	\caption{Geometria do Contato para Partículas Esféricas}
-	% \vspace{-0.5cm}
-	\centering
-		\alert{Colocar figura aqui}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
-	\label{fig:contact_geometry}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
-\end{figure}
 
 Além disso,
 \begin{equation*}
@@ -488,35 +471,29 @@ A velocidade relativa no ponto de contato é o principal parâmetro cinemático 
 O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, os dois acabam por se encontrar. Isso é representado na figura \ref{fig:relative_velocity}.
 
 \begin{figure}[h]
-	\caption{Velocidade relativa no ponto de contato}
-	% \vspace{-0.5cm}
+	\caption{Velocidade relativa no ponto de contato.}
 	\centering
-		\alert{Colocar figura aqui}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.9\textwidth]{images/mathematical_model/relative_velocity.pdf}
 	\label{fig:relative_velocity}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
-Como esses pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo. A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois vetores:
+Como esses pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo com velocidades \(\relativeVelocityContactPointi\) e \(\relativeVelocityContactPointj\). A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois vetores:
 \begin{equation*}
-	\relativeVelocityContactPointij = \dv{t}(\vectorFromPoints{\originPoint}{\contactPointj} - \vectorFromPoints{\originPoint}{\contactPointi}).
+	\relativeVelocityContactPointij = \dv{t}(\vectorFromPoints{\originPoint}{\contactPointj} - \vectorFromPoints{\originPoint}{\contactPointi}) = \relativeVelocityContactPointj - \relativeVelocityContactPointi.
 \end{equation*}
 
 De acordo com \citeonline[p. 25]{bib:dynamics_of_multibody_systems}, e usando o fato de que os pontos \(\contactPointi\) e \(\contactPointj\) são fixos nos elementos a que pertencem (ou seja, os pontos têm velocidade relativa nula com relação aos seus respectivos corpos), é possível escrever
 \begin{gather*}
-	\dv{t}(\vectorFromPoints{\originPoint}{\contactPointi}) = \velocityi + \angularVelocityi\cross\contactVectorij, \\
-	\dv{t}(\vectorFromPoints{\originPoint}{\contactPointj}) = \velocityj + \angularVelocityj\cross\contactVectorji.
+	\relativeVelocityContactPointi = \velocityi + \angularVelocityi\cross\contactVectorij, \\
+	\relativeVelocityContactPointj = \velocityj + \angularVelocityj\cross\contactVectorji.
 \end{gather*}
 
 Com isso, obtém-se
 \begin{equation*}
-	\relativeVelocityContactPointij = \pqty{\velocityj - \velocityi} + \pqty{\angularVelocityj\cross\contactVectorji - \angularVelocityi\cross\contactVectorij}.
+	\relativeVelocityContactPointij = \pqty{\velocityj - \velocityi} + \pqty{\angularVelocityj\cross\contactVectorji - \angularVelocityi\cross\contactVectorij},
 \end{equation*}
-
-Nota-se dessa equação que
+e nota-se dessa equação que
 \begin{equation} \label{eq:antisymmetry_relative_velocity}
 	\relativeVelocityContactPointji = - \relativeVelocityContactPointij.
 \end{equation}
@@ -623,19 +600,14 @@ Nesta seção, são apresentados os dois principais modelos de força normal uti
 
 \subsubsection*{Modelo de Amortecedor Linear}
 
-O modelo de amortecedor linear é um dos modelos mais simples que se adotam para a colisão de partículas. Esse modelo pode ser representado esquematicamente como na figura \ref{fig:linear_dashpot_force}.
+O modelo de amortecedor linear é um dos modelos mais simples que se adotam para a colisão de partículas. Esse modelo pode ser representado esquematicamente como na figura \ref{fig:mathematical_model:linear_dashpot_force}.
 
 \begin{figure}[h]
-	\caption{Representação do modelo de amortecimento linear}
-	% \vspace{-0.5cm}
+	\caption{Representação esquemática do modelo de amortecimento linear}
 	\centering
-		\alert{Colocar figura aqui}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
-	\label{fig:linear_dashpot_force}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+		\includegraphics[width=0.8\textwidth]{images/mathematical_model/linear_dashpot_force.pdf}
+	\label{fig:mathematical_model:linear_dashpot_force}
+	\sourceMe
 \end{figure}
 
 A equação para a força normal dada por esse modelo é
