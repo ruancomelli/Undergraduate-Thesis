@@ -47,22 +47,17 @@ O instante inicial da simulação é definido como \(\initialInstant=0\), e o in
 Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\), e que a partícula não possua rotação, como representado na figura \ref{fig:free_fall}. Nessa situação, a posição em \(\yAxis\) da partícula é chamada de altura.
 
 \begin{figure}[h]
-	\caption{O problema do lançamento oblíquo}
-	% \vspace{-0.5cm}
+	\caption{Ilustração do problema do lançamento oblíquo.}
 	\centering
-		\alert{Colocar imagem representando o problema do lançamento oblíquo}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.3\textwidth]{images/falling_sphere/illustration.pdf}
 	\label{fig:free_fall}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
 Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\), \(\velocity = \explicitVectorCoordinates{\velocityScalar}\) e \(\acceleration = \explicitVectorCoordinates{\accelerationScalar}\), é obtida a solução como apresentada na tabela \ref{table:free_fall_solution}.
 
 \begin{table}[h]
-	\caption{Solução do problema do lançamento oblíquo}
+	\caption{Solução do problema do lançamento oblíquo.}
 	\label{table:free_fall_solution}
 
 	\begin{equation*}
@@ -219,13 +214,9 @@ Essa configuração pode ser representada como na figura \ref{fig:bouncing_spher
 	\caption{O problema da esfera quicando.}
 	% \vspace{-0.5cm}
 	\centering
-		\alert{Colocar imagem representando o problema da esfera quicando}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.35\textwidth]{images/bouncing_sphere/illustration.pdf}
 	\label{fig:bouncing_sphere}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
 Além de servir como mais um caso para a validação do código, o problema da esfera quicando possibilita a comparação entre o coeficiente de restituição calculado a partir dos resultados da simulação e o coeficiente calculado analiticamente a partir do modelo de força escolhido.
@@ -333,7 +324,7 @@ O caso dissipativo, como exposto na \cref{sec:results:bouncing_sphere:dissipativ
 \label{tab:bouncing_sphere:conservative:parameters}
 \begin{parametersdesc}
 	\item{Constante de amortecimento da partícula}{\ind{\normalDampingConstant}{\particle} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
-	\item{Constante de amortecimento da paOrede}{\ind{\normalDampingConstant}{\element} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
+	\item{Constante de amortecimento da parede}{\ind{\normalDampingConstant}{\element} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
 	\item{Demais parâmetros}{\text{\Cref{tab:bouncing_sphere:dissipative_case:parameters}}}{}
 \end{parametersdesc}
 \sourceMe 
@@ -398,15 +389,10 @@ A questão central dos métodos de elementos discretos é a interação entre pa
 
 \begin{figure}[h]
 	\caption{O problema da colisão entre esferas.}
-	% \vspace{-0.5cm}
 	\centering
-		\alert{Colocar imagem representando o problema da colisão entre esferas}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.45\textwidth]{images/colliding_spheres/illustration.pdf}
 	\label{fig:colliding_spheres}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
 Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\) e a azul \(\blueParticle\). A partícula azul encontra-se em repouso na posição \(\initial{\bluePosition}\). A partícula vermelha encontra-se inicialmente na posição \(\initial{\redPosition}\) e avança, com uma velocidade linear \(\initial{\redVelocity}\) e uma velocidade angular \(\initial{\redAngularVelocity} = \initial{\redAngularVelocityScalar}\cdot\zUnit\), na direção de \(\blueParticle\). As partículas colidem, e ocorre transferência de movimento da partícula vermelha para a azul. Essa situação é representada na \cref{fig:colliding_spheres}.
@@ -809,10 +795,9 @@ Considera-se uma partícula esférica \(\particle\) de raio \(\radius\) e massa 
 \begin{figure}[h]
 	\caption{O problema da queda com arrasto.}
 	\centering
-		\alert{Colocar imagem representando o problema da queda com arrasto}
-		% \includegraphics[width=0.65\textwidth]{images/drug_production.png}
+		\includegraphics[width=0.4\textwidth]{images/falling_with_drag/illustration.pdf}
 	\label{fig:falling_with_drag}
-	\source{\alert{Citar fonte}}
+	\sourceMe
 \end{figure}
 
 Segundo \citeonline[p. 392]{bib:fox}, a força de arrasto \(\dragForce\) que a partícula sofre é dada por
