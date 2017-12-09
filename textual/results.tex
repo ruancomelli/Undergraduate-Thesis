@@ -1,10 +1,75 @@
 \chapter{Implementação Computacional, Resultados e Validação} \label{ch:results}
 
-Os conceitos apresentados nos capítulos anteriores servem como fundamento para a implementação de algoritmos de solução através do Método de Elementos Discretos. Este \namecref{ch:results} é destinado a apresentar a implementação computacional resultante deste trabalho e a executar as tarefas de apresentação de resultados de simulação e de validação numérica da implementação.
+Os conceitos apresentados nos capítulos anteriores servem como fundamento para a implementação de algoritmos de solução através do Método de Elementos Discretos. Este \namecref{ch:results} é destinado a apresentar a implementação computacional desenvolvida neste trabalho e a executar as tarefas de apresentação de resultados de simulação e de validação numérica da implementação.
 
-\alert{Falar aqui sobre a implementação}
+\section{Implementação Computacional} \label{sec:computational_implementation}
 
-Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada. A apresentação e a análise de simulações são feitas neste capítulo. Com o fim de se fazer a validação numérica, os resultados são comparados com soluções analíticas ou qualitativamente avaliados.
+A implementação computacional de um algoritmo consiste em se transformar modelos matemáticos e numéricos em programas executáveis por computadores, e, portanto, passíveis de análises concretas. Esta \namecref{sec:computational_implementation} é dedicada à exposição dos principais pontos concernentes à implementação e, com isso, possibilita o entendimento das capacidades e das limitações do simulador desenvolvido.
+
+Inicialmente, foi implementada, em linguagem \CPP{}, uma biblioteca de simulação contendo o suporte à construção de simuladores. Posteriormente, as \textit{funções} e \textit{classes} da biblioteca foram especializadas para obter-se um simulador. Tal simulador recebe dados de entrada através de arquivos no formato \JSON{}, executa a simulação correspondente com base nessa entrada, e os exporta, também em formato \JSON{}. A partir dos resultados exportados, scripts de pós-processamento, escritos em linguagem \Python{}, são executados para a geração de gráficos, figuras, tabelas e animações. Esses componentes e a sua interrelação estão ilustrados na \cref{fig:results:computational_implementation:complete_workflow}.
+
+\begin{figure}[h]
+	\caption{Componentes do programa implementado.}
+	\centering
+		\input{tikzpictures/computational_implementation/complete_workflow}
+	\label{fig:results:computational_implementation:complete_workflow}
+	\sourceMe
+\end{figure}
+
+% \subsection{Linguagens de Programação e Formatos Usados}
+
+% O simulador e a biblioteca foram implementados na linguagem orientada a objetos \CPP{}. A orientação a objetos é um paradigma de programação em que as principais entidades do código são \textit{objetos}, unidades que contêm, cada uma, seus próprios dados e métodos. Sendo assim, a posição de uma partícula \lstinline[style=Inline C++]{particle} pode ser simplesmente representada por um dado membro \lstinline[style=Inline C++]{position}. Cada objeto pertence a uma \textit{classe} de objetos que especifica suas características. Por exemplo, se a partícula citada for esférica, ela pode pertencer à classe \lstinline[style=Inline C++]{SphericalParticle}. A atribuição de classes, ou tipos, às variáveis do programa é denominada de \textit{tipagem}.
+
+% Além disso, \CPP{} é uma linguagem \textit{compilada}, o que significa que o código-fonte passa por um processo de compilação antes de gerar um executável. Toda a tipagem é feita em \textit{tempo de compilação}, assim como a análise sintática e semântica do código. A simulação, por sua vez, é feita em \textit{tempo de execução}, uma etapa posterior em que os algoritmos são, de fato, executados.
+
+% Ainda, a linguagem \CPP{} oferece suporte à \textit{metaprogramação template}, uma técnica que permite construírem-se modelos gerais para classes e funções e, posteriormente, especializá-los. Assim, pode-se definir uma classe template \lstinline[style=Inline C++]{list}:
+% \begin{lstlisting*}[style=C++]
+% 	template<class T>
+% 	class list
+% 	{
+% 		(*\hiddenCode*) // implementação aqui
+% 	}
+% \end{lstlisting*}
+
+% Com isso, uma lista de números inteiros (do tipo \lstinline[style=Inline C++]{int}) pode ser dada simplesmente por \lstinline[style=Inline C++]{list<int>}, e uma lista de partículas esféricas, por \lstinline[style=Inline C++]{list<SphericalParticle>}.
+
+% Como suporte ao desenvolvimento do código, foram usadas as bibliotecas Boost \cite{bib:boost} e JSON for Modern C++ \cite{bob:nlohmann}.
+
+% A linguagem \Python{}, por sua vez, foi usada para a etapa de pós-processamento tendo em vista a facilidade de usá-la no contexto requisitado. Essa linguagem é \textit{interpretada}, o que significa que todo o processamento ocorre em tempo de execução. Existem diversas bibliotecas e funções disponíveis para a leitura e exportação de dados, geração de gráficos e criação de animações, o que justifica a sua utilização.
+
+% Ambas as linguagens, \CPP{} e \Python{}, possuem uma vasta comunidade de usuários. Por esse motivo, existem diversos fóruns de discussão, bibliotecas de códigos e \textit{softwares} que auxiliam na tarefa de programação.
+
+% Neste trabalho, foi utilizado o formato \JSON{} para os arquivos de entrada e saída da simulação. O \JSON{} é um formato de arquivo independente de linguagem que facilita a troca de informações, sendo desenhado para ser facilmente lido por humanos e interpretado por programas de computador \cite{bib:json}. Como exemplo, é apresentado, no \cref{app:code_listings}, o arquivo de inicialização do problema de lançamento oblíquo, descrito na \cref{sec:free_fall}.
+
+% \subsection{Implementação da Biblioteca}
+
+% A biblioteca implementada fundamenta-se na metaprogramação template para obter generalidade e eficiência. O principal componente dessa biblioteca é a classe template \lstinline[style=Inline C++]{Simulator}, cuja declaração é da forma
+% \begin{lstlisting*}[style=C++]
+% 	template<
+% 		class ... ParticleTypes,
+% 		class ... BoundaryTypes,
+% 		class ... InteractionTypes,
+% 		class ... IntegratorTypes,
+% 		class ... SeekerTypes
+% 	>
+% 	class Simulator<
+% 		ParticleList<ParticleTypes...>,
+% 		BoundaryList<BoundaryTypes...>,
+% 		InteractionList<InteractionTypes...>,
+% 		IntegratorList<IntegratorTypes...>,
+% 		SeekerList<SeekerTypes...>
+% 	>;
+% \end{lstlisting*}
+
+% Sendo assim, a classe template \lstinline[style=Inline C++]{Simulator} é especializada em função dos tipos de partículas (\lstinline[style=Inline C++]{ParticleTypes}), de elementos de contorno (\lstinline[style=Inline C++]{BoundaryTypes}), de interações (\lstinline[style=Inline C++]{InteractionTypes}), de métodos de integração (\lstinline[style=Inline C++]{IntegratorTypes}) e de métodos de monitoramento de vizinhanças (\lstinline[style=Inline C++]{SeekerTypes}) usados.
+
+% \alert{Falar de como ficou a biblioteca, isto é, as classes template Simulator, Property e Particle, das exigências para as Interactions. Falar das limitações: Por exemplo, não se implementou o suporte a partículas de geometria qualquer pois temos que lidar com as rotações.}
+% \subsection{Implementação do Simulador}
+% \alert{Falar de como a biblioteca foi especializada para se obterem as propriedades usadas, as interações, as partículas etc.}
+
+\section{Resultados e Validação}
+
+Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada. Com o fim de se fazer a validação numérica, simulações são executadas e seus resultados são comparados com soluções analíticas ou qualitativamente avaliados.
 
 O procedimento adotado para validação numérica da implementação considera:
 \begin{alineas}
