@@ -71,52 +71,52 @@ Outras características que podem ser atribuídas aos elementos da simulação s
 \begin{alineas}
 \item \textit{Propriedades:} as propriedades que se atribuem aos elementos são essenciais para o cálculo das interações que ocorrem entre eles. Seus valores podem ser função do material de que os corpos são compostos, de parâmetros obtidos experimentalmente, entre outros. Exemplos de propriedades físicas são a massa específica e o módulo de elasticidade. Além disso, outros parâmetros podem ser atribuídos às partículas, como o coeficiente de atrito e o amortecimento, de acordo com a \cref{sec:collision_force_models}.
 
-\begin{figure}[h]
-	\caption{Formas geométricas mais aplicadas nos métodos de elementos discretos.}
-	% \vspace{-0.5cm}
-	\centering
-	\captionsetup[subfloat]{labelfont=bf}
-	\subfloat{
-		\centering
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\alert{Figura aqui (partícula esférica)}
-			\caption{Geometria esférica.}
-			\label{subfig:element_geometry:sphere}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\alert{Figura aqui (elemento plano)}
-			\caption{Geometria plana.}
-			\label{subfig:element_geometry:plane}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\alert{Figura aqui (superelipsoide)}
-			\caption{Geometria superelipsoidal.}
-			\label{subfig:element_geometry:ellipsoid}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\alert{Figura aqui (poliedro)}
-			\caption{Geometria poliédrica.}
-			\label{subfig:element_geometry:polyhedron}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\alert{Figura aqui (partícula composta)}
-			\caption{Geometria composta.}
-			\label{subfig:element_geometry:composite_particle}
-		\end{subfigure}
-	}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
-	\label{fig:element_geometry}
-	\sourceMe
-	% \vspace{-1cm}
-\end{figure}
+% \begin{figure}[h]
+% 	\caption{Formas geométricas mais aplicadas nos métodos de elementos discretos.}
+% 	% \vspace{-0.5cm}
+% 	\centering
+% 	\captionsetup[subfloat]{labelfont=bf}
+% 	\subfloat{
+% 		\centering
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[width=0.5\textwidth]{images/discrete_element_method/geometries/sphere.pdf}
+% 			\caption{Geometria esférica.}
+% 			\label{subfig:element_geometry:sphere}
+% 		\end{subfigure}
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[width=\textwidth]{images/discrete_element_method/geometries/plane.pdf}
+% 			\caption{Geometria plana.}
+% 			\label{subfig:element_geometry:plane}
+% 		\end{subfigure}
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[width=0.5\textwidth]{images/discrete_element_method/geometries/superelipsoid.pdf}
+% 			\caption{Geometria superelipsoidal.}
+% 			\label{subfig:element_geometry:ellipsoid}
+% 		\end{subfigure}
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[width=0.5\textwidth]{images/discrete_element_method/geometries/polyhedron .pdf}
+% 			\caption{Geometria poliédrica.}
+% 			\label{subfig:element_geometry:polyhedron}
+% 		\end{subfigure}
+% 		% \begin{subfigure}[t]{\smallresultsfigwidth}
+% 		% 	\centering
+% 		% 	\includegraphics[width=\textwidth]{images/introduction/composite_particle.png}
+% 		% 	\caption{Geometria composta.}
+% 		% 	\label{subfig:element_geometry:composite_particle}
+% 		% \end{subfigure}
+% 	}
+% 	% {\centerline{\includegraphics[scale=#2]{#1}}}
+% 	% \vspace{-0.2cm}
+% 	\label{fig:element_geometry}
+% 	\sourceMe
+% 	% \vspace{-1cm}
+% \end{figure}
 
-\item \textit{Geometria:} a geometria dos elementos determina fundamentalmente os modelos de interação a que os elementos são submetidos, os métodos de monitoramento de vizinhança e a busca por contatos. As geometrias mais simples, nas quais este trabalho se baseia, são a esférica e a plana. Também são aplicáveis superelipsoides e poliedros, e formas geométricas arbitrariamente mais complexas podem ser obtidas através da composição de partículas de forma mais simples. Um exemplo da aplicação de superelipsoides pode ser encontrado em \citeonline{bib:sampaio}. Essas formas estão representadas na \cref{fig:element_geometry}.
+\item \textit{Geometria:} a geometria dos elementos determina fundamentalmente os modelos de interação a que os elementos são submetidos, os métodos de monitoramento de vizinhança e a busca por contatos. As geometrias mais simples, nas quais este trabalho se baseia, são a esférica e a plana. Também são aplicáveis superelipsoides e poliedros. Um exemplo da aplicação de superelipsoides pode ser encontrado em \citeonline{bib:sampaio}. Outras geometrias possíveis que podem ser citadas são as poliedrais arredondadas, as cilíndricias, as cilíndricas arredondadas e formas geométricas arbitrariamente mais complexas podem ser obtidas através da composição de partículas de forma mais simples.
 
 \item \textit{Restrição de movimento:} o tipo de restrição de movimento que um elemento sofre também pode ser considerado. É usual definirem-se elementos \textit{fixos}, cujas coordenadas se mantêm constantes na simulação, e elementos com movimento \textit{prescrito}, que são aqueles cujas coordenadas são definidas por funções temporais arbitrárias fornecidas na etapa de inicialização. Outra restrição bastante aplicada é aquela que ocorre entre os subelementos de uma partícula composta, limitando o seu movimento relativo. Mais detalhes sobre essa restrição podem ser encontrados em \citeonline{bib:computational_granular_dynamics}.
 \end{alineas}
@@ -130,21 +130,17 @@ O laço da simulação é a parte mais custosa do algoritmo pois é nele que oco
 A forma geral desse algoritmo pode ser representada como o fluxograma exposto na \cref{fig:general_algorithm}.
 
 \begin{figure}[h]
-	\caption{Floxugrama do funcionamento geral do \DEM{}.}
-	% \vspace{-0.5cm}
+	\caption{Fluxograma do funcionamento geral do \DEM{}.}
 	\centering
-		\alert{Colocar imagem representando o \DEM{}}
-		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\input{tikzpictures/discrete_element_method/general_algorithm}
 	\label{fig:general_algorithm}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
 As etapas do \DEM{} são apresentadas em mais detalhes na \cref{sec:algorithm_steps}.
 
 \section{Etapas do Algoritmo} \label{sec:algorithm_steps}
+
 \subsection{Inicialização do Sistema de Partículas}
 
 A primeira etapa em uma simulação \DEM{} é a inicialização do sistema de partículas. Essa etapa consiste em se definir o ambiente da simulação e se construírem todos os elementos necessários.
@@ -163,10 +159,6 @@ O resultado dessa etapa é o estado inicial do sistema de partículas, com todas
 \item \textit{Outros parâmetros:} por fim, dependendo da implementação do simulador e do método de elementos discretos usado, podem ser necessários outras entradas mais específicas, além das já citadas.
 \end{alineas}
 
-\alert{O seguinte deve ser movido se houver um capítulo para implementação computacional:}
-
-Neste trabalho, foi utilizado o formato \JSON{} para os arquivos de entrada. O \JSON{} é um formato de arquivo independente de linguagem que facilita a troca de informações, sendo desenhado para ser facilmente lido por humanos e interpretado por programas de computador \cite{bib:json}. Como exemplo, é apresentado, no \cref{app:code_listings}, o arquivo de inicialização do problema de lançamento oblíquo, descrito na \cref{sec:free_fall}.
-
 \subsection{Solução das Equações} \label{subsec:simulation:equation_solution}
 
 De acordo com \citeonline{bib:computational_granular_dynamics}, a solução das equações pode ser dividida em quatro etapas, sendo elas:
@@ -178,7 +170,7 @@ De acordo com \citeonline{bib:computational_granular_dynamics}, a solução das 
 % 	\item[Correção:] Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:DEM_interaction} e das equações governantes do problema, como apresentado na \cref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\). \label{item:DEM_correction}
 % \end{enumdesc}
 \begin{enumerate}
-	\item \textit{Determinação da Vizinhança:} Nessa etapa, a vizinhança de cada partícula do sistema é construída (no início da simulação) ou atualizada (em instantes posteriores) com o intuito de limitar a quantidade de interações avaliadas no passo de tempo. \label{item:DEM_neighborhood}
+	\item \textit{Determinação das Vizinhanças:} Nessa etapa, a vizinhança de cada partícula do sistema é construída (no início da simulação) ou atualizada (em instantes posteriores) com o intuito de limitar a quantidade de interações avaliadas no passo de tempo. \label{item:DEM_neighborhood}
 	\item \textit{Predição:} Nesse passo, o estado do sistema no instante \(\instant[n]\) é predito em função do estado em \(\instant[n-1]\) por meio de métodos de extrapolação, como explicado na \cref{subsec:prediction}. \label{item:DEM_prediction}
 	\item \textit{Interação:} A partir do estado predito do sistema, são computadas as interações entre cada partícula e os elementos de sua vizinhança. \label{item:DEM_interaction}
 	\item \textit{Correção:} Na etapa de correção, o estado do sistema no instante \(\instant[n]\) é corrigido em função das interações calculadas na etapa \ref{item:DEM_interaction} e das equações governantes do problema, como apresentado na \cref{subsec:correction}. Embora esse processo não seja exato, o DEM considera o estado corrigido como a solução do problema para o instante \(\instant[n]\). \label{item:DEM_correction}
@@ -188,23 +180,21 @@ Os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_
 
 Para a determinação da vizinhança no passo \ref{item:DEM_neighborhood}, são usados algoritmos de monitoramento de vizinhança, como explicado na \cref{sec:neighborhood}. O objetivo desta seção é, assim, apresentar os passos \ref{item:DEM_prediction}, \ref{item:DEM_interaction} e \ref{item:DEM_correction}, mostrando a aplicação dos conceitos apresentados no \cref{ch:mathematical_model} aos sistemas de partículas.
 
-% \alert{é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação}
+% é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação
 
-Para tanto, pode ser feita uma distinção entre o caso de partículas com geometria arbitrária, em que é necessário monitorar-se a orientação das partículas, e o de partículas esféricas, situação em que é possível aplicarem-se simplificações.
+Para tanto, pode ser feita uma distinção entre o caso de partículas com geometria arbitrária, em que é necessário monitorar-se a orientação das partículas, e o de partículas esféricas, situação em que é possível aplicarem-se simplificações. O caso geral é apresentado no \cref{app:general_case_gear_algorithm}.
 
-\subsubsection*{Caso Geral}
+Para partículas esféricas, as equações de movimento assumem uma forma mais simples.
 
-No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas.
-
-Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na \cref{eq:prediction}. Escolhida uma ordem de extrapolação \(\taylorOrder\), e definido o conjunto \(\particleSet\) de partículas do sistema, calculam-se
+Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na \cref{eq:prediction}. Escolhida uma ordem de extrapolação \(\taylorOrder\), e definido o conjunto \(\sphericalParticleSet\) das partículas esféricas do sistema, calculam-se
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{c}
 		\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]} \\
-		\drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{\instant[n-1]} \\
-	\end{array}, \quad \particlei \in \particleSet,
+		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n-1]} \\
+	\end{array}, \quad \particlei\in\sphericalParticleSet.
 \end{equation*}
-em que \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\) é a matriz de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) calculada com o passo de tempo \(\Dt[n]\), como indicada na \cref{subsec:prediction}.
+em que \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\) e \(\extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\) são as matrizes de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) e \(\taylorOrder-1\) calculadas com o passo de tempo \(\Dt[n]\), como indicado na \cref{subsec:prediction}.
 
 A vizinhança de uma partícula, como explicado na \cref{sec:neighborhood}, é o conjunto de todas as entidades da simulação com as quais ela interage. A vizinhança da \(i\)-ésima partícula do sistema é denotada por \(\neighborhoodi\). Cada elemento \(\elementj\) da vizinhança de \(\particlei\) contribui para a força \(\forcei\) e o torque \(\torquei\) resultantes sobre a mesma com parcelas \(\forceji\) e \(\torqueji\) que são, por hipótese, dependentes apenas do par \(\orderedPair{\particlei}{\elementj}\), isto é,
 \begin{equation*}
@@ -212,7 +202,7 @@ A vizinhança de uma partícula, como explicado na \cref{sec:neighborhood}, é o
 	\begin{array}{c}
 		\displaystyle \forceji \equiv \forceji\pqty{\particlei, \elementj} \\
 		\displaystyle \torqueji \equiv \torqueji\pqty{\particlei, \elementj} \\
-	\end{array}, \quad \particlei \in \particleSet, \elementj \in \neighborhoodi.
+	\end{array}, \quad \particlei \in \sphericalParticleSet, \elementj \in \neighborhoodi.
 \end{equation*}
 
 Mais ainda, a partícula \(i\) pode sofrer com forças e torques provocados por entidades externas ao sistema, como forças de campo, cujas resultantes são dadas por
@@ -221,7 +211,7 @@ Mais ainda, a partícula \(i\) pode sofrer com forças e torques provocados por 
 	\begin{array}{c}
 		\external\forcei \equiv \external\forcei\pqty{\particlei} \\
 		\external\torquei \equiv \external\torquei\pqty{\particlei} \\
-	\end{array}, \quad \particlei \in \particleSet.
+	\end{array}, \quad \particlei \in \sphericalParticleSet.
 \end{equation*}
  
 Com isso, obtêm-se os vetores resultantes de acordo com o princípio da superposição dado pelas \namecrefs{eq:superposition_translation} \labelcref{eq:superposition_translation,eq:superposition_rotation}:
@@ -233,64 +223,12 @@ Com isso, obtêm-se os vetores resultantes de acordo com o princípio da superpo
 	\end{array}, \quad \particlei\in\particleSet.
 \end{equation*}
 
-A cada um dos graus de liberdade da partícula é associada uma equação que determina seu comportamento, e o algoritmo de Gear baseia-se nisso para executar a etapa de correção. As equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}, então, são utilizadas para se corrigirem as derivadas de segunda ordem da posição e da orientação das partículas:
+A cada um dos graus de liberdade da partícula é associada uma equação que determina seu comportamento, e o algoritmo de Gear baseia-se nisso para executar a etapa de correção. O valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
 \begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\displaystyle \accelerationicorr =  \dfrac{1}{\massi}\cdot \forcei \\
-		\displaystyle \dorientationicorr{2} = \eqFor{\orientationScalar}\pqty{\torquei, \orientationipr, \dorientationipr{1}}
-	\end{array}, \quad \particlei \in \particleSet,
-\end{equation*}
-sendo que \(\eqFor{\orientationScalar}\) depende da parametrização escolhida para a orientação.
-
-Definem-se, então, os erros
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\Delta \accelerationi\pqty{\instant[n]} = \accelerationicorr\pqty{\instant[n]} - \accelerationipr\pqty{\instant[n]} \\
-		\Delta \dorientationi{2}\pqty{\instant[n]} = \dorientationicorr{2}\pqty{\instant[n]} - \dorientationipr{2}\pqty{\instant[n]} \\
-	\end{array}, \quad \particlei\in\particleSet.
+	\accelerationicorr\pqty{\instant[n]} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{\instant[n]}, \quad\particlei\in\sphericalParticleSet.
 \end{equation*}
 
-Por fim, resta executar a correção nos vetores de derivadas. Tanto para a translação quanto para a rotação, a equação diferencial é de ordem \(\eqOrder = 2\), e isso, juntamente com a ordem de extrapolação \(\taylorOrder\), determina as constantes de correção. Com isso, utiliza-se a equação \eqref{eq:correction_simplified} para se escrever	
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{l}
-		\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]} \\
-		\drvec{\taylorOrder}{\orientationicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \dorientationi{2}\pqty{\instant[n]}
-	\end{array}, \quad \particlei\in\particleSet.
-\end{equation*}
-
-Dessa forma, estão calculadas a posição, a orientação e as suas derivadas, e o instante de tempo \(\instant[n]\) é considerado solucionado.
-
-\subsubsection*{Partículas Esféricas}
-
-Para partículas esféricas, as equações de movimento assumem uma forma mais simples, conforme mostrado na \autoref{subsubsec:rotation_of_spherical_particles}. 
-
-Novamente, o algoritmo inicia com a escolha da ordem de derivação \(\taylorOrder\) para a predição conforme a equação \eqref{eq:prediction}. Dessa vez, porém, a velocidade angular é prevista com uma ordem a menos que a posição.
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]} \\
-		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n-1]} \\
-	\end{array}, \quad \particlei\in\particleSet.
-\end{equation*}
-
-O cálculo de forças e torques se dá de maneira idêntica ao caso geral, isto é,
-\begin{equation*}
-	\def\arraystretch{1.5}
-	\begin{array}{c}
-		\resultingForcei = \dsum_{\elementj\in\neighborhoodi}\forceji\pqty{\particlei, \elementj} + \external\forcei\pqty{\particlei}\\
-		\resultingTorquei = \dsum_{\elementj\in\neighborhoodi}\torqueji\pqty{\particlei, \elementj} + \external\torquei\pqty{\particlei}
-	\end{array}, \quad \particlei\in\particleSet.
-\end{equation*}
-
-E, como no caso geral, o valor corrigido para a aceleração advém da equação \eqref{eq:motion_first}:
-\begin{equation*}
-	\accelerationicorr\pqty{\instant[n]} = \dfrac{1}{\massi}\cdot\resultingForcei\pqty{\instant[n]}, \quad\particlei\in\particleSet.
-\end{equation*}
-
-Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:rotation_spherical_particle}, obtendo-se, para cada \(\particlei\in\particleSet\),
+Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:diff_equation_spherical_particle}, obtendo-se, para cada \(\particlei\in\sphericalParticleSet\),
 \begin{equation*}
 	\dangularVelocityicorr{1}\pqty{\instant[n]} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{\instant[n]}
 \end{equation*}
@@ -301,34 +239,33 @@ Com isso, os erros são dados por
 	\begin{array}{c}
 		\Delta \accelerationi\pqty{\instant[n]} = \accelerationicorr\pqty{\instant[n]} - \accelerationipr\pqty{\instant[n]} \\
 		\Delta \dangularVelocityi{1}\pqty{\instant[n]} = \dangularVelocityicorr{1}\pqty{\instant[n]} - \dangularVelocityipr{1}\pqty{\instant[n]} \\
-	\end{array}, \quad\particlei\in\particleSet.
+	\end{array}, \quad\particlei\in\sphericalParticleSet.
 \end{equation*}
 
-E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação, a equação diferencial é de ordem \(\eqOrder = 2\), e então
+E, finalmente, são corrigidos os vetores de derivadas conforme a equação \eqref{eq:correction_simplified}. Para a translação, a equação diferencial é de ordem \(\eqOrder = 2\), e isso, juntamente com a ordem de extrapolação \(\taylorOrder\), determina as constantes de correção, de modo que
 \begin{equation*}
-	\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvecipr{\taylorOrder}{\position}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]}, \quad\particlei\in\particleSet.
+	\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvecipr{\taylorOrder}{\position}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]}, \quad\particlei\in\sphericalParticleSet.
 \end{equation*}
 
 A velocidade angular, por sua vez, está sujeita a uma equação diferencial de primeira ordem. O vetor de coeficientes \(\correctorConstantVector{\taylorOrder-1}{1}\), portanto, deve ser calculado para \(\eqOrder=1\). Nessas condições, o vetor de derivadas da velocidade angular fica
 \begin{equation*}
-		\drvec{\taylorOrder-1}{\angularVelocityicorr}\pqty{\instant[n]} = \drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt[n]\cdot\Delta \dangularVelocityi{1}\pqty{\instant[n]}, \quad\particlei\in\particleSet.
+		\drvec{\taylorOrder-1}{\angularVelocityicorr}\pqty{\instant[n]} = \drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt[n]\cdot\Delta \dangularVelocityi{1}\pqty{\instant[n]}, \quad\particlei\in\sphericalParticleSet.
 \end{equation*}
 
 Esse procedimento pode ser representado em forma de pseudocódigo como na \cref{lst:equations_solution}.
 
-\alert{O seguinte deve ser movido caso exista um capítulo para implementação computacional.}
 \begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:equations_solution, caption=Pseudocódigo para a solução das equações de movimento de partículas esféricas por meio do algoritmo de Gear.]
 // Algoritmo de Gear
-para cada partícula $\particlei \in \particleSet$:
+para cada partícula $\particlei \in \sphericalParticleSet$:
 (*\indentrule*)	// Determinação da Vizinhança
 (*\indentrule*)	determinar a vizinhança $\neighborhoodi$
 (*\indentrule*)	// Predição
 (*\indentrule*)	calcular o vetor posição predito $\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]}$
-(*\indentrule*)	calcular o vetor orientação predito $\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n-1]}$
+(*\indentrule*)	calcular o vetor velocidade angular predito $\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n-1]}$
 (*\indentrule*)	atribuir $\resultingForcei \gets \nullVector$
 (*\indentrule*)	atribuir $\resultingTorquei \gets \nullVector$
 
-para cada partícula $\particlei \in \particleSet$:
+para cada partícula $\particlei \in \sphericalParticleSet$:
 (*\indentrule*)	// Interação (*\label{lstline:interaction_begin}*)
 (*\indentrule*)	para cada elemento $\elementj \in \neighborhoodi$:
 (*\indentrule*)	(*\indentrule*)	calcular a força$$ $\forceji$ que $\elementj$ aplica sobre $\particlei$
@@ -349,7 +286,7 @@ para cada partícula $\particlei \in \particleSet$:
 (*\indentrule*)	calcular o erro $\Delta \accelerationi\pqty{\instant[n]} = \accelerationicorr\pqty{\instant[n]} - \accelerationipr\pqty{\instant[n]}$
 (*\indentrule*)	calcular o erro $\Delta \dangularVelocityi{1}\pqty{\instant[n]} = \dangularVelocityicorr{1}\pqty{\instant[n]} - \dangularVelocityipr{1}\pqty{\instant[n]}$
 (*\indentrule*)	corrigir o vetor posição $\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]}$
-(*\indentrule*)	corrigir o vetor orientação $\drvec{\taylorOrder-1}{\angularVelocityicorr}\pqty{\instant[n]} = \drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt[n]\cdot\Delta \dangularVelocityi{1}\pqty{\instant[n]}$
+(*\indentrule*)	corrigir o vetor velocidade angular $\drvec{\taylorOrder-1}{\angularVelocityicorr}\pqty{\instant[n]} = \drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder-1}{1}\cdot\Dt[n]\cdot\Delta \dangularVelocityi{1}\pqty{\instant[n]}$
 (*\indentrule*)	atribuir $\drvec{\taylorOrder}{\positioni}\pqty{\instant[n]} \gets \drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]}$	// Dessa forma, a correção é(**) considerada exata
 (*\indentrule*)	atribuir $\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n]} \gets \drvec{\taylorOrder-1}{\angularVelocityicorr}\pqty{\instant[n]}$	//		
 fim
@@ -390,7 +327,7 @@ fim
 
 A condição de parada representa a condição que interrompe o laço de simulação e leva à finalização do programa. Essa condição se apresenta de diversas formas dependendo da aplicação, podendo levar em conta o estado do sistema e parâmetros da simulação \cite{bib:computational_granular_dynamics}. O critério de parada pode ser equivalentemente definido por um critério de continuação que, enquanto for verdadeiro, mantém a execução do laço.
 
-Uma das condições mais simples e mais aplicadas é a condição de parada por tempo final da simulação. Esse critério baseia-se na definição de um valor \(\finalInstant\) para o instante final da simulação, e a simulação progride até que esse limite seja ultrapassado. O laço da simulação pode então ser representado como na \cref{lst:stop_criterion}. O instante inicial \(\initialInstant\) é proveniente da etapa de inicialização, e o \(n\)-ésimo passo de tempo \(\Dt[n]\) é dependente do método escolhido, do arquivo de inicialização e dos algoritmos de integração e de determinação de vizinhanças. \alert{Mover caso haja um capítulo próprio para implementação computacional.}
+Uma das condições mais simples e mais aplicadas é a condição de parada por tempo final da simulação. Esse critério baseia-se na definição de um valor \(\finalInstant\) para o instante final da simulação, e a simulação progride até que esse limite seja ultrapassado. O laço da simulação pode então ser representado como na \cref{lst:stop_criterion}. O instante inicial \(\initialInstant\) é proveniente da etapa de inicialização, e o \(n\)-ésimo passo de tempo \(\Dt[n]\) é dependente do método escolhido, do arquivo de inicialização e dos algoritmos de integração e de determinação de vizinhanças.
 
 \begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:stop_criterion, caption=Pseudocódigo para a condição de parada do laço da simulação.]
 ler $\initialInstant$ do arquivo de inicialização
@@ -454,78 +391,6 @@ para cada partícula $\particlei \in \particleSet$:
 fim
 \end{lstlisting}
 
-% \subsection{Algoritmo de Verlet}
-
-% De acordo com \citeonline{bib:computational_granular_dynamics}, o algoritmo de Verlet é um método de monitoramento de vizinhanças que fundamenta-se em duas considerações:
-% \begin{alineas}
-% 	\item uma partícula só pode colidir com partículas que estejam próximas a ela;
-% 	\item a vizinhança de uma partícula só se altera se houver movimentação.
-% \end{alineas}
-
-% Nesse método, considera-se que duas partículas são vizinhas se a menor distância entre suas superfícies for menor que uma constante arbitrada \(\verletDistance\) denominada de \textit{distância de Verlet}.
-
-% \begin{figure}[h]
-% 	\caption{Representação da vizinhança de partículas esféricas no algoritmo de Verlet. Duas partículas são vizinhas se a distância entre suas superfícies for menor que a distância de Verlet \(\verletDistance\)}
-% 	% \vspace{-0.5cm}
-% 	\centering
-% 		\alert{Colocar imagem representando a distância de Verlet. Mostrar três pares de partículas: não vizinhas, caso extremo em que são quase vizinhas e vizinhas}
-% 		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-% 	% {\centerline{\includegraphics[scale=#2]{#1}}}
-% 	% \vspace{-0.2cm}
-% 	\label{fig:verlet_distance}
-% 	\source{\alert{Citar fonte}}
-% 	% \vspace{-1cm}
-% \end{figure}
-
-% Para partículas esféricas \(\particlei\) e \(\particlej\), a condição de vizinhança se escreve como
-% \begin{equation*}
-% 	\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance,
-% \end{equation*}
-% como indicado na figura \ref{fig:verlet_distance}. Com isso, define-se a lista de Verlet da partícula \(i\) como
-% \begin{equation*}
-% 	\verletList[i] = \set{\elementj\in\elementSet\suchThat \norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance}.
-% \end{equation*}
-
-% As listas de Verlet são construídas, para cada partícula, no início da simulação. Com a evolução do tempo, porém, a movimentação das partículas faz com que sua vizinhança se altere, e então é necessário reconstruir as listas. O critério para essa reconstrução leva em consideração a situação extrema em que duas partículas quase vizinhas tenham um deslocamento igual à metade da distância de Verlet uma em direção à outra, iniciando uma colisão. Para isso, define-se, para cada partícula, a posição de referência \(\verletPosition\) como a posição da partícula no momento em que as listas foram construídas. Tão logo a partícula se afaste dessa posição em uma distância igual à metade da distância de Verlet, as listas devem ser reconstruídas.
-
-% Esse algoritmo pode ser implementado como na \cref{lst:verlet_list}
-
-% \begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:verlet_list, caption=Pseudocódigo para a implementação das listas de Verlet.]
-% // Definição da função de construção das listas de Verlet
-% função "construir listas de Verlet":
-% (*\indentrule*)	para cada partícula $\particlei\in\particleSet$:
-% (*\indentrule*)	(*\indentrule*) atribuir $\verletPosition[i] \gets \positioni$
-% (*\indentrule*)	(*\indentrule*)	inicializar $\verletList[i]$ como uma lista vazia
-% (*\indentrule*)	(*\indentrule*)	para cada elemento $\elementj\in\elementSet$:
-% (*\indentrule*)	(*\indentrule*)	(*\indentrule*)	se $\norm{\positioni - \positionj} < \radiusi + \radiusj + \verletDistance$:
-% (*\indentrule*)	(*\indentrule*)	(*\indentrule*)	(*\indentrule*)	incluir $\elementj$ em $\verletList[i]$
-% (*\indentrule*)	(*\indentrule*)	(*\indentrule*)	fim
-% (*\indentrule*)	(*\indentrule*)	fim
-% (*\indentrule*)	fim
-% fim
-% (*\hiddenCode*)
-% chamar função  "construir listas de Verlet"
-% enquanto o critério de parada não for atingido:
-% (*\indentrule*)	(*\hiddenCode*) // Exportação de dados
-% (*\indentrule*)	se $\norm{\positioni-\verletPosition[i]} \geq \bigslant{\verletDistance}{2}$ para alguma partícula ${}\particlei\in\particleSet$:
-% (*\indentrule*)	(*\indentrule*)	chamar função  "construir listas de Verlet"
-% (*\indentrule*)	fim
-% (*\indentrule*)	(*\hiddenCode*) // Solução das equações
-% fim
-% \end{lstlisting}
-
-% O algoritmo de Verlet, embora bastante eficiente para partículas esféricas, complica-se para o caso de partículas de geometria arbitrária, dada a necessidade de se conhecer sua a superfície.
-
-% \subsection{Volume Envolvente}
-
-% \subsection{Vizinhança Global}
-% \subsection{Algoritmo \textit{link cell}}
-% \subsection{Algoritmo \textit{lattice}}
-
-% \subsection{Identificação de Contatos}
-
-% \alert{Será necessária esta seção? Ela pode estar incluída no monitoramento de vizinhanças}
-
 \section{Limitação do Passo de Tempo}
 
 Diversos autores sugerem a limitação do passo de tempo da simulação para se garantirem a estabilidade numérica e a representatividade das soluções. Segundo \citeonline{bib:gomes2014}, uma estratégia possível é definir-se um valor de \textit{passo de tempo crítico} \(\criticalDt\) com a forma
@@ -548,30 +413,20 @@ Comumente, além das interações entre partículas, os métodos de elementos di
 
 \begin{figure}[h]
 	\caption{Condição de parede reflexiva.}
-	% \vspace{-0.5cm}
 	\centering
-		\alert{Colocar imagem}
-		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.5\textwidth]{images/discrete_element_method/boundary_conditions/reflecting_boundary.pdf}
 	\label{fig:boundary_conditions:reflecting_boundary}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\sourceMe
 \end{figure}
 
 \item \textit{Restrição de movimento:} a restrição de movimento consiste em se acoplarem as equações de movimento de duas ou mais partículas. Essa condição encontra-se presente em partículas compostas para mediar a movimentação relativa entre os subelementos. Uma maneira simples de se implementar essa restrição é com a adição de uma força elástica representada pela ação de molas, como indicado na \cref{fig:boundary_conditions:restrition}. Também é possível adicionarem-se restrições nos graus de liberdade, como demonstrado em \citeonline[pp. 113,114]{bib:machado2012}, ao se utilizarem juntas cinemáticas.
 
 \begin{figure}[h]
 	\caption{Restrição ao movimento de subelementos de uma partícula composta pela ação de molas.}
-	% \vspace{-0.5cm}
 	\centering
-		\alert{Colocar imagem}
-		% \includegraphics[width=0.65\textwidth]{images/introduction/drug_production.png}
-	% {\centerline{\includegraphics[scale=#2]{#1}}}
-	% \vspace{-0.2cm}
+		\includegraphics[width=0.35\textwidth]{images/discrete_element_method/boundary_conditions/composite_particle_strings.png}
 	\label{fig:boundary_conditions:restrition}
-	\source{\alert{Citar fonte}}
-	% \vspace{-1cm}
+	\source{\citeonline[p. 84]{bib:computational_granular_dynamics}}
 \end{figure}
 \end{alineas}
 
@@ -619,19 +474,19 @@ Cada componente do \XDEM{} contribui com um \textit{solver}, isto é, com uma ro
 		\centering
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\alert{Figura aqui (\textit{one-way})}
+			\input{tikzpictures/discrete_element_method/one_way}
 			\caption{\textit{One-way}}
 			\label{subfig:method_coupling:flowchart:one-way}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\alert{Figura aqui (\textit{two-way})}
+			\input{tikzpictures/discrete_element_method/two_way}
 			\caption{\textit{Two-way}}
 			\label{subfig:method_coupling:flowchart:two-way}
 		\end{subfigure}
 	}
 	\label{fig:method_coupling:flowchart}
-	\source{\alert{Citar fonte}}
+	\sourceMe
 \end{figure}
 
 Como exemplos do acoplamento entre o \DEM{} e o \FEM{}, podem-se citar \citeonline{bib:onate2004,bib:nakashima2004,bib:dang2011} e \citeonline{bib:gomes2014}. A interação entre as partículas e os elementos finitos pode ser feita de maneira semelhante à interação entre partículas e elementos planos, como descrito no \cref{ch:mathematical_model}, ou entre partículas e elementos poliédricos, como explicado por \citeonline[pp. 86--104]{bib:computational_granular_dynamics}. Outra técnica, apresentada por \citeonline{bib:gomes2014}, consiste em se considerarem \textit{partículas de contorno} na fronteira dos corpos contínuos. Essas abordagens estão ilustradas na \cref{fig:method_coupling:images}.
@@ -660,4 +515,4 @@ Como exemplos do acoplamento entre o \DEM{} e o \FEM{}, podem-se citar \citeonli
 	\source{\citeonline{bib:gomes2014}}
 \end{figure}
 
-O acoplamento entre \DEM{} e \CFD{}, por sua vez, têm como exemplo os trabalhos de \citeonline{bib:tsuji1993,bib:tsuji2008,bib:trevisan2009,bib:fries2011} e \citeonline{bib:deen2007}. A influência das partículas sobre o escoamento do fluido é considerada como um termo fonte nas equações de Navier-Stokes. Por outro lado, o fluido afeta o movimento das partículas através do arrasto. Tanto o termo fonte quanto o arrasto são função do número de Reynolds do escoamento, da velocidade relativa entre as partículas e o fluido, da quantidade de partículas e das propriedades do fluido. \alert{TALVEZ Fazer uma figura inspirada em \citeonline[p. 2343]{bib:fries2011}, \citeonline[p. 83]{bib:tsuji1993}, \citeonline[pp. 34, 35]{bib:deen2007}}.
+O acoplamento entre \DEM{} e \CFD{}, por sua vez, têm como exemplo os trabalhos de \citeonline{bib:tsuji1993,bib:tsuji2008,bib:trevisan2009,bib:fries2011} e \citeonline{bib:deen2007}. A influência das partículas sobre o escoamento do fluido é considerada como um termo fonte nas equações de Navier-Stokes. Por outro lado, o fluido afeta o movimento das partículas através do arrasto. Tanto o termo fonte quanto o arrasto são função do número de Reynolds do escoamento, da velocidade relativa entre as partículas e o fluido, da quantidade de partículas e das propriedades do fluido.
