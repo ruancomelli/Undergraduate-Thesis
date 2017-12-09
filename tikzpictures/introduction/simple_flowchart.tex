@@ -7,7 +7,7 @@
 	\node [block, right of=initialization] (prediction) {Predição};
 	\node [block, right of=prediction] (interaction) {Interação};
 	\node [block, right of=interaction] (correction) {Correção};
-	\node [decision, right of=correction] (stop) {Critério de parada satisfeito?};
+	\node [decision, right of=correction, node distance=3.1cm] (stop) {Critério de parada satisfeito?};
 	\node [block, right of=stop, node distance=3.5cm] (termination) {Finalização};
 	\node [below of=stop, node distance=2cm] (void) {};
     % Draw edges

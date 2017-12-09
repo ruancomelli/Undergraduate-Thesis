@@ -1,0 +1,15 @@
+\begin{tikzpicture}[node distance = 2cm,
+    % >=triangle 60,              % Nice arrows; your taste may be different
+    auto]
+    % Place nodes
+	\node [block, fill=green!20, text width=6cm] (temporal loop) {Laço temporal (início)};
+	\node [block, below right of=temporal loop] (other solvers) {Outros \textit{solvers}};
+	\node [block, below of=other solvers] (dem solver) {\textit{Solver} \DEM{}};
+	\node [block, fill=green!20, below left of=dem solver, text width=6cm] (temporal loop end) {Laço temporal (fim)};
+	\node [left of=temporal loop end, node distance=4cm] (temporal loop void) {};
+    % Draw edges
+    \draw[arrow] (temporal loop) -- (other solvers);
+    \draw[arrow] (other solvers) -- (dem solver);
+    \draw[arrow] (dem solver) -- (temporal loop end);
+    \draw[arrow] (temporal loop end) -- (temporal loop void.center) |- (temporal loop.west);
+\end{tikzpicture}

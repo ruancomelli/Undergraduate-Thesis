@@ -1,0 +1,46 @@
+
+\definecolor{dkyellow}{RGB}{204,150,41}
+\definecolor{lpurple}{rgb}{0.65, 0.12, 0.82}
+
+\tikzstyle{decision} = [diamond, draw, aspect=2, fill=lpurple!20, text width=4.5em, text badly centered, node distance=2.5cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm, minimum height=2em]
+\tikzstyle{decision answer}=[near start,color=black]
+\tikzstyle{arrow}=[thick, ->, >=stealth']
+\tikzstyle{mathbox}=[rectangle, draw, fill=dkyellow!20, text centered, rounded corners, minimum height=2em]
+
+\begin{tikzpicture}[node distance = 1.4cm,
+    % >=triangle 60,              % Nice arrows; your taste may be different
+    start chain=going down,    % General flow is top-to-bottom
+    auto]
+    % Place nodes
+	\node [block] (initialization) {Inicialização};
+	\node [decision, below of=initialization, text width=7.5em] (export decision) {Exportar dados?};
+	\node [io, below of=export decision, node distance=2.5cm] (export) {Exportar dados};
+	\node [block, below of=export] (neighborhood monitoring) {Monitoramento das Vizinhanças};
+	\node [block, below of=neighborhood monitoring] (prediction) {Predição};
+	\node [block, below of=prediction] (interaction) {Interação};
+	\node [block, below of=interaction] (correction) {Correção};
+	\node [decision, below of=correction, text width=8em] (stop) {Critério de parada satisfeito?};
+	\node [mathbox, right of=interaction, node distance=4cm] (increment counter) {\(n\gets n+1\)};
+	\node [mathbox, right of=prediction, node distance=4cm] (update time) {\(\instant[n]=\instant[n-1]+\Dt[n]\)};
+	\node [block, below of=stop, node distance=2.5cm] (termination) {Finalização};
+	\node [left of=export decision, node distance=4cm] (export void) {};
+	\node [right of=stop, node distance=4cm] (stop void) {};
+	\node [comment, right of=initialization, node distance=6cm, text width = 4cm] (initialization comment) {Parâmetros da simulação, entidades do sistema, interações etc.};
+    % Draw edges
+    \draw[dashed] (initialization comment) -- (initialization);
+    \draw[arrow] (initialization) -- (export decision);
+	\draw[arrow] (export decision.south) -- node[decision answer] {sim} (export);
+	\draw[arrow] (export decision.west) -- node[decision answer] {não} (export void.center) |- (neighborhood monitoring);
+	\draw[arrow] (export) -- (neighborhood monitoring);
+    \draw[arrow] (neighborhood monitoring) -- (prediction);
+    \draw[arrow] (prediction) -- (interaction);
+    \draw[arrow] (interaction) -- (correction);
+    \draw[arrow] (correction) -- (stop);
+	\draw[arrow] (stop.south) -- node[decision answer] {sim} (termination);
+	\draw[arrow] (stop.east) -- node[decision answer] {não} (stop void.center) -| (increment counter);
+	\draw[arrow] (increment counter) -- (update time);
+	\draw[arrow] (update time) |- (export decision.east);
+\end{tikzpicture}

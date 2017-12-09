@@ -1,0 +1,39 @@
+
+\definecolor{dkyellow}{RGB}{204,150,41}
+\definecolor{lpurple}{rgb}{0.65, 0.12, 0.82}
+
+\tikzstyle{decision} = [diamond, draw, aspect=2, fill=lpurple!20, text width=4.5em, text badly centered, node distance=2.5cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm, minimum height=2em]
+\tikzstyle{decision answer}=[near start,color=black]
+\tikzstyle{arrow}=[thick, ->, >=stealth']
+\tikzstyle{mathbox}=[rectangle, draw, fill=dkyellow!20, text centered, rounded corners, minimum height=2em]
+
+% Proposal: to improve this code, take a look at <https://tex.stackexchange.com/questions/342155/trapezium-size-issues-tikz>
+
+\begin{tikzpicture}[
+    node distance = 1.5cm,
+    % >=triangle 60,              % Nice arrows; your taste may be different
+    start chain=going down,    % General flow is top-to-bottom
+    auto]
+    % Place nodes
+	\node [io] (input) {Entrada};
+	\node [block, right of=input, text depth = 1.3cm, text width = 3cm, minimum height=1.3cm, node distance = 3.8cm] (simulator) {Simulador};
+	\node [io, below of=simulator, node distance = 2cm] (output) {Saída};
+    \node [block, right of=output, node distance=3.8cm] (post-processing) {Pós-processamento};
+    \node [io, below of=post-processing, text width=3cm, minimum width=1cm] (results) {Apresentação de resultados};
+    \node [comment, text width=2.5cm] at (input |- output) (io comment) {Formato \JSON{}};
+    \node [comment, right of=simulator, node distance=4.5cm, text width=3cm] (simulator comment) {Linguagem \CPP{}};
+    \node [comment, right of=post-processing, node distance=4.2cm, text width=2cm] (post-processing comment) {Linguagem \Python{}};
+    \node [block, fill=lpurple!20] at ([yshift=2em]simulator.south) (simulator library) {Biblioteca};
+    % Draw edges
+    \draw[arrow] (input) -- (simulator);
+    \draw[arrow] (simulator) -- (output);
+    \draw[arrow] (output) -- (post-processing);
+    \draw[arrow] (post-processing) -- (results);
+    \draw[dashed] (io comment) -- (input);
+    \draw[dashed] (io comment) -- (output);
+    \draw[dashed] (simulator comment) -- (simulator);
+    \draw[dashed] (post-processing comment) -- (post-processing);
+\end{tikzpicture}

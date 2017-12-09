@@ -1,0 +1,21 @@
+\begin{tikzpicture}[node distance = 2cm,
+    % >=triangle 60,              % Nice arrows; your taste may be different
+    auto]
+    % Place nodes
+	\node [block, fill=green!20, text width=6cm] (temporal loop) {Laço temporal (início)};
+	\node [block, fill=red!20, below right of=temporal loop, text width=5cm] (iterative loop) {Laço iterativo (início)};
+	\node [block, below right of=iterative loop] (other solvers) {Outros \textit{solvers}};
+	\node [block, below of=other solvers] (dem solver) {\textit{Solver} \DEM{}};
+	\node [decision, below left of=dem solver, aspect=2, text width=3cm, node distance=3cm] (decision) {Fim do laço iterativo?};
+	\node [block, fill=green!20, below of=decision, text width=6cm, node distance=3.5cm] (temporal loop end) {Laço temporal (fim)};
+	\node [left of=decision, node distance=3cm] (decision void) {};
+	\node [left of=temporal loop end, node distance=4.2cm] (temporal loop void) {};
+    % Draw edges
+    \draw[arrow] (temporal loop) -- (iterative loop);
+    \draw[arrow] (iterative loop) -- (other solvers);
+    \draw[arrow] (other solvers) -- (dem solver);
+    \draw[arrow] (dem solver) -- (decision);
+    \draw[arrow] (decision.west) -- node[decision answer] {não} (decision void.center) |- (iterative loop);
+    \draw[arrow] (decision.south) -- node[decision answer] {sim} (temporal loop end);
+    \draw[arrow] (temporal loop end) -- (temporal loop void.center) |- (temporal loop.west);
+\end{tikzpicture}
