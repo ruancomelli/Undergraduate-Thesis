@@ -1,0 +1,50 @@
+\chapter{Caso Geral do Algoritmo de Gear} \label{app:general_case_gear_algorithm}
+
+No caso de partículas quaisquer, o algoritmo de Gear precisa levar em consideração as parametrizações para as orientações das partículas. O algoritmo inicia com a escolha da ordem de derivação \(\taylorOrder\) para a predição conforme a equação \eqref{eq:prediction}:
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]} \\
+		\drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\orientationi}\pqty{\instant[n-1]} \\
+	\end{array}, \quad \particlei \in \particleSet.
+\end{equation*}
+
+O cálculo de forças e torques se dá de maneira idêntica ao caso para partículas esféricas, isto é,
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\resultingForcei = \dsum_{\elementj\in\neighborhoodi}\forceji\pqty{\particlei, \elementj} + \external\forcei\pqty{\particlei}\\
+		\resultingTorquei = \dsum_{\elementj\in\neighborhoodi}\torqueji\pqty{\particlei, \elementj} + \external\torquei\pqty{\particlei}
+	\end{array}, \quad \particlei\in\particleSet.
+\end{equation*}
+
+As equações de movimento \eqref{eq:motion_first} e \eqref{eq:diff_equation_orientation_parametrization}, então, são utilizadas para se corrigirem as derivadas de segunda ordem da posição e da orientação das partículas:
+
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\displaystyle \accelerationicorr =  \dfrac{1}{\massi}\cdot \forcei \\
+		\displaystyle \dorientationicorr{2} = \eqFor{\orientationScalar}\pqty{\torquei, \orientationipr, \dorientationipr{1}}
+	\end{array}, \quad \particlei \in \particleSet,
+\end{equation*}
+sendo que \(\eqFor{\orientationScalar}\) depende da parametrização escolhida para a orientação.
+
+Definem-se, então, os erros
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{c}
+		\Delta \accelerationi\pqty{\instant[n]} = \accelerationicorr\pqty{\instant[n]} - \accelerationipr\pqty{\instant[n]} \\
+		\Delta \dorientationi{2}\pqty{\instant[n]} = \dorientationicorr{2}\pqty{\instant[n]} - \dorientationipr{2}\pqty{\instant[n]} \\
+	\end{array}, \quad \particlei\in\particleSet.
+\end{equation*}
+
+Por fim, resta executar a correção nos vetores de derivadas. Tanto para a translação quanto para a rotação, a equação diferencial é de ordem \(\eqOrder = 2\). Com isso, utiliza-se a equação \eqref{eq:correction_simplified} para se escrever	
+\begin{equation*}
+	\def\arraystretch{1.5}
+	\begin{array}{l}
+		\drvec{\taylorOrder}{\positionicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \accelerationi\pqty{\instant[n]} \\
+		\drvec{\taylorOrder}{\orientationicorr}\pqty{\instant[n]} = \drvec{\taylorOrder}{\orientationipr}\pqty{\instant[n]} + \correctorConstantVector{\taylorOrder}{2}\cdot\dfrac{\Dt[n]^2}{2}\Delta \dorientationi{2}\pqty{\instant[n]}
+	\end{array}, \quad \particlei\in\particleSet.
+\end{equation*}
+
+Dessa forma, estão calculadas a posição, a orientação e as suas derivadas, e o instante de tempo \(\instant[n]\) é considerado solucionado.

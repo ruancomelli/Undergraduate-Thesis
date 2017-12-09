@@ -224,7 +224,7 @@ Segundo \citeonline{bib:dynamics_of_multibody_systems}, para partículas esféri
 	,
 \end{equation*}
 ou ainda
-\begin{equation} \label{eq:rotation_spherical_particle}
+\begin{equation} \label{eq:diff_equation_spherical_particle}
 	\resultingTorque = \momentOfInertia\cdot\angularAcceleration,
 \end{equation}
 sendo que o momento de inércia \(\momentOfInertia\) é facilmente calculado pela expressão
@@ -301,7 +301,7 @@ Os modelos de colisão mais simples são aqueles que ocorrem entre partículas e
 
 \subsection{Parâmetros de Cálculo} \label{subsec:collision_parameters}
 
-Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato, a \textit{superposição} e os versores normal e tangencial. Também, o ponto de contato e o plano de contato são necessários na determinação da geometria do choque. Esses parâmetros descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força. Além disso, o coeficiente de restituição e as energias cinética, potencial e mecânica são de grande importância para a análise dos resultados. Na \cref{fig:collision_parameters:collision_parameters} estão representadas graficamente as posições e as velocidades das partículas colidentes, assim como os versores normais. Na \cref{fig:collision_parameters:collision_geometry}, estão a reta que liga os centros das partículas, o plano de contato, os vetores radiais de colisão, a distância entre centros e a superposição.
+Os principais parâmetros considerados para o cálculo das forças de colisão são a geometria das partículas, as suas propriedades físicas, a velocidade relativa no ponto de contato, a \textit{superposição} e os versores normal e tangencial. Também, o ponto de contato e o plano de contato são necessários na determinação da geometria do choque. Esses parâmetros descrevem as condições em que a colisão ocorre, e assim determinam as componentes de força. Além disso, o coeficiente de restituição e as energias cinética, potencial e mecânica são de grande importância para a análise dos resultados. Na \cref{subfig:collision_parameters:collision_parameters} estão representadas graficamente as posições e as velocidades das partículas colidentes, assim como os versores normais. Na \cref{subfig:collision_parameters:collision_geometry}, estão a reta que liga os centros das partículas, o plano de contato, os vetores radiais de colisão, a distância entre centros e a superposição.
 
 \begin{figure}[htb!]
 	\caption{Representação dos raios, das posições, e das velocidades das partículas, da superposição, dos versores normais, dos vetores radiais, do plano de contato e da reta normal.}
@@ -323,9 +323,7 @@ Os principais parâmetros considerados para o cálculo das forças de colisão s
 		\end{subfigure}
 	}
 	\label{fig:collision_parameters}
-	% \vspace{-0.5cm}
 	\sourceMe
-	% \vspace{-0.5cm}
 \end{figure}
 
 \subsubsection*{Superposição} 
