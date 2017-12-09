@@ -42,15 +42,7 @@ O lançamento oblíquo é um dos problemas clássicos de física básica. Consid
 	\angularAcceleration = \nullVector \label{eq:free_fall_rotation}.
 \end{gather}
 
-\alert{Dizer que a solução é trivial e tirar essa dedução}
-
-O instante inicial da simulação é definido como \(\initialInstant=0\), e o instante final é um valor arbitrário \(\finalInstant\). A posição, a velocidade e a velocidade angular da partícula no instante inicial assumem, respectivamente, os valores \(\initial{\position}\), \(\initial{\velocity}\) e \(\initial{\angularVelocity}\). Com isso, as equações \eqref{eq:free_fall_translation} e \eqref{eq:free_fall_rotation} podem ser resolvidas por integração simples:
-\begin{gather*}
-	\acceleration\pqty{t} = \gravity, \\
-	\velocity\pqty{t} = \initial{\velocity} + \int_{\initialInstant}^{t} \acceleration\pqty{\tau} \dd{\tau} = \initial{\velocity} + \gravity\cdot t, \\
-	\position\pqty{t} = \initial{\position} + \int_{\initialInstant}^{t} \velocity\pqty{\tau} \dd{\tau} = \initial{\position} + \initial{\velocity}\cdot t + \gravity\cdot \dfrac{t^2}{2}, \\
-	\angularVelocity\pqty{t} = \initial{\angularVelocity} + \int_{\initialInstant}^{t} \nullVector \dd{\tau} = \initial{\angularVelocity}.
-\end{gather*}
+O instante inicial da simulação é definido como \(\initialInstant=0\), e o instante final é um valor arbitrário \(\finalInstant\). A posição, a velocidade e a velocidade angular da partícula no instante inicial assumem, respectivamente, os valores \(\initial{\position}\), \(\initial{\velocity}\) e \(\initial{\angularVelocity}\). Com isso, as equações \eqref{eq:free_fall_translation} e \eqref{eq:free_fall_rotation} podem ser resolvidas por integração simples.
 
 Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\), e que a partícula não possua rotação, como representado na figura \ref{fig:free_fall}. Nessa situação, a posição em \(\yAxis\) da partícula é chamada de altura.
 
