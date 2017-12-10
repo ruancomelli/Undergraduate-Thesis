@@ -1,0 +1,18 @@
+\ProvidesPackage{coverstyle}
+
+\newcommand*{\diadadefesa}[1]{\gdef\@diadadefesa{#1}
+}
+\newcommand*{\@diadadefesa}{\textbf{??} \alert{Defina o seu diadadefesa usando $\backslash$diadadefesa$\{ \}$} \textbf{??}}
+\newcommand*{\imprimirdiadadefesa}{\@diadadefesa}
+
+\newcommand*{\mesdadefesa}[1]{\gdef\@mesdadefesa{#1}
+}
+\newcommand*{\@mesdadefesa}{\textbf{??} \alert{\\Defina o seu mesdadefesa usando $\backslash$mesdadefesa$\{ \}$} \textbf{??}}
+\newcommand*{\imprimirmesdadefesa}{\@mesdadefesa}
+
+\newcommand*{\estado}[1]{\gdef\@estado{#1}
+}
+\newcommand*{\@estado}{\textbf{??} \alert{\\Defina o seu estado usando $\backslash$estado$\{ \}$} \textbf{??}}
+\newcommand*{\imprimirestado}{\@estado}
+
+\newcommand{\imprimirdatacompleta}{\imprimirdiadadefesa{} de \imprimirmesdadefesa{} de \imprimirdata}
