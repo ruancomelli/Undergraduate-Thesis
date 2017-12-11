@@ -1,0 +1,29 @@
+\ProvidesPackage{nomenclstyle}
+
+% Take a look at <http://site.ufvjm.edu.br/revistamultidisciplinar/files/2011/09/NBR_14724_atualizada_abr_2011.pdf>
+
+\usepackage[notintoc]{nomencl}
+
+\newcommand{\nomunit}[1]{%
+  \renewcommand{\nomentryend}{\hspace*{\fill}[#1]\nolinebreak\hspace*{2cm}\mbox{}}%
+}
+
+\renewcommand{\nomname}{Lista de símbolos}
+\renewcommand{\nomgroup}[1]{%
+\medskip
+\medskip
+\ifthenelse{\equal{#1}{A}}{\section*{Abreviaturas e siglas}}{%
+\ifthenelse{\equal{#1}{R}}{\section*{Símbolos Romanos}}{%
+\ifthenelse{\equal{#1}{G}}{\section*{Símbolos Gregos}}{%
+\ifthenelse{\equal{#1}{S}}{\section*{Sobrescritos}}{%
+\ifthenelse{\equal{#1}{X}}{\section*{Subscritos}}{%
+\ifthenelse{\equal{#1}{M}}{\section*{Símbolos Matemáticos}}
+{}
+}% matches mathematical symbols
+}% matches Subscripts
+}% mathes superscripts
+}% matches Greek Symbols
+}% matches Roman Symbols
+% \hspace*{-\leftmargin}%
+% \medskip
+}% matches Abbreviations

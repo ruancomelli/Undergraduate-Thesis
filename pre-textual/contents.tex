@@ -1,21 +1,3 @@
-% % NOMENCLATURE
-% \renewcommand{\nomgroup}[1]{%
-% \medskip
-% \medskip
-% \ifthenelse{\equal{#1}{A}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Símbolos Romanos}]}{%
-% \ifthenelse{\equal{#1}{G}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Símbolos Gregos}]}{%
-% \ifthenelse{\equal{#1}{C}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Abreviações}]}{%
-% \ifthenelse{\equal{#1}{S}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Sobrescritos e Subscritos}]}{%
-% \ifthenelse{\equal{#1}{Z}}{\item[\usefont{T1}{iwona}{bc}{n}\selectfont\Large\textbf{Símbolos Matemáticos}]}
-% {}
-% }% matches mathematical symbols
-% }% matches Subscripts
-% }% matches Abbreviations
-% }% matches Greek Symbols
-% \hspace*{-\leftmargin}%
-% \medskip
-% }% matches Roman Symbols
-
 \pdfbookmark[0]{\listfigurename}{lof}
 \listoffigures*
 \cleardoublepage
@@ -28,21 +10,10 @@
 \lstlistoflistings
 \cleardoublepage
 
-\begin{siglas}
-  \item[\DEM{}] Método de Elementos Discretos (\textit{Discrete Element Method})
-  \item[SINMEC] Laboratório de Simulação Numérica em Mecânica dos Fluidos e Transferência de Calor
-\end{siglas}
-
-\begin{simbolos}
-  \item[$ \Gamma $] Letra grega Gama
-  \item[$ \Lambda $] Lambda
-  \item[$ \zeta $] Letra grega minúscula zeta
-  \item[$ \in $] Pertence
-\end{simbolos}
-
-% \pdfbookmark[0]{\listtablename}{lot}
-% \listoftables*
-% \cleardoublepage
+\pdfbookmark[0]{\nomname}{nom}
+\input{pre-textual/nomenclature}
+\printnomenclature
+\cleardoublepage
 
 \pdfbookmark[0]{\contentsname}{toc}
 \tableofcontents*

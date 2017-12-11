@@ -1,5 +1,3 @@
-\usepackage{nomencl}
-% \usepackage{siunitx}
 \usepackage{xparse}
 
 \newcommand{\professor}{Prof.}
@@ -17,6 +15,7 @@
 % \newcommand{\corrected}[1]{#1^{\,\text{corr}}}
 
 \newcommand{\DEM}{DEM}
+\newcommand{\EbFVM}{EbFVM}
 \newcommand{\XDEM}{XDEM}
 \newcommand{\FEM}{FEM}
 \newcommand{\CFD}{CFD}
@@ -253,6 +252,14 @@
 \newcommand{\particlek}{\particle[k]}
 \newcommand{\numberOfParticles}{N_{\particleSet}}
 \newcommand{\numberOfElements}{N_{\elementSet}}
+\NewDocumentCommand{\numberOf}{o}
+{
+    \IfValueTF{#1}{N_{#1}}{N}    
+}
+\NewDocumentCommand{\counterOf}{o}
+{
+    \IfValueTF{#1}{n_{#1}}{n}    
+}
 
 \newcommand{\boundarySet}{\mathcal{B}}
 \newcommand{\universeSet}{\mathcal{U}}
