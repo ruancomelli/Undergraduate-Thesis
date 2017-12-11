@@ -1,0 +1,6 @@
+\def\execute{%
+\begingroup
+\catcode`\%=12
+\catcode`\\=12
+\executeaux}
+\def\executeaux#1{\immediate\write18{#1}\endgroup}

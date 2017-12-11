@@ -8,7 +8,7 @@ A implementação computacional de um algoritmo consiste em se transformarem mod
 
 O projeto está disponível on-line em \citeonline{bib:psin}. Como suporte ao desenvolvimento do código, foram usadas as bibliotecas Boost \cite{bib:boost} e JSON for Modern C++ \cite{bib:nlohmann}.
 
-Em primeiro lugar, foi implementada, em linguagem \CPP{}, uma biblioteca de simulação contendo o suporte à construção de simuladores. Essa biblioteca fundamenta-se na técnica de \textit{metaprogramação template} da linguagem para gerar \textit{funções} e \textit{classes} generalizadas, podendo especializar-se dependendo das necessidades do simulador. A biblioteca foi projetada de tal forma que a inserção de novos tipos de elementos e de interações seja simples e direta. O principal componente da biblioteca é a \textit{classe template} \lstinline[style=Inline C++]{Simulator}, que gerencia a simulação e representa os simuladores. Essa classe recebe como parâmetros os tipos de partículas, de elementos de contorno, campos de força e elementos externos e as interações da simulação. Com isso, a classe especializada é capaz de ler arquivos de entrada e simular o comportamento do sistema.
+Em primeiro lugar, foi implementada, em linguagem \CPP{}, uma biblioteca de simulação contendo o suporte à construção de simuladores. Essa biblioteca se fundamenta na técnica de \textit{metaprogramação template} da linguagem para gerar \textit{funções} e \textit{classes} generalizadas, podendo especializar-se dependendo das necessidades do simulador. A biblioteca foi projetada de tal forma que a inserção de novos tipos de elementos e de interações seja simples e direta. O principal componente da biblioteca é a \textit{classe template} \lstinline[style=Inline C++]{Simulator}, que gerencia a simulação e representa os simuladores. Essa classe recebe como parâmetros os tipos de partículas, de elementos de contorno, campos de força e elementos externos e as interações da simulação. Com isso, a classe especializada é capaz de ler arquivos de entrada e simular o comportamento do sistema.
 
 Dentre as capacidades da classe template \lstinline[style=Inline C++]{Simulator}, destacam-se:
 \begin{alineas}
@@ -52,7 +52,7 @@ O algoritmo de integração selecionado foi o algoritmo de Gear como apresentado
 
 % Além disso, \CPP{} é uma linguagem \textit{compilada}, o que significa que o código-fonte passa por um processo de compilação antes de gerar um executável. Toda a tipagem é feita em \textit{tempo de compilação}, assim como a análise sintática e semântica do código. A simulação, por sua vez, é feita em \textit{tempo de execução}, uma etapa posterior em que os algoritmos são, de fato, executados.
 
-% Ainda, a linguagem \CPP{} oferece suporte à \textit{metaprogramação template}, uma técnica que permite construírem-se modelos gerais para classes e funções e, posteriormente, especializá-los. Assim, pode-se definir uma classe template \lstinline[style=Inline C++]{list}:
+% Ainda, a linguagem \CPP{} oferece suporte à \textit{metaprogramação template}, uma técnica que permite se construírem modelos gerais para classes e funções e, posteriormente, especializá-los. Assim, pode-se definir uma classe template \lstinline[style=Inline C++]{list}:
 % \begin{lstlisting*}[style=C++]
 % 	template<class T>
 % 	class list
@@ -149,7 +149,7 @@ Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\y
 	\sourceMe
 \end{figure}
 
-Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\), \(\velocity = \explicitVectorCoordinates{\velocityScalar}\) e \(\acceleration = \explicitVectorCoordinates{\accelerationScalar}\), é obtida a solução apresentada na \cref{table:free_fall_solution}.
+Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\), \(\velocity = \explicitVectorCoordinates{\velocityScalar}\) e \(\acceleration = \explicitVectorCoordinates{\accelerationScalar}\), é obtida a solução analítica apresentada na \cref{table:free_fall_solution}.
 
 \begin{table}[h]
 	\caption{Solução do problema do lançamento oblíquo.}
@@ -218,52 +218,50 @@ Conquanto se trate de um problema bidimensional sem rotação, o simulador empre
 	% \vspace{-0.2cm}
 	\label{fig:falling_sphere_y_position}
 	\sourceMe
-	% \vspace{-1cm}
+	\vspace{-0.3cm}
 \end{figure}
 
 \footnotetext{Para melhor visualização dos resultados, é apresentado apenas um ponto a cada dez passos de tempo.}
 
-\begin{figure}[htb!]
-	\caption[Solução do problema de lançamento oblíquo para a posição horizontal, a velocidade horizontal, a velocidade vertical e a aceleração vertical da partícula]{Solução do problema de lançamento oblíquo para (\subref{subfig:x_position}) a posição horizontal, (\subref{subfig:x_velocity}) a velocidade horizontal, (\subref{subfig:y_velocity}) a velocidade vertical e (\subref{subfig:y_acceleration}) a aceleração vertical da partícula}
-	% \vspace{-0.5cm}
-	\centering
-	\captionsetup[subfloat]{labelfont=bf}
-	\subfloat{
-		\centering
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/x_position.pdf}
-			\caption{}
-			\label{subfig:x_position}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/x_velocity.pdf}
-			\caption{}
-			\label{subfig:x_velocity}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/y_velocity.pdf}
-			\caption{}
-			\label{subfig:y_velocity}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/y_acceleration.pdf}
-			\caption{}
-			\label{subfig:y_acceleration}
-		\end{subfigure}
-	}
-	% \vspace{-0.2cm}
-	\label{fig:falling_sphere_other}
-	\sourceMe
-	% \vspace{-1cm}
-\end{figure}
+% \begin{figure}[htb!]
+% 	\caption[Solução do problema de lançamento oblíquo para a posição horizontal, a velocidade horizontal, a velocidade vertical e a aceleração vertical da partícula]{Solução do problema de lançamento oblíquo para (\subref{subfig:x_position}) a posição horizontal, (\subref{subfig:x_velocity}) a velocidade horizontal, (\subref{subfig:y_velocity}) a velocidade vertical e (\subref{subfig:y_acceleration}) a aceleração vertical da partícula}
+% 	% \vspace{-0.5cm}
+% 	\centering
+% 	\captionsetup[subfloat]{labelfont=bf}
+% 	\subfloat{
+% 		\centering
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/x_position.pdf}
+% 			\caption{}
+% 			\label{subfig:x_position}
+% 		\end{subfigure}
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/x_velocity.pdf}
+% 			\caption{}
+% 			\label{subfig:x_velocity}
+% 		\end{subfigure}
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/y_velocity.pdf}
+% 			\caption{}
+% 			\label{subfig:y_velocity}
+% 		\end{subfigure}
+% 		\begin{subfigure}[t]{\smallresultsfigwidth}
+% 			\centering
+% 			\includegraphics[scale=1]{images/falling_sphere/correct_initial_acceleration/y_acceleration.pdf}
+% 			\caption{}
+% 			\label{subfig:y_acceleration}
+% 		\end{subfigure}
+% 	}
+% 	% \vspace{-0.2cm}
+% 	\label{fig:falling_sphere_other}
+% 	\sourceMe
+% 	% \vspace{-1cm}
+% \end{figure}
 
-Com esses parâmetros, foi calculada a trajetória da partícula dada pela solução analítica e aquela resultante da simulação. Na \cref{fig:falling_sphere_y_position} estão expostas as soluções para a altura da partícula. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações.
-
-Outras variáveis, como a posição horizontal, as velocidades horizontal e vertical e a aceleração vertical estão apresentadas na \cref{fig:falling_sphere_other}.
+Com esses parâmetros, foi calculada a trajetória da partícula dada pela solução analítica e aquela resultante da simulação. Na \cref{fig:falling_sphere_y_position} estão expostas as soluções para a altura da partícula. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações. As demais variáveis do problema, como a posição horizontal, as velocidades horizontal e vertical e a aceleração vertical, também seguem o comportamento esperado, mantendo-se bastante próximos da solução analítica.
 
 \begin{figure}[htb!]
 	\caption[Erro da simulação com relação à solução numérica para a posição e da partícula do problema do lançamento oblíquo]{Erro da simulação com relação à solução numérica para (\subref{subfig:position_error}) a posição e (\subref{subfig:velocity_error}) da partícula do problema do lançamento oblíquo}
@@ -291,7 +289,7 @@ Outras variáveis, como a posição horizontal, as velocidades horizontal e vert
 	% \vspace{-1cm}
 \end{figure}
 
-Por sua vez, o erro da posição e o erro da velocidade, como funções do tempo, são apresentados na \cref{fig:falling_sphere_error}. Esses erros são calculados de acordo com a equação \eqref{eq:vector_error}. Observa-se nessa \namecref{fig:falling_sphere_error} que o erro da posição se mantém inferior a \SI{0,01}{\nano\meter} durante toda a simulação, evidenciando a exatidão do método. Além disso, é possível notar que o erro se acumula com o avanço da simulação.
+O erro do vetor posição e o erro do vetor velocidade, como funções do tempo, são apresentados na \cref{fig:falling_sphere_error}. Esses erros são calculados de acordo com a equação \eqref{eq:vector_error}. Observa-se nessa \namecref{fig:falling_sphere_error} que o erro da posição se mantém inferior a \SI{0,01}{\nano\meter} durante toda a simulação, evidenciando a exatidão do método. Além disso, é possível notar que, no início da simulação, o erro se mantém próximo do épsilon de máquina, acumulando-se com o avanço da simulação.
 
 O arquivo em formato \JSON{} utilizado para essa simulação é apresentado no \cref{app:code_listings}.
 
@@ -303,8 +301,6 @@ A partícula está sujeita a um campo gravitacional constante cuja aceleração 
 
 Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\) representando o chão. Sendo um plano fixo, esse elemento é completamente determinado ao se fornecerem um ponto e um versor normal a ele. Para o plano \(\xAxis\zAxis\), podem ser adotados a origem \(\originPoint\) do sistema como ponto pertencente ao plano e o versor normal \(\planeNormalVersor = \explicitVector{0}{1}{0}\).
 
-Essa configuração pode ser representada como na \cref{fig:bouncing_sphere}.
-
 \begin{figure}[h]
 	\caption{O problema da esfera quicando.}
 	% \vspace{-0.5cm}
@@ -313,6 +309,8 @@ Essa configuração pode ser representada como na \cref{fig:bouncing_sphere}.
 	\label{fig:bouncing_sphere}
 	\sourceMe
 \end{figure}
+
+Essa configuração pode ser representada como na \cref{fig:bouncing_sphere}.
 
 Além de servir como mais um caso para a validação do código, o problema da esfera quicando possibilita a comparação entre o coeficiente de restituição calculado a partir dos resultados da simulação e o coeficiente calculado analiticamente a partir do modelo de força escolhido.
 
@@ -361,7 +359,7 @@ Para o estudo do problema da esfera quicando no caso conservativo, foram conside
 \end{table}
 
 \begin{figure}[htb!]
-	\caption[Altura e energia mecânica da partícula e coeficiente de restituição no caso conservativo do problema da esfera quicando.]{Altura (\subref{subfig:bouncing_sphere:conservative:height}) e energia mecânica (\subref{subfig:bouncing_sphere:conservative:mechanical_energy}) da partícula e coeficiente de restituição (\subref{subfig:bouncing_sphere:conservative:coefficient_of_restitution}) no caso conservativo do problema da esfera quicando.}
+	\caption[Altura e coeficiente de restituição no caso conservativo do problema da esfera quicando.]{Altura (\subref{subfig:bouncing_sphere:conservative:height}) e coeficiente de restituição (\subref{subfig:bouncing_sphere:conservative:coefficient_of_restitution}) no caso conservativo do problema da esfera quicando.}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
@@ -371,12 +369,6 @@ Para o estudo do problema da esfera quicando no caso conservativo, foram conside
 			\includegraphics[scale=1]{images/bouncing_sphere/conservative/small_y_position.pdf}
 			\caption{}
 			\label{subfig:bouncing_sphere:conservative:height}
-		\end{subfigure}
-		\begin{subfigure}[t]{\smallresultsfigwidth}
-			\centering
-			\includegraphics[scale=1]{images/bouncing_sphere/conservative/mechanical_energy.pdf}
-			\caption{}
-			\label{subfig:bouncing_sphere:conservative:mechanical_energy}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
@@ -405,7 +397,7 @@ Para o estudo do problema da esfera quicando no caso conservativo, foram conside
 \sourceMe 
 \end{table}
 
-Nessa situação, os resultados obtidos pela simulação para a altura e a energia mecânica da partícula e para o coeficiente de restituição são obtidos como na \cref{fig:bouncing_sphere:conservative}. Observa-se nessa \namecref{fig:bouncing_sphere:conservative} que a energia se conserva, sendo constante com exceção dos instantes de colisão, em que a energia mecânica se transforma em energia puramente elástica. De fato, a diferença observada entre a energia mecânica inicial \(\initial{\mechanical{\energy}}\) e a final \(\final{\mechanical{\energy}}\) foi da ordem de \(10^{-3}\si{\joule}\), o que representa \SI{0,036}{\percent} da energia inicial. Por sua vez, o coeficiente de restituição manteve-se bastante próximo de \(1\), o que corresponde ao resultado analítico, com erro máximo de \SI{0,02}{\percent}. Esses resultados estão expostos na \cref{tab:bouncing_sphere:conservative:energy_and_coefficient_of_restitution}. Convém destacar que a altura mostrada na \cref{subfig:bouncing_sphere:conservative:height} não atinge o valor nulo pois a mesma é medida com relação ao centro da partícula, e não à sua superfície.
+Nessa situação, os resultados obtidos pela simulação para a altura e para o coeficiente de restituição são obtidos como na \cref{fig:bouncing_sphere:conservative}. Observa-se nessa \namecref{fig:bouncing_sphere:conservative} que o coeficiente de restituição manteve-se bastante próximo de \(1\), o que corresponde ao resultado analítico, com erro máximo de \SI{0,02}{\percent}. Além disso, energia se conserva, sendo constante com exceção dos instantes de colisão, em que a energia mecânica se transforma em energia puramente elástica. De fato, observou-se que a diferença entre a energia mecânica inicial \(\initial{\mechanical{\energy}}\) e a final \(\final{\mechanical{\energy}}\) foi da ordem de \SI{e-3}{\joule}, o que representa \SI{0,036}{\percent} da energia inicial. Esses resultados estão expostos na \cref{tab:bouncing_sphere:conservative:energy_and_coefficient_of_restitution}. Convém destacar que a altura mostrada na \cref{subfig:bouncing_sphere:conservative:height} não se anula pois a mesma é medida com relação ao centro da partícula, e não à sua superfície.
 
 \subsection{Caso Dissipativo} \label{sec:results:bouncing_sphere:dissipative}
 
@@ -425,6 +417,8 @@ Para essa simulação, foram utilizados parâmetros idênticos aos indicados na 
 \sourceMe 
 \end{table}
 
+A partir desses parâmetros, uma simulação foi executada, resultando na altura da partícula em função do tempo como exposta na \cref{fig:bouncing_sphere_y_position}.
+
 \begin{figure}[htb!]
 	\caption{Solução para a altura da partícula no caso dissipativo do problema da esfera quicando.}
 	\centering
@@ -433,10 +427,12 @@ Para essa simulação, foram utilizados parâmetros idênticos aos indicados na 
 	\sourceMe
 \end{figure}
 
-A partir desses parâmetros, uma simulação foi executada, resultando na altura da partícula em função do tempo como exposta na \cref{fig:bouncing_sphere_y_position}.
+Uma análise importante a se fazer nesse problema é a da energia. A energia cinética e a energia mecânica resultantes da simulação, calculadas de acordo com as \cref{eq:kineticEnergy,eq:mechanicalEnergy}, são apresentadas na \cref{fig:bouncing_sphere_energy}. Observa-se nos gráficos que a partícula experiencia uma queda em sua sua energia mecânica após as colisões com o chão, sendo que a energia cinética anula-se aproximadamente após \SI{5}{\second} de simulação.
 
-\begin{figure}[h]
-	\caption[Energia cinética e energia mecânica da partícula no caso dissipativo do problema da esfera quicando.]{Energia cinética (\subref{subfig:bouncing_sphere:kinetic_energy}) e energia mecânica (\subref{subfig:bouncing_sphere:mechanical_energy}) da partícula no caso dissipativo do problema da esfera quicando.}
+Além da energia, o coeficiente de restituição resultante da colisão também pode ser estudado. Na \cref{fig:bouncing_sphere:dissipative:coefficient_of_restitution}, estão representados o coeficiente calculado numericamente através da \cref{eq:coefficient_of_restitution_with_gravity} e o coeficiente analítico dado pela expressão \eqref{eq:corrected_linear_dashpot:coefficient_of_restitution}. Observa-se uma boa concordância entre os resultados até aproximadamente \SI{5}{\second} de simulação. A divergência que ocorre após esse instante explica-se pelo fato de que a partícula entra em repouso sobre o chão.
+
+\begin{figure}[H]
+	\caption[Energia cinética e energia mecânica da partícula no caso dissipativo do problema da esfera quicando.]{Energia cinética (\subref{subfig:bouncing_sphere:kinetic_energy}) e energia mecânica (\subref{subfig:bouncing_sphere:mechanical_energy}) da partícula no caso dissipativo do problema da esfera quicando.\protect\footnotemark}
 	% \vspace{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
@@ -457,23 +453,19 @@ A partir desses parâmetros, uma simulação foi executada, resultando na altura
 	}
 	\sourceMe
 	\label{fig:bouncing_sphere_energy}
+	\fignote{Existe um detalhe observado na simulação que não é reproduzido nesses gráficos: durante a colisão, a energia cinética da partícula se anula, sendo parcialmente restituída depois. O motivo por que isso não é ilustrado é que, devido à quantidade de informações exportadas na simulação, a limitação da memória do computador impede a reprodução dos resultados em todos os instantes de tempo.}
 	% \vspace{-1cm}
 \end{figure}
 
-Uma análise importante a se fazer nesse problema é a da energia. A energia cinética e a energia mecânica resultantes da simulação, calculadas de acordo com as \cref{eq:kineticEnergy,eq:mechanicalEnergy}, são apresentadas na \cref{fig:bouncing_sphere_energy}. Observa-se nos gráficos que a partícula experiencia uma queda em sua sua energia mecânica após as colisões com o chão, sendo que a energia cinética anula-se aproximadamente após \SI{5}{\second} de simulação.
-
-Além da energia, o coeficiente de restituição resultante da colisão também pode ser estudado. Na \cref{fig:bouncing_sphere:dissipative:coefficient_of_restitution}, estão representados o coeficiente calculado numericamente através da \cref{eq:coefficient_of_restitution_with_gravity} e o coeficiente analítico dado pela expressão \eqref{eq:corrected_linear_dashpot:coefficient_of_restitution}. Observa-se uma boa concordância entre os resultados até aproximadamente \SI{5}{\second} de simulação. A divergência que ocorre após esse instante explica-se pelo fato de que a partícula entra em repouso sobre o chão.
-
-\begin{figure}[htb!]
+\begin{figure}[H]
 	\caption{Coeficiente de restituição resultante da colisão dissipativa do problema da esfera quicando.}
 	\centering
-		\includegraphics[scale=1]{images/bouncing_sphere/dissipative/coefficient_of_restitution.pdf}
+		\includegraphics[scale=1]{images/bouncing_sphere/dissipative/small_coefficient_of_restitution.pdf}
 		% \includegraphics[width=\normalresultsfigwidth]{images/falling_sphere/y_position.pdf}
 	% {\centerline{\includegraphics[scale=#2]{#1}}}
 	\label{fig:bouncing_sphere:dissipative:coefficient_of_restitution}
 	\sourceMe
 \end{figure}
-
 
 \section{Colisão entre Esferas} \label{sec:results:colliding_spheres}
 
@@ -487,17 +479,21 @@ A questão central dos métodos de elementos discretos é a interação entre pa
 	\sourceMe
 \end{figure}
 
-Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\) e a azul \(\blueParticle\). A partícula azul encontra-se em repouso na posição \(\initial{\bluePosition}\). A partícula vermelha encontra-se inicialmente na posição \(\initial{\redPosition}\) e avança, com uma velocidade linear \(\initial{\redVelocity}\) e uma velocidade angular \(\initial{\redAngularVelocity} = \initial{\redAngularVelocityScalar}\cdot\zUnit\), na direção de \(\blueParticle\). As partículas colidem, e ocorre transferência de movimento da partícula vermelha para a azul. Essa situação é representada na \cref{fig:colliding_spheres}.
+Consideram-se duas partículas esféricas: a partícula vermelha \(\redParticle\) e a azul \(\blueParticle\). A partícula azul encontra-se inicialmente em repouso na posição \(\initial{\bluePosition}\). A partícula vermelha encontra-se inicialmente na posição \(\initial{\redPosition}\) e avança, com uma velocidade linear \(\initial{\redVelocity}\) e uma velocidade angular \(\initial{\redAngularVelocity} = \initial{\redAngularVelocityScalar}\cdot\zUnit\), na direção de \(\blueParticle\). As partículas colidem, e ocorre transferência de movimento da partícula vermelha para a azul. Essa situação é representada na \cref{fig:colliding_spheres}.
 
-Nesse problema, não é considerada a ação da gravidade, o que permite a análise simples das quantidades de movimento linear a angular. Como no problema da esfera quicando, são consideradas duas situações: o caso conservativo e o caso dissipativo. Devido à natureza das forças tangenciais apresentadas na \cref{sec:collision_force_models}, simulações com rotações são intrinsecamente dissipativas, e por isso esse caso só é considerado na \cref{sec:colliding_spheres:dissipative}.
+Nesse problema, não é considerada a ação da gravidade, o que permite a análise simples das quantidades de movimento linear e angular. Como no problema da esfera quicando, são consideradas duas situações: o caso conservativo e o caso dissipativo. Devido à natureza das forças tangenciais apresentadas na \cref{sec:collision_force_models}, simulações com rotações são intrinsecamente dissipativas, e por isso esse caso só é considerado na \cref{sec:colliding_spheres:dissipative}.
 
 \subsection{Caso Conservativo}
 
-Para a simulação com conservação da energia, foram escolhidos os parâmetros expostos na \cref{tab:colliding_spheres:conservative:parameters}. Novamente, foi escolhido o modelo de força normal de amortecimento linear pela facilidade de se examinar o coeficiente de restituição resultante.
+Para a simulação com conservação da energia mecânica, foram arbitrados os parâmetros expostos na \cref{tab:colliding_spheres:conservative:parameters}. Novamente, foi escolhido o modelo de força normal de amortecimento linear pela facilidade de se examinar o coeficiente de restituição resultante da colisão.
 
-\begin{table}[h]
+Com esses parâmetros, foi executada a simulação conservativa. A posição e a velocidade das partículas são apresentadas na \cref{fig:colliding_spheres:conservative:results}. Também estão representadas, na mesma figura, a quantidade de movimento linear horizontal, a força de contato horizontal entre as partículas, a energia cinética e o coeficiente de restituição resultante do choque.
+
+Como pode ser observado, os resultados aproximam-se bastante do esperado. Por se tratar de uma colisão sem termos dissipativos, a partícula vermelha transfere todo o seu movimento à azul, entrando em repouso após a colisão. A \cref{subfig:colliding_spheres:conservative:coefficient_of_restitution} e a \cref{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution} indicam que o coeficiente de restituição numericamente calculado praticamente se iguala ao analítico com valor unitário, o que implica uma colisão perfeitamente elástica. Mais ainda, infere-se das \namecrefs{subfig:colliding_spheres:conservative:x_linear_momentum} \labelcref{subfig:colliding_spheres:conservative:x_linear_momentum,subfig:colliding_spheres:conservative:kinetic_energy} que ocorre a conservação da quantidade de movimento e a conservação da energia. Além disso, chama a atenção o fato de que parte da energia cinética é transformada em energia elástica durante o choque, e é restituída finda a colisão. Também é interessante notar que a força de colisão entre as partículas, indicada na \cref{subfig:colliding_spheres:conservative:x_contact_force}, ultrapassa os \SI{150}{\kilo\newton} em módulo.
+
+\begin{table}[H]
 \centering
-\caption{Parâmetros para o caso conservativo do problema da esfera quicando.}
+\caption{Parâmetros para o caso conservativo do problema da colisão entre esferas.}
 \label{tab:colliding_spheres:conservative:parameters}
 \begin{parametersdesc}{\textwidth}
 	\item{Modelo de força normal}{\text{Amortecedor linear corrigido}}{\emptyUnit}
@@ -528,10 +524,19 @@ Para a simulação com conservação da energia, foram escolhidos os parâmetros
 \sourceMe 
 \end{table}
 
-Com esses parâmetros, foi executada a simulação conservativa. A posição e a velocidade das partículas são apresentadas na \cref{fig:colliding_spheres:conservative:position_and_velocity}.
+\begin{table}[H]
+\centering
+\caption{Coeficiente de restituição resultante do caso conservativo do problema das esferas colidentes.}
+\label{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution}
+\begin{parametersdesc}{0.8\textwidth}
+	\item{Coeficiente de restituição analítico}{\coefficientOfRestitution = 1}{}
+	\item{Erro máximo do coeficiente de restituição}{\maximumErrorOf{\coefficientOfRestitution} = 9\cdot 10^{-9}}{}
+\end{parametersdesc}
+\sourceMe 
+\end{table}
 
-\begin{figure}[htb!]
-	\caption[Solução para a posição horizontal e a velocidade horizontal das partículas colidentes na simulação conservativa.]{Solução para a posição horizontal (\subref{subfig:colliding_spheres:conservative:x_position}) e a velocidade horizontal (\subref{subfig:colliding_spheres:conservative:x_velocity}) das partículas colidentes na simulação conservativa.}
+\begin{figure}[H]
+	\caption[Solução para a posição horizontal e a velocidade horizontal, para quantidade de movimento linear, para a força de contato, para a energia cinética e para o coeficiente de restituição da simulação conservativa do problema das esferas colidentes.]{Solução para a posição horizontal (\subref{subfig:colliding_spheres:conservative:x_position}) e a velocidade horizontal (\subref{subfig:colliding_spheres:conservative:x_velocity}), para quantidade de movimento linear (\subref{subfig:colliding_spheres:conservative:x_linear_momentum}), para a força de contato (\subref{subfig:colliding_spheres:conservative:x_contact_force}), para a energia cinética (\subref{subfig:colliding_spheres:conservative:kinetic_energy}) e para o coeficiente de restituição (\subref{subfig:colliding_spheres:conservative:coefficient_of_restitution}) da simulação conservativa do problema das esferas colidentes.}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
@@ -548,19 +553,6 @@ Com esses parâmetros, foi executada a simulação conservativa. A posição e a
 			\caption{}
 			\label{subfig:colliding_spheres:conservative:x_velocity}
 		\end{subfigure}
-	}
-	\label{fig:colliding_spheres:conservative:position_and_velocity}
-	\sourceMe
-\end{figure}
-
-Também é possível representarem-se a quantidade de movimento linear horizontal, a força de contato horizontal entre as partículas, a energia cinética e o coeficiente de restituição resultante do choque, como na \cref{fig:colliding_spheres:conservative:linear_momentum_force_kinetic_energy_and_coefficient_of_restitution}.
-
-\begin{figure}[htb!]
-	\caption[Curvas da quantidade de movimento linear, da força de contato horizontal, da energia cinética e do coeficiente de restituição do par de partículas colidentes na simulação conservativa.]{Curvas da quantidade de movimento linear (\subref{subfig:colliding_spheres:conservative:x_linear_momentum}), da força de contato horizontal (\subref{subfig:colliding_spheres:conservative:x_contact_force}), da energia cinética (\subref{subfig:colliding_spheres:conservative:kinetic_energy}) e do coeficiente de restituição (\subref{subfig:colliding_spheres:conservative:coefficient_of_restitution}) do par de partículas colidentes na simulação conservativa.}
-	\centering
-	\captionsetup[subfloat]{labelfont=bf}
-	\subfloat{
-		\centering
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
 			\includegraphics[scale=1]{images/colliding_spheres/conservative/linearMomentum-X_small_total.pdf}
@@ -586,22 +578,9 @@ Também é possível representarem-se a quantidade de movimento linear horizonta
 			\label{subfig:colliding_spheres:conservative:coefficient_of_restitution}
 		\end{subfigure}
 	}
-	\label{fig:colliding_spheres:conservative:linear_momentum_force_kinetic_energy_and_coefficient_of_restitution}
+	\label{fig:colliding_spheres:conservative:results}
 	\sourceMe
 \end{figure}
-
-\begin{table}[htb!]
-\centering
-\caption{Coeficiente de restituição resultante do caso conservativo do problema das esferas colidentes.}
-\label{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution}
-\begin{parametersdesc}{0.8\textwidth}
-	\item{Coeficiente de restituição analítico}{\coefficientOfRestitution = 1}{}
-	\item{Erro máximo do coeficiente de restituição}{\maximumErrorOf{\coefficientOfRestitution} = 9\cdot 10^{-9}}{}
-\end{parametersdesc}
-\sourceMe 
-\end{table}
-
-Como pode ser observado, os resultados aproximam-se bastante do esperado. Por se tratar de uma colisão sem termos dissipativos, a partícula vermelha transfere todo o seu movimento à azul, entrando em repouso após a colisão. A \cref{subfig:colliding_spheres:conservative:coefficient_of_restitution} e a \cref{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution} indicam que o coeficiente de restituição numericamente calculado praticamente se iguala ao analítico com valor unitário, o que implica uma colisão perfeitamente elástica. Mais ainda, infere-se das \namecrefs{subfig:colliding_spheres:conservative:x_linear_momentum} \labelcref{subfig:colliding_spheres:conservative:x_linear_momentum,subfig:colliding_spheres:conservative:kinetic_energy} que ocorre a conservação da quantidade de movimento e a conservação da energia. Além disso, chama a atenção o fato de que parte da energia cinética é transformada em energia elástica durante o choque, e é restituída finda a colisão. Também é interessante notar que a força de colisão entre as partículas, indicada na \cref{subfig:colliding_spheres:conservative:x_contact_force}, ultrapassa os \SI{150}{\kilo\newton} em módulo.
 
 \subsection{Caso Dissipativo} \label{sec:colliding_spheres:dissipative}
 
@@ -623,46 +602,53 @@ Para a simulação dissipativa sem rotação, consideram-se os parâmetros da \c
 \sourceMe 
 \end{table}
 
-\begin{figure}[htb!]
+Por fim, a simulação foi repetida com os parâmetros da \cref{tab:colliding_spheres:dissipative:parameters} à exceção do passo tempo, que foi variado. Foram executadas simulações para 
+\begin{equation*}
+	\Dt = 10^{-8},\quad{\sqrt{2}\cdot 10^{-8}},\quad{2\cdot 10^{-8}},\quad{2\sqrt{2}\cdot 10^{-8}},\quad{4\cdot 10^{-8}}, \dotsc, {1024\cdot 10^{-8}},
+\end{equation*}
+e o erro máximo do coeficiente de restituição foi computado. O resultado desse processo está exposto, em escala logarítmica, na \cref{fig:colliding_spheres:dissipative:coefficient_of_restitution_error}.
+
+Dentre as características que se observam nesses resultados, nota-se que a partícula vermelha, ao contrário do caso sem amortecimento, não entra em repouso após a colisão, mas, sim, continua a sua trajetória com uma velocidade reduzida. Também, a energia cinética total do sistema não se conserva, sofrendo uma queda de aproximadamente \SI{16,5}{\joule} do início até o fim da simulação. Embora ocorra a perda de energia, a quantidade de movimento linear mantém-se constante, como deve acontecer em qualquer sistema sem forças externas, mesmo que existam forças internas dissipativas. O coeficiente de restituição obtido foi de \SI{0,63}{}, apresentando um erro de apenas \(3,18\cdot 10^{-5}\) com relação ao coeficiente calculado analiticamente. Além dessas considerações, percebe-se, comparando-se as \namecrefs{subfig:colliding_spheres:conservative:x_contact_force} \labelcref{subfig:colliding_spheres:conservative:x_contact_force,subfig:colliding_spheres:dissipative:x_contact_force}, que ocorre uma alteração na curva da força de contato horizontal. No caso conservativo, existe uma simetria do gráfico com relação ao instante de máxima superposição, o que não se observa na força do caso dissipativo. Esse deslocamento no perfil de força, com intensidade maior na aproximação que no afastamento, é o responsável pela dissipação de energia. Por fim, observa-se que o erro máximo do coeficiente de restituição cresce com o aumento do passo de tempo, chegando a um erro de mais de \SI{100}{\percent} para passos de aproximadamente \SI{e-5}{\second}.
+
+\begin{figure}[H]
 	\caption[Solução da posição, da velocidade, da quantidade de movimento linear, da força de contato horizontal, da energia cinética e do coeficiente de restituição do par de partículas colidentes na simulação dissipativa sem rotação.]{Solução da posição (\subref{subfig:colliding_spheres:dissipative:x_position}), da velocidade (\subref{subfig:colliding_spheres:dissipative:x_velocity}), da quantidade de movimento linear (\subref{subfig:colliding_spheres:dissipative:x_linear_momentum}), da força de contato horizontal (\subref{subfig:colliding_spheres:dissipative:x_contact_force}), da energia cinética (\subref{subfig:colliding_spheres:dissipative:kinetic_energy}) e do coeficiente de restituição (\subref{subfig:colliding_spheres:dissipative:coefficient_of_restitution}) do par de partículas colidentes na simulação dissipativa sem rotação.}
-	\vspace*{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
 		\centering
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative/Position-X_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative/Position-X_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative:x_position}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative/Velocity-X_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative/Velocity-X_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative:x_velocity}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative/linearMomentum-X_small_total_alternative.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative/linearMomentum-X_small_total_alternative.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative:x_linear_momentum}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative/contactForce-X_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative/contactForce-X_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative:x_contact_force}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative/kineticEnergy_small_total_alternative.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative/kineticEnergy_small_total_alternative.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative:kinetic_energy}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative/coefficient_of_restitution_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative/coefficient_of_restitution_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative:coefficient_of_restitution}
 		\end{subfigure}
@@ -671,13 +657,7 @@ Para a simulação dissipativa sem rotação, consideram-se os parâmetros da \c
 	\sourceMe
 \end{figure}
 
-Por fim, a simulação foi repetida com os parâmetros da \cref{tab:colliding_spheres:dissipative:parameters} à exceção do passo tempo, que foi variado. Foram executadas simulações para 
-\begin{equation*}
-	\Dt = 10^{-8},\quad{\sqrt{2}\cdot 10^{-8}},\quad{2\cdot 10^{-8}},\quad{2\sqrt{2}\cdot 10^{-8}},\quad{4\cdot 10^{-8}}, \dotsc, {1024\cdot 10^{-8}},
-\end{equation*}
-e o erro máximo do coeficiente de restituição foi computado. O resultado desse processo está exposto, em escala logarítmica, na \cref{fig:colliding_spheres:dissipative:coefficient_of_restitution_error}.
-
-\begin{figure}[h]
+\begin{figure}[htb!]
 	\caption{Erro máximo do coeficiente de restituição em função do passo de tempo no caso dissipativo do problema das esferas colidentes sem rotação.}
 	\centering
 	\includegraphics[scale=1]{images/colliding_spheres/dissipative/coefficient_of_restitution_error_loglog_small.pdf}
@@ -685,11 +665,15 @@ e o erro máximo do coeficiente de restituição foi computado. O resultado dess
 	\sourceMe
 \end{figure}
 
-Dentre as características que se observam nesses resultados, nota-se que a partícula vermelha, ao contrário do caso sem amortecimento, não entra em repouso após a colisão, mas, sim, continua a sua trajetória com uma velocidade reduzida. Também, a energia cinética total do sistema não se conserva, sofrendo uma queda de aproximadamente \SI{16,5}{\joule} do início até o fim da simulação. Embora ocorra a perda de energia, a quantidade de movimento linear mantém-se constante, como deve acontecer em qualquer sistema sem forças externas, mesmo que existam forças internas dissipativas. O coeficiente de restituição obtido foi de \SI{0,63}{}, apresentando um erro de apenas \(3,18\cdot 10^{-5}\) com relação ao coeficiente calculado analiticamente. Além dessas considerações, percebe-se, comparando-se as \namecrefs{subfig:colliding_spheres:conservative:x_contact_force} \labelcref{subfig:colliding_spheres:conservative:x_contact_force,subfig:colliding_spheres:dissipative:x_contact_force}, que ocorre uma alteração na curva da força de contato horizontal. No caso conservativo, existe uma simetria do gráfico com relação ao instante de máxima superposição, o que não se observa na força do caso dissipativo. Esse deslocamento no perfil de força, com intensidade maior na aproximação que no afastamento, é o responsável pela dissipação de energia. Por fim, observa-se que o erro máximo do coeficiente de restituição cresce com o aumento do passo de tempo, chegando a um erro de mais de \SI{100}{\percent} para passos de aproximadamente \SI{e-5}{\second}.
-
 \subsubsection{Com Rotação}
 
 Para a colisão de partículas com rotação, utilizou-se o modelo de interação de Haff e Werner, que é o análogo rotacional do modelo do amortecedor linear, e cuja expressão para a força tangencial é dada pela \cref{eq:haff_werner}. Para a força normal, o modelo adotado ainda é o do amortecedor linear corrigido. Como entrada para a simulação, foram aplicados os parâmetros da \cref{tab:colliding_spheres:dissipative:rotation:parameters}. O momento de inércia das partículas é consequência de sua massa e seu raio, de acordo com a \cref{eq:momentOfInertia_for_spheres}.
+
+Com esses parâmetros, foram obtidos os resultados expostos nas \cref{fig:colliding_spheres:dissipative_rotation:kinematic_results,fig:colliding_spheres:dissipative_rotation:dynamic_results,fig:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution_results}. Observa-se, na \cref{fig:colliding_spheres:dissipative_rotation:kinematic_results}, que, na colisão, a rotação da partícula vermelha tem o efeito de iniciar um movimento na direção vertical. Ainda, em virtude da não elasticidade do choque, a partícula vermelha mantém-se em movimento mesmo após a colisão com a azul. Na \cref{fig:colliding_spheres:dissipative_rotation:dynamic_results}, estão expostas as curvas da quantidade de movimento linear e da quantidade de movimento angular. Novamente, a simulação apresentou resultados fisicamente verossímeis, visto que ocorre a conservação dessas quantidades. Na mesma figura, estão representados os gráficos da força e do torque sobre as partículas. Nota-se que a força horizontal atinge a casa de \SI{100}{\kilo\newton}, enquanto a vertical alcança \SI{30}{\kilo\newton}. As partículas experienciam torques resultantes iguais em razão de serem, elas próprias, idênticas. 
+
+Por sua vez, na \cref{fig:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution_results}, são expostas as curvas de energia e o coeficiente de restituição obtidos. Observa-se que, por conta da dissipação, todas as formas de energia sofrem redução. Devido ao modelo intrinsecamente dissipativo para a força tangencial, não existe energia rotacional armazenada elasticamente. A consequência disso é que não há recuperação da energia rotacional após a colisão, como se vê na \cref{subfig:colliding_spheres:dissipative_rotation:rotational_energy}. 
+
+Por fim, na \cref{subfig:colliding_spheres:dissipative_rotation:coefficient_of_restitution}, apresenta-se o coeficiente de restituição. Mais uma vez, é observada a sua correspondência com o valor analítico. A \cref{tab:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution} sumariza os resultados para a energia e para o coeficiente de restituição.
 
 \begin{table}[h]
 \centering
@@ -716,14 +700,6 @@ Para a colisão de partículas com rotação, utilizou-se o modelo de interaçã
 \sourceMe 
 \end{table}
 
-Com esses parâmetros, foram obtidos os resultados expostos nas \cref{fig:colliding_spheres:dissipative_rotation:kinematic_results,fig:colliding_spheres:dissipative_rotation:momentum_results,fig:colliding_spheres:dissipative_rotation:forces_and_torque_results,fig:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution_results}. Observa-se, na \cref{fig:colliding_spheres:dissipative_rotation:kinematic_results}, que, na colisão, a rotação da partícula vermelha tem o efeito de iniciar um movimento na direção vertical. Ainda, em virtude da não elasticidade do choque, a partícula vermelha mantém-se em movimento mesmo após a colisão com a azul. Na \cref{fig:colliding_spheres:dissipative_rotation:momentum_results}, estão expostas as curvas da quantidade de movimento linear e da quantidade de movimento angular. Novamente, a simulação apresentou resultados fisicamente verossímeis, visto que ocorre a conservação dessas quantidades. 
-
-Os gráficos da força e do torque sobre as partículas estão representados na \cref{fig:colliding_spheres:dissipative_rotation:forces_and_torque_results}. Nota-se que a força horizontal atinge a casa de \SI{100}{\kilo\newton}, enquanto a vertical alcança \SI{30}{\kilo\newton}. As partículas experienciam torques resultantes iguais em razão de serem, elas próprias, idênticas. 
-
-Por sua vez, na \cref{fig:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution_results}, são expostas as curvas de energia e o coeficiente de restituição obtidos. Observa-se que, por conta da dissipação, todas as formas de energia sofrem redução. Devido ao modelo intrinsecamente dissipativo para a força tangencial, não existe energia rotacional armazenada elasticamente. A consequência disso é que não há recuperação da energia rotacional após a colisão, como vê na \cref{subfig:colliding_spheres:dissipative_rotation:rotational_energy}. 
-
-Por fim, na \cref{subfig:colliding_spheres:dissipative_rotation:coefficient_of_restitution}, apresenta-se o coeficiente de restituição. Mais uma vez, observa-se a sua correspondência com o valor analítico. A \cref{tab:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution} sumariza os resultados para a energia cinética e o coeficiente de restituição.
-
 \begin{table}[h]
 \centering
 \caption{Energia mecânica e coeficiente de restituição resultantes do caso conservativo do problema da esfera quicando.}
@@ -740,9 +716,8 @@ Por fim, na \cref{subfig:colliding_spheres:dissipative_rotation:coefficient_of_r
 \sourceMe 
 \end{table}
 
-\begin{figure}[htb!]
+\begin{figure}[H]
 	\caption[Solução das posições horizontal e vertical, das velocidades horizontal e vertical, e da velocidade angular das partículas no caso dissipativo do problema da colisão de esferas com rotação.]{Solução das posições horizontal (\subref{subfig:colliding_spheres:dissipative_rotation:x_position}) e vertical (\subref{subfig:colliding_spheres:dissipative_rotation:y_position}), das velocidades horizontal (\subref{subfig:colliding_spheres:dissipative_rotation:x_velocity}) e vertical (\subref{subfig:colliding_spheres:dissipative_rotation:y_velocity}), e da velocidade angular (\subref{subfig:colliding_spheres:dissipative_rotation:z_angular_velocity}) das partículas no caso dissipativo do problema da colisão de esferas com rotação.}
-	\vspace*{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
@@ -782,69 +757,55 @@ Por fim, na \cref{subfig:colliding_spheres:dissipative_rotation:coefficient_of_r
 	\sourceMe
 \end{figure}
 
-\begin{figure}[htb!]
-	\caption[Solução numérica das quantidades de movimento linear horizontal, linear vertical e angular para o caso dissipativo do problema das esferas colidentes com rotação.]{Solução numérica das quantidades de movimento linear horizontal (\subref{subfig:colliding_spheres:dissipative_rotation:x_linear_momentum}), linear vertical (\subref{subfig:colliding_spheres:dissipative_rotation:y_linear_momentum}) e angular (\subref{subfig:colliding_spheres:dissipative_rotation:z_angular_momentum}) para o caso dissipativo do problema das esferas colidentes com rotação.}
-	\vspace*{-0.5cm}
+\begin{figure}[H]
+	\caption[Solução numérica das quantidades de movimento linear horizontal, linear vertical e angular para o caso dissipativo do problema das esferas colidentes com rotação.]{Solução numérica das quantidades de movimento linear (\subref{subfig:colliding_spheres:dissipative_rotation:x_linear_momentum} e \subref{subfig:colliding_spheres:dissipative_rotation:y_linear_momentum}) e angular (\subref{subfig:colliding_spheres:dissipative_rotation:z_angular_momentum}), para a força de colisão (\subref{subfig:colliding_spheres:dissipative_rotation:x_contact_force} e \subref{subfig:colliding_spheres:dissipative_rotation:y_contact_force}) e para o torque resultante (\subref{subfig:colliding_spheres:dissipative_rotation:z_torque}) no caso dissipativo do problema das esferas colidentes com rotação.}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
 		\centering
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative_rotation/linearMomentum-X_small_total.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative_rotation/linearMomentum-X_small_total.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative_rotation:x_linear_momentum}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative_rotation/linearMomentum-Y_small_total.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative_rotation/linearMomentum-Y_small_total.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative_rotation:y_linear_momentum}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative_rotation/angularMomentum-Z_small_total_alternative.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative_rotation/angularMomentum-Z_small_total_alternative.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative_rotation:z_angular_momentum}
 		\end{subfigure}
-	}
-	\label{fig:colliding_spheres:dissipative_rotation:momentum_results}
-	\sourceMe
-\end{figure}
-
-\begin{figure}[htb!]
-	\caption[Forças horizontal e vertical e torque no caso dissipativo do problema das esferas colidentes com rotação.]{Forças horizontal (\subref{subfig:colliding_spheres:dissipative_rotation:x_contact_force}) e vertical (\subref{subfig:colliding_spheres:dissipative_rotation:y_contact_force}) e torque (\subref{subfig:colliding_spheres:dissipative_rotation:z_torque}) no caso dissipativo do problema das esferas colidentes com rotação.}
-	\vspace*{-0.5cm}{}
-	\centering
-	\captionsetup[subfloat]{labelfont=bf}
-	\subfloat{
-		\centering
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative_rotation/contactForce-X_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative_rotation/contactForce-X_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative_rotation:x_contact_force}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative_rotation/contactForce-Y_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative_rotation/contactForce-Y_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative_rotation:y_contact_force}
 		\end{subfigure}
 		\begin{subfigure}[t]{\smallresultsfigwidth}
 			\centering
-			\includegraphics[scale=1]{images/colliding_spheres/dissipative_rotation/resultingTorque-Z_small.pdf}
+			\includegraphics[scale=0.95]{images/colliding_spheres/dissipative_rotation/resultingTorque-Z_small.pdf}
 			\caption{}
 			\label{subfig:colliding_spheres:dissipative_rotation:z_torque}
 		\end{subfigure}
 	}
-	\label{fig:colliding_spheres:dissipative_rotation:forces_and_torque_results}
+	\label{fig:colliding_spheres:dissipative_rotation:dynamic_results}
 	\sourceMe
 \end{figure}
 
-\begin{figure}[htb!]
-	\caption[Energias rotacional, translacional e cinética e coeficiente de restituição no caso dissipativo do problema das esferas colidentes com rotação.]{Energias rotacional, translacional e cinética e coeficiente de restituição no caso dissipativo do problema das esferas colidentes com rotação.}
-	\vspace*{-0.5cm}{}
+\begin{figure}[H]
+	\caption[Energias rotacional, translacional e cinética e coeficiente de restituição no caso dissipativo do problema das esferas colidentes com rotação.]{Energias rotacional (\subref{subfig:colliding_spheres:dissipative_rotation:rotational_energy}), translacional (\subref{subfig:colliding_spheres:dissipative_rotation:translational_energy}) e cinética (\subref{subfig:colliding_spheres:dissipative_rotation:kinetic_energy}) e coeficiente de restituição (\subref{subfig:colliding_spheres:dissipative_rotation:coefficient_of_restitution}) no caso dissipativo do problema das esferas colidentes com rotação.}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{
@@ -884,7 +845,7 @@ Como afirmado na \cref{sec:objectives_and_contributions}, um dos objetivos deste
 
 Considera-se uma partícula esférica \(\particle\) de raio \(\radius\) e massa \(\mass\) liberada, em repouso, na posição \(\position = \explicitVector{0}{\positiony}{0}\). A partícula sofre a ação da gravidade \(\gravity = \explicitVector{0}{-\gravityScalar}{0}\) com \(\gravityScalar>0\). A esfera é envolvida por ar atmosférico, e, por isso, sofre a ação da força de arrasto durante a sua queda. Essa configuração é representada pela \cref{fig:falling_with_drag}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\caption{O problema da queda com arrasto.}
 	\centering
 		\includegraphics[width=0.35\textwidth]{images/falling_with_drag/illustration.pdf}
@@ -898,13 +859,13 @@ Segundo \citeonline[p. 392]{bib:fox}, a força de arrasto \(\dragForce\) que a p
 \end{equation*}
 em que \(\dragCoefficient\) é o coeficiente de arrasto do par partícula-fluido, \(\specificMass\) é a massa específica do ar e \(\projectedArea\) é a área projetada da partícula no plano normal ao seu movimento. Para a esfera, a área projetada é dada por \(\projectedArea = \pi\radius^2\).
 
-O coeficiente de arrasto não é constante, mas varia em função do número de Reynolds \(\reynolds\) definido, para partículas esféricas, como
+O coeficiente de arrasto não é constante, mas varia em função do número de Reynolds (\(\reynolds\)) definido, para partículas esféricas, como
 \begin{equation*}
 	\reynolds = \dfrac{\relative{\velocityScalar}\cdot \diameter}{\kinematicViscosity},
 \end{equation*}
 sendo \(\relative{\velocityScalar}\) a norma da velocidade relativa entre a partícula e o fluido, \(\diameter\), o diâmetro da partícula, e \(\kinematicViscosity\), a viscosidade cinemática do ar. Para o problema em questão, supõe-se que o ar está em repouso, do que segue que a velocidade relativa é idêntica à velocidade \(\velocityScalar\) da partícula.
 
-Apesar dessa dependência, o coeficiente de arrasto apresenta pouca variação para números de Reynolds entre \SI{1000}{} e \SI{300000}{} se se considerarem partículas esféricas lisas \cite[p. 397]{bib:fox}. Para uma esfera de \SI{2}{\centi\meter} de raio, e considerando o ar com viscosidade cinemática de \(\kinematicViscosity = 1,5\cdot 10^{-5}\si[per-mode=symbol]{\square\meter\per\second}\), esses limites correspondem às velocidades de \(\velocityScalar=\SI[per-mode=symbol]{0,375}{\meter\per\second}\) e \(\velocityScalar = \SI[per-mode=symbol]{112,5}{\meter\per\second}\). Por simplicidade, considera-se, aqui, que o coeficiente de arrasto é constante mesmo para velocidades inferiores a \SI[per-mode=symbol]{0,375}{\meter\per\second}. Essa aproximação é razoável tendo em vista que, para o valor da gravidade de \SI[per-mode=symbol]{9,81}{\meter\per\square\second}, a partícula leva aproximadamente \SI{76}{\milli\second} para atingir essa velocidade mínima, sendo que o resto do movimento ocorre dentro da faixa de \(\dragCoefficient\) constante.
+Apesar dessa dependência, o coeficiente de arrasto apresenta pouca variação para números de Reynolds entre \SI{1000}{} e \SI{300000}{} se forem consideradas partículas esféricas lisas \cite[p. 397]{bib:fox}. Para uma esfera de \SI{2}{\centi\meter} de raio, e considerando o ar com viscosidade cinemática de \(\kinematicViscosity = 1,5\cdot 10^{-5}\si[per-mode=symbol]{\square\meter\per\second}\), esses limites correspondem às velocidades de \(\relative{\velocityScalar}=\SI[per-mode=symbol]{0,375}{\meter\per\second}\) e \(\relative{\velocityScalar} = \SI[per-mode=symbol]{112,5}{\meter\per\second}\). Por simplicidade, considera-se, aqui, que o coeficiente de arrasto é constante mesmo para velocidades inferiores a \SI[per-mode=symbol]{0,375}{\meter\per\second}. Essa aproximação é razoável tendo em vista que, para o valor da gravidade de \SI[per-mode=symbol]{9,81}{\meter\per\square\second}, a partícula leva aproximadamente \SI{76}{\milli\second} para atingir essa velocidade mínima, sendo que o resto do movimento ocorre dentro da faixa de \(\dragCoefficient\) constante.
 
 Com isso, e a partir dos resultados expostos em \citeonline[p. 397]{bib:fox}, foi fixado o valor \(\dragCoefficient = 0,5\).
 
@@ -943,7 +904,7 @@ A fim de se simular esse problema, foram considerados os parâmetros expostos na
 Com esses valores, foi executada uma simulação, e a altura da partícula em função do tempo foi obtida tal como na \cref{subfig:falling_with_drag:height}. A velocidade vertical, por sua vez, está ilustrada na \cref{subfig:falling_with_drag:speed}, sendo que a velocidade terminal é calculada analiticamente pela \cref{eq:terminal_velocity}. A energia cinética e a energia mecânica, calculadas de acordo com as \namecrefs{eq:kineticEnergy} \labelcref{eq:kineticEnergy,eq:mechanicalEnergy}, estão expostas nas \namecrefs{subfig:falling_with_drag:kinetic_energy} \labelcref{subfig:falling_with_drag:kinetic_energy,subfig:falling_with_drag:mechanical_energy}.
 
 \begin{figure}[htb!]
-	\caption[Energia cinética e energia mecânica da partícula no problema de queda com arrasto.]{Energia cinética (\subref{subfig:falling_with_drag:kinetic_energy}) e energia mecânica (\subref{subfig:falling_with_drag:mechanical_energy}) da partícula no problema de queda com arrasto. \alert{corrigir legenda}}
+	\caption[Soluções para a altura da partícula, sua velocidade vertical, sua energia cinética e sua energia mecânica da partícula no problema de queda com arrasto.]{Soluções para a altura da partícula (\subref{subfig:falling_with_drag:height}), sua velocidade vertical (\subref{subfig:falling_with_drag:speed}), sua energia cinética (\subref{subfig:falling_with_drag:kinetic_energy}) e sua energia mecânica (\subref{subfig:falling_with_drag:mechanical_energy}) da partícula no problema de queda com arrasto.}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
 	\subfloat{

@@ -28,9 +28,9 @@
 		\centering{
 			\begin{tabularx}{#1}{Xc}
 			\hline
-			\multicolumn{1}{c}{Parâmetro} & 
-			\multicolumn{1}{c}{Valor} \tabularnewline
-			\hline
+			% \multicolumn{1}{c}{Parâmetro} & 
+			% \multicolumn{1}{c}{Valor} \tabularnewline
+			% \hline
 			\BODY
 			\hline
 			\end{tabularx}
@@ -71,3 +71,5 @@
 \newcommand{\inlineSource}[1]{(Fonte: #1)}
 \newcommand{\inlineAdaptedFrom}[1]{\inlineSource{\adapted{#1}}}
 \newcommand{\inlineSourceMe}{\inlineSource{\mine}}
+
+\newcommand{\fignote}[1]{\legend{\footnotesize \textbf{Nota:} #1}}
