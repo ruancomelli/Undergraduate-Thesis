@@ -1,21 +1,21 @@
 \setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
 \begin{resumo}
-	Este trabalho apresenta os fundamentos do Método de Elementos Discretos, uma família de métodos computacionais amplamente aplicados na simulação da dinâmica de sistemas de partículas. A partir dos conhecimentos expostos, foi desenvolvida uma biblioteca de códigos em linguagem \CPP{} \alert{??}
+	Este trabalho apresenta os fundamentos do Método de Elementos Discretos (\DEM{}), uma família de métodos computacionais amplamente aplicados na simulação da dinâmica de sistemas de partículas, e a implementação de uma biblioteca de suporte à geração de simuladores, com sua subsequente validação numérica. Os métodos de elementos discretos têm como propósito a solução das equações de movimento de partículas que interagem entre si por meio de forças de colisão. As partículas são consideradas corpos rígidos aos quais se aplicam as leis de Euler para o movimento, e as forças que atuam entre elas são dadas por modelos matemáticos. A solução das equações de movimento é feita por meio de algoritmos de integração, dentre os quais destaca-se o algoritmo de Gear. Ademais, é detalhado o método numérico obtido a partir da formulação matemática, assim como suas principais etapas: a inicialização do sistema, a solução das equações de movimento, a exportação de dados, a avaliação do critério de parada do laço de simulação e a finalização do programa. Consideram-se, também, ferramentas adicionais como métodos de monitoramento de vizinhança, condições de contorno, restrições de movimento e, de maneira simplificada, o acoplamento do \DEM{} com outras famílias de métodos, como o Método de Elementos Finitos (\FEM{}) e a Fluidodinâmica Computacional (\CFD{}). Com base nisso, foi implementada uma biblioteca computacional de suporte ao desenvolvimento de simuladores \DEM{}, permitindo a inserção de modelos de interação arbitrários e de elementos de geometria e propriedades físicas quaisquer. A implementação foi feita em linguagem \CPP{} aplicando programação orientada a objetos e a técnica de metaprogramação com templates. Por fim, um simulador é desenvolvido e quatro casos de teste são resolvidos numericamente. Os resultados simulados são comparados com as soluções analíticas dos problemas, e, com isso, é atestada a corretude do algoritmo.
 
    \vspace{\onelineskip}
  
    \noindent 
-   \textbf{Palavras-chave}: \alert{palavras-chave aqui}
+   \textbf{Palavras-chave}: Método de Elementos Discretos. Dinâmica de sistemas de partículas. Solução de equações de movimento. Algoritmo de Gear.
 \end{resumo}
 
 \begin{resumo}[Abstract]
  \begin{otherlanguage*}{english}
-   \alert{Abstract here}
+   This study presents the fundamentals of the Discrete Element Methods (\DEM{}), a family of computer methods widely used to simulate particle system dynamics, the implementation of a support library for the generation of simulators and its subsequent numerical validation. Discrete element methods have as purpose the solution to the motion equations of particles that interact according to collision forces. Particles are considered as rigid bodies to which Euler's laws of motion are applied, and the forces acting between them are given by mathematical models. The solution of the motion equations is done by means of integration algorithms, among which stands out Gear algorithm. In addition, the numerical method derived from the mathematical formulation is detailed as well as its main steps: the system initialization, the solution to the motion equations, the data output, the evaluation of the simulation loop stop criterion and the program termination. Furthermore, additional tools are considered, some of which are neighborhood monitoring methods, boundary conditions, motion constraints and, in a summarised manner, the coupling between \DEM{} and other numerical methods such as the Finite Element Method (\FEM{}) and Computational Fluid Dynamics (\CFD{}). On this basis, a computational library was implemented to support the design of \DEM{} simulators, allowing the definition of new interaction models and elements with arbitrary geometry and physical properties. The implementation was done in \CPP{} applying object-oriented programming and template metaprogramming. Finally, a simulator was developed and four test cases were numerically solved. The simulation results were compared to the respective analytical solutions, attesting the algorithm correctness.
 
    \vspace{\onelineskip}
  
    \noindent 
-   \textbf{Keywords}: \alert{keywords here}
+   \textbf{Keywords}: Discrete Element Method. Particle system dynamics. Solution to motion equations. Gear algorithm.
  \end{otherlanguage*}
 \end{resumo}
 
