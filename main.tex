@@ -1,3 +1,12 @@
+\def\execute{%
+\begingroup
+\catcode`\%=12
+\catcode`\\=12
+\executeaux}
+\def\executeaux#1{\immediate\write18{#1}\endgroup}
+
+\execute{makeindex \jobname.nlo -s nomencl.ist -o \jobname.nls}
+
 \documentclass[
 	% -- opções da classe memoir --
 	12pt,				% tamanho da fonte
