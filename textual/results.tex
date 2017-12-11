@@ -867,9 +867,9 @@ Considera-se uma partícula esférica \(\particle\) de raio \(\radius\) e massa 
 
 Segundo \citeonline[p. 392]{bib:fox}, a força de arrasto \(\dragForce\) que a partícula sofre é dada por
 \begin{equation*}
-	\dragForce = \dragCoefficient\ \frac{1}{2}\density\ \projectedArea\ \norm{\velocity} \velocity,
+	\dragForce = \dragCoefficient\ \frac{1}{2}\specificMass\ \projectedArea\ \norm{\velocity} \velocity,
 \end{equation*}
-em que \(\dragCoefficient\) é o coeficiente de arrasto do par partícula-fluido, \(\density\) é a densidade do ar e \(\projectedArea\) é a área projetada da partícula no plano normal ao seu movimento. Para a esfera, a área projetada é dada por \(\projectedArea = \pi\radius^2\).
+em que \(\dragCoefficient\) é o coeficiente de arrasto do par partícula-fluido, \(\specificMass\) é a massa específica do ar e \(\projectedArea\) é a área projetada da partícula no plano normal ao seu movimento. Para a esfera, a área projetada é dada por \(\projectedArea = \pi\radius^2\).
 
 O coeficiente de arrasto não é constante, mas varia em função do número de Reynolds \(\reynolds\) definido, para partículas esféricas, como
 \begin{equation*}
@@ -883,7 +883,7 @@ Com isso, e a partir dos resultados expostos em \citeonline[p. 397]{bib:fox}, fo
 
 A velocidade terminal \(\terminalVelocityScalar\) da partícula é aquela para a qual não ocorre mais a aceleração da partícula. Nessa situação, a força de arrasto se iguala, em módulo, à força peso:
 \begin{equation} \label{eq:terminal_velocity}
-	\mass\ \gravityScalar = \dragCoefficient\ \frac{1}{2}\density\ \projectedArea\ \terminalVelocityScalar^2 \iff \terminalVelocityScalar = \sqrt{\dfrac{2\ \mass\ \gravityScalar}{\dragCoefficient\ \density\ \projectedArea}},
+	\mass\ \gravityScalar = \dragCoefficient\ \frac{1}{2}\specificMass\ \projectedArea\ \terminalVelocityScalar^2 \iff \terminalVelocityScalar = \sqrt{\dfrac{2\ \mass\ \gravityScalar}{\dragCoefficient\ \specificMass\ \projectedArea}},
 \end{equation}
 e assim se obtém a expressão analítica para a velocidade terminal.
 
@@ -902,7 +902,7 @@ A fim de se simular esse problema, foram considerados os parâmetros expostos na
 	\item{Velocidade inicial da partícula}{\explicitVector{\initial{\velocityx}}{\initial{\velocityy}}{\initial{\velocityz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\second}}
 	\item{Aceleração inicial da partícula}{\explicitVector{\initial{\accelerationx}}{\initial{\accelerationy}}{\initial{\accelerationz}} = \explicitVector{0}{0}{0}}{\si[per-mode=symbol]{\metre\per\square\second}}
 	\arrayrulecolor[gray]{0.8}\hline
-	\item{Densidade do ar}{\density = 1}{\si[per-mode=symbol]{\kilogram\per\cubic\meter}}
+	\item{Densidade do ar}{\specificMass = 1}{\si[per-mode=symbol]{\kilogram\per\cubic\meter}}
 	\item{Coeficiente de arrasto}{\dragCoefficient = 0,5}{\emptyUnit}
 	\arrayrulecolor[gray]{0.8}\hline
 	\item{Instante final}{\finalInstant = 40}{\si\second} 
