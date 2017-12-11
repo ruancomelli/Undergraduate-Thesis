@@ -17,7 +17,7 @@
 \usepackage{multirow}
 
 \usepackage{environ}
-\NewEnviron{parametersdesc}
+\NewEnviron{parametersdesc}[1]
 	{
 		% \let\olditem\item
 		\let\olditem\item
@@ -26,7 +26,7 @@
 		% \begin{table}[h]
 		\setlength{\extrarowheight}{3pt}
 		\centering{
-			\begin{tabularx}{\textwidth}{Xc}
+			\begin{tabularx}{#1}{Xc}
 			\hline
 			\multicolumn{1}{c}{Parâmetro} & 
 			\multicolumn{1}{c}{Valor} \tabularnewline
