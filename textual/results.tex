@@ -4,9 +4,33 @@ Os conceitos apresentados nos capítulos anteriores servem como fundamento para 
 
 \section{Implementação Computacional} \label{sec:computational_implementation}
 
-A implementação computacional de um algoritmo consiste em se transformar modelos matemáticos e numéricos em programas executáveis por computadores, e, portanto, passíveis de análises concretas. Esta \namecref{sec:computational_implementation} é dedicada à exposição dos principais pontos concernentes à implementação e, com isso, possibilita o entendimento das capacidades e das limitações do simulador desenvolvido.
+A implementação computacional de um algoritmo consiste em se transformarem modelos matemáticos e numéricos em programas executáveis por computadores, e, portanto, passíveis de análises concretas. Esta \namecref{sec:computational_implementation} é dedicada à exposição dos principais pontos concernentes à implementação e, com isso, possibilita o entendimento das capacidades e das limitações do simulador desenvolvido.
 
-Inicialmente, foi implementada, em linguagem \CPP{}, uma biblioteca de simulação contendo o suporte à construção de simuladores. Posteriormente, as \textit{funções} e \textit{classes} da biblioteca foram especializadas para obter-se um simulador. Tal simulador recebe dados de entrada através de arquivos no formato \JSON{}, executa a simulação correspondente com base nessa entrada, e os exporta, também em formato \JSON{}. A partir dos resultados exportados, scripts de pós-processamento, escritos em linguagem \Python{}, são executados para a geração de gráficos, figuras, tabelas e animações. Esses componentes e a sua interrelação estão ilustrados na \cref{fig:results:computational_implementation:complete_workflow}.
+O projeto está disponível on-line em \citeonline{bib:psin}. Como suporte ao desenvolvimento do código, foram usadas as bibliotecas Boost \cite{bib:boost} e JSON for Modern C++ \cite{bib:nlohmann}.
+
+Em primeiro lugar, foi implementada, em linguagem \CPP{}, uma biblioteca de simulação contendo o suporte à construção de simuladores. Essa biblioteca fundamenta-se na técnica de \textit{metaprogramação template} da linguagem para gerar \textit{funções} e \textit{classes} generalizadas, podendo especializar-se dependendo das necessidades do simulador. A biblioteca foi projetada de tal forma que a inserção de novos tipos de elementos e de interações seja simples e direta. O principal componente da biblioteca é a \textit{classe template} \lstinline[style=Inline C++]{Simulator}, que gerencia a simulação e representa os simuladores. Essa classe recebe como parâmetros os tipos de partículas, de elementos de contorno, campos de força e elementos externos e as interações da simulação. Com isso, a classe especializada é capaz de ler arquivos de entrada e simular o comportamento do sistema.
+
+Dentre as capacidades da classe template \lstinline[style=Inline C++]{Simulator}, destacam-se:
+\begin{alineas}
+\item a possibilidade de se usarem interações de qualquer natureza;
+\item a capacidade de se simularem entidades de geometria, tipo e propriedades arbitrárias;
+\item embora os arquivos de entrada e saída estejam restritos ao formato \JSON{}, o método utilizado para transformar esses dados em elementos de simulação e, no sentido inverso, exportar elementos para arquivos de saída, é customizável;
+\item a estrutura de arquivos e diretórios é definida pelos próprios arquivos de entrada sendo, portanto, independentes da implementação do simulador.
+\end{alineas}
+
+Entretanto existem algumas limitações que não foram ultrapassadas neste trabalho por não fazerem parte de seu escopo. Dentre as principais restrições, tem-se que:
+\begin{alineas}
+\item o único método de integração possível, na implementação corrente, é o algoritmo de Gear;
+\item o critério de parada é, necessariamente, o critério de tempo limite de simulação;
+\item o método de monitoramento de vizinhanças é restrito àquele apresentado na \cref{sec:neighborhood}, em que cada combinação de elementos possível é avaliada levando em conta apenas a simplificação resultante da Terceira Lei de Newton;
+\item os arquivos de entrada e saída estão limitados ao formato \JSON{}.
+\end{alineas}
+
+Além da \lstinline[style=Inline C++]{Simulator}, outras classes, classes template, funções e funções template foram predefinidas visando facilitar a criação de simuladores.
+
+Como exemplo, foram definidas as propriedades físicas necessárias aos modelos de interação, como o módulo de elasticidade, as constantes de amortecimento normal e tangencial, o coeficiente de atrito e a massa específica. A criação de novas propriedades físicas é auxiliada pelas classes template \lstinline[style=Inline C++]{Property} e \lstinline[style=Inline C++]{PositiveProperty} por meio da herança de classes.
+
+Os tipos de elementos presentes na biblioteca são partículas esféricas, paredes planas, o campo gravitacional e fluido ambiente. Às partículas esféricas, às paredes planas e ao fluido ambiente podem ser associadas propriedades quaisquer dependendo dos modelos de interação estudados. Novos tipos de entidade podem ser definidos usando como base as classes template predefinidas \lstinline[style=Inline C++]{Particle} e \lstinline[style=Inline C++]{Boundary}.
 
 \begin{figure}[h]
 	\caption{Componentes do programa implementado.}
@@ -15,6 +39,12 @@ Inicialmente, foi implementada, em linguagem \CPP{}, uma biblioteca de simulaç�
 	\label{fig:results:computational_implementation:complete_workflow}
 	\sourceMe
 \end{figure}
+
+Posteriormente, as classes e funções da biblioteca foram especializadas para obter-se um simulador. Tal simulador recebe dados de entrada através de arquivos no formato \JSON{}. Um exemplo de arquivo nesse formato é o apresentado no \cref{app:code_listings}, arquivo de entrada do problema do lançamento oblíquo, descrito na \cref{sec:free_fall}. Após essa etapa, o simulador promove a simulação correspondente com base na entrada e exporta os resultados, também em formato \JSON{}. A partir dos resultados exportados, scripts de pós-processamento, escritos em linguagem \Python{}, são executados para a geração de gráficos, figuras, tabelas e animações. Esses componentes e a sua inter-relação estão ilustrados na \cref{fig:results:computational_implementation:complete_workflow}.
+
+Dentre as interações consideradas estão os modelos de força de colisão apresentados na \cref{sec:collision_force_models}, que podem ocorrer entre partículas esféricas e, no caso do modelo de amortecimento linear, entre partículas esféricas e paredes planas. Mais ainda, o simulador considera a interação entre partículas e o campo gravitacional e a resistência imposta pelos fluidos à movimentação dos corpos imersos nele.
+
+O algoritmo de integração selecionado foi o algoritmo de Gear como apresentado na \cref{lst:equations_solution}. A exportação de dados e a condição de parada foram escolhidas como nas \namecrefs{lst:data_exportation} \labelcref{lst:data_exportation,lst:stop_criterion}. Ainda, para as aplicações deste trabalho, não são consideradas grandes quantidades de partículas, de modo que o algoritmo para monitoramento de vizinhanças é simplesmente aquele indicado na \cref{lst:third_law_of_newton}.
 
 % \subsection{Linguagens de Programação e Formatos Usados}
 
@@ -33,9 +63,9 @@ Inicialmente, foi implementada, em linguagem \CPP{}, uma biblioteca de simulaç�
 
 % Com isso, uma lista de números inteiros (do tipo \lstinline[style=Inline C++]{int}) pode ser dada simplesmente por \lstinline[style=Inline C++]{list<int>}, e uma lista de partículas esféricas, por \lstinline[style=Inline C++]{list<SphericalParticle>}.
 
-% Como suporte ao desenvolvimento do código, foram usadas as bibliotecas Boost \cite{bib:boost} e JSON for Modern C++ \cite{bob:nlohmann}.
+% Como suporte ao desenvolvimento do código, foram usadas as bibliotecas Boost \cite{bib:boost} e JSON for Modern C++ \cite{bib:nlohmann}.
 
-% A linguagem \Python{}, por sua vez, foi usada para a etapa de pós-processamento tendo em vista a facilidade de usá-la no contexto requisitado. Essa linguagem é \textit{interpretada}, o que significa que todo o processamento ocorre em tempo de execução. Existem diversas bibliotecas e funções disponíveis para a leitura e exportação de dados, geração de gráficos e criação de animações, o que justifica a sua utilização.
+% A linguagem \Python{}, por sua vez, foi usada para a etapa de pós-processamento tendo em vista a facilidade de usá-la no contexto requisitado. Essa linguagem é \textit{interpretada}, o que significa que todo o processamento ocorre em tempo de execução. Existem diversas bibliotecas e funções disponíveis para a leitura e exportação de dados, geração de gráficos e criação de animações, o que justifica a sua aplicação.
 
 % Ambas as linguagens, \CPP{} e \Python{}, possuem uma vasta comunidade de usuários. Por esse motivo, existem diversos fóruns de discussão, bibliotecas de códigos e \textit{softwares} que auxiliam na tarefa de programação.
 
@@ -69,7 +99,7 @@ Inicialmente, foi implementada, em linguagem \CPP{}, uma biblioteca de simulaç�
 
 \section{Resultados e Validação}
 
-Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada. Com o fim de se fazer a validação numérica, simulações são executadas e seus resultados são comparados com soluções analíticas ou qualitativamente avaliados.
+Com o simulador finalizado, é necessária a avaliação de seus resultados para que a implementação seja validada numericamente. Para tanto, simulações são executadas e seus resultados são comparados com soluções analíticas ou qualitativamente avaliados.
 
 O procedimento adotado para validação numérica da implementação considera:
 \begin{alineas}
@@ -79,7 +109,7 @@ O procedimento adotado para validação numérica da implementação considera:
 \end{alineas}
 
 
-O \textit{erro} de um resultado é uma medida fundamental para atestar-se a validade do método. Quanto maior o erro, menos representativa se torna a simulação. Sendo \(y\) uma solução obtida numericamente e \(\analytical{y}\) a solução exata do problema, define-se o erro de \(y\) como
+O \textit{erro} de um resultado é uma medida fundamental para se atestar a validade do método. Quanto maior for o erro, menos representativa se torna a simulação. Sendo \(y\) uma solução obtida numericamente e \(\analytical{y}\) a solução exata do problema, define-se o erro de \(y\) como
 \begin{equation*}
 	\errorOf{y} = \abs{y - \analytical{y}}.
 \end{equation*}
@@ -95,9 +125,9 @@ Para funções vetoriais \(\vec{y}\), o erro e o erro máximo são definidos equ
 	\maximumErrorOf{\vec{y}} = \max\pqty{\Im\pqty{\errorOf{\vec y}}}. \label{eq:maximum_vector_error}
 \end{gather}
 
-Todas as simulações foram executadas em um computador com épsilon de máquina aproximadamente igual a \(2\cdot10^{-16}\), memória \RAM{} de 16\GiB{} e processador Intel Core i7-4770 \SI{3.40}{\giga\hertz}.
+Todas as simulações foram executadas em um computador com épsilon de máquina aproximadamente igual a \num{2e-16}, memória \RAM{} de \SI{16}{\giga\byte} e processador Intel Core i7-4770 \SI{3,40}{\giga\hertz}.
 
-Foram escolhidos quatro problemas a serem apresentados e estudados: o problema do lançamento oblíquo, em que uma partícula é lançada no espaço sujeita unicamente à ação da gravidade; o problema da esfera quicando, em que uma partícula liberada no espaço em repouso é atraída, pela gravidade, em direção ao chão, colidindo com ele; a colisão com rotação, em que duas esferas se chocam, sendo que uma delas possui velocidade angular não nula; e o problema da queda com arrasto, em que uma partícula é solta no espaço e cai em decorrência da ação da gravidade, sofrendo, ao longo de sua trajetória, a resistência do ar.
+Foram escolhidos quatro problemas a serem apresentados e estudados: o problema do lançamento oblíquo, em que uma partícula é lançada no espaço sujeita unicamente à ação da gravidade; o problema da esfera quicando, em que uma partícula liberada no espaço em repouso é atraída, pela gravidade, em direção ao chão, colidindo com ele; a colisão entre esferas, em que duas partículas esféricas se chocam, podendo inclusive ter velocidade angular não nula; e o problema da queda com arrasto, em que uma partícula é solta no espaço e cai em decorrência da ação da gravidade, sofrendo, ao longo de sua trajetória, a resistência do ar.
 
 \section{Lançamento Oblíquo} \label{sec:free_fall}
 
@@ -109,17 +139,17 @@ O lançamento oblíquo é um dos problemas clássicos de física básica. Consid
 
 O instante inicial da simulação é definido como \(\initialInstant=0\), e o instante final é um valor arbitrário \(\finalInstant\). A posição, a velocidade e a velocidade angular da partícula no instante inicial assumem, respectivamente, os valores \(\initial{\position}\), \(\initial{\velocity}\) e \(\initial{\angularVelocity}\). Com isso, as equações \eqref{eq:free_fall_translation} e \eqref{eq:free_fall_rotation} podem ser resolvidas por integração simples.
 
-Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\), e que a partícula não possua rotação, como representado na figura \ref{fig:free_fall}. Nessa situação, a posição em \(\yAxis\) da partícula é chamada de altura.
+Por simplicidade, considera-se que o movimento ocorra apenas no plano \(\xAxis\yAxis\), que a gravidade atue no sentido negativo do eixo \(\yAxis\), isto é, \(\gravity = -\gravityScalar\cdot\yUnit\) com \(\gravityScalar>0\), e que a partícula não possua rotação, como representado na \cref{fig:free_fall}. Nessa situação, a posição em \(\yAxis\) da partícula é chamada de altura.
 
 \begin{figure}[h]
 	\caption{Ilustração do problema do lançamento oblíquo.}
 	\centering
-		\includegraphics[width=0.3\textwidth]{images/falling_sphere/illustration.pdf}
+		\includegraphics[width=0.25\textwidth]{images/falling_sphere/illustration.pdf}
 	\label{fig:free_fall}
 	\sourceMe
 \end{figure}
 
-Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\), \(\velocity = \explicitVectorCoordinates{\velocityScalar}\) e \(\acceleration = \explicitVectorCoordinates{\accelerationScalar}\), é obtida a solução como apresentada na tabela \ref{table:free_fall_solution}.
+Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\), \(\velocity = \explicitVectorCoordinates{\velocityScalar}\) e \(\acceleration = \explicitVectorCoordinates{\accelerationScalar}\), é obtida a solução apresentada na \cref{table:free_fall_solution}.
 
 \begin{table}[h]
 	\caption{Solução do problema do lançamento oblíquo.}
@@ -148,18 +178,18 @@ Com isso, escrevendo \(\position = \explicitVectorCoordinates{\positionScalar}\)
 \end{table}
 
 Embora seja conceitualmente simples e de fácil resolução, o problema do lançamento oblíquo permite:
-\begin{itemize}
-\item A validação numérica da implementação do algoritmo de Gear em simulações sem colisões, mas com a atuação de forças de campo. Em cada instante, as coordenadas da partícula são previstas e, em seguida, corrigidas a partir do valor da força da gravidade. A proximidade da resposta numericamente calculada com a solução analítica evidencia o bom funcionamento do algoritmo.
-\item A obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo.
-\end{itemize}
+\begin{alineas}
+\item a validação numérica da implementação do algoritmo de Gear em simulações com a atuação exclusiva de forças constantes. Em cada instante, as coordenadas da partícula são previstas e, em seguida, corrigidas a partir do valor da força da gravidade. A proximidade da resposta numericamente calculada com a solução analítica evidencia o bom funcionamento do algoritmo;
+\item a obtenção da evolução do erro com o tempo de simulação. Não só existe um erro associado ao método como esse erro se acumula com o tempo.
+\end{alineas}
 
-A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados aos parâmetros do problema os valores dispostos na tabela \ref{tab:free_fall_case_parameters}.
+A fim de se compararem os resultados numéricos com a solução analítica, foram arbitrados aos parâmetros do problema os valores dispostos na \cref{tab:free_fall_case_parameters}.
 
 \begin{table}[h]
 \centering
 \caption{Parâmetros para o problema de lançamento oblíquo.}
 \label{tab:free_fall_case_parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{\textwidth}
 	\item{Gravidade}{\gravityScalar = 9,81}{\si[per-mode=symbol]{\metre\per\square\second}}
 	\arrayrulecolor[gray]{0.8}\hline
 	\item{Massa da partícula}{\mass = 1}{\si\kilogram}
@@ -176,7 +206,7 @@ A fim de se compararem os resultados numéricos com a solução analítica, fora
 \sourceMe 
 \end{table}
 
-Muito embora se trate de um problema bidimensional sem rotação, o simulador utiliza a formulação tridimensional e considera a evolução da velocidade angular da partícula.
+Conquanto se trate de um problema bidimensional sem rotação, o simulador emprega a formulação tridimensional e considera a evolução da velocidade angular da partícula.
 
 \begin{figure}[htb!]
 	\caption{Solução para a altura da partícula no problema de lançamento oblíquo\protect\footnotemark.}
@@ -231,7 +261,7 @@ Muito embora se trate de um problema bidimensional sem rotação, o simulador ut
 	% \vspace{-1cm}
 \end{figure}
 
-Com esses parâmetros, foi calculada a trajetória da partícula através do simulador e da solução analítica. Na \cref{fig:falling_sphere_y_position} estão expostas as soluções para a altura da partícula. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações.
+Com esses parâmetros, foi calculada a trajetória da partícula dada pela solução analítica e aquela resultante da simulação. Na \cref{fig:falling_sphere_y_position} estão expostas as soluções para a altura da partícula. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações.
 
 Outras variáveis, como a posição horizontal, as velocidades horizontal e vertical e a aceleração vertical estão apresentadas na \cref{fig:falling_sphere_other}.
 
@@ -273,7 +303,7 @@ A partícula está sujeita a um campo gravitacional constante cuja aceleração 
 
 Além disso, considera-se um elemento \(\element\) identificado com o plano \(\xAxis\zAxis\) representando o chão. Sendo um plano fixo, esse elemento é completamente determinado ao se fornecerem um ponto e um versor normal a ele. Para o plano \(\xAxis\zAxis\), podem ser adotados a origem \(\originPoint\) do sistema como ponto pertencente ao plano e o versor normal \(\planeNormalVersor = \explicitVector{0}{1}{0}\).
 
-Essa configuração pode ser representada como na figura \ref{fig:bouncing_sphere}.
+Essa configuração pode ser representada como na \cref{fig:bouncing_sphere}.
 
 \begin{figure}[h]
 	\caption{O problema da esfera quicando.}
@@ -298,13 +328,13 @@ Para a solução desse problema, foram escolhidos dois casos: um dissipativo (\c
 
 \subsection{Caso Dissipativo} \label{sec:results:bouncing_sphere:dissipative_case}
 
-Para o estudo do problema da esfera quicando, foram considerados os parâmetros de simulação expostos na tabela \ref{tab:bouncing_sphere:dissipative_case:parameters}. O modelo de interação considerado é o modelo do amortecimento linear corrigido, cuja expressão para a força é dada pela \cref{eq:corrected_linear_dashpot:normal_force}, enquanto o coeficiente de restituição é calculado pela \cref{eq:corrected_linear_dashpot:coefficient_of_restitution}.
+Para o estudo do problema da esfera quicando, foram considerados os parâmetros de simulação expostos na \cref{tab:bouncing_sphere:dissipative_case:parameters}. O modelo de interação considerado é o modelo do amortecimento linear corrigido, cuja expressão para a força é dada pela \cref{eq:corrected_linear_dashpot:normal_force}, enquanto o coeficiente de restituição é calculado pela \cref{eq:corrected_linear_dashpot:coefficient_of_restitution}.
 
 \begin{table}[h]
 \centering
 \caption{Parâmetros para o caso dissipativo do problema da esfera quicando.}
 \label{tab:bouncing_sphere:dissipative_case:parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{\textwidth}
 	\item{Modelo de força normal}{\text{Amortecedor linear corrigido}}{\emptyUnit}
 	\item{Gravidade}{\gravityScalar = 9,81}{\si[per-mode=symbol]{\metre\per\square\second}}
 	\arrayrulecolor[gray]{0.8}\hline
@@ -387,14 +417,13 @@ O caso dissipativo, como exposto na \cref{sec:results:bouncing_sphere:dissipativ
 \centering
 \caption{Parâmetros para o caso dissipativo do problema da esfera quicando.}
 \label{tab:bouncing_sphere:conservative:parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{0.8\textwidth}
 	\item{Constante de amortecimento da partícula}{\ind{\normalDampingConstant}{\particle} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
 	\item{Constante de amortecimento da parede}{\ind{\normalDampingConstant}{\element} = 0}{\si[per-mode=symbol]{\newton\second\per\meter}}
 	\item{Demais parâmetros}{\text{\Cref{tab:bouncing_sphere:dissipative_case:parameters}}}{}
 \end{parametersdesc}
 \sourceMe 
 \end{table}
-\alert{Essa tabela ficou feia!}
 
 \alert{Tirar o gráfico da energia e dizer que ela se conserva exceto nos choques}
 
@@ -433,7 +462,7 @@ Para essa simulação, foram utilizados parâmetros idênticos aos indicados na 
 \centering
 \caption{Energia mecânica e coeficiente de restituição resultantes do caso conservativo do problema da esfera quicando.}
 \label{tab:bouncing_sphere:conservative:energy_and_coefficient_of_restitution}
-\begin{parametersdesc}
+\begin{parametersdesc}{\textwidth}
 	\item{Energia mecânica inicial}{\initial{\mechanicalEnergy} = \SI{9,81}{\joule}}{}
 	\item{Energia mecânica final}{\final{\mechanicalEnergy} = \SI{9,80644775955}{\joule}}{}
 	\item{Variação da energia mecânica}{\Delta \mechanicalEnergy = \initial{\mechanicalEnergy} - \final{\mechanicalEnergy} = \SI{3,552}{\milli\joule}}{}
@@ -445,7 +474,7 @@ Para essa simulação, foram utilizados parâmetros idênticos aos indicados na 
 \sourceMe 
 \end{table}
 
-Nessa situação, os resultados obtidos pela simulação para a altura e a energia mecânica da partícula e para o coeficiente de restituição são obtidos como na \cref{fig:bouncing_sphere:conservative}. Observa-se nessa \namecref{fig:bouncing_sphere:conservative} que a energia se conserva, sendo constante com exceção dos instantes de colisão, em que a energia mecânica se transforma em energia puramente elástica. De fato, a diferença observada entre a energia mecânica inicial \(\initial{\mechanical{\energy}}\) e a final \(\final{\mechanical{\energy}}\) foi da ordem de \(10^{-3}\si{\joule}\), o que representa \SI{0,036}{\percent} da energia inicial. Por sua vez, o coeficiente de restituição manteve-se bastante próximo de \(1\), o que corresponde ao resultado analítico, com erro máximo de \SI{0,02}{\percent}. Esses resultados estão expostos na \cref{tab:bouncing_sphere:conservative:energy_and_coefficient_of_restitution}.
+Nessa situação, os resultados obtidos pela simulação para a altura e a energia mecânica da partícula e para o coeficiente de restituição são obtidos como na \cref{fig:bouncing_sphere:conservative}. Observa-se nessa \namecref{fig:bouncing_sphere:conservative} que a energia se conserva, sendo constante com exceção dos instantes de colisão, em que a energia mecânica se transforma em energia puramente elástica. De fato, a diferença observada entre a energia mecânica inicial \(\initial{\mechanical{\energy}}\) e a final \(\final{\mechanical{\energy}}\) foi da ordem de \(10^{-3}\si{\joule}\), o que representa \SI{0,036}{\percent} da energia inicial. Por sua vez, o coeficiente de restituição manteve-se bastante próximo de \(1\), o que corresponde ao resultado analítico, com erro máximo de \SI{0,02}{\percent}. Esses resultados estão expostos na \cref{tab:bouncing_sphere:conservative:energy_and_coefficient_of_restitution}. Convém destacar que a altura mostrada na \cref{subfig:bouncing_sphere:conservative:height} não atinge o valor nulo pois a mesma é medida com relação ao centro da partícula, e não à sua superfície.
 
 
 \section{Colisão entre Esferas} \label{sec:results:colliding_spheres}
@@ -472,7 +501,7 @@ Para a simulação com conservação da energia, foram escolhidos os parâmetros
 \centering
 \caption{Parâmetros para o caso conservativo do problema da esfera quicando.}
 \label{tab:colliding_spheres:conservative:parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{\textwidth}
 	\item{Modelo de força normal}{\text{Amortecedor linear corrigido}}{\emptyUnit}
 	\arrayrulecolor[gray]{0.8}\hline
 	\item{Massa da partícula vermelha}{\redMass = 1}{\si\kilogram}
@@ -567,14 +596,14 @@ Também é possível representarem-se a quantidade de movimento linear horizonta
 \centering
 \caption{Coeficiente de restituição resultante do caso conservativo do problema das esferas colidentes.}
 \label{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution}
-\begin{parametersdesc}
+\begin{parametersdesc}{0.8\textwidth}
 	\item{Coeficiente de restituição analítico}{\coefficientOfRestitution = 1}{}
 	\item{Erro máximo do coeficiente de restituição}{\maximumErrorOf{\coefficientOfRestitution} = 9\cdot 10^{-9}}{}
 \end{parametersdesc}
 \sourceMe 
 \end{table}
 
-Como pode ser observado, os resultados aproximam-se bastante do esperado. Por se tratar de uma colisão sem termos dissipativos, a partícula vermelha transfere todo o seu movimento à azul, entrando em repouso após a colisão. A \cref{subfig:colliding_spheres:conservative:coefficient_of_restitution} e a \cref{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution} indicam que o coeficiente de restituição numericamente calculado praticamente se iguala ao analítico com valor unitário, o que implica uma colisão perfeitamente elástica. Mais ainda, infere-se das \cref{subfig:colliding_spheres:conservative:x_linear_momentum,subfig:colliding_spheres:conservative:kinetic_energy} que ocorre a conservação da quantidade de movimento e a conservação da energia. Além disso, chama a atenção o fato de que parte da energia cinética é transformada em energia elástica durante o choque, e é restituída finda a colisão. Também é interessante notar que a força de colisão entre as partículas, indicada na \cref{subfig:colliding_spheres:conservative:x_contact_force}, ultrapassa os \SI{150}{\kilo\newton} em módulo.
+Como pode ser observado, os resultados aproximam-se bastante do esperado. Por se tratar de uma colisão sem termos dissipativos, a partícula vermelha transfere todo o seu movimento à azul, entrando em repouso após a colisão. A \cref{subfig:colliding_spheres:conservative:coefficient_of_restitution} e a \cref{tab:colliding_spheres:conservative:energy_and_coefficient_of_restitution} indicam que o coeficiente de restituição numericamente calculado praticamente se iguala ao analítico com valor unitário, o que implica uma colisão perfeitamente elástica. Mais ainda, infere-se das \namecrefs{subfig:colliding_spheres:conservative:x_linear_momentum} \labelcref{subfig:colliding_spheres:conservative:x_linear_momentum,subfig:colliding_spheres:conservative:kinetic_energy} que ocorre a conservação da quantidade de movimento e a conservação da energia. Além disso, chama a atenção o fato de que parte da energia cinética é transformada em energia elástica durante o choque, e é restituída finda a colisão. Também é interessante notar que a força de colisão entre as partículas, indicada na \cref{subfig:colliding_spheres:conservative:x_contact_force}, ultrapassa os \SI{150}{\kilo\newton} em módulo.
 
 \subsection{Caso Dissipativo} \label{sec:colliding_spheres:dissipative}
 
@@ -588,7 +617,7 @@ Para a simulação dissipativa sem rotação, consideram-se os parâmetros da \c
 \centering
 \caption{Parâmetros para o caso dissipativo do problema da colisão entre esferas.}
 \label{tab:colliding_spheres:dissipative:parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{0.9\textwidth}
 	\item{Constante de amortecimento da partícula vermelha}{\redNormalDampingConstant = 10000}{\si[per-mode=symbol]{\newton\second\per\meter}}
 	\item{Constante de amortecimento da partícula azul}{\blueNormalDampingConstant = 10000}{\si[per-mode=symbol]{\newton\second\per\meter}}
 	\item{Demais parâmetros}{\text{\Cref{tab:colliding_spheres:conservative:parameters}}}{}
@@ -658,7 +687,7 @@ e o erro máximo do coeficiente de restituição foi computado. O resultado dess
 	\sourceMe
 \end{figure}
 
-Dentre as características que se observam nesses resultados, nota-se que a partícula vermelha, ao contrário do caso sem amortecimento, não entra em repouso após a colisão, mas, sim, continua a sua trajetória com uma velocidade reduzida. Também, a energia cinética total do sistema não se conserva, sofrendo uma queda de aproximadamente \SI{16,5}{\joule} do início até o fim da simulação. Embora ocorra a perda de energia, a quantidade de movimento linear mantém-se constante, como deve acontecer em qualquer sistema sem forças externas, mesmo que existam forças internas dissipativas. O coeficiente de restituição obtido foi de \SI{0,63}{}, apresentando um erro de apenas \(3,18\cdot 10^{-5}\) com relação ao coeficiente calculado analiticamente. Além dessas considerações, percebe-se, comparando-se as \cref{subfig:colliding_spheres:conservative:x_contact_force,subfig:colliding_spheres:dissipative:x_contact_force}, que ocorre uma alteração na curva da força de contato horizontal. No caso conservativo, existe uma simetria do gráfico com relação ao instante de máxima superposição, o que não se observa na força do caso dissipativo. Esse deslocamento no perfil de força, com intensidade maior na aproximação que no afastamento, é o responsável pela dissipação de energia. Por fim, observa-se que o erro máximo do coeficiente de restituição cresce com o aumento do passo de tempo, chegando a um erro de mais de \SI{100}{\percent} para passos de aproximadamente \(10^{-5}\si{\second}\).
+Dentre as características que se observam nesses resultados, nota-se que a partícula vermelha, ao contrário do caso sem amortecimento, não entra em repouso após a colisão, mas, sim, continua a sua trajetória com uma velocidade reduzida. Também, a energia cinética total do sistema não se conserva, sofrendo uma queda de aproximadamente \SI{16,5}{\joule} do início até o fim da simulação. Embora ocorra a perda de energia, a quantidade de movimento linear mantém-se constante, como deve acontecer em qualquer sistema sem forças externas, mesmo que existam forças internas dissipativas. O coeficiente de restituição obtido foi de \SI{0,63}{}, apresentando um erro de apenas \(3,18\cdot 10^{-5}\) com relação ao coeficiente calculado analiticamente. Além dessas considerações, percebe-se, comparando-se as \namecrefs{subfig:colliding_spheres:conservative:x_contact_force} \labelcref{subfig:colliding_spheres:conservative:x_contact_force,subfig:colliding_spheres:dissipative:x_contact_force}, que ocorre uma alteração na curva da força de contato horizontal. No caso conservativo, existe uma simetria do gráfico com relação ao instante de máxima superposição, o que não se observa na força do caso dissipativo. Esse deslocamento no perfil de força, com intensidade maior na aproximação que no afastamento, é o responsável pela dissipação de energia. Por fim, observa-se que o erro máximo do coeficiente de restituição cresce com o aumento do passo de tempo, chegando a um erro de mais de \SI{100}{\percent} para passos de aproximadamente \(10^{-5}\si{\second}\).
 
 \subsubsection{Com Rotação}
 
@@ -668,7 +697,7 @@ Para a colisão de partículas com rotação, utilizou-se o modelo de interaçã
 \centering
 \caption{Parâmetros para o caso dissipativo do problema da colisão entre esferas considerando rotações.}
 \label{tab:colliding_spheres:dissipative:rotation:parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{\textwidth}
 	\item{Modelo de força normal}{\text{Amortecedor linear corrigido}}{\emptyUnit}
 	\item{Modelo de força tangencial}{\text{Modelo de Haff e Werner}}{\emptyUnit}
 	\arrayrulecolor[gray]{0.8}\hline
@@ -701,7 +730,7 @@ Por fim, na \cref{subfig:colliding_spheres:dissipative_rotation:coefficient_of_r
 \centering
 \caption{Energia mecânica e coeficiente de restituição resultantes do caso conservativo do problema da esfera quicando.}
 \label{tab:colliding_spheres:dissipative_rotation:energy_and_coefficient_of_restitution}
-\begin{parametersdesc}
+\begin{parametersdesc}{\textwidth}
 	\item{Energia mecânica inicial}{\initial{\mechanicalEnergy} = \SI{51,80}{\joule}}{}
 	\item{Energia mecânica final}{\final{\mechanicalEnergy} = \SI{33,78}{\joule}}{}
 	\item{Variação da energia mecânica}{\Delta \mechanicalEnergy = \initial{\mechanicalEnergy} - \final{\mechanicalEnergy} = \SI{18}{\joule}}{}
@@ -860,7 +889,7 @@ Considera-se uma partícula esférica \(\particle\) de raio \(\radius\) e massa 
 \begin{figure}[h]
 	\caption{O problema da queda com arrasto.}
 	\centering
-		\includegraphics[width=0.4\textwidth]{images/falling_with_drag/illustration.pdf}
+		\includegraphics[width=0.35\textwidth]{images/falling_with_drag/illustration.pdf}
 	\label{fig:falling_with_drag}
 	\sourceMe
 \end{figure}
@@ -893,7 +922,7 @@ A fim de se simular esse problema, foram considerados os parâmetros expostos na
 \centering
 \caption{Parâmetros para o problema da queda com arrasto.}
 \label{tab:falling_with_drag:parameters}
-\begin{parametersdesc}
+\begin{parametersdesc}{0.8\textwidth}
 	\item{Gravidade}{\gravityScalar = 9,81}{\si[per-mode=symbol]{\metre\per\square\second}}
 	\arrayrulecolor[gray]{0.8}\hline
 	\item{Massa da partícula}{\mass = 256}{\si\gram}
@@ -913,7 +942,7 @@ A fim de se simular esse problema, foram considerados os parâmetros expostos na
 \sourceMe 
 \end{table}
 
-Com esses valores, foi executada uma simulação, e a altura da partícula em função do tempo foi obtida tal como na \cref{fig:falling_with_drag:height}. A velocidade vertical, por sua vez, está ilustrada na \cref{fig:falling_with_drag:speed}, sendo que a velocidade terminal é calculada analiticamente pela \cref{eq:terminal_velocity}. A energia cinética e a energia mecânica, calculadas de acordo com as \cref{eq:kineticEnergy,eq:mechanicalEnergy}, estão expostas na \cref{fig:falling_with_drag:energy}.
+Com esses valores, foi executada uma simulação, e a altura da partícula em função do tempo foi obtida tal como na \cref{fig:falling_with_drag:height}. A velocidade vertical, por sua vez, está ilustrada na \cref{fig:falling_with_drag:speed}, sendo que a velocidade terminal é calculada analiticamente pela \cref{eq:terminal_velocity}. A energia cinética e a energia mecânica, calculadas de acordo com as \namecrefs{eq:kineticEnergy} \labelcref{eq:kineticEnergy,eq:mechanicalEnergy}, estão expostas na \cref{fig:falling_with_drag:energy}.
 
 \begin{figure}[h]
 	\caption{Solução para a altura da partícula no problema de queda com arrasto.}
@@ -957,3 +986,4 @@ Com esses valores, foi executada uma simulação, e a altura da partícula em fu
 Observa-se que a velocidade da partícula converge para a velocidade terminal prevista analiticamente, evidenciando o correto comportamento do programa mesmo em um problema envolvendo a interação entre fluido e partícula. A energia cinética cresce em função da transformação da energia potencial em movimento. Entretanto esse crescimento é retardado até cessar aproximadamente em \SI{30}{\second} de simulação. A queda na energia mecânica da partícula, por sua vez, pode ser explicada pela dissipação provocada pelo arrasto. Como se observa, a força de arrasto é responsável por dissipar mais de \SI{6}{\kilo\joule} em \SI{40}{\second} de queda.
 
 A importância dessa simulação reside no fato de que, embora o problema considerado seja simples e de fácil solução analítica, ele representa o transporte de informação do fluido para o elemento discreto, como indicado na \cref{sec:discrete_element_method:coupling_with_other_methods}.
+
