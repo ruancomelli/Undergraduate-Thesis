@@ -52,7 +52,7 @@ A análise de sistemas de partículas, contudo, costuma ser bastante complexa. P
 
 Com o propósito de executar tais análises, existem três abordagens principais: a experimental, a analítica e a numérica. 
 
-No método experimental, procura-se caracterizar os fenômenos físicos através da sua reprodução em ambientes controlados. A grande vantagem desse método é o fato de lidar com a configuração real do sistema estudado, e dessa análise resultam hipóteses, equações e correlações para as diversas grandezas físicas envolvidas. Essa abordagem, no entanto, resulta em altíssimo custo e muitas vezes é limitada por questões de segurança ou pela dificuldade de reprodução do sistema real. A experimentação é utilizada para validar modelos físicos e matemáticos \cite{bib:maliska}.
+No método experimental, procura-se caracterizar os fenômenos físicos através da sua reprodução em ambientes controlados. A grande vantagem desse método é o fato de lidar com a configuração real do sistema estudado, e dessa análise resultam hipóteses, equações e correlações para as diversas grandezas físicas envolvidas. Essa abordagem, no entanto, resulta em altíssimo custo e muitas vezes é limitada por questões de segurança ou pela dificuldade de reprodução do sistema real. A experimentação é aplicada para validar modelos físicos e matemáticos \cite{bib:maliska}.
 
 A abordagem analítica, por sua vez, busca a obtenção de soluções analíticas para o problema. A vantagem de se obterem soluções em forma fechada é seu baixíssimo custo de computação quando comparado aos outros métodos. O método analítico, porém, frequentemente depende de hipóteses simplificativas e de geometrias e condições de contorno simples, o que acaba por reduzir a aplicabilidade de seus resultados. Geralmente, utilizam-se soluções analíticas para validar métodos numéricos e auxiliar na busca de algoritmos mais robustos \cite{bib:maliska}.
 
@@ -82,7 +82,7 @@ A fim de conciliar exatidão e eficiência, os métodos numéricos despontam com
 	\vspace{-0.5cm}
 \end{figure}
 
-As figuras \ref{fig:pellet_flow} e \ref{fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas com exceção de sua cor, o que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam \textit{exatamente} a posição das partículas, elas representam com grande fidelidade o sistema estudado.
+As \namecrefs{fig:pellet_flow} \labelcref{fig:pellet_flow,fig:drug_production} ilustram a capacidade dos métodos numéricos. A primeira delas é uma comparação feita por \citeonline{bib:applications} entre pílulas movendo-se no interior de um tambor rotativo experimentalmente e em uma simulação. A segunda figura representa uma comparação feita por \citeonline{bib:future} entre a mistura de esferas de vidro em um misturador e uma simulação correspondente. As esferas são idênticas com exceção de sua cor, o que permite uma melhor avaliação dos resultados. Como pode ser observado, embora as simulações não reproduzam \textit{exatamente} a posição das partículas, elas representam com grande fidelidade o sistema estudado.
 
 Sendo assim, o estudo de sistemas de partículas conta principalmente com a simulação numérica como método de análise.
  
@@ -113,7 +113,7 @@ Geralmente, algoritmos de elementos discretos levam em conta a hipótese de part
 
 Cada elemento da simulação pertence a um \textit{tipo}. O tipo de um elemento é usado para determinar a sua geometria e o seu comportamento na simulação. É comum, por exemplo, definir-se um tipo de partícula \textit{fixa}. Partículas desse tipo representam elementos de fronteira, com posição constante e conhecida desde o início da simulação.
 
-Por sua vez, a geometria das partículas determina quais os modelos de interação que podem ser aplicados. Em geral, o uso de formas geométricas simples permite a aplicação de modelos também simples, resultando em um custo computacional menor quando comparado às geometrias mais complexas. Certamente, a geometria de partícula necessária depende do sistema que se deseja estudar e do grau de representatividade requisitado. A forma mais simples é a esférica. Para a obtenção de formas mais complexas, \citeonline{bib:computational_granular_dynamics} apresentam uma técnica de associação de partículas, resultando em partículas compostas, como aquela representada na figura \ref{fig:composite_particle}. \citeonline{bib:computational_granular_dynamics} também tratam de partículas poligonais, enquanto \citeonline{bib:sampaio} demonstra a utilização de superelipsoides.
+Por sua vez, a geometria das partículas determina quais os modelos de interação que podem ser aplicados. Em geral, o uso de formas geométricas simples permite a aplicação de modelos também simples, resultando em um custo computacional menor quando comparado às geometrias mais complexas. Certamente, a geometria de partícula necessária depende do sistema que se deseja estudar e do grau de representatividade requisitado. A forma mais simples é a esférica. Para a obtenção de formas mais complexas, \citeonline{bib:computational_granular_dynamics} apresentam uma técnica de associação de partículas, resultando em partículas compostas, como aquela representada na \cref{fig:composite_particle}. \citeonline{bib:computational_granular_dynamics} também tratam de partículas poligonais, enquanto \citeonline{bib:sampaio} demonstra a utilização de superelipsoides.
 
 \begin{figure}[h]
 	\caption{Exemplo de associação de partículas simples para a obtenção de geometrias mais complexas.}
@@ -151,7 +151,7 @@ Segundo \citeonline{bib:computational_granular_dynamics}, algoritmos do \DEM{}, 
 	\item \textbf{Finalização:} Caso o critério de parada previamente estabelecido seja atingido, o programa deve terminar sua execução. Caso contrário, a simulação deve avançar o instante de tempo e retornar ao passo \ref{item:prediction}. 
 \end{enumerate} 
 
-Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorithm}. Outros passos podem ser introduzidos no algoritmo, tais quais exportação de dados, iterações em cada passo de tempo e acoplamento com outros simuladores.
+Essas etapas podem ser representadas como na \cref{fig:simple_dem_algorithm}. Outros passos podem ser introduzidos no algoritmo, tais quais exportação de dados, iterações em cada passo de tempo e acoplamento com outros simuladores.
 
 \begin{figure}[h]
 	\caption{Fluxograma simplificado do Método de Elementos Discretos.}
@@ -161,7 +161,7 @@ Essas etapas podem ser representadas como na figura \ref{fig:simple_dem_algorith
 	\sourceMe
 \end{figure}
 
-Também é possível acoplar o \DEM{} a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:bicanic2007} apresentam alguns exemplos das diversas extensões que podem ser feitas ao \DEM{}. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:conductivity} e \citeonline{bib:heat_dem} demonstram a aplicação de modelos de troca de calor. O acoplamento entre \DEM{} e outras famílias é conhecido como EDEM, ou XDEM, o Método de Elementos Discretos Estendido.
+Também é possível acoplar o \DEM{} a outras famílias de métodos, como FEM (Método de Elementos Finitos) e CFD (Fluidodinâmica Computacional). Nesses casos, além das equações de movimento para as partículas, são consideradas equações de conservação de massa, de energia, de carga elétrica, equações de estado, entre outras. Com isso, é possível computar transferência de calor, arraste causado por fluidos e distribuição de tensões em sólidos. \citeonline{bib:donze} e \citeonline{bib:bicanic2007} apresentam alguns exemplos das diversas extensões que podem ser feitas ao \DEM{}. \citeonline{bib:chu_and_yu} explicam e aplicam um modelo para interação entre um fluido e partículas com foco no arrasto, enquanto \citeonline{bib:conductivity} e \citeonline{bib:simsek2009} demonstram a aplicação de modelos de troca de calor. O acoplamento entre \DEM{} e outras famílias é conhecido como EDEM, ou XDEM, o Método de Elementos Discretos Estendido.
 
 \section{Revisão Bibliográfica}
 
@@ -199,8 +199,8 @@ Com o propósito de melhor guiar as atividades, são propostos os seguintes obje
 	\begin{enumerate}
 		\item Partículas esféricas;
 		\item Paredes fixas planas;
-		\item Os principais modelos de força de colisão, conforme explicado na seção \ref{sec:collision_force_models};
-		\item O algoritmo de Gear, empregando a extrapolação de Taylor, de acordo com o capítulo \ref{ch:mathematical_model};
+		\item Os principais modelos de força de colisão, conforme explicado na \cref{sec:collision_force_models};
+		\item O algoritmo de Gear, empregando a extrapolação de Taylor, de acordo com o \cref{ch:mathematical_model};
 		\item Formulações em três dimensões;
 	\end{enumerate}
 \item Validar a implementação por meio da comparação de resultados de simulações com soluções analíticas para o problema ou através da análise dos resultados.

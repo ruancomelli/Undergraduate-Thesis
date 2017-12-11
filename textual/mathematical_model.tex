@@ -14,7 +14,7 @@ Um sistema de partículas é, por sua vez, um conjunto de partículas que intera
 
 A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos principais com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
-As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na seção \ref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões e as forças de campo, como a gravidade.
+As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na \cref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões e as forças de campo, como a gravidade.
 
 Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
 \begin{equation*}
@@ -153,7 +153,7 @@ Já que, neste caso, a velocidade angular possui direção constante, é possív
 	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\zUnit.
 \end{gather*}
 
-Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais da partícula e sua orientação de referência, como na figura \ref{fig:bidimensional_rotation}.
+Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais da partícula e sua orientação de referência, como na \cref{fig:bidimensional_rotation}.
 
 \begin{figure}[h]
 	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações bidimensionais}
@@ -297,7 +297,7 @@ Dentre as interações entre partículas do sistema, as mais comumente encontrad
 
 Seguindo a notação apresentada na \autoref{sec:particle_systems}, denota-se por \(\forceji\) a componente de força aplicada pela partícula \(\particlej\) sobre a partícula \(\particlei\), e por \(\torqueji\) a componente de torque correspondente definida no sistema de eixos centrado na partícula \(\particlei\).
 
-Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana. Nesta seção, são apresentados alguns dos parâmetros geralmente utilizados na determinação de forças e torques e alguns dos principais modelos considerados, segundo \citeonline{bib:computational_granular_dynamics}. 
+Os modelos de colisão mais simples são aqueles que ocorrem entre partículas esféricas ou entre uma partícula esférica e uma parede plana. Nesta seção, são apresentados alguns dos parâmetros geralmente empregados na determinação de forças e torques e alguns dos principais modelos considerados, segundo \citeonline{bib:computational_granular_dynamics}. 
 
 \subsection{Parâmetros de Cálculo} \label{subsec:collision_parameters}
 
@@ -330,7 +330,7 @@ Os principais parâmetros considerados para o cálculo das forças de colisão s
 
 No Método de Elementos Discretos, os elementos são consideradas corpos rígidos. Sendo assim, quando ocorre contato entre dois elementos, não ocorre deformação, mas, sim, uma superposição ou penetração.
 
-A medida da penetração pode variar dependendo dos tipos de elementos considerados. Para corpos com geometrias arbitrárias, pode ser necessária a medição do volume sobreposto. Entretanto, para um par de partículas esféricas ou um par formado por uma esfera e uma parede plana, é suficiente definir-se a superposição linearmente, como na figura \ref{fig:collision_parameters}.
+A medida da penetração pode variar dependendo dos tipos de elementos considerados. Para corpos com geometrias arbitrárias, pode ser necessária a medição do volume sobreposto. Entretanto, para um par de partículas esféricas ou um par formado por uma esfera e uma parede plana, é suficiente definir-se a superposição linearmente, como na \cref{fig:collision_parameters}.
 
 Sendo \(\particlei\) e \(\particlej\) duas partículas esféricas distintas, pode-se definir a distância entre seus centros como 
 \begin{equation*}
@@ -427,7 +427,7 @@ Em ambos os casos, é possível construir-se, a partir do centro da partícula \
 
 \subsubsection*{Ponto de Contato}
 
-Tanto na colisão entre partículas esféricas quanto na colisão entre partícula esférica e parede plana, existe um único plano, denominado de \textit{plano de contato} e denotado por \(\contactPlaneij\), que contém todos os pontos de interseção entre as superfícies dos colidentes, como mostra a figura \ref{fig:collision_parameters}.
+Tanto na colisão entre partículas esféricas quanto na colisão entre partícula esférica e parede plana, existe um único plano, denominado de \textit{plano de contato} e denotado por \(\contactPlaneij\), que contém todos os pontos de interseção entre as superfícies dos colidentes, como mostra a \cref{fig:collision_parameters}.
 
 O ponto de contato efetivo \(\contactPointij\) entre os elementos \(i\) e \(j\) é dado pela interseção entre o plano de contato e a reta normal \(\normalLineij\). Vetorialmente, o contato é representado pela posição \(\vectorFromPoints{\originPoint}{\contactPointij}\).
 
@@ -436,7 +436,7 @@ Esse ponto também pode ser representado pelo vetor radial \(\contactVectorij = 
 	\vectorFromPoints{\originPoint}{\contactPointij} = \positioni + \contactVectorij.
 \end{equation}
 
-Para duas partículas esféricas, a geometria do contato é tal como mostrado na figura \ref{fig:contact_parameters:contact_geometry}. Segue então do teorema de Pitágoras que
+Para duas partículas esféricas, a geometria do contato é tal como mostrado na \cref{fig:collision_parameters}. Segue então do teorema de Pitágoras que
 \begin{equation*}
 	\radiusi^2 - \contactRadiusij^2 = \radiusj^2 - \contactRadiusji^2.
 \end{equation*}
@@ -466,7 +466,7 @@ Em ambos os casos, com a definição do vetor radial \(\contactVectorij\), a com
 
 A velocidade relativa no ponto de contato é o principal parâmetro cinemático na determinação da força tangencial que ocorre entre dois elementos. A velocidade do elemento \(j\) relativa ao elemento \(i\) no ponto de contato é denotada por \(\relativeVelocityContactPointij\).
 
-O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, os dois acabam por se encontrar. Isso é representado na figura \ref{fig:relative_velocity}.
+O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, os dois acabam por se encontrar. Isso é representado na \cref{fig:relative_velocity}.
 
 \begin{figure}[h]
 	\caption{Velocidade relativa no ponto de contato.}
@@ -557,7 +557,7 @@ De forma geral, o valor desse coeficiente depende de parâmetros de material e d
 
 É possível ainda definir-se um coeficiente de restituição tangencial \(\tangentialCoefficientOfRestitutionij\) conforme \citeonline{bib:computational_granular_dynamics}, mas esse coeficiente não é considerado neste trabalho.
 
-Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. Nas seções \ref{subsec:normal_force_models} e \ref{subsec:tangential_force_models} são apresentados alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
+Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. Nas \namecrefs{subsec:normal_force_models} \labelcref{subsec:normal_force_models,subsec:tangential_force_models} são apresentados alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
 
 \subsubsection*{Energia}
 
@@ -598,7 +598,7 @@ Nesta seção, são apresentados os dois principais modelos de força normal uti
 
 \subsubsection*{Modelo de Amortecedor Linear}
 
-O modelo de amortecedor linear é um dos modelos mais simples que se adotam para a colisão de partículas. Esse modelo pode ser representado esquematicamente como na figura \ref{fig:mathematical_model:linear_dashpot_force}.
+O modelo de amortecedor linear é um dos modelos mais simples que se adotam para a colisão de partículas. Esse modelo pode ser representado esquematicamente como na \cref{fig:mathematical_model:linear_dashpot_force}.
 
 \begin{figure}[h]
 	\caption{Representação esquemática do modelo de amortecimento linear}
@@ -650,7 +650,7 @@ Com isso, o coeficiente de restituição normal do par de partículas fica, de a
 	}.
 \end{equation*}
 
-Percebe-se dessa expressão que o modelo de amortecedor linear implica um coeficiente de restituição normal independente da velocidade relativa entre as partículas, o que não representa bem o comportamento real de sistemas, como afirmado na seção \ref{subsec:collision_parameters}. Entretanto, justamente devido à simplicidade da expressão, esse modelo é utilizado na teoria de gases granulares, em simulações de Dinâmica Molecular e na validação de métodos numéricos.
+Percebe-se dessa expressão que o modelo de amortecedor linear implica um coeficiente de restituição normal independente da velocidade relativa entre as partículas, o que não representa bem o comportamento real de sistemas, como afirmado na \cref{subsec:collision_parameters}. Entretanto, justamente devido à simplicidade da expressão, esse modelo é utilizado na teoria de gases granulares, em simulações de Dinâmica Molecular e na validação de métodos numéricos.
 
 \subsubsection*{Modelo de Esferas Viscoelásticas}
 
@@ -734,7 +734,7 @@ No início do choque, tanto a superposição quanto a sua derivada são positiva
 	% \vspace{-1cm}
 \end{figure}
 
-No entanto a atração entre partículas geralmente não condiz com resultados experimentais. Uma das técnicas para eliminar esse fenômeno é limitarem-se inferiormente as forças calculadas. Esse artifício justifica-se pois, embora tenha sido feita a hipótese de que as partículas sejam corpos rígidos, partículas reais são deformáveis, e essa deformação pode ser suficiente para encerrar a colisão em um tempo anterior àquele considerado pelo modelo de partículas rígidas. Isso é representado na figura \ref{fig:particle_attraction}.
+No entanto a atração entre partículas geralmente não condiz com resultados experimentais. Uma das técnicas para eliminar esse fenômeno é limitarem-se inferiormente as forças calculadas. Esse artifício justifica-se pois, embora tenha sido feita a hipótese de que as partículas sejam corpos rígidos, partículas reais são deformáveis, e essa deformação pode ser suficiente para encerrar a colisão em um tempo anterior àquele considerado pelo modelo de partículas rígidas. Isso é representado na \cref{fig:particle_attraction}.
 
 Para o amortecedor linear, isso significa que
 \begin{equation} \label{eq:corrected_linear_dashpot:normal_force}
@@ -863,7 +863,7 @@ Gear considerou o problema de extrapolar funções sujeitas a equações diferen
 \end{equation}
 com \(\eqOrder \leq \taylorOrder\).
 
-O algoritmo consiste em duas etapas: uma etapa de \textit{previsão} e uma de \textit{correção}, detalhadas nas seções \ref{subsec:prediction} e \ref{subsec:correction}.
+O algoritmo consiste em duas etapas: uma etapa de \textit{previsão} e uma de \textit{correção}, detalhadas nas \namecrefs{subsec:prediction} \labelcref{subsec:prediction,subsec:correction}.
 
 \subsection{Etapa de Predição} \label{subsec:prediction}
 
@@ -982,7 +982,7 @@ Esse método ainda pode ser usado para aproximar as funções de posição e de 
 
 Todavia essa predição geralmente não é exata. Uma das razões para isto é que o truncamento da expansão de Taylor, ou qualquer outro método de extrapolação que se use, despreza a função resto, que não é necessariamente nula. Mesmo assim, essa diferença é aceitável quando se utilizam passos de tempo suficientemente pequenos. 
 
-A principal fonte de erros da equação \eqref{eq:extrapolation_matricial_form} é que não se considera, em nenhum momento, equações diferenciais a que a função \(y\) pode estar restrita. Por exemplo, para a posição ou a orientação de uma partícula, pode haver a ação de forças e torques atuantes entre os instantes \(t\) e \(t + \Dt\). É necessário, então, \textit{corrigir} a função prevista. Essa correção pode ser feita na etapa de correção, apresentada na seção \ref{subsec:correction}.
+A principal fonte de erros da equação \eqref{eq:extrapolation_matricial_form} é que não se considera, em nenhum momento, equações diferenciais a que a função \(y\) pode estar restrita. Por exemplo, para a posição ou a orientação de uma partícula, pode haver a ação de forças e torques atuantes entre os instantes \(t\) e \(t + \Dt\). É necessário, então, \textit{corrigir} a função prevista. Essa correção pode ser feita na etapa de correção, apresentada na \cref{subsec:correction}.
 
 \subsection{Correção} \label{subsec:correction}
 
@@ -1032,7 +1032,7 @@ Como demonstrado por \citeonline{bib:gear_book}, as demais derivadas de \(y\) po
 	\cdot
 	\dfrac{\Dt^\eqOrder}{\eqOrder!}\Delta \deriv{\eqOrder}{y},
 \end{equation}
-sendo que as constantes corretoras \(\correctorConstant{0}{\eqOrder}\), \(\correctorConstant{1}{\eqOrder}\), \(\dotsc\), \(\correctorConstant{\taylorOrder}{\eqOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na tabela \ref{table:corrector_constants}. Em todos casos, sempre se tem que \(\correctorConstant{\eqOrder}{\eqOrder}=1\), pois \(\corrected{\deriv{p}{y}} = \predicted{\deriv{p}{y}} + \Delta \deriv{\eqOrder}{y}\).
+sendo que as constantes corretoras \(\correctorConstant{0}{\eqOrder}\), \(\correctorConstant{1}{\eqOrder}\), \(\dotsc\), \(\correctorConstant{\taylorOrder}{\eqOrder}\) dependem da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial. Alguns dos valores dessas constantes são apresentados na \cref{table:corrector_constants}. Em todos casos, sempre se tem que \(\correctorConstant{\eqOrder}{\eqOrder}=1\), pois \(\corrected{\deriv{p}{y}} = \predicted{\deriv{p}{y}} + \Delta \deriv{\eqOrder}{y}\).
 
 Por simplicidade, escreve-se
 \begin{equation*}
