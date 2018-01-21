@@ -4,6 +4,8 @@
 \newcommand{\doctor}{Dr.}
 \newcommand{\master}{Me.}
 \newcommand{\engineer}{Eng.}
+\newcommand{\doctorEngineer}{Dr. Eng.}
+\newcommand{\masterEngineer}{Me. Eng.}
 
 \newcommand{\emptyTableEntry}{..}
 \newcommand{\emptyUnit}{}
@@ -249,7 +251,6 @@
 }
 \newcommand{\particlei}{\particle[i]}
 \newcommand{\particlej}{\particle[j]}
-\newcommand{\particlek}{\particle[k]}
 \newcommand{\numberOfParticles}{N_{\particleSet}}
 \newcommand{\numberOfElements}{N_{\elementSet}}
 \NewDocumentCommand{\numberOf}{o}
@@ -347,6 +348,13 @@
 \newcommand{\elasticModulusij}{\betw{\elasticModulus}{i}{j}}
 \newcommand{\elasticModulusji}{\betw{\elasticModulus}{j}{i}}
 
+\newcommand{\elasticConstant}{k}
+\newcommand{\normalElasticConstant}{\normal{\elasticConstant}}
+\newcommand{\normalElasticConstanti}{\normal{\ind{\elasticConstant}{i}}}
+\newcommand{\normalElasticConstantj}{\normal{\ind{\elasticConstant}{j}}}
+\newcommand{\normalElasticConstantij}{\normal{\betw{\elasticConstant}{i}{j}}}
+\newcommand{\normalElasticConstantji}{\normal{\betw{\elasticConstant}{j}{i}}}
+
 \newcommand{\dampingConstant}{\gamma}
 \newcommand{\normalDampingConstant}{\normal{\dampingConstant}}
 \newcommand{\normalDampingConstanti}{\normal{\ind{\dampingConstant}{i}}}
@@ -364,8 +372,8 @@
 \newcommand{\normalDissipativeConstantj}{\ind{\normalDissipativeConstant}{j}}
 \newcommand{\normalDissipativeConstantij}{\betw{\normalDissipativeConstant}{i}{j}}
 
-\newcommand{\effectiveNormalElastic}{\normal{k}}
-\newcommand{\effectiveNormalElasticij}{\normal{\betw{k}{i}{j}}}
+\newcommand{\effectiveElasticModulus}{\elasticModulus}
+\newcommand{\effectiveElasticModulusij}{\betw{\elasticModulus}{i}{j}}
 \newcommand{\effectiveRadiusij}{\betw{\radius}{i}{j}}
 
 \newcommand{\poisson}{\nu}
@@ -524,6 +532,8 @@
 \newcommand{\redMomentOfInertia}{\redIdx{\momentOfInertia}}
 \newcommand{\blueDynamicFriction}{\blueIdx{\dynamicFriction}}
 \newcommand{\redDynamicFriction}{\redIdx{\dynamicFriction}}
+\newcommand{\blueNormalElasticConstant}{\normal{\blueIdx{\elasticConstant}}}
+\newcommand{\redNormalElasticConstant}{\normal{\redIdx{\elasticConstant}}}
 
 \newcommand{\kinematicViscosity}{\nu_{\text{f}}}
 

@@ -2,7 +2,7 @@
 
 Segundo \citeonline{bib:maliska}, a solução numérica de qualquer problema físico requer a sua prévia modelagem matemática. Um modelo matemático é uma representação de um sistema real através de equações. Essas equações são obtidas ao se fazerem hipóteses sobre o comportamento do sistema estudado, e a representatividade do modelo depende das simplificações feitas nesse processo.
 
-Este capítulo aborda os aspectos matemáticos pertinentes ao Método de Elementos Discretos. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. Os principais modelos de força de colisão são então expostos e, por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
+Este capítulo é dedicado aos aspectos matemáticos pertinentes ao Método de Elementos Discretos. São abordados os principais conceitos referentes aos sistemas de partículas, e apresentadas as equações de movimento que governam o problema. Os principais modelos de força de colisão são então expostos e, por fim, é apresentado o algoritmo de Gear, responsável por resolver as equações.
 
 \section{Sistemas de Partículas} \label{sec:particle_systems}
 
@@ -14,7 +14,7 @@ Um sistema de partículas é, por sua vez, um conjunto de partículas que intera
 
 A cada partícula está associada uma função posição que determina, vetorialmente, a posição de seu centro de massa com relação à origem do sistema. A orientação de um elemento é a orientação do seu sistema de eixos principais com relação ao sistema global. Com isso, cada partícula possui seis graus de liberdade: três translações e três rotações \cite{bib:sampaio}. Os elementos discretos ainda contêm diversas \textit{propriedades}, as quais são determinantes para as suas interações.
 
-As translações e rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na \cref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões e as forças de campo, como a gravidade.
+As translações e as rotações das partículas são determinadas através da solução das equações de movimento, detalhadas na \cref{sec:equations_of_motion}. Essas equações dependem das interações que ocorrem entre as partículas. Em um sistema qualquer, as interações podem ser de diversas naturezas, tais quais colisões mecânicas, troca de cargas elétricas, transferência de calor, e outras. No entanto o \DEM{} considera, a princípio, apenas as colisões e as forças de campo, como a gravidade.
 
 Embora a quantidade de elementos em um sistema seja arbitrária, ela é sempre finita. Denotando por \(\numberOfParticles\) essa quantidade, é possível enumerarem-se esses elementos e definir-se o conjunto de partículas do sistema como
 \begin{equation*}
@@ -31,7 +31,7 @@ Escrevendo como \(\forceji\) a força e \(\torqueji\) o torque aplicados pela pa
 \end{gather}
 em que \(\external\resultingForcei\) e \(\external\resultingTorquei\) são a força e o torque \textit{externos} atuantes sobre \(\particlei\), isto é, resultantes da interação entre a \(i\)-ésima partícula com elementos exteriores ao sistema.
 
-Uma importante hipótese que se faz no Método de Elementos Discretos é que a interação entre duas partículas \(\particlei\) e \(\particlej\) não interfere na interação entre outras partículas ou entre \(\particlei\) e uma terceira partícula \(\particlek\). Com isso, cada par de partículas pode ser estudado isoladamente, e o estado final do sistema, após as interações, é uma simples combinação desses resultados.
+Uma importante hipótese que se faz no Método de Elementos Discretos é que a interação entre duas partículas \(\particlei\) e \(\particlej\) não interfere na interação entre outras partículas ou entre \(\particlei\) e uma terceira partícula \(\particle[\ell]\). Com isso, cada par de partículas pode ser estudado isoladamente, e o estado final do sistema, após as interações, é uma simples combinação desses resultados.
 
 \section{Equações de Movimento} \label{sec:equations_of_motion}
 
@@ -73,7 +73,7 @@ A segunda lei de Euler, por sua vez, é o análogo rotacional da primeira:
 \begin{equation*} % \label{eq:euler_second}
 	\resultingTorque = \deriv{1}{\angularMomentum},
 \end{equation*}
-em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação ao seu centro de massa. Para partículas com massa constante, é possível obter
+em que \(\resultingTorque\) é o torque resultante sobre a partícula calculado com relação ao seu centro de massa. Para partículas rígidas com massa constante, é possível obter
 \begin{equation} \label{eq:motion_second}
 	\resultingTorque = \deriv{1}{\angularMomentum} = \tensorOfInertia\cdot\deriv{1}{\angularVelocity} + \angularVelocity\cross\pqty{\tensorOfInertia\cdot\angularVelocity},
 \end{equation}
@@ -81,9 +81,9 @@ sendo \(\angularAcceleration\) a \textit{aceleração angular} do elemento.
 
 Novamente, a hipótese de que a massa da partícula é constante é geralmente considerada. 
 
-Entretanto, mesmo diante de situações em que \(m\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação da partícula, e não ocorre que a velocidade angular seja a derivada desses parâmetros. Só é possível escrever \(\angularVelocity = \deriv{1}{\orientation}\), isto é, a velocidade angular como taxa de variação de uma função de orientação, quando a direção da rotação é constante \cite[p. 32]{bib:dynamics_of_multibody_systems}.
+Entretanto, mesmo diante de situações em que \(\mass\) é constante, a resolução da equação \eqref{eq:motion_second} possui algumas complicações em simulações tridimensionais. Isso se deve ao fato de que são necessárias parametrizações para a orientação da partícula, e não ocorre que a velocidade angular seja a derivada desses parâmetros. Só é possível escrever \(\angularVelocity = \deriv{1}{\orientation}\), isto é, a velocidade angular como taxa de variação de uma função de orientação, quando a direção da rotação é constante \cite[p. 32]{bib:dynamics_of_multibody_systems}.
 
-O tensor \(\tensorOfInertia\) identifica-se com a matriz de momento de inércia \(\matrixOfInertia\) dada por
+O tensor \(\tensorOfInertia\) identifica-se com a matriz de inércia \(\matrixOfInertia\) dada por
 \begin{equation*}
 	\matrixOfInertia =
 	\begin{pmatrix}
@@ -93,22 +93,22 @@ O tensor \(\tensorOfInertia\) identifica-se com a matriz de momento de inércia 
 	\end{pmatrix}.
 \end{equation*}
 
-Para um ponto \(P\) qualquer, define-se o vetor radial \(\radialVector = \vectorFromPoints{C}{P}\). Denotando por \(\radialVectorMtx\) a matriz correspondente a \(\radialVector\), a matriz de momento de inércia do corpo \(\particlei\) é dada por
+Para um ponto \(P\) qualquer, define-se o vetor radial \(\radialVector = \vectorFromPoints{C}{P}\). Denotando por \(\radialVectorMtx\) a matriz coluna correspondente a \(\radialVector\), a matriz de inércia do corpo \(\particlei\) é dada por
 \begin{equation*}
-	\matrixOfInertia = \int_{\particlei}\pqty{\transpose{\radialVectorMtx}\radialVectorMtx\cdot\identity - \radialVectorMtx\transpose{\radialVectorMtx}}\dd{m},
+	\matrixOfInertia = \int_{\particlei}\pqty{\transpose{\radialVectorMtx}\radialVectorMtx\cdot\identity - \radialVectorMtx\transpose{\radialVectorMtx}}\dd{\mass},
 \end{equation*}
 em que \(\identity\) é a matriz identidade. Alternativamente, escrevendo-se \(\radialVector = \explicitVectorCoordinates{\radialVectorScalar}\),
 \begin{equation*}
 	\matrixOfInertia =
 	\begin{pmatrix}
-		\dint_{\particlei} \pqty{\yComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m}
-		& - \dint_{\particlei} \xComponent{\radialVectorScalar}\yComponent{\radialVectorScalar} \dd{m}
-		& - \dint_{\particlei} \xComponent{\radialVectorScalar}\zComponent{\radialVectorScalar} \dd{m} \\
-		& \dint_{\particlei} \pqty{\xComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{m} 
-		& - \dint_{\particlei} \yComponent{\radialVectorScalar}\zComponent{\radialVectorScalar} \dd{m} \\
+		\dint_{\particlei} \pqty{\yComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{\mass}
+		& - \dint_{\particlei} \xComponent{\radialVectorScalar}\yComponent{\radialVectorScalar} \dd{\mass}
+		& - \dint_{\particlei} \xComponent{\radialVectorScalar}\zComponent{\radialVectorScalar} \dd{\mass} \\
+		& \dint_{\particlei} \pqty{\xComponent{\radialVectorScalar}^2 + \zComponent{\radialVectorScalar}^2} \dd{\mass} 
+		& - \dint_{\particlei} \yComponent{\radialVectorScalar}\zComponent{\radialVectorScalar} \dd{\mass} \\
 		\text{Simétrica} 
 		&  
-		& \dint_{\particlei} \pqty{\xComponent{\radialVectorScalar}^2 + \yComponent{\radialVectorScalar}^2} \dd{m}
+		& \dint_{\particlei} \pqty{\xComponent{\radialVectorScalar}^2 + \yComponent{\radialVectorScalar}^2} \dd{\mass}
 	\end{pmatrix}.
 \end{equation*}
 
@@ -149,14 +149,14 @@ Em se supondo que a simulação ocorre em apenas duas dimensões, por convençã
 Já que, neste caso, a velocidade angular possui direção constante, é possível encontrar uma função \(\orientationScalar\) para a orientação da partícula, de forma que
 \begin{gather*}
 	\angularVelocityScalar = \deriv{1}{\orientationScalar}, \\
-	\angularVelocity = \deriv{1}{\orientationScalar}\cdot\zUnit, \text{e} \\
+	\angularVelocity = \deriv{1}{\orientationScalar}\cdot\zUnit, \\
 	\angularAcceleration = \deriv{2}{\orientationScalar}\cdot\zUnit.
 \end{gather*}
 
 Geometricamente, \(\orientationScalar\) é o ângulo entre os eixos principais da partícula e sua orientação de referência, como na \cref{fig:bidimensional_rotation}.
 
 \begin{figure}[h]
-	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações bidimensionais}
+	\caption{Ângulo de rotação de uma partícula com relação à posição de referência em simulações bidimensionais.}
 	\vspace{-0.5cm}
 	\centering
 		\includegraphics[width=0.8\textwidth]{images/mathematical_model/bidimensional_orientation.pdf}
@@ -212,7 +212,7 @@ Embora tenda-se a evitar multiplicações matriciais, esse cálculo pode ser fei
 
 \subsubsection{Rotação de Partículas Esféricas} \label{subsubsec:rotation_of_spherical_particles}
 
-Segundo \citeonline{bib:dynamics_of_multibody_systems}, para partículas esféricas, \textit{todas} as direções são uma direções principais. Sendo assim, o sistema de equações \eqref{eq:motion_second_system} é válido em qualquer sistema de eixos. Mais ainda, em função da simetria da partícula, ocorre que \(\momentOfInertia_1 = \momentOfInertia_2 = \momentOfInertia_3\). Ao se definir \(\momentOfInertia \eqdef \momentOfInertia_1\), obtém-se
+Segundo \citeonline{bib:dynamics_of_multibody_systems}, para partículas esféricas, \textit{todas} as direções são direções principais. Sendo assim, o sistema de equações \eqref{eq:motion_second_system} é válido em qualquer sistema de eixos. Mais ainda, em função da simetria da partícula, ocorre que \(\momentOfInertia_1 = \momentOfInertia_2 = \momentOfInertia_3\). Ao se definir \(\momentOfInertia \eqdef \momentOfInertia_1\), obtém-se
 \begin{equation*}
 	\left\lbrace
 	\begin{array}{l}
@@ -262,7 +262,7 @@ Essas relações são inversíveis, e então é possível obter
 	\deriv{1}{\orientation} \equiv \deriv{1}{\orientation}\pqty{\orientation, \angularVelocity} \\
 	\deriv{2}{\orientation} \equiv \deriv{2}{\orientation}\pqty{\orientation, \angularVelocity, \deriv{1}{\angularVelocity}} \\
 	\vdots \\
-	\deriv{\taylorOrder+1}{\orientation} \equiv \deriv{\taylorOrder+1}{\orientation}\pqty{\orientation, \angularVelocity, \dots, \deriv{\taylorOrder}{\angularVelocity}}
+	\deriv{\taylorOrder+1}{\orientation} \equiv \deriv{\taylorOrder+1}{\orientation}\pqty{\orientation, \angularVelocity, \dots, \deriv{\taylorOrder}{\angularVelocity}}.
 \end{gather*}
 
 Assim, com a parametrização \(\orientation\), define-se toda a cinemática da rotação da partícula. Mais ainda, devido à equivalência entre o sistema de eixos principais e a parametrização, vetores definidos com relação ao sistema de eixos locais podem ser escritos em termos das direções principais. Isso significa que
@@ -289,7 +289,7 @@ As principais características consideradas para a escolha de um método de solu
  
 De uma simulação, é possível extrair diversas informações. Alguns dos principais resultados que se buscam obter são a trajetória das partículas, o carregamento ou a pressão sobre determinada superfície, o coeficiente de restituição resultante das colisões, tempo para esvaziamento de um reservatório, entre outros.
 
-O procedimento de se calcularem as forças e torques e, posteriormente, resolverem-se as equações diferenciais é conhecido como \textit{simulação baseada em forças}. Alternativamente a esse método, é possível executarem-se \textit{simulações orientadas a eventos}. Nessas simulações, apenas o coeficiente de restituição é considerado na colisão entre as partículas. Esse técnica está fora do escopo desse trabalho, mas pode ser encontrada com mais detalhes em \citeonline{bib:computational_granular_dynamics}.
+O procedimento de se calcularem as forças e os torques e, posteriormente, resolverem-se as equações diferenciais é conhecido como \textit{simulação baseada em forças}. Alternativamente a esse método, é possível executarem-se \textit{simulações orientadas a eventos}. Nessas simulações, apenas o coeficiente de restituição é considerado na colisão entre as partículas. Essa técnica está fora do escopo desse trabalho, mas pode ser encontrada com mais detalhes em \citeonline{bib:computational_granular_dynamics}.
 
 \section{Modelos de Força de Colisão} \label{sec:collision_force_models}
 
@@ -405,7 +405,7 @@ Já para o caso de um elemento plano fixo \(\elementj\), o versor normal \(\norm
 \begin{equation*}
 	\normalVersorji = \sign\pqty{\innerProduct{\positioni - \planeOriginj}{\planeNormalVersorj}}\cdot\planeNormalVersorj,
 \end{equation*}
-sendo \(\sign\) a função sinal definida como
+sendo \(\sign\colon\real\to\set{-1,0,1}\) a função sinal definida por
 \begin{equation*}
 	\sign x =
 	\left\lbrace
@@ -445,7 +445,7 @@ Além disso,
 \begin{equation*}
 	\contactRadiusij + \contactRadiusji = \distanceij,
 \end{equation*}
-e então, ao se combinarem essas duas equações,
+e então, ao se combinarem essas duas equações, obtém-se que
 \begin{equation} \label{eq:contact_radius}
 	\contactRadiusij = \dfrac{\radiusi^2 - \radiusj^2 + \distanceij^2}{2\cdot\distanceij}.
 \end{equation}
@@ -466,7 +466,7 @@ Em ambos os casos, com a definição do vetor radial \(\contactVectorij\), a com
 
 A velocidade relativa no ponto de contato é o principal parâmetro cinemático na determinação da força tangencial que ocorre entre dois elementos. A velocidade do elemento \(j\) relativa ao elemento \(i\) no ponto de contato é denotada por \(\relativeVelocityContactPointij\).
 
-O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\), e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, os dois acabam por se encontrar. Isso é representado na \cref{fig:relative_velocity}.
+O cálculo dessa velocidade leva em consideração o fato de que, no ponto de contato \(\contactPointij\), estão superpostos dois pontos: um ponto \(\contactPointi\) pertencente à partícula \(i\) e um ponto \(\contactPointj\) que pertence ao elemento \(j\). Cada um desses pontos move-se juntamente com o elemento correspondente e, por ocasião do contato, os dois acabam por se encontrar. Isso é representado na \cref{fig:relative_velocity}.
 
 \begin{figure}[h]
 	\caption{Velocidade relativa no ponto de contato.}
@@ -476,7 +476,7 @@ O cálculo dessa velocidade leva em consideração o fato de que, no ponto de co
 	\sourceMe
 \end{figure}
 
-Como esses pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo com velocidades \(\relativeVelocityContactPointi\) e \(\relativeVelocityContactPointj\). A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois vetores:
+Como esses pontos movem-se no espaço, os vetores \(\vectorFromPoints{\originPoint}{\contactPointi}\) e \(\vectorFromPoints{\originPoint}{\contactPointj}\) não são constantes, mas, sim, funções do tempo com velocidades \(\relativeVelocityContactPointi\) e \(\relativeVelocityContactPointj\). A velocidade \(\relativeVelocityContactPointij\) é então definida como a velocidade relativa entre esses dois pontos:
 \begin{equation*}
 	\relativeVelocityContactPointij = \dv{t}(\vectorFromPoints{\originPoint}{\contactPointj} - \vectorFromPoints{\originPoint}{\contactPointi}) = \relativeVelocityContactPointj - \relativeVelocityContactPointi.
 \end{equation*}
@@ -555,7 +555,7 @@ Formas analíticas para o coeficiente de restituição podem ser obtidas atravé
 
 De forma geral, o valor desse coeficiente depende de parâmetros de material e da velocidade relativa entre as partículas. Segundo \citeonline{bib:computational_granular_dynamics}, coeficientes de restituição constantes (independentes da velocidade relativa) estão em desacordo com resultados experimentais e com o importante modelo de partículas viscoelásticas. Entretanto coeficientes constantes formam a base para diversas teorias e podem ser bastante úteis para a validação de métodos numéricos.
 
-É possível ainda definir-se um coeficiente de restituição tangencial \(\tangentialCoefficientOfRestitutionij\) conforme \citeonline{bib:computational_granular_dynamics}, mas esse coeficiente não é considerado neste trabalho.
+É possível ainda definir-se um coeficiente de restituição tangencial \(\tangentialCoefficientOfRestitutionij\) conforme \citeonline{bib:computational_granular_dynamics}, mas esse coeficiente não é usado neste trabalho.
 
 Feitas essas considerações, os principais parâmetros para o cálculo das forças e torques de colisão estão bem definidos. Nas \namecrefs{subsec:normal_force_models} \labelcref{subsec:normal_force_models,subsec:tangential_force_models} são apresentados alguns dos modelos de força mais adotados e que se utilizam desses parâmetros.
 
@@ -577,7 +577,7 @@ Com isso, a energia cinética \(\kineticEnergy\) da partícula se calcula como
 
 Por sua vez, a energia potencial gravitacional \(\potentialEnergy\) da partícula com relação ao ponto de referência \(P\) em um campo de gravidade constante \(\gravity\) é dada por
 \begin{equation*}
-	\potentialEnergy = - \mass\ \gravity\cdot\pqty{\position - \vectorFromPoints{\originPoint}{P}},
+	\potentialEnergy = - \mass\ \innerProduct{\gravity}{\position - \vectorFromPoints{\originPoint}{P}},
 \end{equation*}
 e, para o caso recorrente em que \(\gravity = - \gravityScalar\cdot\yUnit\) e o ponto de referência é a própria origem do sistema, essa expressão se simplifica para
 \begin{equation*}
@@ -601,7 +601,7 @@ Nesta seção, são apresentados os dois principais modelos de força normal uti
 O modelo de amortecedor linear é um dos modelos mais simples que se adotam para a colisão de partículas. Esse modelo pode ser representado esquematicamente como na \cref{fig:mathematical_model:linear_dashpot_force}.
 
 \begin{figure}[h]
-	\caption{Representação esquemática do modelo de amortecimento linear}
+	\caption{Representação esquemática do modelo de amortecimento linear.}
 	\centering
 		\includegraphics[width=0.8\textwidth]{images/mathematical_model/linear_dashpot_force.pdf}
 	\label{fig:mathematical_model:linear_dashpot_force}
@@ -610,17 +610,17 @@ O modelo de amortecedor linear é um dos modelos mais simples que se adotam para
 
 A equação para a força normal dada por esse modelo é
 \begin{equation} \label{eq:linear_dashpot_force}
-	\normalForceScalarji = \elasticModulusij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij,
+	\normalForceScalarji = \normalElasticConstantij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij,
 \end{equation}
-em que:
+em que
 \begin{itemize}
-	\item \(\elasticModulusij\) é a constante elástica efetiva para o par de partículas \(i\) e \(j\). Esse valor efetivo é calculado pela associação em série de molas elásticas, do que resulta que
+	\item \(\normalElasticConstantij\) é a constante elástica efetiva para o par de partículas \(i\) e \(j\). Esse valor efetivo é calculado pela associação em série de molas elásticas, do que resulta que
 	\begin{equation*}
-		\elasticModulusij = \pqty{\dfrac{1}{\elasticModulusi} + \dfrac{1}{\elasticModulusj}}^{-1},
+		\normalElasticConstantij = \pqty{\dfrac{1}{\normalElasticConstanti} + \dfrac{1}{\normalElasticConstantj}}^{-1},
 	\end{equation*}
-	sendo \(\elasticModulusi\) e \(\elasticModulusj\) as constantes elásticas das partículas \(i\) e \(j\), respectivamente.
+	sendo \(\normalElasticConstanti\) e \(\normalElasticConstantj\) as constantes elásticas das partículas \(i\) e \(j\), respectivamente.
 
-	A constante elástica representa a rigidez das partículas, sendo que elementos com maior constante elástica resistem mais à penetração. Essa constante é uma propriedade de material de cada partícula.
+	A constante elástica representa a rigidez das partículas, sendo que elementos com maior constante elástica resistem mais à penetração. Essa constante é uma propriedade que se associa a cada partícula, podendo ser modelada como função das propriedades de material, obtida experimentalmente ou simplesmente arbitrada \cite{bib:sampaio}.
 
 	\item \(\normalDampingConstantij\) é a constante de amortecimento efetiva para o par \(\pqty{i, j}\), calculada através da associação em série de amortecedores de constantes \(\normalDampingConstanti\) e \(\normalDampingConstantj\):
 	\begin{equation*}
@@ -645,7 +645,7 @@ Com isso, o coeficiente de restituição normal do par de partículas fica, de a
 		\bigslant{
 			-\dfrac{\pi\normalDampingConstantij}{2\massij}
 		}{
-			\sqrt{\dfrac{\elasticModulusij}{\massij} - \pqty{\dfrac{\normalDampingConstantij}{2\massij}}^2}
+			\sqrt{\dfrac{\normalElasticConstantij}{\massij} - \pqty{\dfrac{\normalDampingConstantij}{2\massij}}^2}
 		}
 	}.
 \end{equation*}
@@ -654,21 +654,21 @@ Percebe-se dessa expressão que o modelo de amortecedor linear implica um coefic
 
 \subsubsection*{Modelo de Esferas Viscoelásticas}
 
-Embora a equação \eqref{eq:linear_dashpot_force} represente de maneira simplificada a força entre duas partículas colidentes, ela captura os dois principais mecanismos de interação, que são o termo elástico, representado por \(\normalElasticForceji = \elasticModulusij\cdot\overlapij\), e o termo dissipativo, \(\normalDissipativeForceji = \normalDampingConstantij\cdot\overlapDerivativeij\).
+Embora a equação \eqref{eq:linear_dashpot_force} represente de maneira simplificada a força entre duas partículas colidentes, ela captura os dois principais mecanismos de interação, que são o termo elástico, representado por \(\normalElasticForceji = \normalElasticConstantij\cdot\overlapij\), e o termo dissipativo, \(\normalDissipativeForceji = \normalDampingConstantij\cdot\overlapDerivativeij\).
 
 O modelo para esferas viscoelásticas tem a finalidade de expressar de forma mais fidedigna esses dois termos.
 
 \citeonline{bib:hertz1881} propôs primeiramente um modelo para a componente elástica da força, obtendo
 \begin{equation*}
-	\normalElasticForceji = \dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\overlapij^{\sfrac{3}{2}},
+	\normalElasticForceji = \dfrac{4}{3}\ \effectiveElasticModulusij\ \sqrt{\effectiveRadiusij}\cdot\overlapij^{\sfrac{3}{2}},
 \end{equation*}
-sendo que:
+sendo que
 \begin{itemize}
-	\item \(\effectiveNormalElasticij\) é a constante elástica normal efetiva do par. Essa constante é definida por
+	\item \(\effectiveElasticModulusij\) é a elasticidade efetiva do par. Essa constante é definida por
 		\begin{equation*}
-			\effectiveNormalElasticij = \pqty{\dfrac{1-\poissoni^2}{\elasticModulusi} + \dfrac{1-\poissonj^2}{\elasticModulusj}}^{-1},
+			\effectiveElasticModulusij = \pqty{\dfrac{1-\poissoni^2}{\elasticModulusi} + \dfrac{1-\poissonj^2}{\elasticModulusj}}^{-1},
 		\end{equation*}
-		em que \(\poissoni\) e \(\poissonj\) são os coeficientes de Poisson das partículas \(i\) e \(j\), respectivamente.
+		em que \(\poissoni\) e \(\poissonj\) são os coeficientes de Poisson das partículas \(i\) e \(j\), e \(\elasticModulusi\) e \(\elasticModulusj\) são os respectivos módulos de elasticidade.
 
 	\item \(\effectiveRadiusij\) é o raio efetivo do par de partículas. Esse raio é definido como
 		\begin{equation*}
@@ -678,7 +678,7 @@ sendo que:
 
 Esse modelo foi posteriormente estendido por \citeonline{bib:brilliantov1996} com a adição do termo dissipativo:
 \begin{equation*}
-	\normalDissipativeForceji = \dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij},
+	\normalDissipativeForceji = \dfrac{4}{3}\ \effectiveElasticModulusij\ \sqrt{\effectiveRadiusij}\cdot \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij},
 \end{equation*}
 em que
 \begin{itemize}
@@ -687,12 +687,12 @@ em que
 		\normalDissipativeConstantij = \dfrac{\normalDissipativeConstanti + \normalDissipativeConstantj}{2}.
 	\end{equation*}
 
-	De acordo com \citeonline{bib:computational_granular_dynamics}, não é possível relacionar a constante dissipativa a propriedades de material. Essa constante, porém, pode ser calculada em função do coeficiente de atrito entre as partículas, e este, por sua vez, pode ser determinado experimentalmente.
+	De acordo com \citeonline[p. 20]{bib:computational_granular_dynamics}, não é possível relacionar a constante dissipativa a propriedades de material. Essa constante, porém, pode ser calculada em função do coeficiente de atrito entre as partículas, e este, por sua vez, pode ser determinado experimentalmente.
 \end{itemize}
 
 Com isso, a expressão para a força normal, segundo o modelo de esferas viscoelásticas, fica
 \begin{equation*}
-	\normalForceScalarji = \dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
+	\normalForceScalarji = \dfrac{4}{3}\ \effectiveElasticModulusij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
 		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij}
 	}.
 \end{equation*}
@@ -711,7 +711,7 @@ O coeficiente de restituição normal, nesse caso, é uma função da velocidade
 \end{equation*}
 sendo que as constantes \(C_m\) são bem determinadas \cite[p. 143]{bib:computational_granular_dynamics} e
 \begin{equation*}
-	\rho \eqdef \dfrac{4\cdot\effectiveNormalElasticij}{3}\cdot\dfrac{\sqrt{\effectiveRadiusij}}{\massij}.
+	\rho \eqdef \dfrac{4\cdot\effectiveElasticModulusij}{3}\cdot\dfrac{\sqrt{\effectiveRadiusij}}{\massij}.
 \end{equation*}
 
 O modelo de esferas viscoelásticas se aproxima melhor dos resultados experimentais que o modelo de amortecedor linear, sendo por isso mais utilizado em simulações de sistemas reais \cite[p. 143]{bib:computational_granular_dynamics}.
@@ -738,11 +738,11 @@ No entanto a atração entre partículas geralmente não condiz com resultados e
 
 Para o amortecedor linear, isso significa que
 \begin{equation} \label{eq:corrected_linear_dashpot:normal_force}
-	\normalForceScalarji = \max\Bqty{\elasticModulusij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij, \,\, 0},
+	\normalForceScalarji = \max\Bqty{\normalElasticConstantij\cdot\overlapij + \normalDampingConstantij\cdot\overlapDerivativeij, \,\, 0},
 \end{equation}
 enquanto, para o modelo de esferas viscoelásticas, essa correção resulta em
 \begin{equation*}
-	\normalForceScalarji = \max\Bqty{\dfrac{4}{3}\ \effectiveNormalElasticij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
+	\normalForceScalarji = \max\Bqty{\dfrac{4}{3}\ \effectiveElasticModulusij\ \sqrt{\effectiveRadiusij}\cdot\pqty{
 		\overlapij^{\sfrac{3}{2}} + \normalDissipativeConstantij\ \overlapDerivativeij\ \sqrt{\overlapij}
 	}, \,\, 0}.
 \end{equation*}
@@ -764,7 +764,7 @@ em que
 \begin{equation*}
 	\def\arraystretch{1.5}
 	\begin{array}{cc}
-		\pqty{\omegazij}^2 = \bigslant{\elasticModulusij}{\massij}, &
+		\pqty{\omegazij}^2 = \bigslant{\normalElasticConstantij}{\massij}, &
 		\betaij = \bigslant{\normalDampingConstantij}{\pqty{2\ \massij}}, \\
 		\omegaij = \sqrt{\pqty{\omegazij}^2 - \betaij^2}, &	\Omegaij = \sqrt{\betaij^2 - \pqty{\omegazij}^2}.
 	\end{array}
@@ -795,7 +795,7 @@ em que \(\dynamicFrictionij\) é o coeficiente de atrito dinâmico entre o par d
 
 Ao se determinar a força tangencial, a componente de torque \(\torqueji\) que a partícula \(j\) aplica sobre a \(i\) pode ser calculada como
 \begin{equation*}
-	\torqueji = \contactVectorij\cross\tangentialForceji
+	\torqueji = \contactVectorij\cross\tangentialForceji.
 \end{equation*}
 
 Nesta seção, são apresentados os dois principais modelos de força tangencial, de acordo com \citeonline{bib:computational_granular_dynamics}.
@@ -806,12 +806,12 @@ O modelo de Haff e Werner já foi aplicado com sucesso em diversas simulações.
 
 Para partículas esféricas, supondo que há contato, a equação \eqref{eq:overlap_derivative_and_normal_relative_velocity} sugere a analogia
 \begin{equation*}
-	\overlapDerivativeij \to \relativeTangentialVelocityScalarij
+	\overlapDerivativeij \to \relativeTangentialVelocityScalarij.
 \end{equation*}
 
 Além disso, devido ao caráter dinâmico da força tangencial, desconsideram-se componentes elásticas.
 
-Com essas considerações e com a restrição da lei de Coulomb \eqref{eq:coulomb_law}, o análogo tangencial da equação \eqref{eq:linear_dashpot_force} fica
+Com isso e com a restrição da lei de Coulomb \eqref{eq:coulomb_law}, o análogo tangencial da equação \eqref{eq:linear_dashpot_force} fica
 \begin{equation} \label{eq:haff_werner}
 	\tangentialForceScalarji = - \min\set{\tangentialDampingConstantij\cdot\relativeTangentialVelocityScalarij,\,\, \dynamicFrictionij\cdot\normalForceScalarji},
 \end{equation}
@@ -819,12 +819,12 @@ em que
 \begin{itemize}
 	\item \(\tangentialDampingConstantij\) é a constante de amortecimento tangencial efetiva do par \(i\) e \(j\). Essa constante pode ser obtida por uma associação em série de amortecedores de constantes \(\tangentialDampingConstanti\) e \(\tangentialDampingConstantj\), cada um pertencente a uma das partículas, como
 	\begin{equation*}
-		\tangentialDampingConstantij = \pqty{\dfrac{1}{\tangentialDampingConstanti} + \dfrac{1}{\tangentialDampingConstantj}}^{-1}
+		\tangentialDampingConstantij = \pqty{\dfrac{1}{\tangentialDampingConstanti} + \dfrac{1}{\tangentialDampingConstantj}}^{-1}.
 	\end{equation*}
 
 	\item \(\dynamicFrictionij\) é o fator de atrito para o par \(\pqty{i,j}\). Embora esse fator seja definido para pares de partículas, é possível atribuirem-se fatores \(\dynamicFrictioni\) e \(\dynamicFrictionj\), um a cada partícula, de modo que
 	\begin{equation*}
-		\dynamicFrictionij = \min\Bqty{\dynamicFrictioni, \dynamicFrictionj}
+		\dynamicFrictionij = \min\Bqty{\dynamicFrictioni, \dynamicFrictionj}.
 	\end{equation*}
 \end{itemize}
 
@@ -834,7 +834,7 @@ A dificuldade apresentada por esse modelo é que não há propriedades de materi
 
 \subsubsection*{Modelo de Cundall e Strack}
 
-Ao contrário do modelo de Haff e Werner, no modelo de Cundall e Strack supõe a existência de uma mola que resiste ao deslocamento relativo entre as partículas na direção tangencial. Esse modelo foi proposto por \citeonline[p. 52]{bib:cundall1979}. Considera-se que a mola esteja na posição de equilíbrio no instante de início da colisão \(\collisionBeginningij\), e a sua deformação ou elongação no instante \(t\) é dada por
+Ao contrário do modelo de Haff e Werner, no modelo de Cundall e Strack supõe-se a existência de uma mola que resiste ao deslocamento relativo entre as partículas na direção tangencial. Esse modelo foi proposto por \citeonline[p. 52]{bib:cundall1979}. Considera-se que a mola esteja na posição de equilíbrio no instante de início da colisão \(\collisionBeginningij\), e a sua deformação ou elongação no instante \(t\) é dada por
 \begin{equation*}
 	\elongationij\pqty{t} = \int_{\collisionBeginningij}^{t} \relativeTangentialVelocityScalarij\pqty{\tau} \dd{\tau}.
 \end{equation*}
@@ -857,7 +857,7 @@ sendo que
 
 Com as equações diferenciais bem determinadas através do uso de modelos de interação, inicia-se a busca por sua solução. O algoritmo de Gear é um método de resolução de equações diferenciais ordinárias originado do trabalho de \citeonline{bib:gear_book}.
 
-Gear considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que \(y(t), \deriv{1}{y}(t),\dotsc, \deriv{\taylorOrder}{y}(t)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t + \Dt), \deriv{1}{y}(t + \Dt),\dotsc, \deriv{\taylorOrder}{y}(t + \Dt)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
+Gear considerou o problema de extrapolar funções sujeitas a equações diferenciais. Dada uma função \(y\) tal que os pontos \(y(t), \deriv{1}{y}(t),\dotsc, \deriv{\taylorOrder}{y}(t)\) existem e são bem conhecidos, o objetivo é determinar os valores de \(y(t + \Dt), \deriv{1}{y}(t + \Dt),\dotsc, \deriv{\taylorOrder}{y}(t + \Dt)\) sabendo que \(y\) deve satisfazer uma equação diferencial da forma
 \begin{equation} \label{eq:gear_diff}
 	\deriv{\eqOrder}{y} = \eqFor{y}\pqty{y, \deriv{1}{y},\dotsc,\deriv{\eqOrder-1}{y}, t}
 \end{equation}
@@ -1044,7 +1044,7 @@ e então a equação \eqref{eq:correction} pode ser reescrita como
 \end{equation}
 	
 \begin{table}[h]
-	\caption{Constantes corretoras para o algoritmo de Gear em função da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial}
+	\caption{Constantes corretoras para o algoritmo de Gear em função da ordem \(\taylorOrder\) da maior derivada considerada e da ordem \(\eqOrder\) da equação diferencial.}
 	\label{table:corrector_constants}
 
 	\begin{equation*}
@@ -1092,6 +1092,6 @@ Ainda, de acordo com \citeonline[p. 153]{bib:gear_book}, o erro global do algori
 	\deriv{\eqOrder}{y} = \eqFor{y}\pqty{y, \deriv{1}{y},\dotsc,\deriv{\eqOrder-\maxDerivOrder}{y}, t}.
 \end{equation}
 
-E, com isso, a etapa de correção está bem definida. Em virtude das características apresentadas, o algoritmo de Gear é usado como método de resolução das equações de movimento dos elementos dos sistemas de partículas.
+E, com isso, a etapa de correção está bem definida. Em virtude das características apresentadas, o algoritmo de Gear é comumente usado como método de resolução das equações de movimento dos elementos dos sistemas de partículas.
 
 Com as considerações feitas neste capítulo, todas as ferramentas matemáticas necessárias para a solução do problema já estão expostas. A próxima etapa, então, é desenvolver um método numérico que permita a implementação desse algoritmo de solução.

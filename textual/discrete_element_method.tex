@@ -18,7 +18,7 @@ Cada partícula é considerada um corpo rígido com seis graus de liberdade: tr�
 
 Em um sistema, porém, os elementos interagem entre si, e as forças e os torques atuantes sobre eles dependem dessas interações. Sendo assim, é necessário o \textit{monitoramento das vizinhanças}, isto é, o método deve sempre determinar quais são os pares de elementos que interagem em cada passo de tempo. Dentre os algoritmos disponíveis, destacam-se o algoritmo de Verlet, dedicado a partículas esféricas, o algoritmo \textit{link cell} e o algoritmo \textit{lattice}.
 
-Os elementos da simulação ainda podem pertencer a \textit{tipos} distintos. Por exemplo, é possível distinguirem-se \textit{partículas}, elementos cujas equações de movimento precisam ser resolvidas, de \textit{elementos de contorno}, que têm seu estado conhecido já na etapa de inicialização do algoritmo. Além dos elementos de contorno, outras \textit{condições de contorno} podem ser aplicadas ao sistema, como restrições de movimento, paredes reflexivas e condição de repetição.
+Os elementos da simulação ainda podem pertencer a \textit{tipos} distintos. Por exemplo, é possível distinguirem-se \textit{partículas}, elementos cujas equações de movimento precisam ser resolvidas, de \textit{elementos de contorno}, que têm seu estado conhecido já na etapa de inicialização. Além dos elementos de contorno, outras \textit{condições de contorno} podem ser aplicadas ao sistema, como restrições de movimento, paredes reflexivas e condição de repetição.
 
 De acordo com \citeonline[p. 2]{bib:bicanic2007}, existem diversas metodologias para a simulação com elementos discretos, sendo que as variações ocorrem:
 \begin{alineas}
@@ -47,7 +47,7 @@ Com isso, o objetivo do Método de Elementos Discretos torna-se obter a soluçã
 
 \subsection{Solução das Equações}
 
-A solução das equações governantes do sistema é feita conforme explicado na \cref{subsec:motion_equations_solution} utilizando algoritmos de integração como o algoritmo de Gear, descrito na \cref{sec:gear_integration_scheme}.
+A solução das equações governantes do sistema é feita conforme explicado na \cref{subsec:motion_equations_solution} aplicando algoritmos de integração como o algoritmo de Gear, descrito na \cref{sec:gear_integration_scheme}.
 
 Uma característica dos métodos de elementos discretos tradicionais é serem métodos explícitos, ou seja, o estado do sistema de partículas no instante \(\instant[n]\) é calculado a partir do estado em \(\instant[n-1]\) que se supõe ser conhecido. Isso é evidente no algoritmo de Gear.
 
@@ -57,19 +57,19 @@ O procedimento de solução das equações é apresentado em maiores detalhes na
 
 A classificação dos elementos pertencentes à simulação tem a finalidade de possibilitar simplificações, de determinar os métodos de busca de vizinhança, de busca de contato e de integração das equações, e de reduzir o custo computacional do algoritmo.
 
-Não existe uma classificação comum a todos os métodos de elementos discretos, mas podem se observar diferenciações baseadas na geometria, nas propriedades, na forma como as coordenadas são obtidas e nas restrições aplicadas. 
+Não existe uma divisão comum a todos os métodos de elementos discretos, mas podem se observar classificações baseadas na geometria, nas propriedades, na forma como as coordenadas são obtidas e nas restrições aplicadas.
 
 Toda simulação possui um \textit{conjunto universo} \(\universeSet\) que contém todas as entidades consideradas pelo algoritmo: corpos, fluidos, campos de força, entre outras. Nos métodos de elementos discretos, os corpos rígidos pertencentes ao conjunto universo são agrupados no \textit{conjunto de elementos} \(\elementSet\). Por fim, é possível dividir-se o conjunto de elementos em um \textit{conjunto de partículas} \(\particleSet\) e um \textit{conjunto de elementos de contorno} \(\boundarySet\).
 
 O conjunto de partículas é o conjunto de todos os elementos para os quais as equações de movimento devem ser resolvidas. Essa resolução é feita de acordo com os algoritmos de integração. 
 
-Os elementos de contorno, por outro lado, são elementos cujos estados já são conhecidos como funções explícitas do tempo desde a etapa de inicialização. Exemplo disso são os elementos fixos, cujas coordenadas são sempre iguais às coordenadas iniciais. Elementos de contorno, portanto, representam um alívio do custo computacional, pois não é necessária a resolução de suas equações de movimento, embora ainda sejam necessários no cálculo das interações com as partículas. Uma função que determine completamente um elemento em cada instante de tempo é chamada de \textit{função de evolução}.
+Os elementos de contorno, por outro lado, são elementos cujos estados já são conhecidos como funções explícitas do tempo desde a etapa de inicialização. Exemplo disso são os elementos fixos, cujas coordenadas são sempre iguais às coordenadas iniciais. Elementos de contorno, portanto, representam um alívio do custo computacional, pois não é necessária a resolução de suas equações de movimento, embora ainda sejam necessários no cálculo das interações com as partículas. Uma função que determina completamente um elemento em cada instante de tempo é chamada de \textit{função de evolução}.
 
 Campos de força, em geral, são considerados como entidades externas ao domínio da simulação, atuando indistintamente sobre todas as partículas do sistema e contribuindo com parcelas das forças externas \(\external\forcei\) e dos torques externos \(\external\torquei\).
 
 Outras características que podem ser atribuídas aos elementos da simulação são:
 \begin{alineas}
-\item \textit{Propriedades:} as propriedades que se atribuem aos elementos são essenciais para o cálculo das interações que ocorrem entre eles. Seus valores podem ser função do material de que os corpos são compostos, de parâmetros obtidos experimentalmente, entre outros. Exemplos de propriedades físicas são a massa específica e o módulo de elasticidade. Além disso, outros parâmetros podem ser atribuídos às partículas, como o coeficiente de atrito e o amortecimento, de acordo com a \cref{sec:collision_force_models}.
+\item \textit{Propriedades:} as propriedades que se atribuem aos elementos são essenciais para o cálculo das interações que ocorrem entre eles. Seus valores podem ser função do material de que os corpos são compostos, de parâmetros obtidos experimentalmente, entre outros. Exemplos de propriedades físicas são a massa específica e o módulo de elasticidade. Além disso, outros parâmetros podem ser atribuídos às partículas, como o coeficiente de atrito e a constante de amortecimento, de acordo com a \cref{sec:collision_force_models}.
 
 % \begin{figure}[h]
 % 	\caption{Formas geométricas mais aplicadas nos métodos de elementos discretos.}
@@ -127,7 +127,7 @@ De forma geral, os métodos de elementos discretos apresentam uma estrutura bás
 
 O laço da simulação é a parte mais custosa do algoritmo pois é nele que ocorrem as subetapas de resolução das equações e exportação de dados.
 
-A forma geral desse algoritmo pode ser representada como o fluxograma exposto na \cref{fig:general_algorithm}.
+A forma geral do \DEM{} pode ser representada como o fluxograma exposto na \cref{fig:general_algorithm}, cujas etapas são apresentadas em mais detalhes na \cref{sec:algorithm_steps}.
 
 \begin{figure}[h]
 	\caption{Fluxograma do funcionamento geral do \DEM{}.}
@@ -137,26 +137,24 @@ A forma geral desse algoritmo pode ser representada como o fluxograma exposto na
 	\sourceMe
 \end{figure}
 
-As etapas do \DEM{} são apresentadas em mais detalhes na \cref{sec:algorithm_steps}.
-
 \section{Etapas do Algoritmo} \label{sec:algorithm_steps}
 
 \subsection{Inicialização do Sistema de Partículas}
 
 A primeira etapa em uma simulação \DEM{} é a inicialização do sistema de partículas. Essa etapa consiste em se definir o ambiente da simulação e se construírem todos os elementos necessários.
 
-De acordo com \citeonline{bib:computational_granular_dynamics}, a inicialização geralmente é feita por meio de um arquivo de entrada, muito embora \textit{softwares} de simulação geralmente apresentem uma interface gráfica com essa finalidade. 
+De acordo com \citeonline{bib:computational_granular_dynamics}, a inicialização é comumente feita por meio de um arquivo de entrada, muito embora programas de simulação geralmente apresentem uma interface gráfica com essa finalidade. 
 
 O resultado dessa etapa é o estado inicial do sistema de partículas, com todas as posições, orientações e outras variáveis inicializadas. Os parâmetros de entrada são:
 \begin{alineas}
 \item \textit{Parâmetros da simulação:} os principais parâmetros, como instantes inicial e final, passo de tempo, critério de parada e caminhos para exportação de arquivos, são configurados;
-\item \textit{Partículas:} todas as partículas do sistema devem ser construídas. A cada partícula deve ser atribuída um vetor posição, uma orientação e propriedades físicas iniciais. Além disso, as derivadas dos vetores posição e orientação devem ser informados. A geometria das partículas também deve ser definida;
+\item \textit{Partículas:} todas as partículas do sistema devem ser construídas. A cada partícula devem ser atribuídos um vetor posição, uma orientação e propriedades físicas iniciais. Além disso, as derivadas dos vetores posição e orientação devem ser informados. A geometria das partículas também deve ser definida;
 \item \textit{Elementos de contorno:} de maneira semelhante às partículas, os elementos de contorno devem ser construídos com geometria, posição, orientação e propriedades físicas. Ainda, é necessário determinar-se a função de evolução desses elementos;
 \item \textit{Outras entidades:} todas as outras entidades do sistema, como campos de força e fluidos, também devem ser inicializadas;
 \item \textit{Interações:} além dos elementos do sistema, devem ser definidos os modelos de interação utilizados. Por exemplo, para as forças normais de colisão entre partículas esféricas, deve-se escolher entre o modelo de amortecimento linear, o de esferas viscoelásticas ou outros que estejam implementados no simulador;
 \item \textit{Algoritmo de integração:} a determinação do algoritmo de solução das equações do sistema é fundamental para a simulação. Dentre os principais métodos aplicados se encontram aqueles citados na \cref{subsec:motion_equations_solution}: o algoritmo de Gear, o método \textit{leapfrog}, os métodos de Verlet e os de Runge-Kutta, desde que estejam disponíveis no simulador;
 \item \textit{Método de monitoramento de vizinhanças:} a escolha do método de monitoramento de vizinhanças também é de extrema importância na simulação. Esse método tem por finalidade determinar quais elementos interagem em cada passo de tempo, sendo determinante para o custo computacional do algoritmo. O monitoramento de vizinhanças deve ser escolhido tendo em vista os tipos e as formas geométricas dos elementos considerados e as características da simulação;
-\item \textit{Outros parâmetros:} por fim, dependendo da implementação do simulador e do método de elementos discretos usado, podem ser necessários outras entradas mais específicas, além das já citadas.
+\item \textit{Outros parâmetros:} por fim, dependendo da implementação do simulador e do método de elementos discretos usado, podem ser necessárias outras entradas mais específicas, além das já citadas.
 \end{alineas}
 
 \subsection{Solução das Equações} \label{subsec:simulation:equation_solution}
@@ -182,9 +180,7 @@ Para a determinação da vizinhança no passo \ref{item:DEM_neighborhood}, são 
 
 % é estranho colocar a vizinhança antes. Três motivos por que isso é feito: 1) a referência faz; 2) o passo de tempo que usamos é pequeno; 3) permite uma fácil alteração do algoritmo de integração da equação
 
-Para tanto, pode ser feita uma distinção entre o caso de partículas com geometria arbitrária, em que é necessário monitorar-se a orientação das partículas, e o de partículas esféricas, situação em que é possível aplicarem-se simplificações. O caso geral é apresentado no \cref{app:general_case_gear_algorithm}.
-
-Para partículas esféricas, as equações de movimento assumem uma forma mais simples.
+Para tanto, pode ser feita uma distinção entre o caso de partículas com geometria arbitrária, em que é necessário monitorar-se a orientação das partículas, e o de partículas esféricas, situação em que é possível aplicarem-se simplificações. O caso geral é apresentado no \cref{app:general_case_gear_algorithm}. Para partículas esféricas, as equações de movimento assumem uma forma mais simples.
 
 Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante anterior em que o sistema é conhecido, as posições e as orientações das partículas podem ser previstas como na \cref{eq:prediction}. Escolhida uma ordem de extrapolação \(\taylorOrder\), e definido o conjunto \(\sphericalParticleSet\) das partículas esféricas do sistema, calculam-se
 \begin{equation*}
@@ -192,9 +188,9 @@ Sendo \(\instant[n]\) o instante de interesse e \(\instant[n-1]\), o instante an
 	\begin{array}{c}
 		\drvec{\taylorOrder}{\positionipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder}[\Dt[n]]\cdot\drvec{\taylorOrder}{\positioni}\pqty{\instant[n-1]} \\
 		\drvec{\taylorOrder-1}{\angularVelocityipr}\pqty{\instant[n]} = \extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\cdot\drvec{\taylorOrder-1}{\angularVelocityi}\pqty{\instant[n-1]} \\
-	\end{array}, \quad \particlei\in\sphericalParticleSet.
+	\end{array}, \quad \particlei\in\sphericalParticleSet,
 \end{equation*}
-em que \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\) e \(\extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\) são as matrizes de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) e \(\taylorOrder-1\) calculadas com o passo de tempo \(\Dt[n]\), como indicado na \cref{subsec:prediction}.
+em que \(\extrapolationMatrix{\taylorOrder}[\Dt[n]]\) e \(\extrapolationMatrix{\taylorOrder-1}[\Dt[n]]\) são as matrizes de extrapolação por expansão de Taylor de ordem \(\taylorOrder\) e \(\taylorOrder-1\) calculadas com o passo de tempo \(\Dt[n]\) como indicado na \cref{subsec:prediction}.
 
 A vizinhança de uma partícula, como explicado na \cref{sec:neighborhood}, é o conjunto de todas as entidades da simulação com as quais ela interage. A vizinhança da \(i\)-ésima partícula do sistema é denotada por \(\neighborhoodi\). Cada elemento \(\elementj\) da vizinhança de \(\particlei\) contribui para a força \(\forcei\) e o torque \(\torquei\) resultantes sobre a mesma com parcelas \(\forceji\) e \(\torqueji\) que são, por hipótese, dependentes apenas do par \(\orderedPair{\particlei}{\elementj}\), isto é,
 \begin{equation*}
@@ -202,7 +198,13 @@ A vizinhança de uma partícula, como explicado na \cref{sec:neighborhood}, é o
 	\begin{array}{c}
 		\displaystyle \forceji \equiv \forceji\pqty{\particlei, \elementj} \\
 		\displaystyle \torqueji \equiv \torqueji\pqty{\particlei, \elementj} \\
-	\end{array}, \quad \particlei \in \sphericalParticleSet, \elementj \in \neighborhoodi.
+	\end{array},
+	% \quad \particlei \in \sphericalParticleSet, \elementj \in \neighborhoodi.
+	\quad
+	\def\arraystretch{1}
+	\begin{array}{c}
+		\particlei \in \sphericalParticleSet,\\ \elementj \in \neighborhoodi.
+	\end{array}
 \end{equation*}
 
 Mais ainda, a partícula \(i\) pode sofrer com forças e torques provocados por entidades externas ao sistema, como forças de campo, cujas resultantes são dadas por
@@ -230,7 +232,7 @@ A cada um dos graus de liberdade da partícula é associada uma equação que de
 
 Já para a aceleração angular, usa-se a equação de movimento rotacional simplificada para o caso de esferas \eqref{eq:diff_equation_spherical_particle}, obtendo-se, para cada \(\particlei\in\sphericalParticleSet\),
 \begin{equation*}
-	\dangularVelocityicorr{1}\pqty{\instant[n]} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{\instant[n]}
+	\dangularVelocityicorr{1}\pqty{\instant[n]} = \dfrac{1}{\momentOfInertiai}\cdot\resultingTorquei\pqty{\instant[n]}.
 \end{equation*}
 
 Com isso, os erros são dados por
@@ -280,7 +282,9 @@ para cada partícula $\particlei \in \sphericalParticleSet$:
 (*\indentrule*)	(*\indentrule*)	adicionar $\resultingForcei \gets \resultingForcei + \force$
 (*\indentrule*)	(*\indentrule*)	adicionar $\resultingTorquei \gets \resultingTorquei + \torque$
 (*\indentrule*)	fim
-(*\indentrule*)
+fim
+
+para cada partícula $\particlei \in \sphericalParticleSet$:
 (*\indentrule*)	// Correção
 (*\indentrule*)	calcular o valor corrigido $\accelerationicorr\pqty{\instant[n]} =  \pqty{\bigslant{1}{\massi}}\cdot \resultingForcei$
 (*\indentrule*)	calcular o valor corrigido $\dangularVelocityicorr{1}\pqty{\instant[n]} = \pqty{\bigslant{1}{\momentOfInertiai}}\cdot \resultingTorquei$
@@ -303,7 +307,7 @@ Existem dois fatores limitantes quanto à aquisição dos dados da simulação: 
 
 Uma solução comumente adotada é a definição de dois parâmetros: o \textit{número de passos de tempo para armazenamento} \(\stepsForStoring\) e o \textit{número de passos armazenados para a escrita} \(\storagesForWriting\). O número \(\stepsForStoring\) conta quantos passos de tempo são simulados até que um seja armazenado. Com isso, a cada \(\stepsForStoring\) simulados, \(\stepsForStoring-1\) são descartados e apenas um é guardado na memória. O segundo parâmetro, \(\storagesForWriting\), define quantos passos de tempo são armazenados na memória antes de serem escritos em disco.
 
-Essa solução pode ser implementada como na \cref{lst:data_exportation}. Definem-se os contadores \(\stepsForStoringCounter\) e \(\storagesForWritingCounter\), inicializados com o valor zero. A cada passo de tempo, o contador \(\stepsForStoringCounter\) é incrementado. Quando esse contador atinge o valor máximo de \(\stepsForStoring\), ele é reiniciado, o contador \(\storagesForWriting\) é incrementado e é feito um registro do instante de tempo na memória. Quando o contador \(\storagesForWritingCounter\) se iguala a \(\storagesForWriting\), o mesmo é reiniciado, e as informações armazenadas são escritas em disco.
+Essa solução pode ser implementada como na \cref{lst:data_exportation}. Definem-se os contadores \(\stepsForStoringCounter\) e \(\storagesForWritingCounter\), inicializados com o valor zero. A cada passo de tempo, o contador \(\stepsForStoringCounter\) é incrementado. Quando esse contador atinge o valor máximo de \(\stepsForStoring\), ele é reiniciado, o contador \(\storagesForWritingCounter\) é incrementado e é feito um registro do instante de tempo na memória. Quando o contador \(\storagesForWritingCounter\) se iguala a \(\storagesForWriting\), o mesmo é reiniciado, e as informações armazenadas são escritas em disco.
 
 \begin{lstlisting}[float, floatplacement=h, language=pseudocode, label=lst:data_exportation, caption=Pseudocódigo para a exportação de dados.]
 inicializar $\stepsForStoringCounter \gets 0$
@@ -364,14 +368,14 @@ A vizinhança de uma partícula \(\particlei\) é o conjunto \(\neighborhoodi\) 
 
 Uma simples consideração, a Terceira Lei de Newton, pode reduzir pela metade a quantidade de interações avaliadas entre partículas. Ainda assim, o uso de algoritmos de monitoramento de vizinhanças mais elaborados pode ser imprescindível, dependendo da simulação executada.
 
-Segundo \citeonline[p. 6]{bib:bicanic2007}, esses algoritmos podem ser divididos entre os \textit{baseados em corpos} e os \textit{baseados no espaço}. No primeiro caso, são consideradas as formas geométricas das partículas, e dois elementos são podem colidir se estiverem suficientemente próximos uns dos outros. Como exemplo desse tipo de método, tem-se o algoritmo de Verlet e os volumes limitantes. Métodos baseados no espaço, por outro lado, fundamentam-se na divisão do domínio da simulação em regiões, como o algoritmo \textit{link cell} e o algoritmo \textit{lattice}. Dois elementos, então, só podem colidir se estiverem na mesma região ou em regiões vizinhas. Esses algoritmos podem ser encontrados em \citeonline{bib:computational_granular_dynamics}.
+Segundo \citeonline[p. 6]{bib:bicanic2007}, esses algoritmos podem ser divididos entre os \textit{baseados em corpos} e os \textit{baseados no espaço}. No primeiro caso, são consideradas as formas geométricas das partículas, e dois elementos só podem colidir se estiverem suficientemente próximos uns dos outros. Como exemplo desse tipo de método, tem-se o algoritmo de Verlet e os volumes limitantes. Métodos baseados no espaço, por outro lado, fundamentam-se na divisão do domínio da simulação em regiões, como o algoritmo \textit{link cell} e o algoritmo \textit{lattice}. Dois elementos, então, só podem colidir se estiverem na mesma região ou em regiões vizinhas. Esses algoritmos podem ser encontrados em \citeonline{bib:computational_granular_dynamics}.
 
 Dadas duas partículas \(\particlei\) e \(\particlej\), a terceira lei de Newton estabelece que à força \(\forceij\) que a partícula \(i\) aplica sobre a \(j\) corresponde uma reação \(\forceji\) que satisfaz
 \begin{equation*}
 	\forceji = -\forceij.
 \end{equation*}
 
-Esse princípio possui duas consequências. A primeira, que, se \(\particlej\) está na vizinhança de \(\particlei\), então \(\particlei\) está, necessariamente, na vizinhança de \(\particlej\). A segunda é que a força e o torque de interação entre \(i\) e \(j\) precisam ser computados apenas uma vez.
+Esse princípio possui duas consequências. A primeira é que, se \(\particlej\) está na vizinhança de \(\particlei\), então \(\particlei\) está, necessariamente, na vizinhança de \(\particlej\). A segunda, que a força e o torque de interação entre \(i\) e \(j\) precisam ser computados apenas uma vez.
 
 Uma maneira de se aplicar essa consideração é definir-se que \(\particlej\) somente pode pertencer a \(\neighborhoodi\) se \(i < j\). Se, de fato, ocorrer que \(i < j\), então \(\particlej\) pertence a \(\neighborhoodi\), mas \(\particlei\) não pertence a \(\neighborhoodj\), e por isso a parcela de força que \(i\) aplica sobre \(j\) é perdida no laço de integração de \(j\). Sendo assim, a força \(\forceij = -\forceji\) é adicionada a \(\forcej\) quando esse valor for calculado no laço de integração da partícula \(i\). Isso corresponde a uma alteração na \cref{lst:equations_solution} nas \crefrange{lstline:interaction_begin}{lstline:particle_element_interaction_end} como indicado na \cref{lst:third_law_of_newton}.
 
@@ -394,11 +398,11 @@ fim
 
 \section{Limitação do Passo de Tempo}
 
-Diversos autores sugerem a limitação do passo de tempo da simulação para se garantirem a estabilidade numérica e a representatividade das soluções. Segundo \citeonline{bib:gomes2014}, uma estratégia possível é definir-se um valor de \textit{passo de tempo crítico} \(\criticalDt\) com a forma
+Diversos autores sugerem a limitação do passo de tempo da simulação para se garantirem a estabilidade numérica e a representatividade das soluções. Segundo \citeonline{bib:gomes2014}, uma possível estratégia é definir-se um valor de \textit{passo de tempo crítico} \(\criticalDt\) com a forma
 \begin{equation} \label{eq:critical_dt}
-	\criticalDt = C\cdot\sqrt{\bigslant{\mass}{\effectiveNormalElastic}},\quad C\in\real,
+	\criticalDt = C\cdot\sqrt{\bigslant{\mass}{\elasticConstant}},\quad C\in\real,
 \end{equation}
-sendo \(\mass\) a massa efetiva e \(\effectiveNormalElastic\) a constante elástica efetiva dos pares de colisão. O valor da constante \(C\) é, geralmente, determinado com base na experiência do usuário.
+sendo \(\mass\) a massa efetiva e \(\elasticConstant\) a constante elástica efetiva dos pares de colisão. O valor da constante \(C\) é, geralmente, determinado com base na experiência do usuário.
 
 A limitação do passo de tempo, porém, depende fortemente da configuração da simulação. Por exemplo, quanto maiores forem as velocidades das partículas, menores os passos de tempo que devem ser usados a fim de evitar que as partículas se atravessem sem que a sua colisão seja computada. Entretanto a expressão em \eqref{eq:critical_dt} não indica nenhuma dependência com relação à velocidade.
 
@@ -445,11 +449,9 @@ A fragmentação de partículas pode ser abordada de diversas formas. Segundo \c
 	\source{\citeonline[p.112]{bib:computational_granular_dynamics}}
 \end{figure}
 
-O processo de fragmentação de uma partícula, representado na \cref{fig:discrete_element_method:fragmentation}, consiste em substituir a partícula fragmentada por dois novos elementos. Essas duas partículas são construídas com uma elevada superposição entre si, o que resultaria numa força extrema caso se considerassem os modelos de interação usuais. Para evitar esse problema, utilizam modelos de força específicos, de menor intensidade, para o caso especial da fragmentação.
+O processo de fragmentação de uma partícula, representado na \cref{fig:discrete_element_method:fragmentation}, consiste em substituir a partícula fragmentada por dois novos elementos. Essas duas partículas são construídas com uma elevada superposição entre si, o que resultaria numa força extrema caso se considerassem os modelos de interação usuais. Para evitar esse problema, aplicam-se modelos de força específicos, de menor intensidade, para o caso especial da fragmentação.
 
 Outro aspecto de grande relevância para o \DEM{} é a paralelização de seus algoritmos. A computação em paralelo é aplicada em processos que podem ser divididos em tarefas menores, ou subprocessos, independentes entre si, e que podem ser executados paralelamente. Cada subprocesso é associado a uma unidade de processamento do computador para ser executado. Essa técnica permite uma drástica redução do tempo de computação em razão da execução de várias tarefas simultaneamente. Em contrapartida, caso exista dependência entre os subprocessos, é necessária a comunicação entre os processadores, o que pode reduzir bastante o desempenho do método. Sendo assim, a paralelização só é usualmente aplicada em sistemas com elevado número de partículas \cite[p. 128]{bib:computational_granular_dynamics}.
-
-Em métodos de elementos discretos, cada processador recebe, na etapa de inicialização, a incumbência de simular uma determinada região do domínio da simulação, como representado na \cref{fig:discrete_element_method:parallelization}.
 
 \begin{figure}[h]
 	\caption{Divisão do domínio da simulação em 16 regiões. Os segmentos de reta indicam a fronteira dos domínios locais dos processadores. Partículas localizadas próximo às fronteiras são representadas em cor preta.}
@@ -459,13 +461,15 @@ Em métodos de elementos discretos, cada processador recebe, na etapa de inicial
 	\source{\citeonline[p.128]{bib:computational_granular_dynamics}}
 \end{figure}
 
-Cada processador executa a etapa de predição das partículas pertencentes ao seu domínio local. Depois, ocorre a comunicação entre processadores responsáveis por regiões vizinhas a com a finalidade de permitir a interação entre partículas próximas às fronteiras dos domínios locais. Após a troca de informações, cada processador executa, separadamente, as etapas de interação, correção, exportação de dados e, novamente, caso o critério de parada não tenha sido atingido, a etapa de predição.
+Em métodos de elementos discretos, cada processador recebe, na etapa de inicialização, a incumbência de simular uma determinada região do domínio da simulação, como representado na \cref{fig:discrete_element_method:parallelization}.
+
+Cada processador executa a etapa de predição das partículas pertencentes ao seu domínio local. Depois, ocorre a comunicação entre processadores responsáveis por regiões vizinhas com a finalidade de permitir a interação entre partículas próximas às fronteiras dos domínios locais. Após a troca de informações, cada processador executa, separadamente, as etapas de interação, correção, exportação de dados e, novamente, caso o critério de parada não tenha sido atingido, a etapa de predição.
 
 \section{Acoplamento com Outros Métodos} \label{sec:discrete_element_method:coupling_with_other_methods}
 
 Um dos ramos de pesquisa mais importantes para o \DEM{} é o seu acoplamento com outros métodos, como o Método de Elementos Finitos (\FEM{}) e a mecânica de fluidos computacional (\CFD{}). Isso permite aplicar os pontos fortes de cada um dos métodos em simulações de sistemas complexos. A extensão do Método de Elementos Discretos, quando se consideram outras características físicas como equações de estado termodinâmico, interação eletromagnética, trocas de calor e distribuição de tensões, é conhecida como Método de Elementos Discretos Estendido (\XDEM{}).
 
-Cada componente do \XDEM{} contribui com um \textit{solver}, isto é, com uma rotina de solução para resolver a parte do problema que lhe compete. As principais abordagens para a ligação entre esses \textit{solvers} são a \textit{one-way} (unidirecional) e a \textit{two-way} (bidirecional). Na primeira, um dos \textit{solvers} é executado independentemente, e seu resultado é fornecido como parâmetro para os demais. Na abordagem \textit{two-way}, os \textit{solvers} são executados alternadamente dentro um laço adicional executado em cada passo de tempo. Essas abordagens são ilustradas na \cref{fig:method_coupling:flowchart}.
+Cada componente do \XDEM{} contribui com um \textit{solver}, isto é, com uma rotina de solução para resolver a parte do problema que lhe compete. As principais abordagens para o acoplamento entre esses \textit{solvers} são a \textit{one-way} (unidirecional) e a \textit{two-way} (bidirecional). Na primeira, um dos \textit{solvers} é executado independentemente, e seu resultado é fornecido como parâmetro para os demais. Na abordagem \textit{two-way}, os \textit{solvers} são executados alternadamente dentro um laço adicional executado em cada passo de tempo. Essas abordagens são ilustradas na \cref{fig:method_coupling:flowchart}.
 
 \begin{figure}[h]
 	\caption{Abordagens \textit{one-way} e \textit{two-way} para o acoplamento no Método de Elementos Discretos Estentido.}

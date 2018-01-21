@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"par",
+				"partícula"
+			],
+			[
 				"parti",
 				"particleName"
 			],
@@ -26,10 +30,6 @@
 			[
 				"pro",
 				"propertyValue"
-			],
-			[
-				"par",
-				"particleName"
 			],
 			[
 				"proper",
@@ -384,55 +384,55 @@
 	"buffers":
 	[
 		{
-			"file": "main.tex",
-			"settings":
-			{
-				"buffer_size": 4561,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "textual/mathematical_model.tex",
 			"settings":
 			{
-				"buffer_size": 7804,
+				"buffer_size": 79069,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "include/mathematics.tex",
+			"file": "/C/Users/ruanc.LAPTOP-8F2K1OUJ/Downloads/CCMID12_INST/readme.txt",
 			"settings":
 			{
-				"buffer_size": 455,
+				"buffer_size": 3446,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "textual/discrete_element_method.tex",
+			"settings":
+			{
+				"buffer_size": 51252,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "textual/results.tex",
+			"settings":
+			{
+				"buffer_size": 73896,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "include/listingstyle.sty",
+			"settings":
+			{
+				"buffer_size": 7484,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "include/notation.tex",
 			"settings":
 			{
-				"buffer_size": 901,
+				"buffer_size": 23915,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "tcc.sublime-project",
-			"settings":
-			{
-				"buffer_size": 252,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/ruancomelli/.config/sublime-text-3/Packages/User/LaTeXTools.sublime-settings",
-			"settings":
-			{
-				"buffer_size": 25268,
 				"line_ending": "Unix"
 			}
 		}
@@ -505,23 +505,55 @@
 			]
 		]
 	],
-	"build_varint": "PdfLaTeX",
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "rp",
+		"last_filter": "ena",
 		"selected_items":
 		[
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"upg",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"ip",
+				"Package Control: Install Package"
+			],
+			[
+				"add",
+				"Package Control: Add Repository"
+			],
+			[
+				"languagetool",
+				"LanguageTool: Clear Problems"
+			],
+			[
+				"langua",
+				"LanguageTool: Change Language"
+			],
+			[
+				"bp",
+				"Preferences: Browse Packages"
+			],
+			[
+				"lang",
+				"LanguageTool: Start Local Server"
+			],
 			[
 				"rp",
 				"Package Control: Remove Package"
 			],
 			[
 				"pack",
-				"Package Control: Install Package"
-			],
-			[
-				"ip",
 				"Package Control: Install Package"
 			],
 			[
@@ -549,7 +581,7 @@
 				"Clang Format: Format Selection"
 			]
 		],
-		"width": 497.0
+		"width": 412.0
 	},
 	"console":
 	{
@@ -569,12 +601,93 @@
 	},
 	"expanded_folders":
 	[
-		"/home/ruancomelli/Documents/tcc",
-		"/home/ruancomelli/Documents/tcc/include",
-		"/home/ruancomelli/Documents/tcc/textual"
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual"
 	],
 	"file_history":
 	[
+		"/E/Negócios/Vendidos/Harry Potter/Anúncio.txt",
+		"/E/Negócios/Harry Potter - Edição Exclusiva/anuncio.txt",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/notation.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/nomenclature.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/discrete_element_method/general_algorithm.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/listingstyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual/conclusion.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual/introduction.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual/results.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Google Drive/UFSC/2017.2/TCC/generator.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/header.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/cite.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual/mathematical_model.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual/discrete_element_method.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/acknowledgements.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/main.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/environments.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/mathematics.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/post-textual/code_listings.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/nomenclstyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/output/main.nls",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/misc.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/cataloguing.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/cover.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/abstracts.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Local/Temp/Rar$DIa0.170/SaveSelection.txt",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/.latexmkrc",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/contents.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/dedication.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Downloads/tabela-simbolos-doc.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/examples/Nomenclature.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/examples/TCStyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/examples/THESIS.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/examples/GGRThesisStyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/computational_implementation/complete_workflow.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/post-textual/general_case_gear_algorithm.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/errata.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/coverstyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/approval.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/listings/fallingSphereMain.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/pre-textual/epigraph.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/FallingSphere/input/main.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/references.bib",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/output/main.bbl",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/SimulationLib/include/Simulator.hpp",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/tikzstyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/computational_implementation/simple_workflow.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/introduction/simple_flowchart.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/discrete_element_method/two_way.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/discrete_element_method/one_way.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/textual/computational_implementation.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/mathematical_model/collision_parameters.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/mathematical_model/bidimensional_rotation.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tikzpictures/mathematical_model/two_dimensional_rotation.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/flowcharts/introduction/simple_flowchart.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/python/process.py",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/post-textual/three_dimensional_rotation.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/conservative/output/particles/Partícula Vermelha.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/conservative/output/main.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/dissipative/output/particles/Partícula Vermelha.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/dissipative/output/input/particle/Partícula Vermelha.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/conservative/output/input/particle/Partícula Azul.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/ParticleSimulator/simulations/CollidingSpheres/conservative/output/input/particle/Partícula Vermelha.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Google Drive/UFSC/2016.1/TransComp-Transferencia_de_Calor_e_Mecanica_dos_Fluidos_Computacional/Trabalho_10/docs/Trabalho_10.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/model/abntex2-modelo-include-comandos.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Downloads/template-tex-2015/modelo/LEIAME.txt",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/tcc.sublime-project",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Roaming/Sublime Text 3/Packages/User/LaTeXTools.sublime-settings",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Local/Sublime Text 3/Cache/LaTeXTools/internal/preview_math/ae74c0388962e87aac39b7083d8ab504.png.err",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Local/Sublime Text 3/Cache/LaTeXTools/internal/preview_math/ea351a9d5452c0c8e2afe302a7320b2e.png.err",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Dropbox/Livros/Materiais_de_Engenharia.txt",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/include/mintedstyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/GitProjects/tcc/listings/example.json",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Roaming/Sublime Text 3/Packages/LaTeXTools/biblatex_crossref_completions.py",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Roaming/Sublime Text 3/Packages/LaTeXTools/LaTeX.sublime-completions",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Roaming/Sublime Text 3/Packages/User/LaTeX.sublime-completions",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Downloads/THESIS.tex",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/Downloads/GGRThesisStyle.sty",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Roaming/Sublime Text 3/Packages/User/LanguageTool.sublime-settings",
+		"/C/Users/ruanc.LAPTOP-8F2K1OUJ/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/home/ruancomelli/.config/sublime-text-3/Packages/User/LaTeXTools.sublime-settings",
 		"/home/ruancomelli/Documents/tcc/main.tex",
 		"/home/ruancomelli/GitProjects/ParticleSimulator/InteractionLib/include/InteractionDefinitions/GravityForce.hpp",
 		"/home/ruancomelli/GitProjects/ParticleSimulator/InteractionLib/include/InteractionDefinitions/NormalForceLinearDashpotForce.hpp",
@@ -621,98 +734,19 @@
 		"/home/ruancomelli/GitProjects/ParticleSimulator/InteractionLib/include/Interaction.tpp",
 		"/home/ruancomelli/GitProjects/ParticleSimulator/InteractionLib/source/InteractionDefinitions/NormalForceLinearDashpotForce.cpp",
 		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLib/include/LooperDefinitions/GearLooper.hpp",
-		"/home/ruancomelli/GitProjects/EFVLib_dev/EFVLib/AppHeatTransfer_2D_FEM/source/main.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/.gitignore",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/JSONLibTest/JSONLibTest.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/source/PropertyDefinitions/Color.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/include/PropertyDefinitions/Color.hpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/include/Property.hpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/include/Property.tpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/AnimationLimits.py",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/Paths.py",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/Animations/Animation_by_time_step.mp4",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/AnimationsAnimation_autoscale.mp4",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/main.json",
-		"/home/ruancomelli/.bashrc",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/Particles/RedSphere.json",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/EntityLib/include/FixedInfinitePlane.hpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/source/PropertyDefinitions/Gravity.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/include/PropertyDefinitions.hpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/EntityLib/include/PhysicalEntity.hpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/include/PropertyDefinitions/Gravity.hpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/EntityLib/include/SphericalParticle.tpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/EntityLib/source/SpatialEntity.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/PropertyLib/source/PropertyDefinitions.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/input/particle/BlueSphere.json",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/auto_test.py",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/input/particle/RedSphere.json",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/SphericalParticle.py",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/UserInput.py",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/InteractionLib/source/Interaction.cpp",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/Simulate.py",
-		"/home/ruancomelli/GitProjects/ParticleSimulator/Python/config.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/Display.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/Paths.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/auto_test.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/SimulationOutputData.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/Simulate.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/GeneratePlots.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/SimulateInterface.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/Particles/BlueSphere.json",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/SimulationLib/include/Simulation.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/SimulationLibTest/SimulationOutputFiles/timeVector.json",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/Python/config.py",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/PhysicalEntity.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/Boundary.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/Boundary.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/FixedBoundary.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/FixedInfinitePlane.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLibTest/EntityLibTest.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLib/include/InteractionDefinitions/GravityForce.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLib/include/InteractionDefinitions/GravityForce.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLibTest/PropertyLibTest.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLib/CMakeLists.txt",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/PhysicalEntity.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/SphericalParticle.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLibTest/InteractionLibTest.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLib/include/PropertyDefinitions/Gravity.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLib/CMakeLists.txt",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLibTest/CMakeLists.txt",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLib/source/Gravity.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLib/source/PropertyDefinitions/Gravity.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLib/include/PropertyDefinitions.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/UtilsLib/include/mp/bool_constant.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/FixedBoundary.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/SocialEntity.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/SphericalParticle.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/source/SphericalParticle.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/Particle.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/SimulationLibTest/testSimulation.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/source/GravityField.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/GravityField.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/source/SpatialEntity.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/source/HandledEntity.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/EntityLib/include/FixedInfinitePlane.tpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/UtilsLib/include/metaprogramming.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/_input/BouncingBall/boundaries/Gravity.json",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLib/include/InteractionDefinitions.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/IOLibTest/CMakeLists.txt",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/CollidingSpheres/CMakeLists.txt",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/UtilsLib/include/Named.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/UtilsLib/source/Named.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/PropertyLib/source/PropertyDefinitions.cpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLib/include/InteractionDefinitions/ElectrostaticForce.hpp",
-		"/run/media/ruancomelli/D0108C41108C3110/ruancomelli/Git-Projects/ParticleSimulator/InteractionLib/include/InteractionDefinitions/ElectrostaticForce.tpp"
+		"/home/ruancomelli/GitProjects/EFVLib_dev/EFVLib/AppHeatTransfer_2D_FEM/source/main.cpp"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 41.0
 	},
 	"find_in_files":
 	{
-		"height": 102.0,
+		"height": 105.0,
 		"where_history":
 		[
+			"-examples/, -output/, -model/",
+			"-examples/, -output/"
 		]
 	},
 	"find_state":
@@ -720,13 +754,134 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"tabular",
-			"tabu",
-			"matrix",
-			"align",
-			"y'",
-			"y''",
-			"y'"
+			"Altura \\\\subref",
+			"\\\\basic",
+			"\\eqOrder",
+			"y",
+			"correção",
+			"scale=1",
+			"black",
+			"= 1}{\\si[per-mode=symbol]{\\giga\\pascal}",
+			"= 1",
+			"elasticModulus",
+			"ElasticModulus",
+			"DynamicFriction",
+			"dynamicFriction",
+			"coeficiente de",
+			"Coeffi",
+			"coefficient",
+			"visco",
+			"overlapij",
+			"damping",
+			"Damping",
+			"elasticModulus",
+			"effectiveNormalElastic",
+			"effectiveNor",
+			"NormalElasticity",
+			"effectiveElasticity",
+			"effectiveNormalElas",
+			"elasticModulus",
+			"elasticModulusij",
+			"Módulo de ",
+			"effectiveNormalElasticij",
+			"torquei",
+			"resultingTorquei",
+			"\\\\sum",
+			"blue",
+			"para cada",
+			"subfigfig",
+			"fig",
+			"eq",
+			"0",
+			"5000",
+			"bouncing_sphere:dissipative_case",
+			"\\\\alert",
+			"\\\\density",
+			"densidade",
+			"meter",
+			"\\nomunit{",
+			"linear",
+			"\\\\resulting",
+			"\\item[]",
+			"Z",
+			"\\usefont{T1}{iwona}{bc}{n}\\selectfont\\Large\\textbf{",
+			"nomencl",
+			"aplic",
+			" aplic",
+			"utiliz",
+			"itemize",
+			"percent",
+			"Particle, SphericalParticle, Simulator, Property, Boundary",
+			"Particle, SphericalParticle, Simulator, Property",
+			"Particle, SphericalParticle, Simulator",
+			"\\\\begin\\{parametersdesc\\}",
+			"\\\\alert",
+			"\\\\begin\\{parametersdesc\\}",
+			"parametersdesc",
+			"\\\\alert",
+			"Linha",
+			"linha",
+			"line",
+			"\\\\labelcref",
+			"\\\\labelcref\\{(.*?)\\} e \\\\labelcref\\{(.*?)\\}",
+			"\\\\labelcref",
+			"creflabel",
+			"subfig:colliding_spheres:conservative:x_contact_force",
+			"\\\\namecref\\{",
+			"\\\\cref{(.*?),(.*?)}",
+			"labelcref",
+			"\\\\cref{(.*?),(.*?)}",
+			"figura",
+			"tabela",
+			"seç",
+			"capítulo",
+			"seç",
+			"figura",
+			"tabela",
+			"figura",
+			"seç",
+			"capí",
+			"figura",
+			"seç",
+			"capít",
+			"tabela",
+			"cap",
+			"seç",
+			"figura",
+			"seç",
+			"figura",
+			"XDEM",
+			"EDEM",
+			"contact",
+			"mesdadefesa",
+			"diadadefesa",
+			"professor",
+			"break",
+			"heat_dem",
+			"Elsevie",
+			"embora",
+			"DEM",
+			"bob",
+			"typename",
+			"80",
+			"41",
+			"style",
+			"language",
+			"output comment",
+			"input interface",
+			"node distance=3.5",
+			"3c",
+			"simulator",
+			"3cm",
+			"library",
+			"->",
+			"bottom",
+			"block",
+			"5cm",
+			"top",
+			"initialization",
+			"\\\\alert",
+			"stop"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -734,6 +889,15 @@
 		"regex": true,
 		"replace_history":
 		[
+			"\\\\specificMass",
+			"\\\\begin\\{parametersdesc\\}{\\\\textwidth}",
+			"\\\\begin\\{parametersdesc\\}{\\textwidth}",
+			"\\\\labelcref\\{$1,$2\\}",
+			"labelcref",
+			"\\\\positiony",
+			"Método de Elementos Discretos",
+			"\\\\t",
+			"\\\\DEM\\{\\}",
 			"\\\\deriv{1}{y}",
 			"\\deriv{1}{y}"
 		],
@@ -751,56 +915,56 @@
 			[
 				{
 					"buffer": 0,
-					"file": "main.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4561,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3762,
-								3762
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2147.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "textual/mathematical_model.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7804,
+						"buffer_size": 79069,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5583,
-								5583
+								21656,
+								21656
 							]
 						],
 						"settings":
 						{
-							"spell_check": false,
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1803.0,
+						"translation.y": 5180.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/ruanc.LAPTOP-8F2K1OUJ/Downloads/CCMID12_INST/readme.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3446,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3167,
+								3167
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 611.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -808,57 +972,57 @@
 				},
 				{
 					"buffer": 2,
-					"file": "include/mathematics.tex",
+					"file": "textual/discrete_element_method.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 455,
+						"buffer_size": 51252,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								455,
-								455
+								34991,
+								34991
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 613.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "include/notation.tex",
+					"file": "textual/results.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 901,
+						"buffer_size": 73896,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								31,
-								31
+								19352,
+								19352
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4663.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -866,59 +1030,61 @@
 				},
 				{
 					"buffer": 4,
-					"file": "tcc.sublime-project",
+					"file": "include/listingstyle.sty",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 252,
+						"buffer_size": 7484,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								186,
-								186
+								1248,
+								1248
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/zzz A File Icon zzz/aliases/JSON (Sublime).sublime-syntax"
+							"syntax": "Packages/LaTeX/TeX.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 283.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "/home/ruancomelli/.config/sublime-text-3/Packages/User/LaTeXTools.sublime-settings",
+					"file": "include/notation.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 25268,
+						"buffer_size": 23915,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								9284,
+								9284
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/zzz A File Icon zzz/aliases/JSON (Sublime).sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 594.0,
+						"translation.y": 3343.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -926,7 +1092,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 40.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -963,15 +1129,19 @@
 	{
 		"height": 0.0
 	},
+	"output.languagetool":
+	{
+		"height": 103.0
+	},
 	"output.latextools":
 	{
-		"height": 121.0
+		"height": 85.0
 	},
 	"pinned_build_system": "",
 	"project": "tcc.sublime-project",
 	"replace":
 	{
-		"height": 71.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
