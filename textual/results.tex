@@ -264,7 +264,7 @@ Conquanto se trate de um problema bidimensional sem rotação, o simulador empre
 Com esses parâmetros, foi calculada a trajetória da partícula dada pela solução analítica e aquela resultante da simulação. Na \cref{fig:falling_sphere_y_position} estão expostas as soluções para a altura da partícula. Observa-se nessa figura que os resultados obtidos pelo simulador se aproximam bastante da solução analítica das equações. As demais variáveis do problema, como a posição horizontal, as velocidades horizontal e vertical e a aceleração vertical, também seguem o comportamento esperado, mantendo-se bastante próximos da solução analítica.
 
 \begin{figure}[htb!]
-	\caption[Erro da simulação com relação à solução numérica para a posição e da partícula do problema do lançamento oblíquo.]{Erro da simulação com relação à solução numérica para (\subref{subfig:position_error}) a posição e (\subref{subfig:velocity_error}) da partícula do problema do lançamento oblíquo.}
+	\caption[Erro da simulação com relação à solução numérica para a posição e a velocidade da partícula do problema do lançamento oblíquo.]{Erro da simulação com relação à solução numérica para (\subref{subfig:position_error}) a posição e (\subref{subfig:velocity_error}) a velocidade da partícula do problema do lançamento oblíquo.}
 	% \vspace{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
@@ -312,9 +312,9 @@ Essa configuração pode ser representada como na \cref{fig:bouncing_sphere}.
 
 Além de servir como mais um caso para a validação do código, o problema da esfera quicando possibilita a comparação entre o coeficiente de restituição calculado a partir dos resultados da simulação e o coeficiente calculado analiticamente a partir do modelo de força escolhido.
 
-A configuração do problema implica que a velocidade da esfera relativa ao plano é a sua própria velocidade vertical, já que o plano não se movimenta. Como consequência das equações \eqref{eq:antisymmetry_relative_velocity} e \eqref{eq:sphere_plane_relative_velocity}, essa velocidade é a própria velocidade da partícula.
+Como consequência das equações \eqref{eq:antisymmetry_relative_velocity} e \eqref{eq:sphere_plane_relative_velocity}, a configuração do problema implica que a velocidade da esfera relativa ao plano é a sua própria velocidade, já que o plano não se movimenta.
 
-Com isso, sendo \(\coefficientOfRestitution\) o coeficiente de restituição associado ao modelo de força de colisão escolhido, é possível mostrar que
+Com isso, sendo \(\coefficientOfRestitution\) o coeficiente de restituição associado ao modelo de força de colisão escolhido, adota-se a expressão
 \begin{equation} \label{eq:coefficient_of_restitution_with_gravity}
 	\coefficientOfRestitution = - \dfrac{\afterCollision{\yComponent{\velocityScalar}} + \gravityScalar\cdot\collisionDuration}{\beforeCollision{\yComponent{\velocityScalar}}},
 \end{equation}
@@ -425,12 +425,12 @@ A partir desses parâmetros, uma simulação foi executada, resultando na altura
 	\sourceMe
 \end{figure}
 
-Uma análise importante a se fazer nesse problema é a da energia. A energia cinética e a energia mecânica resultantes da simulação, calculadas de acordo com as \cref{eq:kineticEnergy,eq:mechanicalEnergy}, são apresentadas na \cref{fig:bouncing_sphere_energy}. Observa-se nos gráficos que a partícula experiencia uma queda em sua sua energia mecânica após as colisões com o chão, sendo que a energia cinética anula-se aproximadamente após \SI{5}{\second} de simulação.
+Uma análise importante a se fazer nesse problema é a da energia. A energia cinética e a energia mecânica resultantes da simulação, calculadas de acordo com as \cref{eq:kineticEnergy,eq:mechanicalEnergy}, são apresentadas na \cref{fig:bouncing_sphere_energy}. Observa-se nos gráficos que a partícula experiencia uma queda em sua energia mecânica após as colisões com o chão, sendo que a energia cinética anula-se aproximadamente após \SI{5}{\second} de simulação.
 
 Além da energia, o coeficiente de restituição resultante da colisão também pode ser estudado. Na \cref{fig:bouncing_sphere:dissipative:coefficient_of_restitution}, estão representados o coeficiente calculado numericamente através da \cref{eq:coefficient_of_restitution_with_gravity} e o coeficiente analítico dado pela expressão \eqref{eq:corrected_linear_dashpot:coefficient_of_restitution}. Observa-se uma boa concordância entre os resultados até aproximadamente \SI{5}{\second} de simulação. A divergência que ocorre após esse instante explica-se pelo fato de que a partícula entra em repouso sobre o chão.
 
 \begin{figure}[H]
-	\caption[Energia cinética e energia mecânica da partícula no caso dissipativo do problema da esfera quicando.]{Energia cinética (\subref{subfig:bouncing_sphere:kinetic_energy}) e energia mecânica (\subref{subfig:bouncing_sphere:mechanical_energy}) da partícula no caso dissipativo do problema da esfera quicando.\protect\footnotemark}
+	\caption[Energia cinética e energia mecânica da partícula no caso dissipativo do problema da esfera quicando.]{Energia cinética (\subref{subfig:bouncing_sphere:kinetic_energy}) e energia mecânica (\subref{subfig:bouncing_sphere:mechanical_energy}) da partícula no caso dissipativo do problema da esfera quicando.}
 	% \vspace{-0.5cm}
 	\centering
 	\captionsetup[subfloat]{labelfont=bf}
