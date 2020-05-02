@@ -221,3 +221,6 @@ TSWLatexianTemp*
 
 # Output files
 output/
+
+# ignore Sublime configuration files
+*.sublime*
